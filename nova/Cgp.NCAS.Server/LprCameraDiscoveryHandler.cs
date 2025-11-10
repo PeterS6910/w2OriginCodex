@@ -7,11 +7,17 @@ using Contal.IwQuick.Sys;
 using Contal.IwQuick.Threads;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Contal.Cgp.NCAS.Server
 {
@@ -90,9 +96,14 @@ namespace Contal.Cgp.NCAS.Server
         {
             var aggregatedCameras = new Dictionary<string, LookupedLprCamera>(StringComparer.OrdinalIgnoreCase);
             var nanopackDiscovery = new Nanopack5LprCameraDiscoveryStrategy();
+            var smartDiscovery = new SmartLprCameraDiscoveryStrategy();
 
             DiscoverWith(
                 () => nanopackDiscovery.Discover(timeout, cancellationToken),
+                aggregatedCameras);
+
+            DiscoverWith(
+                () => smartDiscovery.Discover(timeout, cancellationToken),
                 aggregatedCameras);
 
             return aggregatedCameras.Values.ToList();
@@ -318,6 +329,140 @@ namespace Contal.Cgp.NCAS.Server
             catch (AccessViolationException accessViolation)
             {
                 HandledExceptionAdapter.Examine(accessViolation);
+            }
+        }
+    }
+
+    internal sealed class SmartLprCameraDiscoveryStrategy
+    {
+        private const string AddressPrefix = "192.168.1.2";
+        private const int AddressStartSuffix = 0;
+        private const int AddressEndSuffix = 54;
+        private const int RestPort = 8080;
+        private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(200);
+        private static readonly AuthenticationHeaderValue AuthorizationHeader =
+            new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:quercus2")));
+        private static readonly string[] RequiredResponseTokens = { "\"global\"", "\"lamp\"", "\"temperature\"" };
+
+        public IEnumerable<LookupedLprCamera> Discover(TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            var discovered = new List<LookupedLprCamera>();
+
+            EnsureSecurityProtocols();
+
+            using (var handler = new HttpClientHandler())
+            {
+                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true;
+
+                using (var httpClient = new HttpClient(handler, disposeHandler: true))
+                {
+                    httpClient.Timeout = RequestTimeout;
+                    httpClient.DefaultRequestHeaders.Authorization = AuthorizationHeader;
+
+                    var stopwatch = Stopwatch.StartNew();
+
+                    for (var suffix = AddressStartSuffix; suffix <= AddressEndSuffix; suffix++)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                            break;
+
+                        if (timeout != TimeSpan.Zero && stopwatch.Elapsed > timeout)
+                            break;
+
+                        var address = string.Format("{0}{1:D2}", AddressPrefix, suffix);
+
+                        if (!IPAddress.TryParse(address, out _))
+                            continue;
+
+                        if (TryDiscoverCamera(httpClient, address, cancellationToken, out var camera))
+                        {
+                            discovered.Add(camera);
+                        }
+                    }
+                }
+            }
+
+            return discovered;
+        }
+
+        private static bool TryDiscoverCamera(HttpClient httpClient, string address, CancellationToken cancellationToken, out LookupedLprCamera camera)
+        {
+            camera = null;
+
+            var requestUri = string.Format("https://{0}:{1}/api/v2/status", address, RestPort);
+
+            try
+            {
+                using (var response = httpClient.GetAsync(requestUri, cancellationToken).GetAwaiter().GetResult())
+                {
+                    if (!response.IsSuccessStatusCode)
+                        return false;
+
+                    var payload = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                    if (!IsSmartLprResponse(payload))
+                        return false;
+
+                    camera = new LookupedLprCamera
+                    {
+                        IpAddress = address,
+                        Name = string.Format("SmartLpr {0}", address),
+                        Port = RestPort.ToString(),
+                        PortSsl = RestPort.ToString(),
+                        Type = "SmartLpr",
+                        InterfaceSource = "SmartLpr",
+                        UniqueKey = string.Format("SmartLpr:{0}", address)
+                    };
+
+                    return true;
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                return false;
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (HttpRequestException)
+            {
+                return false;
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+            }
+
+            return false;
+        }
+
+        private static bool IsSmartLprResponse(string payload)
+        {
+            if (string.IsNullOrEmpty(payload))
+                return false;
+
+            foreach (var token in RequiredResponseTokens)
+            {
+                if (payload.IndexOf(token, StringComparison.OrdinalIgnoreCase) < 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static void EnsureSecurityProtocols()
+        {
+            try
+            {
+                ServicePointManager.SecurityProtocol |=
+                    SecurityProtocolType.Tls |
+                    SecurityProtocolType.Tls11 |
+                    SecurityProtocolType.Tls12;
+            }
+            catch (NotSupportedException)
+            {
+                // ignored – platform does not support modifying the security protocol settings
             }
         }
     }
