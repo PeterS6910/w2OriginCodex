@@ -18,6 +18,8 @@ using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Contal.Cgp.NCAS.Server
 {
@@ -339,10 +341,15 @@ namespace Contal.Cgp.NCAS.Server
         private const int AddressStartSuffix = 0;
         private const int AddressEndSuffix = 54;
         private const int RestPort = 8080;
-        private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(200);
+        private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(600);
         private static readonly AuthenticationHeaderValue AuthorizationHeader =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:quercus2")));
         private static readonly string[] RequiredResponseTokens = { "\"global\"", "\"lamp\"", "\"temperature\"" };
+        private const X509ChainStatusFlags AllowedChainStatuses =
+    X509ChainStatusFlags.UntrustedRoot |
+    X509ChainStatusFlags.PartialChain |
+    X509ChainStatusFlags.RevocationStatusUnknown |
+    X509ChainStatusFlags.OfflineRevocation;
 
         public IEnumerable<LookupedLprCamera> Discover(TimeSpan timeout, CancellationToken cancellationToken)
         {
@@ -352,7 +359,7 @@ namespace Contal.Cgp.NCAS.Server
 
             using (var handler = new HttpClientHandler())
             {
-                //handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true;
+                handler.ServerCertificateCustomValidationCallback = ValidateCertificate;
 
                 using (var httpClient = new HttpClient(handler, disposeHandler: true))
                 {
@@ -395,7 +402,7 @@ namespace Contal.Cgp.NCAS.Server
 
             try
             {
-                using (var response = await httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
+                using (var response = await httpClient.GetAsync(requestUri))
                 {
                     if (!response.IsSuccessStatusCode)
                         return null;
@@ -445,6 +452,48 @@ namespace Contal.Cgp.NCAS.Server
             {
                 if (payload.IndexOf(token, StringComparison.OrdinalIgnoreCase) < 0)
                     return false;
+            }
+
+            return true;
+        }
+
+        private static bool ValidateCertificate(HttpRequestMessage message,
+                                        X509Certificate2 certificate,
+                                        X509Chain chain,
+                                        SslPolicyErrors errors)
+        {
+            if (errors == SslPolicyErrors.None)
+                return true;
+
+            if (certificate == null || message == null)
+                return false;
+
+            if ((errors & SslPolicyErrors.RemoteCertificateNameMismatch) != 0 &&
+                IPAddress.TryParse(message.RequestUri.Host, out _))
+            {
+                errors &= ~SslPolicyErrors.RemoteCertificateNameMismatch;
+            }
+
+            if ((errors & SslPolicyErrors.RemoteCertificateChainErrors) != 0 &&
+                IsChainAcceptable(chain))
+            {
+                errors &= ~SslPolicyErrors.RemoteCertificateChainErrors;
+            }
+
+            return errors == SslPolicyErrors.None;
+        }
+
+        private static bool IsChainAcceptable(X509Chain chain)
+        {
+            if (chain == null)
+                return true;
+
+            foreach (var status in chain.ChainStatus)
+            {
+                if ((status.Status & AllowedChainStatuses) == status.Status)
+                    continue;
+
+                return false;
             }
 
             return true;
