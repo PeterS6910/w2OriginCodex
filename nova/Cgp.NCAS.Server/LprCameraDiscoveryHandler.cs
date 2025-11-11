@@ -12,10 +12,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Security;
@@ -100,18 +102,42 @@ namespace Contal.Cgp.NCAS.Server
             var aggregatedCameras = new Dictionary<string, LookupedLprCamera>(StringComparer.OrdinalIgnoreCase);
             var nanopackDiscovery = new Nanopack5LprCameraDiscoveryStrategy();
             var smartDiscovery = new SmartLprCameraDiscoveryStrategy();
+            var lprCameraCounter = 1;
 
             DiscoverWith(
-                () => nanopackDiscovery.Discover(timeout, cancellationToken),
+                                () =>
+                                {
+                                    var cameras = nanopackDiscovery.Discover(timeout, cancellationToken)?.ToList();
+                                    AssignSequentialNames(cameras, "nanopack5", ref lprCameraCounter);
+                                    return cameras;
+                                },
                 aggregatedCameras);
 
             DiscoverWith(
-                () => smartDiscovery.Discover(timeout, cancellationToken),
+                                () =>
+                                {
+                                    var cameras = smartDiscovery.Discover(timeout, cancellationToken)?.ToList();
+                                    AssignSequentialNames(cameras, "quertec", ref lprCameraCounter);
+                                    return cameras;
+                                },
                 aggregatedCameras);
 
             return aggregatedCameras.Values.ToList();
         }
 
+        private static void AssignSequentialNames(IList<LookupedLprCamera> cameras, string prefix, ref int counter)
+        {
+            if (cameras == null)
+                return;
+
+            foreach (var camera in cameras)
+            {
+                if (camera == null)
+                    continue;
+
+                camera.Name = string.Format("{0} {1}", prefix, counter++);
+            }
+        }
         private static void DiscoverWith(
             Func<IEnumerable<LookupedLprCamera>> discovery,
             IDictionary<string, LookupedLprCamera> aggregated)
@@ -417,9 +443,10 @@ namespace Contal.Cgp.NCAS.Server
                         Name = string.Format("SmartLpr {0}", address),
                         Port = RestPort.ToString(),
                         PortSsl = RestPort.ToString(),
+                        MacAddress = TryGetMacAddress(address),
                         Type = "SmartLpr",
                         InterfaceSource = "SmartLpr",
-                        UniqueKey = string.Format("SmartLpr:{0}", address)
+                        UniqueKey = string.Format("quercus:{0}", address)
                     };
                 }
             }
@@ -461,6 +488,64 @@ namespace Contal.Cgp.NCAS.Server
             return new ValidationAwareHttpClientHandler();
         }
 
+        private static string TryGetMacAddress(string ipAddress)
+        {
+            if (string.IsNullOrWhiteSpace(ipAddress))
+                return null;
+
+            try
+            {
+                using (var ping = new Ping())
+                {
+                    try
+                    {
+                        ping.Send(ipAddress, 1000);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "arp",
+                    Arguments = "-a " + ipAddress,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                };
+
+                using (var process = Process.Start(psi))
+                {
+                    if (process == null)
+                        return null;
+
+                    var output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    foreach (var line in output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (!line.Contains(ipAddress))
+                            continue;
+
+                        var parts = Regex.Split(line.Trim(), @"\s+");
+                        if (parts.Length >= 2)
+                            return parts[1];
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
         private sealed class ValidationAwareHttpClientHandler : HttpClientHandler
         {
             private readonly RemoteCertificateValidationCallback _previousCallback;
