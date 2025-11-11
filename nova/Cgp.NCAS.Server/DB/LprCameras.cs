@@ -190,20 +190,20 @@ namespace Contal.Cgp.NCAS.Server.DB
 
         private void CreateLookupedLprCamera(LookupedLprCamera lookupedCamera, int? idStructuredSubSite)
         {
-            if (lookupedCamera == null || string.IsNullOrWhiteSpace(lookupedCamera.MacAddress))
+            if (lookupedCamera == null || string.IsNullOrWhiteSpace(lookupedCamera.IpAddress))
             {
                 return;
             }
 
-            var macAddress = lookupedCamera.MacAddress.Trim();
+            var ipAddress = lookupedCamera.IpAddress.Trim();
             lock (_createLookupedLprCameraLock)
             {
                 var existingCameras = SelectByCriteria(
                     new List<FilterSettings>
                     {
                         new FilterSettings(
-                            LprCamera.COLUMNMACADDRESS,
-                            macAddress,
+                            LprCamera.COLUMNIPADDRESS,
+                            ipAddress,
                             ComparerModes.EQUALL)
                     });
 
@@ -243,12 +243,6 @@ namespace Contal.Cgp.NCAS.Server.DB
                             updated = true;
                         }
 
-                        if (!string.Equals(existingCamera.MacAddress, macAddress, StringComparison.OrdinalIgnoreCase))
-                        {
-                            existingCamera.MacAddress = macAddress;
-                            updated = true;
-                        }
-
                         var newDescription = BuildDescription(lookupedCamera);
                         if (!string.Equals(existingCamera.Description, newDescription, StringComparison.Ordinal))
                         {
@@ -274,11 +268,11 @@ namespace Contal.Cgp.NCAS.Server.DB
                 {
                     Name = !string.IsNullOrWhiteSpace(lookupedCamera.Name)
                         ? lookupedCamera.Name
-                        : macAddress,
+                        : ipAddress,
                     IpAddress = lookupedCamera.IpAddress,
                     Port = lookupedCamera.Port,
                     PortSsl = lookupedCamera.PortSsl,
-                    MacAddress = macAddress,
+                    MacAddress = lookupedCamera?.MacAddress,
                     Description = BuildDescription(lookupedCamera),
                     IsOnline = true
                 };

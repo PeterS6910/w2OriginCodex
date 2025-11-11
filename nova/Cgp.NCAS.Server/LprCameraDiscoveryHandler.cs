@@ -342,7 +342,7 @@ namespace Contal.Cgp.NCAS.Server
         private const int AddressStartSuffix = 0;
         private const int AddressEndSuffix = 54;
         private const int RestPort = 8080;
-        private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(600);
+        private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(200);
         private static readonly AuthenticationHeaderValue AuthorizationHeader =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:quercus2")));
         private static readonly string[] RequiredResponseTokens = { "\"global\"", "\"lamp\"", "\"temperature\"" };
