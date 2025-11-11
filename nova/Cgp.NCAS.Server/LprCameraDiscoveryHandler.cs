@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Contal.Cgp.NCAS.Server
@@ -357,10 +358,8 @@ namespace Contal.Cgp.NCAS.Server
 
             EnsureSecurityProtocols();
 
-            using (var handler = new HttpClientHandler())
-            {
-                handler.ServerCertificateCustomValidationCallback = ValidateCertificate;
-
+            using (var handler = CreateHttpClientHandler())
+            {                
                 using (var httpClient = new HttpClient(handler, disposeHandler: true))
                 {
                     httpClient.Timeout = RequestTimeout;
@@ -457,19 +456,94 @@ namespace Contal.Cgp.NCAS.Server
             return true;
         }
 
+        private static HttpClientHandler CreateHttpClientHandler()
+        {
+            return new ValidationAwareHttpClientHandler();
+        }
+
+        private sealed class ValidationAwareHttpClientHandler : HttpClientHandler
+        {
+            private readonly RemoteCertificateValidationCallback _previousCallback;
+            private readonly RemoteCertificateValidationCallback _currentCallback;
+            private readonly bool _usesGlobalValidation;
+
+            public ValidationAwareHttpClientHandler()
+            {
+                var property = typeof(HttpClientHandler).GetProperty(
+                    "ServerCertificateCustomValidationCallback",
+                    BindingFlags.Instance | BindingFlags.Public);
+
+                if (property != null)
+                {
+                    var callback = (Func<HttpRequestMessage, X509Certificate2, X509Chain, SslPolicyErrors, bool>)ValidateCertificate;
+                    property.SetValue(this, callback, null);
+                }
+                else
+                {
+                    _previousCallback = ServicePointManager.ServerCertificateValidationCallback;
+                    _currentCallback = (sender, certificate, chain, errors) =>
+                    {
+                        if (ValidateCertificate((sender as HttpWebRequest)?.RequestUri?.Host,
+                                                certificate,
+                                                chain,
+                                                errors))
+                        {
+                            return true;
+                        }
+
+                        return _previousCallback?.Invoke(sender, certificate, chain, errors) ?? false;
+                    };
+
+                    ServicePointManager.ServerCertificateValidationCallback = _currentCallback;
+                    _usesGlobalValidation = true;
+                }
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                if (_usesGlobalValidation &&
+                    ServicePointManager.ServerCertificateValidationCallback == _currentCallback)
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = _previousCallback;
+                }
+
+                base.Dispose(disposing);
+            }
+        }
+
         private static bool ValidateCertificate(HttpRequestMessage message,
-                                        X509Certificate2 certificate,
-                                        X509Chain chain,
-                                        SslPolicyErrors errors)
+                                                X509Certificate2 certificate,
+                                                X509Chain chain,
+                                                SslPolicyErrors errors)
+        {
+            var host = message?.RequestUri?.Host;
+            return ValidateCertificateCore(host, certificate, chain, errors);
+        }
+
+        private static bool ValidateCertificate(string requestHost,
+                                                X509Certificate certificate,
+                                                X509Chain chain,
+                                                SslPolicyErrors errors)
+        {
+            var certificate2 = certificate as X509Certificate2 ??
+                                (certificate != null ? new X509Certificate2(certificate) : null);
+            return ValidateCertificateCore(requestHost, certificate2, chain, errors);
+        }
+
+        private static bool ValidateCertificateCore(string requestHost,
+                                                    X509Certificate2 certificate,
+                                                    X509Chain chain,
+                                                    SslPolicyErrors errors)
         {
             if (errors == SslPolicyErrors.None)
                 return true;
 
-            if (certificate == null || message == null)
+            if (certificate == null)
                 return false;
 
             if ((errors & SslPolicyErrors.RemoteCertificateNameMismatch) != 0 &&
-                IPAddress.TryParse(message.RequestUri.Host, out _))
+                                !string.IsNullOrEmpty(requestHost) &&
+                                IPAddress.TryParse(requestHost, out _))
             {
                 errors &= ~SslPolicyErrors.RemoteCertificateNameMismatch;
             }
