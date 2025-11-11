@@ -352,23 +352,15 @@ namespace Contal.Cgp.NCAS.Server
 
             using (var handler = new HttpClientHandler())
             {
-                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true;
+                //handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true;
 
                 using (var httpClient = new HttpClient(handler, disposeHandler: true))
                 {
                     httpClient.Timeout = RequestTimeout;
                     httpClient.DefaultRequestHeaders.Authorization = AuthorizationHeader;
 
-                    var stopwatch = Stopwatch.StartNew();
-
                     for (var suffix = AddressStartSuffix; suffix <= AddressEndSuffix; suffix++)
                     {
-                        if (cancellationToken.IsCancellationRequested)
-                            break;
-
-                        if (timeout != TimeSpan.Zero && stopwatch.Elapsed > timeout)
-                            break;
-
                         var address = string.Format("{0}{1:D2}", AddressPrefix, suffix);
 
                         if (!IPAddress.TryParse(address, out _))
@@ -387,23 +379,33 @@ namespace Contal.Cgp.NCAS.Server
 
         private static bool TryDiscoverCamera(HttpClient httpClient, string address, CancellationToken cancellationToken, out LookupedLprCamera camera)
         {
-            camera = null;
+            camera = TryDiscoverCameraAsync(httpClient, address, cancellationToken)
+                            .ConfigureAwait(false)
+                            .GetAwaiter()
+                            .GetResult();
 
+
+            return camera != null;        
+        }
+
+        private static async Task<LookupedLprCamera> TryDiscoverCameraAsync(HttpClient httpClient,
+                                                        string address, CancellationToken cancellationToken)
+        {
             var requestUri = string.Format("https://{0}:{1}/api/v2/status", address, RestPort);
 
             try
             {
-                using (var response = httpClient.GetAsync(requestUri, cancellationToken).GetAwaiter().GetResult())
+                using (var response = await httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     if (!response.IsSuccessStatusCode)
-                        return false;
-
-                    var payload = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
+                        return null;
+                    var payload = await response.Content
+                                                .ReadAsStringAsync()
+                                                .ConfigureAwait(false);
                     if (!IsSmartLprResponse(payload))
-                        return false;
+                        return null;
 
-                    camera = new LookupedLprCamera
+                    return new LookupedLprCamera
                     {
                         IpAddress = address,
                         Name = string.Format("SmartLpr {0}", address),
@@ -413,28 +415,25 @@ namespace Contal.Cgp.NCAS.Server
                         InterfaceSource = "SmartLpr",
                         UniqueKey = string.Format("SmartLpr:{0}", address)
                     };
-
-                    return true;
                 }
             }
             catch (TaskCanceledException)
             {
-                return false;
+                return null;
             }
             catch (OperationCanceledException)
             {
-                return false;
+                return null;
             }
             catch (HttpRequestException)
             {
-                return false;
+                return null;
             }
             catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
+                return null;
             }
-
-            return false;
         }
 
         private static bool IsSmartLprResponse(string payload)
@@ -462,7 +461,7 @@ namespace Contal.Cgp.NCAS.Server
             }
             catch (NotSupportedException)
             {
-                // ignored – platform does not support modifying the security protocol settings
+                
             }
         }
     }
