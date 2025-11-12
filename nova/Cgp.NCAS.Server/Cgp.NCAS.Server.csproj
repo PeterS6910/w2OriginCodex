@@ -137,6 +137,7 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.WorkflowServices">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -155,6 +156,7 @@
     <Compile Include="ExportData\DoorEnvironmentAlarmExportData.cs" />
     <Compile Include="ExportData\PersonAttributeExportData.cs" />
     <Compile Include="LprCameraDiscoveryHandler.cs" />
+    <Compile Include="LprCameraIntegration\PushIntegration.cs" />
     <Compile Include="MaximumVersionAndIds.cs" />
     <Compile Include="Notifications\EmailNotificationService.cs" />
     <Compile Include="DB\PersonAttributes.cs" />
