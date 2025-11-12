@@ -11,6 +11,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -412,7 +414,10 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     {
                         using (var socket = CreateClient())
                         {
-                            await socket.ConnectAsync(uri, token).ConfigureAwait(false);
+                            using (CertificateValidationScope.Create(_ignoreCertificateErrors))
+                            {
+                                await socket.ConnectAsync(uri, token).ConfigureAwait(false);
+                            }
                             await SendAuthenticationAsync(socket, token).ConfigureAwait(false);
                             await SendEnableStreamsAsync(socket, token).ConfigureAwait(false);
                             await ReceiveLoopAsync(socket, token).ConfigureAwait(false);
@@ -453,11 +458,53 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                         KeepAliveInterval = TimeSpan.FromSeconds(20)
                     }
                 };
-
-                if (_ignoreCertificateErrors)
-                    socket.Options.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;
-
                 return socket;
+            }
+
+            private sealed class CertificateValidationScope : IDisposable
+            {
+                private static readonly IDisposable _empty = new EmptyDisposable();
+
+                private readonly RemoteCertificateValidationCallback _previousCallback;
+                private readonly RemoteCertificateValidationCallback _currentCallback;
+                private readonly bool _usesGlobalCallback;
+
+                private CertificateValidationScope(RemoteCertificateValidationCallback previous,
+                                                   RemoteCertificateValidationCallback current,
+                                                   bool usesGlobalCallback)
+                {
+                    _previousCallback = previous;
+                    _currentCallback = current;
+                    _usesGlobalCallback = usesGlobalCallback;
+                }
+
+                public static IDisposable Create(bool ignoreCertificateErrors)
+                {
+                    if (!ignoreCertificateErrors)
+                        return _empty;
+
+                    var previous = ServicePointManager.ServerCertificateValidationCallback;
+                    RemoteCertificateValidationCallback current = (sender, certificate, chain, errors) => true;
+                    ServicePointManager.ServerCertificateValidationCallback = current;
+
+                    return new CertificateValidationScope(previous, current, true);
+                }
+
+                public void Dispose()
+                {
+                    if (_usesGlobalCallback &&
+                        ServicePointManager.ServerCertificateValidationCallback == _currentCallback)
+                    {
+                        ServicePointManager.ServerCertificateValidationCallback = _previousCallback;
+                    }
+                }
+
+                private sealed class EmptyDisposable : IDisposable
+                {
+                    public void Dispose()
+                    {
+                    }
+                }
             }
 
             private async Task SendAuthenticationAsync(ClientWebSocket socket, CancellationToken token)
