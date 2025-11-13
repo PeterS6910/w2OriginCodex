@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
 
 namespace Contal.Cgp.NCAS.Server
 {
@@ -135,7 +136,7 @@ namespace Contal.Cgp.NCAS.Server
                 if (camera == null)
                     continue;
 
-                camera.Name = string.Format("{0} {1}", prefix, counter++);
+                camera.Name = string.Format("{0}-{1}", prefix, counter++);
             }
         }
         private static void DiscoverWith(
@@ -367,6 +368,7 @@ namespace Contal.Cgp.NCAS.Server
         private const string AddressPrefix = "192.168.1.2";
         private const int AddressStartSuffix = 0;
         private const int AddressEndSuffix = 54;
+        private const string RestScheme = "http";
         private const int RestPort = 8080;
         private static readonly TimeSpan RequestTimeout = TimeSpan.FromMilliseconds(200);
         private static readonly AuthenticationHeaderValue AuthorizationHeader =
@@ -423,7 +425,8 @@ namespace Contal.Cgp.NCAS.Server
         private static async Task<LookupedLprCamera> TryDiscoverCameraAsync(HttpClient httpClient,
                                                         string address, CancellationToken cancellationToken)
         {
-            var requestUri = string.Format("https://{0}:{1}/api/v2/status", address, RestPort);
+            //var requestUri = string.Format("https://{0}:{1}/api/v2/status", address, RestPort);
+            var requestUri = string.Format("{0}://{1}:{2}/api/v2/status", RestScheme, address, RestPort);
 
             try
             {
@@ -442,7 +445,7 @@ namespace Contal.Cgp.NCAS.Server
                         IpAddress = address,
                         Name = string.Format("SmartLpr {0}", address),
                         Port = RestPort.ToString(),
-                        PortSsl = RestPort.ToString(),
+                        PortSsl = string.Empty,
                         MacAddress = TryGetMacAddress(address),
                         Type = "SmartLpr",
                         InterfaceSource = "SmartLpr",

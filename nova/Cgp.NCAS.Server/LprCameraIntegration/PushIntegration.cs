@@ -457,9 +457,24 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 return new Nanopack5PushSession(_integration, camera, _login, _password, _ignoreCertificateErrors);
             }
 
+            private static readonly char[] NanopackNameSeparators = { ' ', '-', '_' };
             private static bool ContainsNanopack(string text)
             {
-                return !string.IsNullOrWhiteSpace(text) && text.IndexOf("nanopack", StringComparison.OrdinalIgnoreCase) >= 0;
+                if (string.IsNullOrWhiteSpace(text))
+                    return false;
+
+                if (text.IndexOf("nanopack", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return true;
+
+                var tokens = text.Split(NanopackNameSeparators, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var token in tokens)
+                {
+                    if (token.Equals("nanopack", StringComparison.OrdinalIgnoreCase) ||
+                        token.Equals("nanopack5", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+
+                return false;
             }
         }
 
