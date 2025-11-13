@@ -20,6 +20,7 @@ using Contal.Cgp.NCAS.Server.Alarms;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.NCAS.Server.CcuDataReplicator;
 using Contal.Cgp.NCAS.Server.DB;
+using Contal.Cgp.NCAS.Server.LprCameraIntegration;
 using Contal.Cgp.NCAS.Server.Timetec;
 using Contal.Cgp.ORM;
 using Contal.Cgp.Server;
@@ -171,7 +172,20 @@ namespace Contal.Cgp.NCAS.Server
 
         public override void OnDispose()
         {
+            if (_dbWatcher != null)
+            {
+                PushIntegration.Singleton.Stop(_dbWatcher);
 
+                _dbWatcher.CgpDBObjectChanged -= _dbWatcher_CgpDBObjectChanged;
+                _dbWatcher.CgpDBPersonBeforeUD -= _dbWatcher_CgpDBPersonBeforeUD;
+                _dbWatcher.CgpDBPersonAfterUpdate -= _dbWatcher_CgpDBPersonAfterUpdate;
+                _dbWatcher.CgpDBPersonChanged -= _dbWatcher_CgpDBPersonChanged;
+                _dbWatcher.CgpDBCardChanged -= _dbWatcher_CgpDBCardChanged;
+                _dbWatcher.CgpDBTimeZoneChanged -= _dbWatcher_CgpDBTimeZoneChanged;
+                _dbWatcher.CgpGeneralNtpSettignsChanged -= _dbWatcher_CgpGeneralNtpSettignsChanged;
+
+                _dbWatcher = null;
+            }
         }
 
         private DbWatcher _dbWatcher = null;
@@ -461,6 +475,7 @@ namespace Contal.Cgp.NCAS.Server
             Cards.Singleton.StartTemporaryBlocks();
             PersonAttributesReportService.Singleton.Start();
             DoorEnviromentAlarmsReportService.Singleton.Start();
+            PushIntegration.Singleton.Start(_dbWatcher);
         }
 
         private void DeleteRecordsWithNullReferences()
