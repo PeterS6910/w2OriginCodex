@@ -179,7 +179,9 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 var serializer = new JavaScriptSerializer();
                 var payload = serializer.DeserializeObject(message);
 
-                var plate = EnumerateStrings(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
+                var plate = EnumerateDecisionPlates(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
+                if (string.IsNullOrEmpty(plate))
+                    plate = EnumerateStrings(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
                 UpdateCamera(cameraId, plate);
             }
             catch (Exception error)
@@ -275,6 +277,108 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     break;
             }
         }
+
+        private static IEnumerable<string> EnumerateDecisionPlates(object payload)
+        {
+            foreach (var decision in EnumerateDecisionNodes(payload))
+            {
+                foreach (var plate in EnumerateDecisionPlateValues(decision))
+                    yield return plate;
+            }
+        }
+
+        private static IEnumerable<object> EnumerateDecisionNodes(object payload)
+        {
+            if (payload == null)
+                yield break;
+
+            switch (payload)
+            {
+                case IDictionary<string, object> dictionary:
+                    foreach (var kvp in dictionary)
+                    {
+                        if (string.Equals(kvp.Key, "decision", StringComparison.OrdinalIgnoreCase))
+                            yield return kvp.Value;
+
+                        foreach (var nested in EnumerateDecisionNodes(kvp.Value))
+                            yield return nested;
+                    }
+                    break;
+                case object[] array:
+                    foreach (var value in array)
+                    {
+                        foreach (var nested in EnumerateDecisionNodes(value))
+                            yield return nested;
+                    }
+                    break;
+            }
+        }
+
+        private static IEnumerable<string> EnumerateDecisionPlateValues(object value)
+        {
+            if (value == null)
+                yield break;
+
+            switch (value)
+            {
+                case string text:
+                    yield return text;
+                    break;
+                case IDictionary<string, object> dictionary:
+                    var primary = TryGetString(dictionary, "@plate") ?? TryGetString(dictionary, "plate");
+                    if (!string.IsNullOrWhiteSpace(primary))
+                        yield return primary;
+
+                    foreach (var child in dictionary.Values)
+                    {
+                        foreach (var nested in EnumerateDecisionPlateValues(child))
+                            yield return nested;
+                    }
+                    break;
+                case object[] array:
+                    foreach (var item in array)
+                    {
+                        foreach (var nested in EnumerateDecisionPlateValues(item))
+                            yield return nested;
+                    }
+                    break;
+            }
+        }
+
+        private static string TryGetString(IDictionary<string, object> dictionary, string key)
+        {
+            if (dictionary == null || string.IsNullOrEmpty(key))
+                return null;
+
+            foreach (var kvp in dictionary)
+            {
+                if (!string.Equals(kvp.Key, key, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                return ConvertToString(kvp.Value);
+            }
+
+            return null;
+        }
+
+        private static string ConvertToString(object value)
+        {
+            switch (value)
+            {
+                case null:
+                    return null;
+                case string text:
+                    return text;
+                case char[] chars:
+                    return new string(chars);
+                case IDictionary<string, object> _:
+                case object[] _:
+                    return null;
+                default:
+                    return value.ToString();
+            }
+        }
+
 
         private static string NormalizePlate(string plate)
         {
