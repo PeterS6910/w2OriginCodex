@@ -25,6 +25,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
     internal sealed class PushIntegration : ASingleton<PushIntegration>
     {
         private readonly ConcurrentDictionary<Guid, SessionEntry> _sessions = new ConcurrentDictionary<Guid, SessionEntry>();
+        private readonly ConcurrentDictionary<Guid, PlateState> _recentPlates = new ConcurrentDictionary<Guid, PlateState>();
         private readonly IReadOnlyCollection<IPushCameraProvider> _providers;
         private readonly object _sessionLock = new object();
 
@@ -62,6 +63,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
                 _sessions.Clear();
             }
+            _recentPlates.Clear();
         }
 
         private void InitializeExistingCameras()
@@ -162,6 +164,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (_sessions.TryRemove(id, out var entry))
                     entry.Session.Dispose();
             }
+            _recentPlates.TryRemove(id, out _);
         }
 
         private bool TryRebindSession(Guid previousId, LprCamera updatedCamera, Nanopack5PushSession session)
@@ -192,6 +195,9 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
                 entry.Session.UpdateCamera(updatedCamera);
                 _sessions[newId] = entry;
+
+                if (_recentPlates.TryRemove(previousId, out var plate))
+                    _recentPlates[newId] = plate;
             }
 
             return true;
@@ -245,6 +251,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
             if (message.Length > 1024 * 1024)
             {
+                ResetRecentPlate(cameraId);
                 UpdateCamera(cameraId, null);
                 return;
             }
@@ -257,12 +264,13 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 var plate = EnumerateDecisionPlates(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
                 if (string.IsNullOrEmpty(plate))
                     plate = EnumerateStrings(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
-                if (!string.IsNullOrEmpty(plate))
-                    UpdateCamera(cameraId, plate);
+                if (!string.IsNullOrEmpty(plate) && !IsIgnoredPlate(plate))
+                    TryUpdatePlate(cameraId, plate);
             }
             catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
+                ResetRecentPlate(cameraId);
                 UpdateCamera(cameraId, null);
             }
         }
@@ -290,7 +298,11 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     changed = true;
                 }
 
-                if (!string.IsNullOrWhiteSpace(lastPlate))
+                if (string.IsNullOrWhiteSpace(lastPlate))
+                {
+                    ResetRecentPlate(cameraId);
+                }
+                else
                 {
                     var normalized = NormalizePlate(lastPlate);
                     if (!string.IsNullOrEmpty(normalized) && !string.Equals(camera.LastLicensePlate, normalized, StringComparison.Ordinal))
@@ -320,11 +332,59 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 camera.IsOnline = false;
                 camera.LastHeartbeatAt = DateTime.UtcNow;
                 LprCameras.Singleton.Update(camera);
+                ResetRecentPlate(cameraId);
             }
             catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
             }
+        }
+
+        private void TryUpdatePlate(Guid cameraId, string plate)
+        {
+            var normalized = NormalizePlate(plate);
+            if (string.IsNullOrEmpty(normalized))
+                return;
+
+            var now = DateTime.UtcNow;
+
+            while (true)
+            {
+                if (!_recentPlates.TryGetValue(cameraId, out var existing))
+                {
+                    if (_recentPlates.TryAdd(cameraId, new PlateState(normalized, now)))
+                    {
+                        UpdateCamera(cameraId, normalized);
+                        return;
+                    }
+
+                    continue;
+                }
+
+                if (string.Equals(existing.Plate, normalized, StringComparison.Ordinal) &&
+                    now - existing.Timestamp < PlateState.SuppressionInterval)
+                    return;
+
+                if (_recentPlates.TryUpdate(cameraId, new PlateState(normalized, now), existing))
+                {
+                    UpdateCamera(cameraId, normalized);
+                    return;
+                }
+            }
+        }
+
+        private void ResetRecentPlate(Guid cameraId)
+        {
+            _recentPlates.TryRemove(cameraId, out _);
+        }
+
+        private static bool IsIgnoredPlate(string plate)
+        {
+            if (string.IsNullOrWhiteSpace(plate))
+                return true;
+
+            return plate.Equals("UNKNOW", StringComparison.OrdinalIgnoreCase) ||
+                   plate.Equals("UNKNOWN", StringComparison.OrdinalIgnoreCase);
         }
 
         private static IEnumerable<string> EnumerateStrings(object payload)
@@ -469,12 +529,17 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             if (value.Length < 2 || value.Length > 16)
                 return false;
 
+            var containsLetter = false;
+
             foreach (var ch in value)
             {
                 if (!char.IsLetterOrDigit(ch) && ch != '-' && ch != ' ' && ch != '_' && ch != '.')
                     return false;
+                if (char.IsLetter(ch))
+                    containsLetter = true;
             }
-
+            if (!containsLetter)
+                return false;
             return true;
         }
 
@@ -489,6 +554,21 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             internal IPushCameraProvider Provider { get; }
 
             internal IPushCameraSession Session { get; }
+        }
+
+        private sealed class PlateState
+        {
+            internal static readonly TimeSpan SuppressionInterval = TimeSpan.FromSeconds(2);
+
+            internal PlateState(string plate, DateTime timestamp)
+            {
+                Plate = plate;
+                Timestamp = timestamp;
+            }
+
+            internal string Plate { get; }
+
+            internal DateTime Timestamp { get; }
         }
 
         private interface IPushCameraProvider
