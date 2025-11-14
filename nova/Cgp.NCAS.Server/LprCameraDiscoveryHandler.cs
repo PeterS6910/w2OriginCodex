@@ -194,6 +194,8 @@ namespace Contal.Cgp.NCAS.Server
     {
         private const int DefaultMaxDevices = 16;
         private static readonly TimeSpan DefaultResponseDelay = TimeSpan.FromSeconds(2);
+        private const int DefaultHttpPort = 8080;
+        private const int DefaultHttpsPort = 8043;
 
         private readonly int _maxDevices;
         private readonly TimeSpan _responseDelay;
@@ -271,6 +273,8 @@ namespace Contal.Cgp.NCAS.Server
                                     Type = CDKMsg.CDKMsgElementAttributeValue(el, "type"),
                                     Build = CDKMsg.CDKMsgElementAttributeValue(el, "build")
                                 };
+                                cam.Port = DefaultHttpPort.ToString(CultureInfo.InvariantCulture);
+                                cam.PortSsl = DefaultHttpsPort.ToString(CultureInfo.InvariantCulture);
 
                                 var key = string.IsNullOrWhiteSpace(cam.UniqueKey) ? cam.IpAddress : cam.UniqueKey;
                                 if (!string.IsNullOrWhiteSpace(cam.IpAddress) && seen.Add(key))
