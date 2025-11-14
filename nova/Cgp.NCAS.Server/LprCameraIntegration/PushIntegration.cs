@@ -384,7 +384,9 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 return true;
 
             return plate.Equals("UNKNOW", StringComparison.OrdinalIgnoreCase) ||
-                   plate.Equals("UNKNOWN", StringComparison.OrdinalIgnoreCase);
+                   plate.Equals("UNKNOWN", StringComparison.OrdinalIgnoreCase) ||
+                   plate.Equals("REAR", StringComparison.OrdinalIgnoreCase) ||
+                   plate.Equals("FRONT", StringComparison.OrdinalIgnoreCase);
         }
 
         private static IEnumerable<string> EnumerateStrings(object payload)
