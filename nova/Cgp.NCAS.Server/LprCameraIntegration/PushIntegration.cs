@@ -1,3 +1,4 @@
+using Contal.Cgp.BaseLib;
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.NCAS.Server.DB;
@@ -163,6 +164,80 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             }
         }
 
+        internal bool TryRebindSession(Guid previousId, LprCamera updatedCamera, Nanopack5PushSession session)
+        {
+            if (session == null || updatedCamera == null)
+                return false;
+
+            var newId = updatedCamera.IdLprCamera;
+            if (newId == Guid.Empty)
+                return false;
+
+            lock (_sessionLock)
+            {
+                if (!_sessions.TryGetValue(previousId, out var entry) || entry.Session != session)
+                    return false;
+
+                if (previousId == newId)
+                {
+                    entry.Session.UpdateCamera(updatedCamera);
+                    return true;
+                }
+
+                if (_sessions.ContainsKey(newId))
+                    return false;
+
+                if (!_sessions.TryRemove(previousId, out entry))
+                    return false;
+
+                entry.Session.UpdateCamera(updatedCamera);
+                _sessions[newId] = entry;
+            }
+
+            return true;
+        }
+
+        internal void UpdateCameraTransport(Guid cameraId, string scheme)
+        {
+            if (cameraId == Guid.Empty || string.IsNullOrWhiteSpace(scheme))
+                return;
+
+            try
+            {
+                var camera = LprCameras.Singleton.GetById(cameraId);
+                if (camera == null)
+                    return;
+
+                var updatedDescription = UpdateDescriptionWithProtocol(camera.Description, scheme);
+                if (!string.Equals(updatedDescription, camera.Description, StringComparison.Ordinal))
+                {
+                    camera.Description = updatedDescription;
+                    LprCameras.Singleton.Update(camera);
+                }
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+            }
+        }
+
+        private static string UpdateDescriptionWithProtocol(string description, string scheme)
+        {
+            var normalizedScheme = scheme.Equals("wss", StringComparison.OrdinalIgnoreCase) ? "HTTPS" : "HTTP";
+            var marker = "Push protocol:";
+
+            var parts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                parts.AddRange(description
+                    .Split(new[] { " | " }, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(segment => segment.IndexOf(marker, StringComparison.OrdinalIgnoreCase) < 0));
+            }
+
+            parts.Add($"{marker} {normalizedScheme}");
+            return string.Join(" | ", parts);
+        }
+
         internal void ProcessPayload(Guid cameraId, string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -182,7 +257,8 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 var plate = EnumerateDecisionPlates(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
                 if (string.IsNullOrEmpty(plate))
                     plate = EnumerateStrings(payload).Select(NormalizePlate).FirstOrDefault(IsLikelyPlate);
-                UpdateCamera(cameraId, plate);
+                if (!string.IsNullOrEmpty(plate))
+                    UpdateCamera(cameraId, plate);
             }
             catch (Exception error)
             {
@@ -537,6 +613,11 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                             {
                                 await socket.ConnectAsync(uri, token).ConfigureAwait(false);
                             }
+
+                            var boundId = EnsureCameraBinding();
+                            if (boundId != Guid.Empty)
+                                _owner.UpdateCameraTransport(boundId, uri.Scheme);
+
                             await SendAuthenticationAsync(socket, token).ConfigureAwait(false);
                             await SendEnableStreamsAsync(socket, token).ConfigureAwait(false);
                             await ReceiveLoopAsync(socket, token).ConfigureAwait(false);
@@ -553,7 +634,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
                     if (!token.IsCancellationRequested)
                     {
-                        var cameraId = camera?.IdLprCamera ?? Guid.Empty;
+                        var cameraId = EnsureCameraBinding();
                         if (cameraId != Guid.Empty)
                             _owner.MarkOffline(cameraId);
 
@@ -700,7 +781,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     var payload = builder.ToString();
                     builder.Clear();
 
-                    var cameraId = GetCamera()?.IdLprCamera ?? Guid.Empty;
+                    var cameraId = EnsureCameraBinding();
                     if (cameraId != Guid.Empty)
                         _owner.ProcessPayload(cameraId, payload);
                 }
@@ -804,11 +885,56 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     }
                 }
 
-                var cameraId = GetCamera()?.IdLprCamera ?? Guid.Empty;
+                var cameraId = EnsureCameraBinding();
                 if (cameraId != Guid.Empty)
                     _owner.MarkOffline(cameraId);
 
                 _cancellation.Dispose();
+            }
+
+            private Guid EnsureCameraBinding()
+            {
+                var camera = GetCamera();
+                if (camera == null)
+                    return Guid.Empty;
+
+                var cameraId = camera.IdLprCamera;
+                if (cameraId != Guid.Empty && LprCameras.Singleton.GetById(cameraId) != null)
+                    return cameraId;
+
+                var replacement = FindCameraByIp(camera.IpAddress);
+                if (replacement == null)
+                    return cameraId;
+
+                if (cameraId == replacement.IdLprCamera)
+                {
+                    lock (_syncRoot)
+                        _camera = replacement;
+                    return replacement.IdLprCamera;
+                }
+
+                if (_owner.TryRebindSession(cameraId, replacement, this))
+                {
+                    lock (_syncRoot)
+                        _camera = replacement;
+                    return replacement.IdLprCamera;
+                }
+
+                return cameraId;
+            }
+
+            private static LprCamera FindCameraByIp(string ipAddress)
+            {
+                if (string.IsNullOrWhiteSpace(ipAddress))
+                    return null;
+
+                var filters = new List<FilterSettings>
+                {
+                    new FilterSettings(LprCamera.COLUMNIPADDRESS, ipAddress.Trim(), ComparerModes.EQUALL)
+                };
+
+                var matches = LprCameras.Singleton.SelectByCriteria(filters);
+                return matches?.FirstOrDefault();
             }
         }
     }
