@@ -164,7 +164,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             }
         }
 
-        internal bool TryRebindSession(Guid previousId, LprCamera updatedCamera, Nanopack5PushSession session)
+        private bool TryRebindSession(Guid previousId, LprCamera updatedCamera, Nanopack5PushSession session)
         {
             if (session == null || updatedCamera == null)
                 return false;
