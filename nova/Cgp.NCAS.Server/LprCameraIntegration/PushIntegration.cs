@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Net.WebSockets;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -893,14 +894,51 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (string.IsNullOrWhiteSpace(host))
                     return null;
 
-                if (TryBuildUri(camera.PortSsl, "wss", host, out var uri))
+                if (TryBuildUri(ResolvePort(camera, secure: false), "ws", host, out var uri))
                     return uri;
 
-                if (TryBuildUri(camera.Port, "ws", host, out uri))
+                if (TryBuildUri(ResolvePort(camera, secure: true), "wss", host, out uri))
                     return uri;
 
                 return null;
             }
+
+            private static string ResolvePort(LprCamera camera, bool secure)
+            {
+                if (camera == null)
+                    return null;
+
+                var current = secure ? camera.PortSsl : camera.Port;
+                if (!string.IsNullOrWhiteSpace(current))
+                    return current;
+
+                if (camera.IdLprCamera == Guid.Empty)
+                    return null;
+
+                try
+                {
+                    var storedCamera = LprCameras.Singleton.GetById(camera.IdLprCamera);
+                    if (storedCamera == null)
+                        return null;
+
+                    var storedPort = secure ? storedCamera.PortSsl : storedCamera.Port;
+                    if (string.IsNullOrWhiteSpace(storedPort))
+                        return null;
+
+                    if (secure)
+                        camera.PortSsl = storedPort;
+                    else
+                        camera.Port = storedPort;
+
+                    return storedPort;
+                }
+                catch (Exception error)
+                {
+                    HandledExceptionAdapter.Examine(error);
+                    return null;
+                }
+            }
+
 
             private static bool TryBuildUri(string portText, string scheme, string host, out Uri uri)
             {
