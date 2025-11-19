@@ -62,9 +62,58 @@ namespace Contal.Cgp.NCAS.Client
             this._bOk = new System.Windows.Forms.Button();
             this._bCancel = new System.Windows.Forms.Button();
             this._bApply = new System.Windows.Forms.Button();
+            this._tabControl.SuspendLayout();
+            this._tabDetailsPage.SuspendLayout();
+            this._tabLiveViewPage.SuspendLayout();
             this._tableLayout.SuspendLayout();
             this._buttonPanel.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // _tabControl
+            // 
+            this._tabControl.Controls.Add(this._tabDetailsPage);
+            this._tabControl.Controls.Add(this._tabLiveViewPage);
+            this._tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tabControl.Location = new System.Drawing.Point(0, 0);
+            this._tabControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this._tabControl.Name = "_tabControl";
+            this._tabControl.SelectedIndex = 0;
+            this._tabControl.Size = new System.Drawing.Size(624, 720);
+            this._tabControl.TabIndex = 0;
+            // 
+            // _tabDetailsPage
+            // 
+            this._tabDetailsPage.Controls.Add(this._tableLayout);
+            this._tabDetailsPage.Location = new System.Drawing.Point(4, 24);
+            this._tabDetailsPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this._tabDetailsPage.Name = "_tabDetailsPage";
+            this._tabDetailsPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tabDetailsPage.Size = new System.Drawing.Size(616, 692);
+            this._tabDetailsPage.TabIndex = 0;
+            this._tabDetailsPage.Text = "Details";
+            this._tabDetailsPage.UseVisualStyleBackColor = true;
+            // 
+            // _tabLiveViewPage
+            // 
+            this._tabLiveViewPage.Controls.Add(this._cameraStreamBrowser);
+            this._tabLiveViewPage.Location = new System.Drawing.Point(4, 24);
+            this._tabLiveViewPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this._tabLiveViewPage.Name = "_tabLiveViewPage";
+            this._tabLiveViewPage.Padding = new System.Windows.Forms.Padding(3);
+            this._tabLiveViewPage.Size = new System.Drawing.Size(616, 692);
+            this._tabLiveViewPage.TabIndex = 1;
+            this._tabLiveViewPage.Text = "Online stream";
+            this._tabLiveViewPage.UseVisualStyleBackColor = true;
+            // 
+            // _cameraStreamBrowser
+            // 
+            this._cameraStreamBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._cameraStreamBrowser.Location = new System.Drawing.Point(3, 3);
+            this._cameraStreamBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this._cameraStreamBrowser.Name = "_cameraStreamBrowser";
+            this._cameraStreamBrowser.ScriptErrorsSuppressed = true;
+            this._cameraStreamBrowser.Size = new System.Drawing.Size(610, 686);
+            this._cameraStreamBrowser.TabIndex = 0;
             //
             // _tableLayout
             //
@@ -74,50 +123,48 @@ namespace Contal.Cgp.NCAS.Client
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tableLayout.Controls.Add(this._lName, 0, 0);
             this._tableLayout.Controls.Add(this._eName, 1, 0);
-            this._tableLayout.Controls.Add(this._lId, 0, 1);
-            this._tableLayout.Controls.Add(this._eId, 1, 1);
-            this._tableLayout.Controls.Add(this._lIpAddress, 0, 2);
-            this._tableLayout.Controls.Add(this._eIpAddress, 1, 2);
-            this._tableLayout.Controls.Add(this._lPort, 0, 3);
-            this._tableLayout.Controls.Add(this._ePort, 1, 3);
-            this._tableLayout.Controls.Add(this._lPortSsl, 0, 4);
-            this._tableLayout.Controls.Add(this._ePortSsl, 1, 4);
-            this._tableLayout.Controls.Add(this._lMacAddress, 0, 5);
-            this._tableLayout.Controls.Add(this._eMacAddress, 1, 5);
-            this._tableLayout.Controls.Add(this._lCommunicationScope, 0, 6);
-            this._tableLayout.Controls.Add(this._cbCommunicationScope, 1, 6);
-            this._tableLayout.Controls.Add(this._lCcu, 0, 7);
-            this._tableLayout.Controls.Add(this._cbCcu, 1, 7);
-            this._tableLayout.Controls.Add(this._lDescription, 0, 8);
-            this._tableLayout.Controls.Add(this._eDescription, 1, 8);
-            this._tableLayout.Controls.Add(this._lLocalAlarmInstruction, 0, 9);
-            this._tableLayout.Controls.Add(this._eLocalAlarmInstruction, 1, 9);
-            this._tableLayout.Controls.Add(this._lLocked, 0, 10);
-            this._tableLayout.Controls.Add(this._chkLocked, 1, 10);
-            this._tableLayout.Controls.Add(this._lLockingClientIp, 0, 11);
-            this._tableLayout.Controls.Add(this._eLockingClientIp, 1, 11);
-            this._tableLayout.Controls.Add(this._lIsOnline, 0, 12);
-            this._tableLayout.Controls.Add(this._chkIsOnline, 1, 12);
-            this._tableLayout.Controls.Add(this._lLastHeartbeatAt, 0, 13);
-            this._tableLayout.Controls.Add(this._eLastHeartbeatAt, 1, 13);
-            this._tableLayout.Controls.Add(this._lLastLicensePlate, 0, 14);
-            this._tableLayout.Controls.Add(this._eLastLicensePlate, 1, 14);
-            this._tableLayout.Controls.Add(this._lHealthState, 0, 15);
-            this._tableLayout.Controls.Add(this._cbHealthState, 1, 15);
-            this._tableLayout.Controls.Add(this._lEnableParentInFullName, 0, 16);
-            this._tableLayout.Controls.Add(this._chkEnableParentInFullName, 1, 16);
-            this._tableLayout.Controls.Add(this._lCkUnique, 0, 17);
-            this._tableLayout.Controls.Add(this._eCkUnique, 1, 17);
-            this._tableLayout.Controls.Add(this._lObjectType, 0, 18);
-            this._tableLayout.Controls.Add(this._eObjectType, 1, 18);
-            this._tableLayout.Controls.Add(this._lVersion, 0, 19);
-            this._tableLayout.Controls.Add(this._eVersion, 1, 19);
-            this._tableLayout.Controls.Add(this._buttonPanel, 0, 20);
+            this._tableLayout.Controls.Add(this._lIpAddress, 0, 1);
+            this._tableLayout.Controls.Add(this._eIpAddress, 1, 1);
+            this._tableLayout.Controls.Add(this._lPort, 0, 2);
+            this._tableLayout.Controls.Add(this._ePort, 1, 2);
+            this._tableLayout.Controls.Add(this._lPortSsl, 0, 3);
+            this._tableLayout.Controls.Add(this._ePortSsl, 1, 3);
+            this._tableLayout.Controls.Add(this._lMacAddress, 0, 4);
+            this._tableLayout.Controls.Add(this._eMacAddress, 1, 4);
+            this._tableLayout.Controls.Add(this._lCommunicationScope, 0, 5);
+            this._tableLayout.Controls.Add(this._cbCommunicationScope, 1, 5);
+            this._tableLayout.Controls.Add(this._lCcu, 0, 6);
+            this._tableLayout.Controls.Add(this._cbCcu, 1, 6);
+            this._tableLayout.Controls.Add(this._lDescription, 0, 7);
+            this._tableLayout.Controls.Add(this._eDescription, 1, 7);
+            this._tableLayout.Controls.Add(this._lLocalAlarmInstruction, 0, 8);
+            this._tableLayout.Controls.Add(this._eLocalAlarmInstruction, 1, 8);
+            this._tableLayout.Controls.Add(this._lLocked, 0, 9);
+            this._tableLayout.Controls.Add(this._chkLocked, 1, 9);
+            this._tableLayout.Controls.Add(this._lLockingClientIp, 0, 10);
+            this._tableLayout.Controls.Add(this._eLockingClientIp, 1, 10);
+            this._tableLayout.Controls.Add(this._lIsOnline, 0, 11);
+            this._tableLayout.Controls.Add(this._chkIsOnline, 1, 11);
+            this._tableLayout.Controls.Add(this._lLastHeartbeatAt, 0, 12);
+            this._tableLayout.Controls.Add(this._eLastHeartbeatAt, 1, 12);
+            this._tableLayout.Controls.Add(this._lLastLicensePlate, 0, 13);
+            this._tableLayout.Controls.Add(this._eLastLicensePlate, 1, 13);
+            this._tableLayout.Controls.Add(this._lHealthState, 0, 14);
+            this._tableLayout.Controls.Add(this._cbHealthState, 1, 14);
+            this._tableLayout.Controls.Add(this._lEnableParentInFullName, 0, 15);
+            this._tableLayout.Controls.Add(this._chkEnableParentInFullName, 1, 15);
+            this._tableLayout.Controls.Add(this._lCkUnique, 0, 16);
+            this._tableLayout.Controls.Add(this._eCkUnique, 1, 16);
+            this._tableLayout.Controls.Add(this._lObjectType, 0, 17);
+            this._tableLayout.Controls.Add(this._eObjectType, 1, 17);
+            this._tableLayout.Controls.Add(this._lVersion, 0, 18);
+            this._tableLayout.Controls.Add(this._eVersion, 1, 18);
+            this._tableLayout.Controls.Add(this._buttonPanel, 0, 19);
             this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tableLayout.Location = new System.Drawing.Point(0, 0);
+            this._tableLayout.Location = new System.Drawing.Point(3, 3);
             this._tableLayout.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this._tableLayout.Name = "_tableLayout";
-            this._tableLayout.RowCount = 21;
+            this._tableLayout.RowCount = 20;
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -138,8 +185,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tableLayout.Size = new System.Drawing.Size(624, 720);
+            this._tableLayout.Size = new System.Drawing.Size(610, 686);
             this._tableLayout.TabIndex = 0;
             //
             // _lName
@@ -162,29 +208,6 @@ namespace Contal.Cgp.NCAS.Client
             this._eName.Name = "_eName";
             this._eName.Size = new System.Drawing.Size(449, 23);
             this._eName.TabIndex = 1;
-            //
-            // _lId
-            //
-            this._lId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this._lId.AutoSize = true;
-            this._lId.Location = new System.Drawing.Point(12, 44);
-            this._lId.Margin = new System.Windows.Forms.Padding(12, 6, 3, 9);
-            this._lId.Name = "_lId";
-            this._lId.Size = new System.Drawing.Size(73, 15);
-            this._lId.TabIndex = 2;
-            this._lId.Text = "Camera GUID";
-            //
-            // _eId
-            //
-            this._eId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._eId.Location = new System.Drawing.Point(163, 35);
-            this._eId.Margin = new System.Windows.Forms.Padding(3, 3, 12, 6);
-            this._eId.Name = "_eId";
-            this._eId.ReadOnly = true;
-            this._eId.Size = new System.Drawing.Size(449, 23);
-            this._eId.TabIndex = 3;
-            this._eId.TabStop = false;
             //
             // _lIpAddress
             //
@@ -654,11 +677,14 @@ namespace Contal.Cgp.NCAS.Client
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._bCancel;
             this.ClientSize = new System.Drawing.Size(624, 720);
-            this.Controls.Add(this._tableLayout);
+            this.Controls.Add(this._tabControl);
             this.MinimumSize = new System.Drawing.Size(640, 360);
             this.Name = "NCASLprCameraEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LPR camera";
+            this._tabLiveViewPage.ResumeLayout(false);
+            this._tabDetailsPage.ResumeLayout(false);
+            this._tabControl.ResumeLayout(false);
             this._tableLayout.ResumeLayout(false);
             this._tableLayout.PerformLayout();
             this._buttonPanel.ResumeLayout(false);
@@ -669,6 +695,10 @@ namespace Contal.Cgp.NCAS.Client
 
         #endregion
 
+        private System.Windows.Forms.TabControl _tabControl;
+        private System.Windows.Forms.TabPage _tabDetailsPage;
+        private System.Windows.Forms.TabPage _tabLiveViewPage;
+        private System.Windows.Forms.WebBrowser _cameraStreamBrowser;
         private System.Windows.Forms.TableLayoutPanel _tableLayout;
         private System.Windows.Forms.Label _lName;
         private System.Windows.Forms.TextBox _eName;

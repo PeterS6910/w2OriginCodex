@@ -279,41 +279,33 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
         {
             try
             {
+                if (cameraId == Guid.Empty)
+                    return;
+
                 var camera = LprCameras.Singleton.GetById(cameraId);
                 if (camera == null)
                     return;
 
-                var changed = false;
+                string normalized = null;
+                if (!string.IsNullOrWhiteSpace(lastPlate))
+                    normalized = NormalizePlate(lastPlate);
 
-                if (!camera.IsOnline)
+                if (string.IsNullOrEmpty(normalized))
                 {
-                    camera.IsOnline = true;
-                    changed = true;
-                }
 
-                var now = DateTime.UtcNow;
-                if (!camera.LastHeartbeatAt.HasValue || Math.Abs((camera.LastHeartbeatAt.Value - now).TotalSeconds) > 1)
-                {
-                    camera.LastHeartbeatAt = now;
-                    changed = true;
-                }
-
-                if (string.IsNullOrWhiteSpace(lastPlate))
-                {
-                    ResetRecentPlate(cameraId);
-                }
-                else
-                {
-                    var normalized = NormalizePlate(lastPlate);
-                    if (!string.IsNullOrEmpty(normalized) && !string.Equals(camera.LastLicensePlate, normalized, StringComparison.Ordinal))
+                    if (!string.IsNullOrEmpty(camera.LastLicensePlate))
                     {
-                        camera.LastLicensePlate = normalized;
-                        changed = true;
+                        camera.LastLicensePlate = null;
+                        LprCameras.Singleton.Update(camera);
                     }
+                    return;
                 }
 
-                if (changed)
+                if (!string.Equals(camera.LastLicensePlate, normalized, StringComparison.Ordinal))
+                {
+                    camera.LastLicensePlate = normalized;
                     LprCameras.Singleton.Update(camera);
+                }
             }
             catch (Exception error)
             {

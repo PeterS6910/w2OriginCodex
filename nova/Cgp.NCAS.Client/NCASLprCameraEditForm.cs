@@ -78,8 +78,7 @@ namespace Contal.Cgp.NCAS.Client
             if (!_controlsInitialized || _eventsRegistered)
                 return;
 
-            _eName.TextChanged += EditTextChanger;
-            _eId.TextChanged += EditTextChanger;
+            _eName.TextChanged += EditTextChanger;            
             _eIpAddress.TextChanged += EditTextChanger;
             _ePort.TextChanged += EditTextChanger;
             _ePortSsl.TextChanged += EditTextChanger;
@@ -168,9 +167,6 @@ namespace Contal.Cgp.NCAS.Client
                 EnsureHealthStateItems();
                 EnsureCcuItems();
                 _eName.Text = _editingObject.Name ?? string.Empty;
-                _eId.Text = _editingObject.IdLprCamera != Guid.Empty
-                    ? _editingObject.IdLprCamera.ToString()
-                    : string.Empty;
                 _eIpAddress.Text = _editingObject.IpAddress ?? string.Empty;
                 _ePort.Text = _editingObject.Port ?? string.Empty;
                 _ePortSsl.Text = _editingObject.PortSsl ?? string.Empty;
@@ -191,12 +187,47 @@ namespace Contal.Cgp.NCAS.Client
                     : string.Empty;
                 _eObjectType.Text = _editingObject.ObjectType.ToString(CultureInfo.InvariantCulture);
                 _eVersion.Text = _editingObject.Version.ToString(CultureInfo.InvariantCulture);
+                UpdateCameraStreamPreview();
             }
             finally
             {
                 _isLoadingValues = false;
                 UnlockChanges();
             }
+        }
+
+        private void UpdateCameraStreamPreview()
+        {
+            if (_cameraStreamBrowser == null)
+                return;
+
+            var ipAddress = _eIpAddress.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                _cameraStreamBrowser.DocumentText = BuildCameraStreamPlaceholder("IP address is not set.");
+                return;
+            }
+
+            var url = ipAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+                ? ipAddress
+                : $"http://{ipAddress}";
+
+            try
+            {
+                _cameraStreamBrowser.Navigate(url);
+            }
+            catch (UriFormatException)
+            {
+                _cameraStreamBrowser.DocumentText = BuildCameraStreamPlaceholder("Unable to open the provided IP address.");
+            }
+        }
+
+        private static string BuildCameraStreamPlaceholder(string message)
+        {
+            var safeMessage = WebUtility.HtmlEncode(message ?? string.Empty);
+            return "<html><body style='font-family:Segoe UI, sans-serif;font-size:14px;background-color:#1e1e1e;color:#f3f3f3;"
+                   + "display:flex;align-items:center;justify-content:center;height:100%;margin:0;'>" + safeMessage
+                   + "</body></html>";
         }
 
         protected override bool CheckValues()
@@ -294,7 +325,6 @@ namespace Contal.Cgp.NCAS.Client
                 return;
 
             _eName.TextChanged -= EditTextChanger;
-            _eId.TextChanged -= EditTextChanger;
             _eIpAddress.TextChanged -= EditTextChanger;
             _ePort.TextChanged -= EditTextChanger;
             _ePortSsl.TextChanged -= EditTextChanger;
@@ -340,6 +370,9 @@ namespace Contal.Cgp.NCAS.Client
                 return;
 
             base.EditTextChanger(sender, e);
+
+            if (ReferenceEquals(sender, _eIpAddress))
+                UpdateCameraStreamPreview();
 
             if (!Insert)
                 _bApply.Enabled = true;
