@@ -17,6 +17,8 @@ namespace Contal.Cgp.NCAS.Client
 
         private void InitializeComponent()
         {
+            this._tabControl = new System.Windows.Forms.TabControl();
+            this._tabDetailsPage = new System.Windows.Forms.TabPage();
             this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this._lName = new System.Windows.Forms.Label();
             this._eName = new System.Windows.Forms.TextBox();
@@ -62,6 +64,8 @@ namespace Contal.Cgp.NCAS.Client
             this._bOk = new System.Windows.Forms.Button();
             this._bCancel = new System.Windows.Forms.Button();
             this._bApply = new System.Windows.Forms.Button();
+            this._tabLiveViewPage = new System.Windows.Forms.TabPage();
+            this._cameraStreamBrowser = new System.Windows.Forms.WebBrowser();
             this._tabControl.SuspendLayout();
             this._tabDetailsPage.SuspendLayout();
             this._tabLiveViewPage.SuspendLayout();
