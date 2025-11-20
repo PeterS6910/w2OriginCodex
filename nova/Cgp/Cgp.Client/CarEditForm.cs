@@ -1,4 +1,5 @@
 using Contal.Cgp.BaseLib;
+using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace Contal.Cgp.Client
             _bCreateDoorEnvironment.Text = GetString("CarEditForm_bCreateDoorEnvironment");
             _bDeleteDoorEnvironment.Text = GetString("CarEditForm_bDeleteDoorEnvironment");
         }
+
+        private readonly List<DoorEnvironment> _doorEnvironments = new List<DoorEnvironment>();
 
         protected override bool CheckValues()
         {
@@ -105,6 +108,7 @@ namespace Contal.Cgp.Client
             _lvAssignedCards.Items.Clear();
             _lvAvailableCards.Items.Clear();
             _lvDoorEnvironments.Items.Clear();
+            _doorEnvironments.Clear();
         }
 
         protected override void SetValuesEdit()
@@ -246,11 +250,54 @@ namespace Contal.Cgp.Client
         private void LoadDoorEnvironments()
         {
             _lvDoorEnvironments.Items.Clear();
+            foreach (var doorEnvironment in _doorEnvironments.OrderBy(de => de.Name))
+            {
+                _lvDoorEnvironments.Items.Add(
+                    new ListViewItem(doorEnvironment.Name) { Tag = doorEnvironment });
+            }
         }
 
         private void _bAddDoorEnvironment_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(GetString("CarEditForm_DoorEnvironmentAdd"));
+            Exception error;
+            var doorEnvironments = CgpClient.Singleton.MainServerProvider.DoorEnvironments.List(out error);
+            if (error != null)
+            {
+                MessageBox.Show(error.Message);
+                return;
+            }
+
+            var availableDoorEnvironments = doorEnvironments
+                ?.Where(de => _doorEnvironments.All(added => added.IdDoorEnvironment != de.IdDoorEnvironment))
+                .OrderBy(de => de.Name)
+                .ToList();
+
+            if (availableDoorEnvironments == null || availableDoorEnvironments.Count == 0)
+            {
+                MessageBox.Show(GetString("CarEditForm_DoorEnvironmentAdd"));
+                return;
+            }
+
+            using (var selectForm = new DoorEnvironmentSelectionForm(
+                       availableDoorEnvironments,
+                       GetString("CarEditForm_tpDoorEnvironment"),
+                       GetString("Name"),
+                       GetString("CarEditForm_bAddDoorEnvironment"),
+                       GetString("General_bCancel")))
+            {
+                if (selectForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    foreach (var selectedDoorEnvironment in selectForm.SelectedDoorEnvironments)
+                    {
+                        if (_doorEnvironments.Any(de => de.IdDoorEnvironment == selectedDoorEnvironment.IdDoorEnvironment))
+                            continue;
+
+                        _doorEnvironments.Add(selectedDoorEnvironment);
+                    }
+
+                    LoadDoorEnvironments();
+                }
+            }
         }
 
         private void _bCreateDoorEnvironment_Click(object sender, EventArgs e)
@@ -261,6 +308,80 @@ namespace Contal.Cgp.Client
         private void _bDeleteDoorEnvironment_Click(object sender, EventArgs e)
         {
             MessageBox.Show(GetString("CarEditForm_DoorEnvironmentDelete"));
+        }
+
+
+        private class DoorEnvironmentSelectionForm : Form
+        {
+            private readonly ListView _lvDoorEnvironments;
+            private readonly Button _bAdd;
+            private readonly Button _bCancel;
+
+            internal IList<DoorEnvironment> SelectedDoorEnvironments =>
+                _lvDoorEnvironments.CheckedItems
+                    .Cast<ListViewItem>()
+                    .Select(item => item.Tag as DoorEnvironment)
+                    .Where(doorEnvironment => doorEnvironment != null)
+                    .ToList();
+
+            internal DoorEnvironmentSelectionForm(
+                IEnumerable<DoorEnvironment> doorEnvironments,
+                string title,
+                string nameColumnHeader,
+                string addText,
+                string cancelText)
+            {
+                Text = title;
+                Width = 400;
+                Height = 450;
+                StartPosition = FormStartPosition.CenterParent;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                _lvDoorEnvironments = new ListView
+                {
+                    Dock = DockStyle.Top,
+                    Height = 350,
+                    View = View.Details,
+                    CheckBoxes = true,
+                    FullRowSelect = true
+                };
+                _lvDoorEnvironments.Columns.Add(nameColumnHeader, -2, HorizontalAlignment.Left);
+
+                foreach (var doorEnvironment in doorEnvironments)
+                {
+                    var item = new ListViewItem(doorEnvironment.Name) { Tag = doorEnvironment };
+                    _lvDoorEnvironments.Items.Add(item);
+                }
+
+                _bAdd = new Button
+                {
+                    Text = addText,
+                    DialogResult = DialogResult.OK,
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                    Width = 80,
+                    Left = 200,
+                    Top = 360
+                };
+
+                _bCancel = new Button
+                {
+                    Text = cancelText,
+                    DialogResult = DialogResult.Cancel,
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                    Width = 80,
+                    Left = 290,
+                    Top = 360
+                };
+
+                AcceptButton = _bAdd;
+                CancelButton = _bCancel;
+
+                Controls.Add(_lvDoorEnvironments);
+                Controls.Add(_bAdd);
+                Controls.Add(_bCancel);
+            }
         }
     }
 }
