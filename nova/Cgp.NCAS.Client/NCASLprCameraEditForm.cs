@@ -208,9 +208,12 @@ namespace Contal.Cgp.NCAS.Client
                 return;
             }
 
-            var url = ipAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-                ? ipAddress
-                : $"http://{ipAddress}";
+            var url = BuildCameraStreamUrl();
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                _cameraStreamBrowser.DocumentText = BuildCameraStreamPlaceholder("Unable to open the provided IP address.");
+                return;
+            }
 
             if (IsNanopackCamera())
                 url = AppendNanopackHomePath(url);
@@ -223,6 +226,53 @@ namespace Contal.Cgp.NCAS.Client
             {
                 _cameraStreamBrowser.DocumentText = BuildCameraStreamPlaceholder("Unable to open the provided IP address.");
             }
+        }
+
+        private string BuildCameraStreamUrl()
+        {
+            var ipAddress = _eIpAddress.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(ipAddress))
+                return null;
+
+            var hasScheme = ipAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase);
+            var baseUrl = hasScheme
+                ? ipAddress
+                : $"http://{ipAddress}";
+
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var uri))
+                return null;
+
+            var portText = GetPortTextForScheme(uri.Scheme);
+            var port = TryParsePort(portText);
+            if (port.HasValue && uri.IsDefaultPort)
+            {
+                var builder = new UriBuilder(uri) { Port = port.Value };
+                uri = builder.Uri;
+            }
+
+            return uri.ToString();
+        }
+
+        private string GetPortTextForScheme(string scheme)
+        {
+            if (scheme.Equals("https", StringComparison.OrdinalIgnoreCase))
+                return _ePortSsl.Text;
+
+            return _ePort.Text;
+        }
+
+        private static int? TryParsePort(string portText)
+        {
+            if (string.IsNullOrWhiteSpace(portText))
+                return null;
+
+            if (!int.TryParse(portText.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var port))
+                return null;
+
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+                return null;
+
+            return port;
         }
 
         private static string BuildCameraStreamPlaceholder(string message)
