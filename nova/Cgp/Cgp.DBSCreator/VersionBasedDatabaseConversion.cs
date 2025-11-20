@@ -1860,10 +1860,10 @@ namespace Contal.Cgp.DBSCreator
 
             if (!_databaseCommandExecutor.RunSqlNonQuery(
                     @"
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='DoorEnvironmentCar' AND xtype='U')
+                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='CarDoorEnvironment' AND xtype='U')
                     BEGIN
-                        CREATE TABLE DoorEnvironmentCar (
-                            IdDoorEnvironmentCar uniqueidentifier not null primary key,
+                        CREATE TABLE CarDoorEnvironment (
+                            IdCarDoorEnvironment uniqueidentifier not null primary key,
                             IdDoorEnvironment uniqueidentifier not null,
                             IdCar uniqueidentifier not null,
                             AccessType tinyint not null
@@ -1876,7 +1876,7 @@ namespace Contal.Cgp.DBSCreator
             }
 
             if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE DoorEnvironmentCar ADD CONSTRAINT FK_DoorEnvironmentCar_DoorEnvironment FOREIGN KEY (IdDoorEnvironment) REFERENCES DoorEnvironment(IdDoorEnvironment)",
+                    "ALTER TABLE CarDoorEnvironment ADD CONSTRAINT FK_CarDoorEnvironment_DoorEnvironment FOREIGN KEY (IdDoorEnvironment) REFERENCES DoorEnvironment(IdDoorEnvironment)",
                     false,
                     out error))
             {
@@ -1884,7 +1884,7 @@ namespace Contal.Cgp.DBSCreator
             }
 
             if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE DoorEnvironmentCar ADD CONSTRAINT FK_DoorEnvironmentCar_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)",
+                    "ALTER TABLE CarDoorEnvironment ADD CONSTRAINT FK_CarDoorEnvironment_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)",
                     false,
                     out error))
             {
@@ -1892,8 +1892,8 @@ namespace Contal.Cgp.DBSCreator
             }
 
             return _databaseCommandExecutor.RunSqlNonQuery(
-                    @"IF NOT EXISTS (SELECT name FROM sys.indexes WHERE name = 'IX_DoorEnvironmentCar_Unique')
-                        CREATE UNIQUE INDEX IX_DoorEnvironmentCar_Unique ON DoorEnvironmentCar(IdDoorEnvironment, IdCar)",
+                    @"IF NOT EXISTS (SELECT name FROM sys.indexes WHERE name = 'IX_CarDoorEnvironment_Unique')
+                        CREATE UNIQUE INDEX IX_CarDoorEnvironment_Unique ON CarDoorEnvironment(IdDoorEnvironment, IdCar)",
                     false,
                     out error);
         }
