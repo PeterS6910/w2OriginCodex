@@ -212,6 +212,9 @@ namespace Contal.Cgp.NCAS.Client
                 ? ipAddress
                 : $"http://{ipAddress}";
 
+            if (IsNanopackCamera())
+                url = AppendNanopackHomePath(url);
+
             try
             {
                 _cameraStreamBrowser.Navigate(url);
@@ -228,6 +231,44 @@ namespace Contal.Cgp.NCAS.Client
             return "<html><body style='font-family:Segoe UI, sans-serif;font-size:14px;background-color:#1e1e1e;color:#f3f3f3;"
                    + "display:flex;align-items:center;justify-content:center;height:100%;margin:0;'>" + safeMessage
                    + "</body></html>";
+        }
+
+        private bool IsNanopackCamera()
+        {
+            return ContainsNanopack(_editingObject?.Name) || ContainsNanopack(_editingObject?.Description);
+        }
+
+        private static string AppendNanopackHomePath(string url)
+        {
+            const string nanopackHomePath = "/#/home";
+            if (string.IsNullOrWhiteSpace(url))
+                return url;
+
+            if (url.IndexOf(nanopackHomePath, StringComparison.OrdinalIgnoreCase) >= 0)
+                return url;
+
+            return $"{url.TrimEnd('/')}{nanopackHomePath}";
+        }
+
+        private static readonly char[] NanopackNameSeparators = { ' ', '-', '_' };
+
+        private static bool ContainsNanopack(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+
+            if (text.IndexOf("nanopack", StringComparison.OrdinalIgnoreCase) >= 0)
+                return true;
+
+            var tokens = text.Split(NanopackNameSeparators, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var token in tokens)
+            {
+                if (token.Equals("nanopack", StringComparison.OrdinalIgnoreCase)
+                    || token.Equals("nanopack5", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
 
         protected override bool CheckValues()
