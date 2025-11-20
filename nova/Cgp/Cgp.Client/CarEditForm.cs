@@ -25,6 +25,10 @@ namespace Contal.Cgp.Client
             SetReferenceEditColors();
             _tcCar.SelectedIndexChanged += _tcCar_SelectedIndexChanged;
             _tcCar_SelectedIndexChanged(null, null);
+            _tpDoorEnvironment.Text = GetString("CarEditForm_tpDoorEnvironment");
+            _bAddDoorEnvironment.Text = GetString("CarEditForm_bAddDoorEnvironment");
+            _bCreateDoorEnvironment.Text = GetString("CarEditForm_bCreateDoorEnvironment");
+            _bDeleteDoorEnvironment.Text = GetString("CarEditForm_bDeleteDoorEnvironment");
         }
 
         protected override bool CheckValues()
@@ -100,6 +104,7 @@ namespace Contal.Cgp.Client
             _eDescription.Text = string.Empty;
             _lvAssignedCards.Items.Clear();
             _lvAvailableCards.Items.Clear();
+            _lvDoorEnvironments.Items.Clear();
         }
 
         protected override void SetValuesEdit()
@@ -111,6 +116,7 @@ namespace Contal.Cgp.Client
             _cbSecurityLevel.SelectedItem = _editingObject.SecurityLevel;
             _eDescription.Text = _editingObject.Description;
             LoadCards();
+            LoadDoorEnvironments();
         }
 
         protected override void EditEnd()
@@ -189,7 +195,7 @@ namespace Contal.Cgp.Client
 
         private static string BuildCardDescription(Card card)
         {
-            string cardText = card.FullCardNumber.ToString();            
+            string cardText = card.FullCardNumber.ToString();
 
             if (card.GuidPerson != Guid.Empty)
             {
@@ -235,6 +241,26 @@ namespace Contal.Cgp.Client
         private void _bOk_Click(object sender, EventArgs e)
         {
             Ok_Click();
+        }
+
+        private void LoadDoorEnvironments()
+        {
+            _lvDoorEnvironments.Items.Clear();
+        }
+
+        private void _bAddDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(GetString("CarEditForm_DoorEnvironmentAdd"));
+        }
+
+        private void _bCreateDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(GetString("CarEditForm_DoorEnvironmentCreate"));
+        }
+
+        private void _bDeleteDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(GetString("CarEditForm_DoorEnvironmentDelete"));
         }
     }
 }

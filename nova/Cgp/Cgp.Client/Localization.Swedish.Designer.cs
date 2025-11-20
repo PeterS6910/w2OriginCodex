@@ -4678,6 +4678,60 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string CarEditForm_bAddDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bAddDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        internal static string CarEditForm_bCreateDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bCreateDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string CarEditForm_bDeleteDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bDeleteDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign access for selected door environment..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentAdd {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new door environment..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentCreate {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove access for the selected door environment..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentDelete {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tilldelade.
         /// </summary>
         internal static string CarEditForm_lAssignedCards {
@@ -4701,6 +4755,15 @@ namespace Contal.Cgp.Client {
         internal static string CarEditForm_tpCards {
             get {
                 return ResourceManager.GetString("CarEditForm_tpCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Door environment.
+        /// </summary>
+        internal static string CarEditForm_tpDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpDoorEnvironment", resourceCulture);
             }
         }
         

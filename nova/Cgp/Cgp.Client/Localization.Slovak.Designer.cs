@@ -1780,6 +1780,60 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pridať.
+        /// </summary>
+        internal static string CarEditForm_bAddDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bAddDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vytvoriť.
+        /// </summary>
+        internal static string CarEditForm_bCreateDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bCreateDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zmazať.
+        /// </summary>
+        internal static string CarEditForm_bDeleteDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_bDeleteDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nastaviť prístup auta pre zvolené dverové prostredie..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentAdd {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vytvoriť nové dverové prostredie..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentCreate {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odobrať prístup auta pre zvolené dverové prostredie..
+        /// </summary>
+        internal static string CarEditForm_DoorEnvironmentDelete {
+            get {
+                return ResourceManager.GetString("CarEditForm_DoorEnvironmentDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priradené.
         /// </summary>
         internal static string CarEditForm_lAssignedCards {
@@ -1803,6 +1857,15 @@ namespace Contal.Cgp.Client {
         internal static string CarEditForm_tpCards {
             get {
                 return ResourceManager.GetString("CarEditForm_tpCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dverové prostredie.
+        /// </summary>
+        internal static string CarEditForm_tpDoorEnvironment {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpDoorEnvironment", resourceCulture);
             }
         }
         

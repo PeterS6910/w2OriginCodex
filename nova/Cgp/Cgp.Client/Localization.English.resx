@@ -1191,6 +1191,27 @@
   <data name="CarEditFormlabel8" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="CarEditForm_tpDoorEnvironment" xml:space="preserve">
+    <value>Door environment</value>
+  </data>
+  <data name="CarEditForm_bAddDoorEnvironment" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CarEditForm_bCreateDoorEnvironment" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CarEditForm_bDeleteDoorEnvironment" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentAdd" xml:space="preserve">
+    <value>Assign access for selected door environment.</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentCreate" xml:space="preserve">
+    <value>Create a new door environment.</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentDelete" xml:space="preserve">
+    <value>Remove access for the selected door environment.</value>
+  </data>
   <data name="CgpClientMainForm_cardsForm" xml:space="preserve">
     <value>Cards</value>
   </data>

@@ -1188,6 +1188,27 @@
   <data name="CarEditFormlabel8" xml:space="preserve">
     <value>Popis</value>
   </data>
+  <data name="CarEditForm_tpDoorEnvironment" xml:space="preserve">
+    <value>Dverové prostredie</value>
+  </data>
+  <data name="CarEditForm_bAddDoorEnvironment" xml:space="preserve">
+    <value>Pridať</value>
+  </data>
+  <data name="CarEditForm_bCreateDoorEnvironment" xml:space="preserve">
+    <value>Vytvoriť</value>
+  </data>
+  <data name="CarEditForm_bDeleteDoorEnvironment" xml:space="preserve">
+    <value>Zmazať</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentAdd" xml:space="preserve">
+    <value>Nastaviť prístup auta pre zvolené dverové prostredie.</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentCreate" xml:space="preserve">
+    <value>Vytvoriť nové dverové prostredie.</value>
+  </data>
+  <data name="CarEditForm_DoorEnvironmentDelete" xml:space="preserve">
+    <value>Odobrať prístup auta pre zvolené dverové prostredie.</value>
+  </data>
   <data name="CgpClientMainForm_cardsForm" xml:space="preserve">
     <value>Karty</value>
   </data>
@@ -1196,7 +1217,7 @@
   </data>
   <data name="CgpClientMainForm_carsForm" xml:space="preserve">
     <value>Autá</value>
-  </data>  
+  </data>
   <data name="ColumnCardSystem" xml:space="preserve">
     <value>Kartový systém</value>
   </data>
