@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Contal.Cgp.NCAS.Server.Beans.DoorEnvironmentCar, Cgp.NCAS.Server.Beans" table="DoorEnvironmentCar" select-before-update="true">
+    <cache usage="read-write"/>
+    <id name="IdDoorEnvironmentCar">
+      <generator class="guid" />
+    </id>
+    <many-to-one name="DoorEnvironment" column="IdDoorEnvironment" class="Contal.Cgp.NCAS.Server.Beans.DoorEnvironment, Cgp.NCAS.Server.Beans" not-null="true" />
+    <many-to-one name="Car" column="IdCar" class="Contal.Cgp.Server.Beans.Car, Cgp.Server.Beans" not-null="true" />
+    <property name="AccessType" not-null="true" />
+  </class>
+</hibernate-mapping>

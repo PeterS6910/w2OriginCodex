@@ -1850,8 +1850,50 @@ namespace Contal.Cgp.DBSCreator
                 return false;
             }
 
-            return _databaseCommandExecutor.RunSqlNonQuery(
+            if (!_databaseCommandExecutor.RunSqlNonQuery(
                     "ALTER TABLE CarCard ADD CONSTRAINT FK_CarCard_Card FOREIGN KEY (IdCard) REFERENCES Card(IdCard)",
+                    false,
+                                        out error))
+            {
+                return false;
+            }
+
+            if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    @"
+                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='DoorEnvironmentCar' AND xtype='U')
+                    BEGIN
+                        CREATE TABLE DoorEnvironmentCar (
+                            IdDoorEnvironmentCar uniqueidentifier not null primary key,
+                            IdDoorEnvironment uniqueidentifier not null,
+                            IdCar uniqueidentifier not null,
+                            AccessType tinyint not null
+                        )
+                    END",
+                    false,
+                    out error))
+            {
+                return false;
+            }
+
+            if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE DoorEnvironmentCar ADD CONSTRAINT FK_DoorEnvironmentCar_DoorEnvironment FOREIGN KEY (IdDoorEnvironment) REFERENCES DoorEnvironment(IdDoorEnvironment)",
+                    false,
+                    out error))
+            {
+                return false;
+            }
+
+            if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE DoorEnvironmentCar ADD CONSTRAINT FK_DoorEnvironmentCar_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)",
+                    false,
+                    out error))
+            {
+                return false;
+            }
+
+            return _databaseCommandExecutor.RunSqlNonQuery(
+                    @"IF NOT EXISTS (SELECT name FROM sys.indexes WHERE name = 'IX_DoorEnvironmentCar_Unique')
+                        CREATE UNIQUE INDEX IX_DoorEnvironmentCar_Unique ON DoorEnvironmentCar(IdDoorEnvironment, IdCar)",
                     false,
                     out error);
         }

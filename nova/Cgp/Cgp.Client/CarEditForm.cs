@@ -147,7 +147,12 @@ namespace Contal.Cgp.Client
                 foreach (var card in allCardsCollection)
                 {
                     if (card.State == (byte)CardState.Active || card.State == (byte)CardState.HybridActive)
+                    {
+                        if (card.GuidPerson == Guid.Empty)
+                            continue;
+
                         activeCards.Add(card);
+                    }
                 }
             }
             IList<Card> assigned = CgpClient.Singleton.MainServerProvider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
