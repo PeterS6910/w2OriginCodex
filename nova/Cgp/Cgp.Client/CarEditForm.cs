@@ -3,6 +3,7 @@ using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -373,13 +374,26 @@ namespace Contal.Cgp.Client
                     .FirstOrDefault(prop => prop != null);
             }
 
-            if (providerProperty == null)
+            object tableProvider = null;
+
+            if (providerProperty != null)
             {
-                error = new MissingMemberException(providerType.FullName, propertyName);
-                return null;
+                tableProvider = providerProperty.GetValue(provider, null);
+            }
+            else
+            {
+                var providerPropertyDescriptor = TypeDescriptor.GetProperties(provider).Find(propertyName, true);
+                if (providerPropertyDescriptor != null)
+                {
+                    tableProvider = providerPropertyDescriptor.GetValue(provider);
+                }
+                else
+                {
+                    error = new MissingMemberException(providerType.FullName, propertyName);
+                    return null;
+                }
             }
 
-            var tableProvider = providerProperty.GetValue(provider, null);
             if (tableProvider == null)
                 return null;
 
