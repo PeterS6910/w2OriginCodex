@@ -8,7 +8,6 @@
     <property name="Brand" not-null="false" />
     <property name="ValidityDateFrom" not-null="false" />
     <property name="ValidityDateTo" not-null="false" />
-    <property name="SecurityLevel" not-null="false" />
     <property name="Description" not-null="false">
       <column name="Description" sql-type="NVARCHAR(MAX)" />
     </property>
