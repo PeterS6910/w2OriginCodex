@@ -395,10 +395,15 @@ namespace Contal.Cgp.Client
                 }
                 if (tableProvider == null)
                 {
-                    error = isRemoteProxy
-    ? new NotSupportedException(
-        $"The remoted provider type '{providerType.FullName}' does not expose property '{propertyName}'.")
-    : new MissingMemberException(providerType.FullName, propertyName);
+                    if (isRemoteProxy)
+                    {
+                        error = new NotSupportedException(
+                            $"The remoted provider type '{providerType.FullName}' does not expose property '{propertyName}'.");
+                    }
+                    else
+                    {
+                        error = new MissingMemberException(providerType.FullName, propertyName);
+                    }
                     return null;
                 }
             }
