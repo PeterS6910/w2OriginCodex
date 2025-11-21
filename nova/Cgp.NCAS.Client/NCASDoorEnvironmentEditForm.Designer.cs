@@ -57,6 +57,7 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack = new System.Windows.Forms.Panel();
             this._lActualState = new System.Windows.Forms.Label();
             this._eActualState = new System.Windows.Forms.TextBox();
+            this._chbIsVehicleAccess = new System.Windows.Forms.CheckBox();
             this._bApply = new System.Windows.Forms.Button();
             this._tcDoorsAutomat = new System.Windows.Forms.TabControl();
             this._tpDoorsTiming = new System.Windows.Forms.TabPage();
@@ -353,6 +354,7 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack.Controls.Add(this._eResultAccessGranted);
             this._panelBack.Controls.Add(this._lActualState);
             this._panelBack.Controls.Add(this._eActualState);
+            this._panelBack.Controls.Add(this._chbIsVehicleAccess);
             this._panelBack.Controls.Add(this._bAccessGranted);
             this._panelBack.Controls.Add(this._bApply);
             this._panelBack.Controls.Add(this._bCancel);
@@ -386,6 +388,18 @@ namespace Contal.Cgp.NCAS.Client
             this._eActualState.ReadOnly = true;
             this._eActualState.Size = new System.Drawing.Size(458, 20);
             this._eActualState.TabIndex = 1;
+            //
+            // _chbIsVehicleAccess
+            //
+            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._chbIsVehicleAccess.AutoSize = true;
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(642, 40);
+            this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
+            this._chbIsVehicleAccess.Size = new System.Drawing.Size(112, 17);
+            this._chbIsVehicleAccess.TabIndex = 6;
+            this._chbIsVehicleAccess.Text = "Vehicle access";
+            this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
+            this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
             // 
             // _bApply
             // 
@@ -1802,6 +1816,7 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.TextBox _eResultAccessGranted;
         private System.Windows.Forms.Label _lActualState;
         private System.Windows.Forms.TextBox _eActualState;
+        private System.Windows.Forms.CheckBox _chbIsVehicleAccess;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify1;
         private System.Windows.Forms.ToolStripMenuItem _tsiRemove1;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify2;

@@ -45,19 +45,7 @@ namespace Contal.Cgp.Client
 
         private void FormEnter(Form form)
         {
-            SetDefaultValues();
-        }
 
-        private void SetDefaultValues()
-        {
-            var selected = _cbSecurityLevelFilter.SelectedItem as CarSecurityLevel?;
-            _cbSecurityLevelFilter.Items.Clear();
-            foreach (CarSecurityLevel level in Enum.GetValues(typeof(CarSecurityLevel)))
-            {
-                _cbSecurityLevelFilter.Items.Add(level);
-                if (selected != null && level.Equals(selected.Value))
-                    _cbSecurityLevelFilter.SelectedItem = level;
-            }
         }
 
         private void InitCGPDataGridView()
@@ -133,7 +121,6 @@ namespace Contal.Cgp.Client
                 CarShort.COLUMNBRAND,
                 CarShort.COLUMNVALIDITYDATEFROM,
                 CarShort.COLUMNVALIDITYDATETO,
-                CarShort.COLUMNSECURITYLEVEL,                
                 CarShort.COLUMNDESCRIPTION);
             // nastavenie šírok
             SetWidthColumn(_cdgvData.DataGrid, CarShort.COLUMNLP, 100);
@@ -182,11 +169,6 @@ namespace Contal.Cgp.Client
             {
                 _filterSettings.Add(new FilterSettings(Car.COLUMNBRAND, _eBrandFilter.Text, ComparerModes.LIKEBOTH));
             }
-
-            if (_cbSecurityLevelFilter.SelectedItem is CarSecurityLevel level)
-            {
-                _filterSettings.Add(new FilterSettings(Car.COLUMNSECURITYLEVEL, level, ComparerModes.EQUALL));
-            }
         }
 
         private void _bFilterClear_Click(object sender, EventArgs e)
@@ -196,15 +178,13 @@ namespace Contal.Cgp.Client
 
         protected override void ClearFilterEdits()
         {
-
-            _cbSecurityLevelFilter.SelectedItem = null;
+            _eLpFilter.Text = string.Empty;
+            _eBrandFilter.Text = string.Empty;
         }
 
         protected override void FilterValueChanged(object sender, EventArgs e)
         {
             base.FilterValueChanged(sender, e);
-            if (sender == _cbSecurityLevelFilter)
-                _bRunFilter_Click(sender, e);
         }
 
         public override bool HasAccessView()

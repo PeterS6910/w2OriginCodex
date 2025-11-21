@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -28,6 +28,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNGUIDCCU = "GuidCCU";
         public const string COLUMNDCU = "DCU";
         public const string COLUMNGUIDDCU = "GuidDCU";
+        public const string COLUMNISVEHICLEACCESS = "IsVehicleAccess";
 
         public const string COLUMNDOORTIMEUNLOCK = "DoorTimeUnlock";
         public const string COLUMNDOORTIMEOPEN = "DoorTimeOpen";
@@ -308,6 +309,9 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public virtual string Description { get; set; }
         public virtual byte ObjectType { get; set; }
         public virtual Guid CkUnique { get; set; }
+
+        [LwSerializeAttribute()]
+        public virtual bool IsVehicleAccess { get; set; }
 
         [LwSerializeAttribute()]
         public virtual bool BlockedByLicence { get; set; }

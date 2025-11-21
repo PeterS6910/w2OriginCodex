@@ -23,7 +23,6 @@ namespace Contal.Cgp.Client
         {
             InitializeComponent();
             _editingObject = car;
-            _cbSecurityLevel.DataSource = Enum.GetValues(typeof(CarSecurityLevel));
             SetReferenceEditColors();
             _tcCar.SelectedIndexChanged += _tcCar_SelectedIndexChanged;
             _tcCar_SelectedIndexChanged(null, null);
@@ -46,10 +45,6 @@ namespace Contal.Cgp.Client
             _editingObject.Brand = _eBrand.Text;
             _editingObject.ValidityDateFrom = _dpValidityDateFrom.Value;
             _editingObject.ValidityDateTo = _dpValidityDateTo.Value;
-            if (_cbSecurityLevel.SelectedItem != null)
-                _editingObject.SecurityLevel = (CarSecurityLevel)_cbSecurityLevel.SelectedItem;
-            else
-                _editingObject.SecurityLevel = CarSecurityLevel.None;
             _editingObject.Description = _eDescription.Text;
 
             return true;
@@ -104,7 +99,6 @@ namespace Contal.Cgp.Client
             _eBrand.Text = string.Empty;
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
-            _cbSecurityLevel.SelectedItem = CarSecurityLevel.None;
             _eDescription.Text = string.Empty;
             _lvAssignedCards.Items.Clear();
             _lvAvailableCards.Items.Clear();
@@ -118,7 +112,6 @@ namespace Contal.Cgp.Client
             _eBrand.Text = _editingObject.Brand;
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
-            _cbSecurityLevel.SelectedItem = _editingObject.SecurityLevel;
             _eDescription.Text = _editingObject.Description;
             LoadCards();
             LoadDoorEnvironments();

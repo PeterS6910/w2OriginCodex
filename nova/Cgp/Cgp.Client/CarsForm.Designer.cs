@@ -12,8 +12,6 @@ namespace Contal.Cgp.Client
             this._cdgvData = new Contal.Cgp.Components.CgpDataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this._lRecordCount = new System.Windows.Forms.Label();
-            this._cbSecurityLevelFilter = new System.Windows.Forms.ComboBox();
-            this._lSecurityLevel = new System.Windows.Forms.Label();
             this._eBrandFilter = new System.Windows.Forms.TextBox();
             this._lBrand = new System.Windows.Forms.Label();
             this._eLpFilter = new System.Windows.Forms.TextBox();
@@ -56,8 +54,6 @@ namespace Contal.Cgp.Client
             // panel3
             // 
             this.panel3.Controls.Add(this._lRecordCount);
-            this.panel3.Controls.Add(this._cbSecurityLevelFilter);
-            this.panel3.Controls.Add(this._lSecurityLevel);
             this.panel3.Controls.Add(this._eBrandFilter);
             this.panel3.Controls.Add(this._lBrand);
             this.panel3.Controls.Add(this._eLpFilter);
@@ -80,28 +76,6 @@ namespace Contal.Cgp.Client
             this._lRecordCount.Size = new System.Drawing.Size(115, 25);
             this._lRecordCount.TabIndex = 18;
             this._lRecordCount.Text = "RecordCount";
-            // 
-            // _cbSecurityLevelFilter
-            // 
-            this._cbSecurityLevelFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._cbSecurityLevelFilter.FormattingEnabled = true;
-            this._cbSecurityLevelFilter.Location = new System.Drawing.Point(415, 33);
-            this._cbSecurityLevelFilter.Margin = new System.Windows.Forms.Padding(4);
-            this._cbSecurityLevelFilter.Name = "_cbSecurityLevelFilter";
-            this._cbSecurityLevelFilter.Size = new System.Drawing.Size(180, 28);
-            this._cbSecurityLevelFilter.TabIndex = 13;
-            this._cbSecurityLevelFilter.TextChanged += new System.EventHandler(this.FilterValueChanged);
-            // 
-            // _lSecurityLevel
-            // 
-            this._lSecurityLevel.AutoSize = true;
-            this._lSecurityLevel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._lSecurityLevel.Location = new System.Drawing.Point(411, 5);
-            this._lSecurityLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this._lSecurityLevel.Name = "_lSecurityLevel";
-            this._lSecurityLevel.Size = new System.Drawing.Size(114, 25);
-            this._lSecurityLevel.TabIndex = 12;
-            this._lSecurityLevel.Text = "Security level";
             // 
             // _eBrandFilter
             // 
@@ -180,8 +154,6 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button _bFilterClear;
         private System.Windows.Forms.Button _bRunFilter;
-        private System.Windows.Forms.ComboBox _cbSecurityLevelFilter;
-        private System.Windows.Forms.Label _lSecurityLevel;
         private System.Windows.Forms.TextBox _eBrandFilter;
         private System.Windows.Forms.Label _lBrand;
         private System.Windows.Forms.TextBox _eLpFilter;

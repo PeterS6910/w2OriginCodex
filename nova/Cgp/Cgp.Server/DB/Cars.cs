@@ -87,7 +87,6 @@ namespace Contal.Cgp.Server.DB
                          Brand = car.Brand,
                          ValidityDateFrom = car.ValidityDateFrom,
                          ValidityDateTo = car.ValidityDateTo,
-                         SecurityLevel = car.SecurityLevel,
                          Description = car.Description,
                     });
                 }

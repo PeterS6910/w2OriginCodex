@@ -181,28 +181,7 @@
   </data>
   <data name="&gt;&gt;_eDescription.ZOrder" xml:space="preserve">
     <value>11</value>
-  </data>
-  <data name="_cbSecurityLevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>258, 197</value>
-  </data>
-  <data name="_cbSecurityLevel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 28</value>
-  </data>
-  <data name="_cbSecurityLevel.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;_cbSecurityLevel.Name" xml:space="preserve">
-    <value>_cbSecurityLevel</value>
-  </data>
-  <data name="&gt;&gt;_cbSecurityLevel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_cbSecurityLevel.Parent" xml:space="preserve">
-    <value>_tpInformation</value>
-  </data>
-  <data name="&gt;&gt;_cbSecurityLevel.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
+  </data>  
   <data name="_eUtcDateStateLastChange.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 242</value>
   </data>
@@ -395,33 +374,6 @@
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 197</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 20</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Security Level</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>_tpInformation</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>

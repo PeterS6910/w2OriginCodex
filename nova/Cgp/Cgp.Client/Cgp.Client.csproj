@@ -1026,6 +1026,10 @@
       <Project>{7da1465b-3029-43e8-801c-bac87581b99c}</Project>
       <Name>Cgp.NCAS.RemotingCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Cgp.NCAS.Server.Beans\Cgp.NCAS.Server.Beans.csproj">
+      <Project>{2EB9DDDF-0719-4A79-8CB7-FBD410743C92}</Project>
+      <Name>Cgp.NCAS.Server.Beans</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cgp.BaseLib\Cgp.BaseLib.csproj">
       <Project>{4B649633-3110-4CBD-AC66-43685FFDC808}</Project>
       <Name>Cgp.BaseLib</Name>

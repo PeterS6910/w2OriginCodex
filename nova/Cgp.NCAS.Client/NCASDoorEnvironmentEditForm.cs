@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -86,6 +86,8 @@ namespace Contal.Cgp.NCAS.Client
             };
 
             InitializeComponent();
+
+            _chbIsVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess");
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
             {
@@ -476,6 +478,7 @@ namespace Contal.Cgp.NCAS.Client
 
         protected override void SetValuesInsert()
         {
+            _chbIsVehicleAccess.Checked = false;
             _cbDoorEnvironment_SelectedIndexChanged(null, null);
             RefreshInternalCardReader();
             RefreshExternalCardReader();
@@ -496,6 +499,7 @@ namespace Contal.Cgp.NCAS.Client
             _eDelayBeforeClose.Value = _editingObject.DoorDelayBeforeClose;
             _eDelayBeforeBreakIn.Value = _editingObject.DoorDelayBeforeBreakIn;
             _chbNotInvokeIntrusionAlarm.Checked = _editingObject.NotInvokeIntrusionAlarm;
+            _chbIsVehicleAccess.Checked = _editingObject.IsVehicleAccess;
 
             if (_editingObject.SensorsLockDoors != null)
             {
@@ -584,7 +588,7 @@ namespace Contal.Cgp.NCAS.Client
                 _cbElectricStrikeOpposite.Items.Add(_editingObject.ActuatorsElectricStrikeOpposite);
                 _cbElectricStrikeOpposite.SelectedItem = _editingObject.ActuatorsElectricStrikeOpposite;
 
-                var itemDoorEnvironmentType = ((ItemDoorEnvironmentType) _cbDoorEnvironment.SelectedItem);
+                var itemDoorEnvironmentType = ((ItemDoorEnvironmentType)_cbDoorEnvironment.SelectedItem);
 
                 _chbElectricStrikeOppositeImpulse.Enabled = itemDoorEnvironmentType.DoorEnvironmentType ==
                                                             DoorEnviromentType.Rotating;
@@ -636,14 +640,14 @@ namespace Contal.Cgp.NCAS.Client
                 _cbExtraElectricStrikeOpposite.SelectedItem = _editingObject.ActuatorsExtraElectricStrikeOpposite;
 
                 _chbExtraElectricStrikeOppositeImpulse.Enabled =
-                    ((ItemDoorEnvironmentType) _cbDoorEnvironment.SelectedItem).DoorEnvironmentType ==
+                    ((ItemDoorEnvironmentType)_cbDoorEnvironment.SelectedItem).DoorEnvironmentType ==
                     DoorEnviromentType.Rotating;
                 _chbExtraElectricStrikeOppositeImpulse.Checked =
                     _editingObject.ActuatorsExtraElectricStrikeOppositeImpulse;
                 if (_chbExtraElectricStrikeOppositeImpulse.Checked)
                 {
                     _eExtraElectricStrikeOppositeImpulseDelay.Enabled =
-                        ((ItemDoorEnvironmentType) _cbDoorEnvironment.SelectedItem).DoorEnvironmentType ==
+                        ((ItemDoorEnvironmentType)_cbDoorEnvironment.SelectedItem).DoorEnvironmentType ==
                         DoorEnviromentType.Rotating;
                     _eExtraElectricStrikeOppositeImpulseDelay.Value =
                         _editingObject.ActuatorsExtraElectricStrikeOppositeImpulseDelay;
@@ -712,7 +716,7 @@ namespace Contal.Cgp.NCAS.Client
                 if (input != null)
                 {
                     _chbPushButtonInternalInverted.Checked = input.Inverted;
-                    _chbPushButtonInternalBalanced.Checked = input.InputType == (byte) InputType.BSI;
+                    _chbPushButtonInternalBalanced.Checked = input.InputType == (byte)InputType.BSI;
                 }
             }
 
@@ -725,7 +729,7 @@ namespace Contal.Cgp.NCAS.Client
                 if (input != null)
                 {
                     _chbPushButtonExternalInverted.Checked = input.Inverted;
-                    _chbPushButtonExternalBalanced.Checked = input.InputType == (byte) InputType.BSI;
+                    _chbPushButtonExternalBalanced.Checked = input.InputType == (byte)InputType.BSI;
                 }
             }
 
@@ -818,13 +822,13 @@ namespace Contal.Cgp.NCAS.Client
             {
                 switch (objectType.Value)
                 {
-                    case (byte) ObjectType.DailyPlan:
+                    case (byte)ObjectType.DailyPlan:
                         return CgpClient.Singleton.MainServerProvider.DailyPlans.GetObjectById(objectGuid.Value);
-                    case (byte) ObjectType.TimeZone:
+                    case (byte)ObjectType.TimeZone:
                         return CgpClient.Singleton.MainServerProvider.TimeZones.GetObjectById(objectGuid.Value);
-                    case (byte) ObjectType.Input:
+                    case (byte)ObjectType.Input:
                         return Plugin.MainServerProvider.Inputs.GetObjectById(objectGuid.Value);
-                    case (byte) ObjectType.Output:
+                    case (byte)ObjectType.Output:
                         return Plugin.MainServerProvider.Outputs.GetObjectById(objectGuid.Value);
                 }
             }
@@ -853,7 +857,7 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     _cbDoorEnvironment.Items.Add(doorEnvironmentType);
                     if (doorEnvironmentTypeValue != null &&
-                        doorEnvironmentTypeValue == (byte) doorEnvironmentType.DoorEnvironmentType)
+                        doorEnvironmentTypeValue == (byte)doorEnvironmentType.DoorEnvironmentType)
                         actDoorEnvironmentType = doorEnvironmentType;
                 }
             }
@@ -871,59 +875,59 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else
                 {
-                    var doorEnvironmentState = (DoorEnvironmentState) state;
+                    var doorEnvironmentState = (DoorEnvironmentState)state;
                     switch (doorEnvironmentState)
                     {
                         case DoorEnvironmentState.Locked:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateLocked");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateLocked");
+                                break;
+                            }
                         case DoorEnvironmentState.Locking:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateLocking");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateLocking");
+                                break;
+                            }
                         case DoorEnvironmentState.Opened:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateOpened");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateOpened");
+                                break;
+                            }
                         case DoorEnvironmentState.Unlocked:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateUnlocked");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateUnlocked");
+                                break;
+                            }
                         case DoorEnvironmentState.Unlocking:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateUnlocking");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateUnlocking");
+                                break;
+                            }
                         case DoorEnvironmentState.AjarPrewarning:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateDoorAjarPrewarning");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateDoorAjarPrewarning");
+                                break;
+                            }
                         case DoorEnvironmentState.Ajar:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateDoorAjar");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateDoorAjar");
+                                break;
+                            }
                         case DoorEnvironmentState.Intrusion:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateIntrusion");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateIntrusion");
+                                break;
+                            }
                         case DoorEnvironmentState.Sabotage:
-                        {
-                            _eActualState.Text = GetString("DoorEnvironmentStateSatotage");
-                            break;
-                        }
+                            {
+                                _eActualState.Text = GetString("DoorEnvironmentStateSatotage");
+                                break;
+                            }
                         default:
-                        {
-                            _eActualState.Text = string.Empty;
-                            break;
-                        }
+                            {
+                                _eActualState.Text = string.Empty;
+                                break;
+                            }
                     }
                 }
             }
@@ -936,7 +940,7 @@ namespace Contal.Cgp.NCAS.Client
                 if (!(id is Guid))
                     return;
 
-                var idGuid = (Guid) id;
+                var idGuid = (Guid)id;
 
                 switch (objectType)
                 {
@@ -946,7 +950,7 @@ namespace Contal.Cgp.NCAS.Client
                             var crObjectId = _crInternal.GetId();
                             if (crObjectId is Guid)
                             {
-                                if ((Guid) crObjectId == idGuid)
+                                if ((Guid)crObjectId == idGuid)
                                 {
                                     var cardReader = Plugin.MainServerProvider.CardReaders.GetObjectById(idGuid);
 
@@ -961,7 +965,7 @@ namespace Contal.Cgp.NCAS.Client
                             var crObjectId = _crExternal.GetId();
                             if (crObjectId is Guid)
                             {
-                                if ((Guid) crObjectId == idGuid)
+                                if ((Guid)crObjectId == idGuid)
                                 {
                                     var cardReader = Plugin.MainServerProvider.CardReaders.GetObjectById(idGuid);
 
@@ -977,7 +981,7 @@ namespace Contal.Cgp.NCAS.Client
                             var crObjectId = _crInternal.GetId();
                             if (crObjectId is Guid)
                             {
-                                if ((Guid) crObjectId == idGuid)
+                                if ((Guid)crObjectId == idGuid)
                                 {
                                     var input = Plugin.MainServerProvider.Inputs.GetObjectById(idGuid);
 
@@ -992,7 +996,7 @@ namespace Contal.Cgp.NCAS.Client
                             var crObjectId = _crExternal.GetId();
                             if (crObjectId is Guid)
                             {
-                                if ((Guid) crObjectId == idGuid)
+                                if ((Guid)crObjectId == idGuid)
                                 {
                                     var input = Plugin.MainServerProvider.Inputs.GetObjectById(idGuid);
 
@@ -1175,21 +1179,22 @@ namespace Contal.Cgp.NCAS.Client
             {
                 _editingObject.Name = _eName.Text;
                 _editingObject.Description = _eDescription.Text;
-                _editingObject.DoorTimeOpen = (ushort) _eTimeOpen.Value;
-                _editingObject.DoorTimeSirenAjar = (ushort) _eTimeSirenAjar.Value;
-                _editingObject.DoorTimeUnlock = (byte) _eTimeUnlock.Value;
-                _editingObject.DoorTimePreAlarm = (byte) _eTimePreAlarm.Value;
+                _editingObject.DoorTimeOpen = (ushort)_eTimeOpen.Value;
+                _editingObject.DoorTimeSirenAjar = (ushort)_eTimeSirenAjar.Value;
+                _editingObject.DoorTimeUnlock = (byte)_eTimeUnlock.Value;
+                _editingObject.DoorTimePreAlarm = (byte)_eTimePreAlarm.Value;
 
                 _editingObject.DoorDelayBeforeUnlock = (ushort)_eDelayBeforeUnlock.Value;
-                _editingObject.DoorDelayBeforeLock = (ushort) _eDelayBeforeLock.Value;
-                _editingObject.DoorDelayBeforeClose = (ushort) _eDelayBeforeClose.Value;
-                _editingObject.DoorDelayBeforeBreakIn = (ushort) _eDelayBeforeBreakIn.Value;
+                _editingObject.DoorDelayBeforeLock = (ushort)_eDelayBeforeLock.Value;
+                _editingObject.DoorDelayBeforeClose = (ushort)_eDelayBeforeClose.Value;
+                _editingObject.DoorDelayBeforeBreakIn = (ushort)_eDelayBeforeBreakIn.Value;
                 _editingObject.NotInvokeIntrusionAlarm = _chbNotInvokeIntrusionAlarm.Checked;
+                _editingObject.IsVehicleAccess = _chbIsVehicleAccess.Checked;
 
                 var itemDoorEnvironmentType = _cbDoorEnvironment.SelectedItem as ItemDoorEnvironmentType;
                 _editingObject.ActuatorsDoorEnvironment =
                     itemDoorEnvironmentType != null
-                        ? (byte?) (byte) itemDoorEnvironmentType.DoorEnvironmentType
+                        ? (byte?)(byte)itemDoorEnvironmentType.DoorEnvironmentType
                         : null;
 
                 _editingObject.ActuatorsElectricStrike = _cbElectricStrike.SelectedItem as Output;
@@ -1208,16 +1213,16 @@ namespace Contal.Cgp.NCAS.Client
 
                 _editingObject.ActuatorsElectricStrikeImpulse = _chbElectricStrikeImpulse.Checked;
                 _editingObject.ActuatorsExtraElectricStrikeImpulse = _chbExtraElectricStrikeImpulse.Checked;
-                _editingObject.ActuatorsElectricStrikeImpulseDelay = (int) _eElectricStrikeImpulseDelay.Value;
-                _editingObject.ActuatorsExtraElectricStrikeImpulseDelay = (int) _eExtraElectricStrikeImpulseDelay.Value;
+                _editingObject.ActuatorsElectricStrikeImpulseDelay = (int)_eElectricStrikeImpulseDelay.Value;
+                _editingObject.ActuatorsExtraElectricStrikeImpulseDelay = (int)_eExtraElectricStrikeImpulseDelay.Value;
 
                 _editingObject.ActuatorsElectricStrikeOppositeImpulse = _chbElectricStrikeOppositeImpulse.Checked;
                 _editingObject.ActuatorsExtraElectricStrikeOppositeImpulse =
                     _chbExtraElectricStrikeOppositeImpulse.Checked;
                 _editingObject.ActuatorsElectricStrikeOppositeImpulseDelay =
-                    (int) _eElectricStrikeOppositeImpulseDelay.Value;
+                    (int)_eElectricStrikeOppositeImpulseDelay.Value;
                 _editingObject.ActuatorsExtraElectricStrikeOppositeImpulseDelay =
-                    (int) _eExtraElectricStrikeOppositeImpulseDelay.Value;
+                    (int)_eExtraElectricStrikeOppositeImpulseDelay.Value;
 
 
                 _editingObject.SensorsLockDoorsInverted = _chbLockDoorInverted.Checked;
@@ -1273,10 +1278,10 @@ namespace Contal.Cgp.NCAS.Client
                 if (_catsDsmDoorAjar.ObjectForBlockingAlarm != null)
                 {
                     _editingObject.ObjBlockAlarmDoorAjarObjectType =
-                        (byte) _catsDsmDoorAjar.ObjectForBlockingAlarm.GetObjectType();
+                        (byte)_catsDsmDoorAjar.ObjectForBlockingAlarm.GetObjectType();
 
                     _editingObject.ObjBlockAlarmDoorAjarId =
-                        (Guid) _catsDsmDoorAjar.ObjectForBlockingAlarm.GetId();
+                        (Guid)_catsDsmDoorAjar.ObjectForBlockingAlarm.GetId();
                 }
                 else
                 {
@@ -1768,14 +1773,14 @@ namespace Contal.Cgp.NCAS.Client
 
                 foreach (var output in outputs)
                 {
-                    if ((OutputControl) output.ControlType == OutputControl.controledByDoorEnvironment &&
+                    if ((OutputControl)output.ControlType == OutputControl.controledByDoorEnvironment &&
                         !Plugin.MainServerProvider.DoorEnvironments.IsOutputInDoorEnvironmentsActuators(output))
                     {
                         Exception ex;
                         var outputForEdit = Plugin.MainServerProvider.Outputs.GetObjectForEdit(output.IdOutput, out ex);
                         if (ex == null && outputForEdit != null)
                         {
-                            outputForEdit.ControlType = (byte) OutputControl.unblocked;
+                            outputForEdit.ControlType = (byte)OutputControl.unblocked;
                             Plugin.MainServerProvider.Outputs.Update(outputForEdit, out ex);
                             Plugin.MainServerProvider.Outputs.EditEnd(outputForEdit);
                         }
@@ -1797,7 +1802,7 @@ namespace Contal.Cgp.NCAS.Client
             if (output == null)
                 return;
 
-            Exception error ;
+            Exception error;
 
             var outputForEdit = Plugin.MainServerProvider.Outputs.GetObjectForEdit(output.IdOutput, out error);
 
@@ -2360,7 +2365,7 @@ namespace Contal.Cgp.NCAS.Client
                 ActuatorsDropDown(_cbElectricStrike, null);
 
                 if (_cbElectricStrike.Items.Count > 1
-                    && ((Output) _cbElectricStrike.Items[1]).OutputNumber == 0)
+                    && ((Output)_cbElectricStrike.Items[1]).OutputNumber == 0)
                 {
                     _cbElectricStrike.SelectedIndex = 1;
                 }
@@ -2369,7 +2374,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 if (doorEnviromentType == DoorEnviromentType.Standard
                     && _cbOpenDoor.Items.Count > 1
-                    && ((Input) _cbOpenDoor.Items[1]).InputNumber == 0)
+                    && ((Input)_cbOpenDoor.Items[1]).InputNumber == 0)
                 {
                     _cbOpenDoor.SelectedIndex = 1;
                 }
@@ -2430,7 +2435,7 @@ namespace Contal.Cgp.NCAS.Client
                     return;
 
                 _crInternal = ccu.CardReaders.FirstOrDefault(cr => cr.Address == (_editingObject.Number * 2) + 1);
-                _crExternal = ccu.CardReaders.FirstOrDefault(cr => cr.Address == (_editingObject.Number * 2) + 2); 
+                _crExternal = ccu.CardReaders.FirstOrDefault(cr => cr.Address == (_editingObject.Number * 2) + 2);
             }
 
             RefreshInternalCardReader();
@@ -3142,21 +3147,21 @@ namespace Contal.Cgp.NCAS.Client
 
         private bool ConfirmAddingUnlockedCardReader(CardReader cardReader)
         {
-            if (cardReader == null || cardReader.SecurityLevel != (byte) SecurityLevel.Unlocked)
+            if (cardReader == null || cardReader.SecurityLevel != (byte)SecurityLevel.Unlocked)
             {
                 return true;
             }
 
             var internalCardReader = _crInternal as CardReader;
             var externalCardReader = _crExternal as CardReader;
-            if ((internalCardReader != null && internalCardReader.SecurityLevel == (byte) SecurityLevel.Unlocked) ||
-                (externalCardReader != null && externalCardReader.SecurityLevel == (byte) SecurityLevel.Unlocked))
+            if ((internalCardReader != null && internalCardReader.SecurityLevel == (byte)SecurityLevel.Unlocked) ||
+                (externalCardReader != null && externalCardReader.SecurityLevel == (byte)SecurityLevel.Unlocked))
             {
                 return true;
             }
 
-            if ((internalCardReader != null && internalCardReader.SecurityLevel == (byte) SecurityLevel.Locked) ||
-                (externalCardReader != null && externalCardReader.SecurityLevel == (byte) SecurityLevel.Locked))
+            if ((internalCardReader != null && internalCardReader.SecurityLevel == (byte)SecurityLevel.Locked) ||
+                (externalCardReader != null && externalCardReader.SecurityLevel == (byte)SecurityLevel.Locked))
             {
                 return Dialog.WarningQuestion(GetString("WarningQuestionAddUnlockedCardReaderToLockedDoorEnvironment"));
             }

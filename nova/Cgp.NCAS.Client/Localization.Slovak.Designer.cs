@@ -10026,6 +10026,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prístup vozidla.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_chbIsVehicleAccess {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vyvážený.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_chbLockDoorBalanced {

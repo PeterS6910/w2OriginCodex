@@ -14188,6 +14188,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fordonsåtkomst.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_chbIsVehicleAccess {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Balanserad.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_chbLockDoorBalanced {

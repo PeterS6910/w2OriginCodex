@@ -6,7 +6,6 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TextBox _eLp;
         private System.Windows.Forms.TextBox _eBrand;
         private System.Windows.Forms.TextBox _eDescription;
-        private System.Windows.Forms.ComboBox _cbSecurityLevel;
         private System.Windows.Forms.TextBox _eUtcDateStateLastChange;
         private System.Windows.Forms.Button _bOk;
         private System.Windows.Forms.Button _bCancel;
@@ -28,7 +27,6 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateFrom;
@@ -40,7 +38,6 @@ namespace Contal.Cgp.Client
             this._eLp = new System.Windows.Forms.TextBox();
             this._eBrand = new System.Windows.Forms.TextBox();
             this._eDescription = new System.Windows.Forms.TextBox();
-            this._cbSecurityLevel = new System.Windows.Forms.ComboBox();
             this._eUtcDateStateLastChange = new System.Windows.Forms.TextBox();
             this._bOk = new System.Windows.Forms.Button();
             this._bCancel = new System.Windows.Forms.Button();
@@ -50,7 +47,6 @@ namespace Contal.Cgp.Client
             this._dpValidityDateFrom = new Contal.IwQuick.UI.TextBoxDatePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -89,13 +85,6 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this._eDescription, "_eDescription");
             this._eDescription.Name = "_eDescription";
             // 
-            // _cbSecurityLevel
-            // 
-            this._cbSecurityLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._cbSecurityLevel.FormattingEnabled = true;
-            resources.ApplyResources(this._cbSecurityLevel, "_cbSecurityLevel");
-            this._cbSecurityLevel.Name = "_cbSecurityLevel";
-            // 
             // _eUtcDateStateLastChange
             // 
             resources.ApplyResources(this._eUtcDateStateLastChange, "_eUtcDateStateLastChange");
@@ -131,13 +120,11 @@ namespace Contal.Cgp.Client
             this._tpInformation.Controls.Add(this._dpValidityDateFrom);
             this._tpInformation.Controls.Add(this.label8);
             this._tpInformation.Controls.Add(this.label6);
-            this._tpInformation.Controls.Add(this.label5);
             this._tpInformation.Controls.Add(this.label4);
             this._tpInformation.Controls.Add(this.label3);
             this._tpInformation.Controls.Add(this.label2);
             this._tpInformation.Controls.Add(this.label1);
             this._tpInformation.Controls.Add(this._eUtcDateStateLastChange);
-            this._tpInformation.Controls.Add(this._cbSecurityLevel);
             this._tpInformation.Controls.Add(this._eDescription);
             this._tpInformation.Controls.Add(this._eBrand);
             this._tpInformation.Controls.Add(this._eLp);
@@ -197,11 +184,6 @@ namespace Contal.Cgp.Client
             // 
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
             // 
             // label4
             // 
