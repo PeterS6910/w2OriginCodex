@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Windows.Forms;
 
 namespace Contal.Cgp.Client
@@ -382,14 +383,22 @@ namespace Contal.Cgp.Client
             }
             else
             {
-                var providerPropertyDescriptor = TypeDescriptor.GetProperties(provider).Find(propertyName, true);
-                if (providerPropertyDescriptor != null)
+                var isRemoteProxy = RemotingServices.IsTransparentProxy(provider);
+
+                if (!isRemoteProxy)
                 {
-                    tableProvider = providerPropertyDescriptor.GetValue(provider);
+                    var providerPropertyDescriptor = TypeDescriptor.GetProperties(provider).Find(propertyName, true);
+                    if (providerPropertyDescriptor != null)
+                    {
+                        tableProvider = providerPropertyDescriptor.GetValue(provider);
+                    }
                 }
-                else
+                if (tableProvider == null)
                 {
-                    error = new MissingMemberException(providerType.FullName, propertyName);
+                    error = isRemoteProxy
+    ? new NotSupportedException(
+        $"The remoted provider type '{providerType.FullName}' does not expose property '{propertyName}'.")
+    : new MissingMemberException(providerType.FullName, propertyName);
                     return null;
                 }
             }
