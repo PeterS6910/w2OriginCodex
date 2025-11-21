@@ -3,10 +3,11 @@ using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace Contal.Cgp.Client
 {
@@ -260,7 +261,7 @@ namespace Contal.Cgp.Client
         private void _bAddDoorEnvironment_Click(object sender, EventArgs e)
         {
             Exception error;
-            var doorEnvironments = CgpClient.Singleton.MainServerProvider.DoorEnvironments.List(out error);
+            var doorEnvironments = GetDoorEnvironments(out error);
             if (error != null)
             {
                 MessageBox.Show(error.Message);
@@ -298,6 +299,29 @@ namespace Contal.Cgp.Client
                     LoadDoorEnvironments();
                 }
             }
+        }
+
+        private IList<DoorEnvironment> GetDoorEnvironments(out Exception error)
+        {
+            error = null;
+
+            var provider = CgpClient.Singleton.MainServerProvider;
+            var doorEnvironmentsProperty = provider.GetType().GetProperty("DoorEnvironments", BindingFlags.Instance | BindingFlags.Public);
+            if (doorEnvironmentsProperty == null)
+                return null;
+
+            var doorEnvironmentsProvider = doorEnvironmentsProperty.GetValue(provider, null);
+            if (doorEnvironmentsProvider == null)
+                return null;
+
+            var listMethod = doorEnvironmentsProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
+            if (listMethod == null)
+                return null;
+
+            var parameters = new object[] { null };
+            var result = listMethod.Invoke(doorEnvironmentsProvider, parameters) as IList<DoorEnvironment>;
+            error = parameters[0] as Exception;
+            return result;
         }
 
         private void _bCreateDoorEnvironment_Click(object sender, EventArgs e)
