@@ -1203,6 +1203,12 @@
   <data name="CarEditForm_bDeleteDoorEnvironment" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="CarEditFormEditText" xml:space="preserve">
+    <value>Editing car</value>
+  </data>
+  <data name="CarEditFormInsertText" xml:space="preserve">
+    <value>Insert car</value>
+  </data>
   <data name="CarEditForm_DoorEnvironmentAdd" xml:space="preserve">
     <value>Assign access for selected door environment.</value>
   </data>

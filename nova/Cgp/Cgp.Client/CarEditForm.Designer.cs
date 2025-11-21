@@ -23,6 +23,8 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Button _bCreateDoorEnvironment;
         private System.Windows.Forms.Button _bAddDoorEnvironment;
         private System.Windows.Forms.ListView _lvDoorEnvironments;
+        private System.Windows.Forms.ColumnHeader _chDoorEnvironment;
+        private System.Windows.Forms.ColumnHeader _chAccessType;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -63,6 +65,8 @@ namespace Contal.Cgp.Client
             this._bCreateDoorEnvironment = new System.Windows.Forms.Button();
             this._bAddDoorEnvironment = new System.Windows.Forms.Button();
             this._lvDoorEnvironments = new System.Windows.Forms.ListView();
+            this._chDoorEnvironment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._chAccessType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
@@ -220,11 +224,13 @@ namespace Contal.Cgp.Client
             // 
             resources.ApplyResources(this._lAvailableCards, "_lAvailableCards");
             this._lAvailableCards.Name = "_lAvailableCards";
+            this._lAvailableCards.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _lAssignedCards
             // 
             resources.ApplyResources(this._lAssignedCards, "_lAssignedCards");
             this._lAssignedCards.Name = "_lAssignedCards";
+            this._lAssignedCards.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _bUnassignCard
             // 
@@ -275,7 +281,7 @@ namespace Contal.Cgp.Client
             this._bDeleteDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bDeleteDoorEnvironment.Location = new System.Drawing.Point(486, 299);
             this._bDeleteDoorEnvironment.Name = "_bDeleteDoorEnvironment";
-            this._bDeleteDoorEnvironment.Size = new System.Drawing.Size(96, 23);
+            this._bDeleteDoorEnvironment.Size = new System.Drawing.Size(96, 32);
             this._bDeleteDoorEnvironment.TabIndex = 3;
             this._bDeleteDoorEnvironment.Text = "Delete";
             this._bDeleteDoorEnvironment.UseVisualStyleBackColor = true;
@@ -286,7 +292,7 @@ namespace Contal.Cgp.Client
             this._bCreateDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._bCreateDoorEnvironment.Location = new System.Drawing.Point(108, 299);
             this._bCreateDoorEnvironment.Name = "_bCreateDoorEnvironment";
-            this._bCreateDoorEnvironment.Size = new System.Drawing.Size(96, 23);
+            this._bCreateDoorEnvironment.Size = new System.Drawing.Size(96, 32);
             this._bCreateDoorEnvironment.TabIndex = 2;
             this._bCreateDoorEnvironment.Text = "Create";
             this._bCreateDoorEnvironment.UseVisualStyleBackColor = true;
@@ -297,7 +303,7 @@ namespace Contal.Cgp.Client
             this._bAddDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._bAddDoorEnvironment.Location = new System.Drawing.Point(6, 299);
             this._bAddDoorEnvironment.Name = "_bAddDoorEnvironment";
-            this._bAddDoorEnvironment.Size = new System.Drawing.Size(96, 23);
+            this._bAddDoorEnvironment.Size = new System.Drawing.Size(96, 32);
             this._bAddDoorEnvironment.TabIndex = 1;
             this._bAddDoorEnvironment.Text = "Add";
             this._bAddDoorEnvironment.UseVisualStyleBackColor = true;
@@ -308,6 +314,11 @@ namespace Contal.Cgp.Client
             this._lvDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._lvDoorEnvironments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this._chDoorEnvironment,
+            this._chAccessType});
+            this._lvDoorEnvironments.FullRowSelect = true;
+            this._lvDoorEnvironments.GridLines = true;
             this._lvDoorEnvironments.HideSelection = false;
             this._lvDoorEnvironments.Location = new System.Drawing.Point(6, 6);
             this._lvDoorEnvironments.MultiSelect = false;
@@ -316,6 +327,16 @@ namespace Contal.Cgp.Client
             this._lvDoorEnvironments.TabIndex = 0;
             this._lvDoorEnvironments.UseCompatibleStateImageBehavior = false;
             this._lvDoorEnvironments.View = System.Windows.Forms.View.List;
+            //
+            // _chDoorEnvironment
+            //
+            this._chDoorEnvironment.Text = "DoorEnvironment";
+            this._chDoorEnvironment.Width = 380;
+            //
+            // _chAccessType
+            //
+            this._chAccessType.Text = "AccessType";
+            this._chAccessType.Width = 160;
             // 
             // CarEditForm
             // 

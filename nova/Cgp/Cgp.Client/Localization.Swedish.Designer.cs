@@ -4777,6 +4777,24 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Editing car.
+        /// </summary>
+        internal static string CarEditFormEditText {
+            get {
+                return ResourceManager.GetString("CarEditFormEditText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert car.
+        /// </summary>
+        internal static string CarEditFormInsertText {
+            get {
+                return ResourceManager.GetString("CarEditFormInsertText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registreringsnummer.
         /// </summary>
         internal static string CarEditFormlabel1 {

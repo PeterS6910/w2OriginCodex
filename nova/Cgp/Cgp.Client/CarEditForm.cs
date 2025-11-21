@@ -32,7 +32,7 @@ namespace Contal.Cgp.Client
             _bDeleteDoorEnvironment.Text = GetString("CarEditForm_bDeleteDoorEnvironment");
         }
 
-        private readonly List<DoorEnvironment> _doorEnvironments = new List<DoorEnvironment>();
+        private readonly List<CarDoorEnvironment> _doorEnvironments = new List<CarDoorEnvironment>();
 
         protected override bool CheckValues()
         {
@@ -76,6 +76,15 @@ namespace Contal.Cgp.Client
         {
         }
 
+        protected override void AfterTranslateForm()
+        {
+            Text = Insert
+                ? GetString("CarEditFormInsertText")
+                : GetString("CarEditFormEditText");
+
+            CgpClientMainForm.Singleton.SetTextOpenWindow(this);
+        }
+
         protected override void BeforeInsert()
         {
         }
@@ -114,6 +123,7 @@ namespace Contal.Cgp.Client
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
             _eDescription.Text = _editingObject.Description;
             LoadCards();
+            RefreshDoorEnvironmentsFromServer();
             LoadDoorEnvironments();
         }
 
@@ -244,11 +254,29 @@ namespace Contal.Cgp.Client
         private void LoadDoorEnvironments()
         {
             _lvDoorEnvironments.Items.Clear();
-            foreach (var doorEnvironment in _doorEnvironments.OrderBy(de => de.Name))
+            foreach (var doorEnvironment in _doorEnvironments.OrderBy(de => de.DoorEnvironment?.Name))
             {
-                _lvDoorEnvironments.Items.Add(
-                    new ListViewItem(doorEnvironment.Name) { Tag = doorEnvironment });
+                var item = new ListViewItem(doorEnvironment.DoorEnvironment?.Name ?? string.Empty)
+                {
+                    Tag = doorEnvironment
+                };
+                item.SubItems.Add(doorEnvironment.AccessType.ToString());
+                _lvDoorEnvironments.Items.Add(item);
             }
+        }
+
+        private void RefreshDoorEnvironmentsFromServer()
+        {
+            var provider = CgpClient.Singleton.MainServerProvider;
+            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(provider, "CarDoorEnvironments", out var error)
+                ?.Where(cde => cde.Car != null && cde.Car.IdCar == _editingObject.IdCar)
+                .ToList();
+
+            if (error != null || carDoorEnvironments == null)
+                return;
+
+            _doorEnvironments.Clear();
+            _doorEnvironments.AddRange(carDoorEnvironments);
         }
 
         private void _bAddDoorEnvironment_Click(object sender, EventArgs e)
@@ -262,7 +290,7 @@ namespace Contal.Cgp.Client
             }
 
             var availableDoorEnvironments = doorEnvironments
-                ?.Where(de => _doorEnvironments.All(added => added.IdDoorEnvironment != de.IdDoorEnvironment))
+                ?.Where(de => _doorEnvironments.All(added => added.DoorEnvironment == null || added.DoorEnvironment.IdDoorEnvironment != de.IdDoorEnvironment))
                 .OrderBy(de => de.Name)
                 .ToList();
 
@@ -283,10 +311,15 @@ namespace Contal.Cgp.Client
                 {
                     foreach (var selectedDoorEnvironment in selectForm.SelectedDoorEnvironments)
                     {
-                        if (_doorEnvironments.Any(de => de.IdDoorEnvironment == selectedDoorEnvironment.IdDoorEnvironment))
+                        if (_doorEnvironments.Any(de => de.DoorEnvironment != null && de.DoorEnvironment.IdDoorEnvironment == selectedDoorEnvironment.IdDoorEnvironment))
                             continue;
 
-                        _doorEnvironments.Add(selectedDoorEnvironment);
+                        _doorEnvironments.Add(new CarDoorEnvironment
+                        {
+                            DoorEnvironment = selectedDoorEnvironment,
+                            Car = _editingObject,
+                            AccessType = CarDoorEnvironmentAccessType.None
+                        });
                     }
 
                     LoadDoorEnvironments();
