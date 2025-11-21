@@ -327,7 +327,7 @@ namespace Contal.Cgp.Client
             }
         }
 
-        private IList<DoorEnvironment> GetDoorEnvironments(out Exception error)
+        private ICollection<DoorEnvironment> GetDoorEnvironments(out Exception error)
         {
             error = null;
 
@@ -353,15 +353,31 @@ namespace Contal.Cgp.Client
                 .ToList();
         }
 
-        private static IList<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
+        private static ICollection<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
         {
             error = null;
             if (provider == null)
                 return null;
 
-            var providerProperty = provider.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+            var providerType = provider.GetType();
+            var providerProperty = providerType.GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (providerProperty == null)
+            {
+                providerProperty = providerType
+                    .GetInterfaces()
+                    .Select(iface => iface.GetProperty(
+                        propertyName,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    .FirstOrDefault(prop => prop != null);
+            }
+
+            if (providerProperty == null)
+            {
+                error = new MissingMemberException(providerType.FullName, propertyName);
                 return null;
+            }
 
             var tableProvider = providerProperty.GetValue(provider, null);
             if (tableProvider == null)
@@ -369,10 +385,13 @@ namespace Contal.Cgp.Client
 
             var listMethod = tableProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
             if (listMethod == null)
+            {
+                error = new MissingMethodException(tableProvider.GetType().FullName, "List");
                 return null;
+            }
 
             var parameters = new object[] { null };
-            var result = listMethod.Invoke(tableProvider, parameters) as IList<T>;
+            var result = listMethod.Invoke(tableProvider, parameters) as ICollection<T>;
             error = parameters[0] as Exception;
             return result;
         }
