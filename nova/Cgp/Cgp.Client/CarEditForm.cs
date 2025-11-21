@@ -306,20 +306,47 @@ namespace Contal.Cgp.Client
             error = null;
 
             var provider = CgpClient.Singleton.MainServerProvider;
-            var doorEnvironmentsProperty = provider.GetType().GetProperty("DoorEnvironments", BindingFlags.Instance | BindingFlags.Public);
-            if (doorEnvironmentsProperty == null)
+            var allDoorEnvironments = InvokeListProvider<DoorEnvironment>(provider, "DoorEnvironments", out error);
+            if (error != null || allDoorEnvironments == null)
+                return allDoorEnvironments;
+
+            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(provider, "CarDoorEnvironments", out error);
+            if (error != null)
                 return null;
 
-            var doorEnvironmentsProvider = doorEnvironmentsProperty.GetValue(provider, null);
-            if (doorEnvironmentsProvider == null)
+            if (carDoorEnvironments == null)
+                return allDoorEnvironments.ToList();
+
+            var assignedDoorEnvironmentIds = new HashSet<Guid>(
+                carDoorEnvironments
+                    .Where(cde => cde.Car != null && cde.Car.IdCar == _editingObject.IdCar && cde.DoorEnvironment != null)
+                    .Select(cde => cde.DoorEnvironment.IdDoorEnvironment));
+
+            return allDoorEnvironments
+                .Where(de => !assignedDoorEnvironmentIds.Contains(de.IdDoorEnvironment))
+                .ToList();
+        }
+
+        private static IList<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
+        {
+            error = null;
+            if (provider == null)
                 return null;
 
-            var listMethod = doorEnvironmentsProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
+            var providerProperty = provider.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+            if (providerProperty == null)
+                return null;
+
+            var tableProvider = providerProperty.GetValue(provider, null);
+            if (tableProvider == null)
+                return null;
+
+            var listMethod = tableProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
             if (listMethod == null)
                 return null;
 
             var parameters = new object[] { null };
-            var result = listMethod.Invoke(doorEnvironmentsProvider, parameters) as IList<DoorEnvironment>;
+            var result = listMethod.Invoke(tableProvider, parameters) as IList<T>;
             error = parameters[0] as Exception;
             return result;
         }

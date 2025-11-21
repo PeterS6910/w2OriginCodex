@@ -45,8 +45,8 @@ namespace Contal.Cgp.NCAS.Client
             _cdgvData.ImageList = ((ICgpVisualPlugin)NCASClient.Singleton).GetPluginObjectsImages();
             _cdgvData.BeforeGridModified += _cdgvData_BeforeGridModified;
             _cdgvData.CgpDataGridEvents = this;
-            _cdgvData.EnabledInsertButton = false;
-            _cdgvData.EnabledDeleteButton = false;
+            _cdgvData.EnabledInsertButton = HasAccessInsert();
+            _cdgvData.EnabledDeleteButton = HasAccessDelete();
         }
 
         void _cdgvData_BeforeGridModified(BindingSource bindingSource)
@@ -146,6 +146,7 @@ namespace Contal.Cgp.NCAS.Client
                                 doorEnvironment.Configured));
                 }
             }
+            CheckAccess();
             _lRecordCount.BeginInvoke(new Action(
             () =>
             {
@@ -160,6 +161,14 @@ namespace Contal.Cgp.NCAS.Client
 
         private void CheckAccess()
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(CheckAccess));
+                return;
+            }
+
+            _cdgvData.EnabledInsertButton = HasAccessInsert();
+            _cdgvData.EnabledDeleteButton = HasAccessDelete();
         }
 
         protected override void ModifyGridView(BindingSource bindingSource)
