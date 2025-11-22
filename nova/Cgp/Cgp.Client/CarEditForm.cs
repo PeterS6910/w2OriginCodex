@@ -1,5 +1,7 @@
 using Contal.Cgp.BaseLib;
+using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Server.Beans;
+using Contal.Cgp.NCAS.Server;
 using Contal.Cgp.Server.Beans;
 using System;
 using System.Collections.Generic;
@@ -277,6 +279,18 @@ namespace Contal.Cgp.Client
             if (error != null || carDoorEnvironments == null)
                 return;
 
+            var doorEnvironmentsTable = NcasDbs.GetTableOrm(ObjectType.DoorEnvironment) as DoorEnvironments;
+            if (doorEnvironmentsTable != null)
+            {
+                foreach (var carDoorEnvironment in carDoorEnvironments)
+                {
+                    var doorEnvironmentId = carDoorEnvironment.DoorEnvironment?.IdDoorEnvironment;
+                    if (doorEnvironmentId != null && doorEnvironmentId != Guid.Empty)
+                        carDoorEnvironment.DoorEnvironment =
+                            doorEnvironmentsTable.GetById(doorEnvironmentId.Value);
+                }
+            }
+
             _doorEnvironments.Clear();
             _doorEnvironments.AddRange(carDoorEnvironments);
         }
@@ -333,11 +347,19 @@ namespace Contal.Cgp.Client
         {
             error = null;
 
-            var provider = CgpClient.Singleton.MainServerProvider;
-            var allDoorEnvironments = InvokeListProvider<DoorEnvironment>(provider, "DoorEnvironments", out error);
+            var doorEnvironmentsTable =
+                NcasDbs.GetTableOrm(ObjectType.DoorEnvironment) as DoorEnvironments;
+            var allDoorEnvironments = doorEnvironmentsTable?.List(out error);
+            if (doorEnvironmentsTable == null)
+            {
+                error = new MissingFieldException(
+                    typeof(NcasDbs).FullName,
+                    ObjectType.DoorEnvironment.ToString());
+            }
             if (error != null || allDoorEnvironments == null)
                 return allDoorEnvironments;
 
+            var provider = CgpClient.Singleton.MainServerProvider;
             var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(provider, "CarDoorEnvironments", out error);
             if (error != null)
                 return null;

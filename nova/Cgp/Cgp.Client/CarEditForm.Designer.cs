@@ -326,7 +326,7 @@ namespace Contal.Cgp.Client
             this._lvDoorEnvironments.Size = new System.Drawing.Size(576, 287);
             this._lvDoorEnvironments.TabIndex = 0;
             this._lvDoorEnvironments.UseCompatibleStateImageBehavior = false;
-            this._lvDoorEnvironments.View = System.Windows.Forms.View.List;
+            this._lvDoorEnvironments.View = System.Windows.Forms.View.Details;
             //
             // _chDoorEnvironment
             //

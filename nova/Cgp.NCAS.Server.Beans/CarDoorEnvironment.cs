@@ -51,4 +51,42 @@ namespace Contal.Cgp.NCAS.Server.Beans
             return null;
         }
     }
+
+    [Serializable]
+    public class CarDoorEnvironmentShort : IShortObject
+    {
+        public const string COLUMN_ID_CAR_DOOR_ENVIRONMENT = "IdCarDoorEnvironment";
+        public const string COLUMN_NAME = "Name";
+        public const string COLUMN_ACCESS_TYPE = "AccessType";
+
+        public Guid IdCarDoorEnvironment { get; set; }
+        public string Name { get; set; }
+        public CarDoorEnvironmentAccessType AccessType { get; set; }
+
+        public CarDoorEnvironmentShort(CarDoorEnvironment carDoorEnvironment)
+        {
+            if (carDoorEnvironment == null)
+                throw new ArgumentNullException(nameof(carDoorEnvironment));
+
+            IdCarDoorEnvironment = carDoorEnvironment.IdCarDoorEnvironment;
+            Name = carDoorEnvironment.DoorEnvironment?.Name;
+            AccessType = carDoorEnvironment.AccessType;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        ObjectType IShortObject.ObjectType => ObjectType.NotSupport;
+
+        string IShortObject.GetSubTypeImageString(object value)
+        {
+            return string.Empty;
+        }
+
+        string IShortObject.Name => Name;
+
+        object IShortObject.Id => IdCarDoorEnvironment;
+    }
 }
