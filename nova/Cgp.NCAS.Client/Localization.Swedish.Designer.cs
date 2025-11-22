@@ -14116,6 +14116,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Behörighetstyp.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_AccessType {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_AccessType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Öppna alla.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_cbOpenAllAlarmSettings {
@@ -14422,11 +14431,29 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inga tillgängliga fordon att lägga till..
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_NoAvailableCars {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_NoAvailableCars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to APAS.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_tpApas {
             get {
                 return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpApas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bil.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_tpCar {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpCar", resourceCulture);
             }
         }
         

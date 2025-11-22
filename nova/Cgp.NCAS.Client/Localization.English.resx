@@ -2824,6 +2824,15 @@ Continue anyway?</value>
   <data name="NCASDoorEnvironmentEditForm_tpApas" xml:space="preserve">
     <value>APAS</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
+    <value>Car</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_AccessType" xml:space="preserve">
+    <value>Access type</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_NoAvailableCars" xml:space="preserve">
+    <value>No available cars to add.</value>
+  </data>
   <data name="NCASCCUEditForm_bCcuResetDeserializeError" xml:space="preserve">
     <value>Reset</value>
   </data>

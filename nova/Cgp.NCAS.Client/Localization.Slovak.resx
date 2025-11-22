@@ -1731,6 +1731,15 @@
   <data name="NCASDoorEnvironmentEditForm_tpApas" xml:space="preserve">
     <value>APAS</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_AccessType" xml:space="preserve">
+    <value>Typ prístupu</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_NoAvailableCars" xml:space="preserve">
+    <value>Nie sú dostupné žiadne vozidlá na pridanie.</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_tpDoorsTiming" xml:space="preserve">
     <value>Časovanie dverí</value>
   </data>

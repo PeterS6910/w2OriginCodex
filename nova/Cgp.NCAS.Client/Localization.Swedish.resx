@@ -429,6 +429,15 @@
   <data name="NCASDCUEditForm_tpApas" xml:space="preserve">
     <value>APAS</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
+    <value>Bil</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_AccessType" xml:space="preserve">
+    <value>Behörighetstyp</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_NoAvailableCars" xml:space="preserve">
+    <value>Inga tillgängliga fordon att lägga till.</value>
+  </data>
   <data name="General_bApply" xml:space="preserve">
     <value>Använd</value>
   </data>

@@ -9990,6 +9990,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typ prístupu.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_AccessType {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_AccessType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spínať impulzom.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_chbElectricStrikeImpulse {
@@ -10260,11 +10269,29 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie sú dostupné žiadne vozidlá na pridanie..
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_NoAvailableCars {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_NoAvailableCars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to APAS.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_tpApas {
             get {
                 return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpApas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_tpCar {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpCar", resourceCulture);
             }
         }
         

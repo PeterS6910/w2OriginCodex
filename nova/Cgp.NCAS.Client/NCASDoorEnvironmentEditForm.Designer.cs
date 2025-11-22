@@ -138,6 +138,11 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputDoorAjar = new System.Windows.Forms.GroupBox();
             this._lOutput1 = new System.Windows.Forms.Label();
             this._cbOutputDoorAjar = new System.Windows.Forms.ComboBox();
+            this._tpCar = new System.Windows.Forms.TabPage();
+            this._dgCarDoorEnvironments = new System.Windows.Forms.DataGridView();
+            this._tcCarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bAddCarDoorEnvironment = new System.Windows.Forms.Button();
             this._tpUserFolders = new System.Windows.Forms.TabPage();
             this._bRefresh = new System.Windows.Forms.Button();
             this._lbUserFolders = new Contal.IwQuick.UI.ImageListBox();
@@ -170,6 +175,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputSabotage.SuspendLayout();
             this._gbOutputIntrusion.SuspendLayout();
             this._gbOutputDoorAjar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments)).BeginInit();
             this._tpUserFolders.SuspendLayout();
             this._tpDescription.SuspendLayout();
             this.SuspendLayout();
@@ -421,6 +427,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tcDoorsAutomat.Controls.Add(this._tpApas);
             this._tcDoorsAutomat.Controls.Add(this._tpAlarmSettings);
             this._tcDoorsAutomat.Controls.Add(this._tpSpecialOutputs);
+            this._tcDoorsAutomat.Controls.Add(this._tpCar);
             this._tcDoorsAutomat.Controls.Add(this._tpUserFolders);
             this._tcDoorsAutomat.Controls.Add(this._tpReferencedBy);
             this._tcDoorsAutomat.Controls.Add(this._tpDescription);
@@ -1673,6 +1680,67 @@ namespace Contal.Cgp.NCAS.Client
             this._cbOutputDoorAjar.TabIndex = 3;
             this._cbOutputDoorAjar.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             this._cbOutputDoorAjar.DropDown += new System.EventHandler(this.OutputsDropDown);
+            //
+            // _tpCar
+            //
+            this._tpCar.BackColor = System.Drawing.Color.Transparent;
+            this._tpCar.Controls.Add(this._dgCarDoorEnvironments);
+            this._tpCar.Controls.Add(this._bAddCarDoorEnvironment);
+            this._tpCar.Location = new System.Drawing.Point(4, 22);
+            this._tpCar.Name = "_tpCar";
+            this._tpCar.Size = new System.Drawing.Size(849, 432);
+            this._tpCar.TabIndex = 12;
+            this._tpCar.Text = "Car";
+            this._tpCar.UseVisualStyleBackColor = true;
+            this._tpCar.Enter += new System.EventHandler(this._tpCar_Enter);
+            //
+            // _dgCarDoorEnvironments
+            //
+            this._dgCarDoorEnvironments.AllowUserToAddRows = false;
+            this._dgCarDoorEnvironments.AllowUserToDeleteRows = false;
+            this._dgCarDoorEnvironments.AllowUserToResizeRows = false;
+            this._dgCarDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._dgCarDoorEnvironments.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgCarDoorEnvironments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dgCarDoorEnvironments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._tcCarColumn,
+            this._tcAccessTypeColumn});
+            this._dgCarDoorEnvironments.Location = new System.Drawing.Point(120, 6);
+            this._dgCarDoorEnvironments.MultiSelect = false;
+            this._dgCarDoorEnvironments.Name = "_dgCarDoorEnvironments";
+            this._dgCarDoorEnvironments.ReadOnly = true;
+            this._dgCarDoorEnvironments.RowHeadersVisible = false;
+            this._dgCarDoorEnvironments.RowTemplate.Height = 24;
+            this._dgCarDoorEnvironments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(726, 423);
+            this._dgCarDoorEnvironments.TabIndex = 2;
+            this._dgCarDoorEnvironments.TabStop = false;
+            //
+            // _tcCarColumn
+            //
+            this._tcCarColumn.DataPropertyName = "CarName";
+            this._tcCarColumn.HeaderText = "Car";
+            this._tcCarColumn.Name = "_tcCarColumn";
+            this._tcCarColumn.ReadOnly = true;
+            //
+            // _tcAccessTypeColumn
+            //
+            this._tcAccessTypeColumn.DataPropertyName = "AccessType";
+            this._tcAccessTypeColumn.HeaderText = "Access type";
+            this._tcAccessTypeColumn.Name = "_tcAccessTypeColumn";
+            this._tcAccessTypeColumn.ReadOnly = true;
+            //
+            // _bAddCarDoorEnvironment
+            //
+            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(8, 6);
+            this._bAddCarDoorEnvironment.Name = "_bAddCarDoorEnvironment";
+            this._bAddCarDoorEnvironment.Size = new System.Drawing.Size(106, 23);
+            this._bAddCarDoorEnvironment.TabIndex = 1;
+            this._bAddCarDoorEnvironment.Text = "Add";
+            this._bAddCarDoorEnvironment.UseVisualStyleBackColor = true;
+            this._bAddCarDoorEnvironment.Click += new System.EventHandler(this._bAddCarDoorEnvironment_Click);
             // 
             // _tpUserFolders
             // 
@@ -1797,6 +1865,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputIntrusion.PerformLayout();
             this._gbOutputDoorAjar.ResumeLayout(false);
             this._gbOutputDoorAjar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments)).EndInit();
             this._tpUserFolders.ResumeLayout(false);
             this._tpDescription.ResumeLayout(false);
             this._tpDescription.PerformLayout();
@@ -1915,6 +1984,11 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.GroupBox _gbOutputDoorAjar;
         private System.Windows.Forms.Label _lOutput1;
         private System.Windows.Forms.ComboBox _cbOutputDoorAjar;
+        private System.Windows.Forms.TabPage _tpCar;
+        private System.Windows.Forms.Button _bAddCarDoorEnvironment;
+        private System.Windows.Forms.DataGridView _dgCarDoorEnvironments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _tcCarColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _tcAccessTypeColumn;
         private System.Windows.Forms.TabPage _tpUserFolders;
         private System.Windows.Forms.Button _bRefresh;
         private Contal.IwQuick.UI.ImageListBox _lbUserFolders;

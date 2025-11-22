@@ -1,12 +1,15 @@
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Remoting;
 using System.Windows.Forms;
-
 using Contal.Cgp.Client;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
+using Contal.Cgp.RemotingCommon;
 using Contal.IwQuick;
 using Contal.IwQuick.Data;
 using Contal.IwQuick.Localization;
@@ -45,6 +48,8 @@ namespace Contal.Cgp.NCAS.Client
         private readonly ControlModifyAlarmArcs _cmaaDsmSabotage;
 
         private readonly Dictionary<AlarmType, Action> _openAndScrollToControlByAlarmType;
+
+        private readonly List<CarDoorEnvironment> _carDoorEnvironments = new List<CarDoorEnvironment>();
 
         public NCASDoorEnvironmentEditForm(
                 DoorEnvironment doorEnvironment,
@@ -88,6 +93,10 @@ namespace Contal.Cgp.NCAS.Client
             InitializeComponent();
 
             _chbIsVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess");
+            _tpCar.Text = GetString("NCASDoorEnvironmentEditForm_tpCar");
+            _bAddCarDoorEnvironment.Text = GetString("General_bAdd");
+            _tcCarColumn.HeaderText = _tpCar.Text;
+            _tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
             {
@@ -3122,7 +3131,198 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
+        private void _tpCar_Enter(object sender, EventArgs e)
+        {
+            RefreshCarDoorEnvironmentsFromServer();
+        }
+
+        private void _bAddCarDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            AddCarDoorEnvironment();
+        }
+
+        private void RefreshCarDoorEnvironmentsFromServer()
+        {
+            var provider = Plugin?.MainServerProvider;
+            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(provider, "CarDoorEnvironments", out var error)
+                ?.Where(cde => cde.DoorEnvironment != null &&
+                               cde.DoorEnvironment.IdDoorEnvironment == _editingObject.IdDoorEnvironment)
+                .ToList();
+
+            if (error != null || carDoorEnvironments == null)
+                return;
+
+            var carsTable = provider?.Cars;
+            if (carsTable != null)
+            {
+                foreach (var carDoorEnvironment in carDoorEnvironments)
+                {
+                    var carId = carDoorEnvironment.Car?.IdCar;
+                    if (carId != null && carId != Guid.Empty)
+                        carDoorEnvironment.Car = carsTable.GetObjectById(carId.Value);
+                }
+            }
+
+            _carDoorEnvironments.Clear();
+            _carDoorEnvironments.AddRange(carDoorEnvironments);
+            LoadCarDoorEnvironments();
+        }
+
+        private void LoadCarDoorEnvironments()
+        {
+            _dgCarDoorEnvironments.DataSource = null;
+
+            var view = _carDoorEnvironments
+                .OrderBy(cde => cde.Car?.Name)
+                .Select(cde => new CarDoorEnvironmentView
+                {
+                    CarName = cde.Car?.Name ?? string.Empty,
+                    AccessType = cde.AccessType
+                })
+                .ToList();
+
+            _dgCarDoorEnvironments.DataSource = view;
+        }
+
+        private void AddCarDoorEnvironment()
+        {
+            Exception error;
+            var availableCars = GetAvailableCars(out error);
+            if (error != null)
+            {
+                MessageBox.Show(error.Message);
+                return;
+            }
+
+            if (availableCars == null || availableCars.Count == 0)
+            {
+                MessageBox.Show(GetString("NCASDoorEnvironmentEditForm_NoAvailableCars"));
+                return;
+            }
+
+            var addForm = new Contal.Cgp.Client.ListboxFormAdd(availableCars, _tpCar.Text);
+            addForm.ShowDialog(out object outObject);
+
+            var selectedCar = outObject as Car;
+            if (selectedCar == null)
+                return;
+
+            if (_carDoorEnvironments.Any(cde => cde.Car != null && cde.Car.IdCar == selectedCar.IdCar))
+                return;
+
+            _carDoorEnvironments.Add(new CarDoorEnvironment
+            {
+                Car = selectedCar,
+                DoorEnvironment = _editingObject,
+                AccessType = CarDoorEnvironmentAccessType.None
+            });
+
+            LoadCarDoorEnvironments();
+        }
+
+        private ICollection<Car> GetAvailableCars(out Exception error)
+        {
+            error = null;
+
+            var carsTable = Plugin?.MainServerProvider?.Cars;
+            var allCars = carsTable?.List(out error);
+            if (carsTable == null)
+            {
+                error = new MissingFieldException(
+                    typeof(CgpClient).FullName,
+                    nameof(ICgpServerRemotingProvider.Cars));
+            }
+            if (error != null || allCars == null)
+                return allCars;
+
+            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(Plugin.MainServerProvider, "CarDoorEnvironments", out error);
+            if (error != null)
+                return null;
+
+            if (carDoorEnvironments == null)
+                return allCars.ToList();
+
+            var assignedCarIds = new HashSet<Guid>(
+                carDoorEnvironments
+                    .Where(cde => cde.DoorEnvironment != null && cde.DoorEnvironment.IdDoorEnvironment == _editingObject.IdDoorEnvironment && cde.Car != null)
+                    .Select(cde => cde.Car.IdCar));
+
+            return allCars
+                .Where(car => !assignedCarIds.Contains(car.IdCar))
+                .ToList();
+        }
+
+        private static ICollection<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
+        {
+            error = null;
+            if (provider == null)
+                return null;
+
+            var providerType = provider.GetType();
+            var providerProperty = providerType.GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (providerProperty == null)
+            {
+                providerProperty = providerType
+                    .GetInterfaces()
+                    .Select(iface => iface.GetProperty(
+                        propertyName,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    .FirstOrDefault(prop => prop != null);
+            }
+
+            object tableProvider = null;
+
+            if (providerProperty != null)
+            {
+                tableProvider = providerProperty.GetValue(provider, null);
+            }
+            else
+            {
+                var isRemoteProxy = RemotingServices.IsTransparentProxy(provider);
+
+                if (!isRemoteProxy)
+                {
+                    var providerPropertyDescriptor = TypeDescriptor.GetProperties(provider).Find(propertyName, true);
+                    if (providerPropertyDescriptor != null)
+                    {
+                        tableProvider = providerPropertyDescriptor.GetValue(provider);
+                    }
+                }
+                if (tableProvider == null)
+                {
+                    if (isRemoteProxy)
+                    {
+                        error = new MissingFieldException(providerType.FullName, propertyName);
+                        return null;
+                    }
+                }
+            }
+
+            if (tableProvider != null)
+            {
+                var listMethod = tableProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
+                if (listMethod != null)
+                {
+                    object[] parameters = { null };
+                    var result = listMethod.Invoke(tableProvider, parameters);
+                    error = parameters[0] as Exception;
+                    return result as ICollection<T>;
+                }
+            }
+
+            return null;
+        }
+
         #region AlarmInstructions
+
+        private class CarDoorEnvironmentView
+        {
+            public string CarName { get; set; }
+
+            public CarDoorEnvironmentAccessType AccessType { get; set; }
+        }
 
         protected override bool LocalAlarmInstructionsView()
         {
