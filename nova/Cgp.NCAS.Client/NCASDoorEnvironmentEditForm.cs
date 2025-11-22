@@ -3152,7 +3152,7 @@ namespace Contal.Cgp.NCAS.Client
             if (error != null || carDoorEnvironments == null)
                 return;
 
-            var carsTable = provider?.Cars;
+            var carsTable = (provider as ICgpServerRemotingProvider)?.Cars;
             if (carsTable != null)
             {
                 foreach (var carDoorEnvironment in carDoorEnvironments)
@@ -3173,10 +3173,10 @@ namespace Contal.Cgp.NCAS.Client
             _dgCarDoorEnvironments.DataSource = null;
 
             var view = _carDoorEnvironments
-                .OrderBy(cde => cde.Car?.Name)
+                .OrderBy(cde => cde.Car?.Lp)
                 .Select(cde => new CarDoorEnvironmentView
                 {
-                    CarName = cde.Car?.Name ?? string.Empty,
+                    CarName = cde.Car?.Lp ?? string.Empty,
                     AccessType = cde.AccessType
                 })
                 .ToList();
@@ -3224,7 +3224,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             error = null;
 
-            var carsTable = Plugin?.MainServerProvider?.Cars;
+            var carsTable = (Plugin?.MainServerProvider as ICgpServerRemotingProvider)?.Cars;
             var allCars = carsTable?.List(out error);
             if (carsTable == null)
             {
