@@ -40,6 +40,7 @@ namespace Contal.Cgp.RemotingCommon
         IUserFoldersSutructures UserFoldersSutructures { get; }
         IServerGeneralOptionsDBs ServerGeneralOptionsDBs { get; }
         IAlarmPrioritiesDbs AlarmPrioritiesDbs { get; }
+        IDoorEnvironments DoorEnvironments { get; }
         ICSVImportSchemas CSVImportSchemas { get; }
         IGlobalAlarmInstructions GlobalAlarmInstructions { get; }
         ICardTemplates CardTemplates { get; }

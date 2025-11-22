@@ -18,6 +18,7 @@ using Contal.Cgp.Server.Beans;
 using Contal.IwQuick.Sys.Microsoft;
 using Contal.LwDhcp;
 using System.Net;
+using Contal.Cgp.NCAS.RemotingCommon;
 using System.Net.NetworkInformation;
 using JetBrains.Annotations;
 using Microsoft.Win32;
@@ -487,6 +488,22 @@ namespace Contal.Cgp.Server
                 {
                     base.ValidateSession();
                     return DB.AlarmPrioritiesDbs.Singleton;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public IDoorEnvironments DoorEnvironments
+        {
+            get
+            {
+                try
+                {
+                    base.ValidateSession();
+                    return null;
                 }
                 catch
                 {
