@@ -1,22 +1,22 @@
+using Contal.Cgp.Client;
+using Contal.Cgp.Client.PluginSupport;
+using Contal.Cgp.Globals;
+using Contal.Cgp.NCAS.Definitions;
+using Contal.Cgp.NCAS.Server.Beans;
+using Contal.Cgp.RemotingCommon;
+using Contal.Cgp.Server.Beans;
+using Contal.IwQuick;
+using Contal.IwQuick.Data;
+using Contal.IwQuick.Localization;
+using Contal.IwQuick.PlatformPC.UI.Accordion;
+using Contal.IwQuick.Threads;
+using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
-using Contal.Cgp.Client;
-using Contal.Cgp.NCAS.Server.Beans;
-using Contal.Cgp.Server.Beans;
-using Contal.Cgp.RemotingCommon;
-using Contal.IwQuick;
-using Contal.IwQuick.Data;
-using Contal.IwQuick.Localization;
-using Contal.Cgp.Globals;
-using Contal.Cgp.NCAS.Definitions;
-using Contal.IwQuick.PlatformPC.UI.Accordion;
-using Contal.IwQuick.Threads;
-using Contal.IwQuick.UI;
-
-using Contal.Cgp.Client.PluginSupport;
 
 namespace Contal.Cgp.NCAS.Client
 {
@@ -92,6 +92,8 @@ namespace Contal.Cgp.NCAS.Client
             _chbIsVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess");
             _tpCar.Text = GetString("NCASDoorEnvironmentEditForm_tpCar");
             _bAddCarDoorEnvironment.Text = GetString("General_bAdd");
+            _bEditCarDoorEnvironment.Text = GetString("General_bEdit");
+            _bRemoveCarDoorEnvironment.Text = GetString("General_bRemove");
             _tcCarColumn.HeaderText = _tpCar.Text;
             _tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
 
@@ -3138,6 +3140,24 @@ namespace Contal.Cgp.NCAS.Client
             AddCarDoorEnvironment();
         }
 
+        private void _bEditCarDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            EditSelectedCarDoorEnvironment();
+        }
+
+        private void _bRemoveCarDoorEnvironment_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedCarDoorEnvironment();
+        }
+
+        private void _dgCarDoorEnvironments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            EditSelectedCarDoorEnvironment();
+        }
+
         private void RefreshCarDoorEnvironmentsFromServer()
         {
             var carDoorEnvironments = GetCarDoorEnvironmentsFromServer(out var error)
@@ -3172,6 +3192,7 @@ namespace Contal.Cgp.NCAS.Client
                 .OrderBy(cde => cde.Car?.Lp)
                 .Select(cde => new CarDoorEnvironmentView
                 {
+                    CarId = cde.Car?.IdCar ?? Guid.Empty,
                     CarName = cde.Car?.Lp ?? string.Empty,
                     AccessType = cde.AccessType
                 })
@@ -3212,15 +3233,88 @@ namespace Contal.Cgp.NCAS.Client
 
                     if (_carDoorEnvironments.Any(cde => cde.Car != null && cde.Car.IdCar == selectedCar.IdCar))
                         continue;
-                    _carDoorEnvironments.Add(new CarDoorEnvironment
+                    var carDoorEnvironment = new CarDoorEnvironment
                     {
                         Car = selectedCar,
                         DoorEnvironment = _editingObject,
                         AccessType = addForm.SelectedAccessType
-                    });
+                    };
+                    _carDoorEnvironments.Add(carDoorEnvironment);
+                    TryInsertCarDoorEnvironment(carDoorEnvironment);
                 }
 
                 LoadCarDoorEnvironments();
+            }
+        }
+
+        private void EditSelectedCarDoorEnvironment()
+        {
+            var selected = GetSelectedCarDoorEnvironment();
+            if (selected == null)
+                return;
+
+            using (var editForm = new CarDoorEnvironmentAccessTypeForm(_tcAccessTypeColumn.HeaderText, selected.AccessType))
+            {
+                if (editForm.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                selected.AccessType = editForm.SelectedAccessType;
+                LoadCarDoorEnvironments();
+            }
+        }
+
+        private void RemoveSelectedCarDoorEnvironment()
+        {
+            var selected = GetSelectedCarDoorEnvironment();
+            if (selected == null)
+                return;
+
+            _carDoorEnvironments.Remove(selected);
+            LoadCarDoorEnvironments();
+        }
+
+        private CarDoorEnvironment GetSelectedCarDoorEnvironment()
+        {
+            if (!(_dgCarDoorEnvironments.CurrentRow?.DataBoundItem is CarDoorEnvironmentView view))
+                return null;
+
+            if (view.CarId != Guid.Empty)
+                return _carDoorEnvironments.FirstOrDefault(cde => cde.Car != null && cde.Car.IdCar == view.CarId);
+
+            return _carDoorEnvironments.FirstOrDefault(cde => string.Equals(cde.Car?.Lp, view.CarName));
+        }
+
+        private void TryInsertCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
+        {
+            var provider = CgpClient.Singleton.MainServerProvider;
+            if (provider == null || carDoorEnvironment == null)
+                return;
+
+            try
+            {
+                var carDoorEnvironmentsTable = provider.GetType().GetProperty("CarDoorEnvironments", BindingFlags.Instance | BindingFlags.Public)?.GetValue(provider);
+                if (carDoorEnvironmentsTable == null)
+                    return;
+
+                var insertMethod = carDoorEnvironmentsTable.GetType().GetMethod("Insert", new[] { typeof(CarDoorEnvironment).MakeByRefType(), typeof(Exception).MakeByRefType() });
+                if (insertMethod == null)
+                    return;
+
+                var parameters = new object[] { carDoorEnvironment, null };
+                var insertResult = insertMethod.Invoke(carDoorEnvironmentsTable, parameters) as bool?;
+
+                if (insertResult == true)
+                {
+                    Plugin.AddToRecentList(carDoorEnvironment);
+                }
+                else if (parameters[1] is Exception insertError)
+                {
+                    MessageBox.Show(insertError.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -3310,9 +3404,96 @@ namespace Contal.Cgp.NCAS.Client
 
         private class CarDoorEnvironmentView
         {
+            public Guid CarId { get; set; }
             public string CarName { get; set; }
 
             public CarDoorEnvironmentAccessType AccessType { get; set; }
+        }
+
+        private class CarDoorEnvironmentAccessTypeForm : Form
+        {
+            private readonly ComboBox _cbAccessType;
+
+            public CarDoorEnvironmentAccessTypeForm(string accessTypeTitle, CarDoorEnvironmentAccessType currentAccessType)
+            {
+                Text = "editCarDoorEnvironment";
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                StartPosition = FormStartPosition.CenterParent;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                ShowInTaskbar = false;
+                Size = new Size(350, 170);
+
+                var layout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 2,
+                    RowCount = 2,
+                    Padding = new Padding(10)
+                };
+
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45f));
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55f));
+                layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+
+                var accessLabel = new Label
+                {
+                    AutoSize = true,
+                    Anchor = AnchorStyles.Left,
+                    Text = accessTypeTitle,
+                    Margin = new Padding(3, 6, 3, 6)
+                };
+
+                _cbAccessType = new ComboBox
+                {
+                    Dock = DockStyle.Fill,
+                    DropDownStyle = ComboBoxStyle.DropDownList
+                };
+
+                _cbAccessType.Items.AddRange(Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
+                    .Cast<object>()
+                    .ToArray());
+                _cbAccessType.SelectedItem = currentAccessType;
+
+                var buttonsPanel = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Padding = new Padding(10)
+                };
+
+                var okButton = new Button
+                {
+                    Text = "OK",
+                    DialogResult = DialogResult.OK,
+                    Size = new Size(90, 32)
+                };
+
+                var cancelButton = new Button
+                {
+                    Text = "Cancel",
+                    DialogResult = DialogResult.Cancel,
+                    Size = new Size(90, 32)
+                };
+
+                buttonsPanel.Controls.Add(okButton);
+                buttonsPanel.Controls.Add(cancelButton);
+
+                layout.Controls.Add(accessLabel, 0, 0);
+                layout.Controls.Add(_cbAccessType, 1, 0);
+
+                Controls.Add(layout);
+                Controls.Add(buttonsPanel);
+
+                AcceptButton = okButton;
+                CancelButton = cancelButton;
+            }
+
+            public CarDoorEnvironmentAccessType SelectedAccessType =>
+                _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
+                    ? selected
+                    : CarDoorEnvironmentAccessType.None;
         }
 
         private class LookupedCarsForm : Form

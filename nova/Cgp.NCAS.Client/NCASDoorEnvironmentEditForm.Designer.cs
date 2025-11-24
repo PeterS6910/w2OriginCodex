@@ -142,6 +142,8 @@ namespace Contal.Cgp.NCAS.Client
             this._dgCarDoorEnvironments = new System.Windows.Forms.DataGridView();
             this._tcCarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._bRemoveCarDoorEnvironment = new System.Windows.Forms.Button();
+            this._bEditCarDoorEnvironment = new System.Windows.Forms.Button();
             this._bAddCarDoorEnvironment = new System.Windows.Forms.Button();
             this._tpUserFolders = new System.Windows.Forms.TabPage();
             this._bRefresh = new System.Windows.Forms.Button();
@@ -1685,6 +1687,8 @@ namespace Contal.Cgp.NCAS.Client
             //
             this._tpCar.BackColor = System.Drawing.Color.Transparent;
             this._tpCar.Controls.Add(this._dgCarDoorEnvironments);
+            this._tpCar.Controls.Add(this._bRemoveCarDoorEnvironment);
+            this._tpCar.Controls.Add(this._bEditCarDoorEnvironment);
             this._tpCar.Controls.Add(this._bAddCarDoorEnvironment);
             this._tpCar.Location = new System.Drawing.Point(4, 22);
             this._tpCar.Name = "_tpCar";
@@ -1717,6 +1721,7 @@ namespace Contal.Cgp.NCAS.Client
             this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 389);
             this._dgCarDoorEnvironments.TabIndex = 2;
             this._dgCarDoorEnvironments.TabStop = false;
+            this._dgCarDoorEnvironments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgCarDoorEnvironments_CellDoubleClick);
             //
             // _tcCarColumn
             //
@@ -1731,6 +1736,28 @@ namespace Contal.Cgp.NCAS.Client
             this._tcAccessTypeColumn.HeaderText = "Access type";
             this._tcAccessTypeColumn.Name = "_tcAccessTypeColumn";
             this._tcAccessTypeColumn.ReadOnly = true;
+            //
+            // _bRemoveCarDoorEnvironment
+            //
+            this._bRemoveCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._bRemoveCarDoorEnvironment.Location = new System.Drawing.Point(227, 398);
+            this._bRemoveCarDoorEnvironment.Name = "_bRemoveCarDoorEnvironment";
+            this._bRemoveCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
+            this._bRemoveCarDoorEnvironment.TabIndex = 3;
+            this._bRemoveCarDoorEnvironment.Text = "Delete";
+            this._bRemoveCarDoorEnvironment.UseVisualStyleBackColor = true;
+            this._bRemoveCarDoorEnvironment.Click += new System.EventHandler(this._bRemoveCarDoorEnvironment_Click);
+            //
+            // _bEditCarDoorEnvironment
+            //
+            this._bEditCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._bEditCarDoorEnvironment.Location = new System.Drawing.Point(115, 398);
+            this._bEditCarDoorEnvironment.Name = "_bEditCarDoorEnvironment";
+            this._bEditCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
+            this._bEditCarDoorEnvironment.TabIndex = 2;
+            this._bEditCarDoorEnvironment.Text = "Edit";
+            this._bEditCarDoorEnvironment.UseVisualStyleBackColor = true;
+            this._bEditCarDoorEnvironment.Click += new System.EventHandler(this._bEditCarDoorEnvironment_Click);
             //
             // _bAddCarDoorEnvironment
             //
@@ -1986,6 +2013,8 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.Label _lOutput1;
         private System.Windows.Forms.ComboBox _cbOutputDoorAjar;
         private System.Windows.Forms.TabPage _tpCar;
+        private System.Windows.Forms.Button _bRemoveCarDoorEnvironment;
+        private System.Windows.Forms.Button _bEditCarDoorEnvironment;
         private System.Windows.Forms.Button _bAddCarDoorEnvironment;
         private System.Windows.Forms.DataGridView _dgCarDoorEnvironments;
         private System.Windows.Forms.DataGridViewTextBoxColumn _tcCarColumn;
