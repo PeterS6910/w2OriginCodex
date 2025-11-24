@@ -185,7 +185,7 @@ namespace Contal.Cgp.NCAS.Client
             this._bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bCancel.Location = new System.Drawing.Point(797, 557);
             this._bCancel.Name = "_bCancel";
-            this._bCancel.Size = new System.Drawing.Size(75, 23);
+            this._bCancel.Size = new System.Drawing.Size(75, 32);
             this._bCancel.TabIndex = 21;
             this._bCancel.Text = "Cancel";
             this._bCancel.UseVisualStyleBackColor = true;
@@ -196,7 +196,7 @@ namespace Contal.Cgp.NCAS.Client
             this._bOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bOk.Location = new System.Drawing.Point(716, 557);
             this._bOk.Name = "_bOk";
-            this._bOk.Size = new System.Drawing.Size(75, 23);
+            this._bOk.Size = new System.Drawing.Size(75, 32);
             this._bOk.TabIndex = 20;
             this._bOk.Text = "OK";
             this._bOk.UseVisualStyleBackColor = true;
@@ -412,7 +412,7 @@ namespace Contal.Cgp.NCAS.Client
             this._bApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bApply.Location = new System.Drawing.Point(635, 557);
             this._bApply.Name = "_bApply";
-            this._bApply.Size = new System.Drawing.Size(75, 23);
+            this._bApply.Size = new System.Drawing.Size(75, 32);
             this._bApply.TabIndex = 19;
             this._bApply.Text = "Apply";
             this._bApply.UseVisualStyleBackColor = true;
@@ -1707,14 +1707,14 @@ namespace Contal.Cgp.NCAS.Client
             this._dgCarDoorEnvironments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._tcCarColumn,
             this._tcAccessTypeColumn});
-            this._dgCarDoorEnvironments.Location = new System.Drawing.Point(120, 6);
+            this._dgCarDoorEnvironments.Location = new System.Drawing.Point(3, 3);
             this._dgCarDoorEnvironments.MultiSelect = false;
             this._dgCarDoorEnvironments.Name = "_dgCarDoorEnvironments";
             this._dgCarDoorEnvironments.ReadOnly = true;
             this._dgCarDoorEnvironments.RowHeadersVisible = false;
             this._dgCarDoorEnvironments.RowTemplate.Height = 24;
             this._dgCarDoorEnvironments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(726, 423);
+            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 389);
             this._dgCarDoorEnvironments.TabIndex = 2;
             this._dgCarDoorEnvironments.TabStop = false;
             //
@@ -1734,9 +1734,10 @@ namespace Contal.Cgp.NCAS.Client
             //
             // _bAddCarDoorEnvironment
             //
-            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(8, 6);
+            this._bAddCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(3, 398);
             this._bAddCarDoorEnvironment.Name = "_bAddCarDoorEnvironment";
-            this._bAddCarDoorEnvironment.Size = new System.Drawing.Size(106, 23);
+            this._bAddCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
             this._bAddCarDoorEnvironment.TabIndex = 1;
             this._bAddCarDoorEnvironment.Text = "Add";
             this._bAddCarDoorEnvironment.UseVisualStyleBackColor = true;
