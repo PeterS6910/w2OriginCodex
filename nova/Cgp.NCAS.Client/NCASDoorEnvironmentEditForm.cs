@@ -3187,7 +3187,7 @@ namespace Contal.Cgp.NCAS.Client
         private void AddCarDoorEnvironment()
         {
             Exception error;
-            var availableCars = GetAvailableCars(out error);
+            var availableCars = GetAvailableCars(out error)?.ToList();
             if (error != null)
             {
                 MessageBox.Show(error.Message);
@@ -3200,24 +3200,32 @@ namespace Contal.Cgp.NCAS.Client
                 return;
             }
 
-            var addForm = new Contal.Cgp.Client.ListboxFormAdd(availableCars, _tpCar.Text);
-            addForm.ShowDialog(out object outObject);
-
-            var selectedCar = outObject as Car;
-            if (selectedCar == null)
-                return;
-
-            if (_carDoorEnvironments.Any(cde => cde.Car != null && cde.Car.IdCar == selectedCar.IdCar))
-                return;
-
-            _carDoorEnvironments.Add(new CarDoorEnvironment
+            using (var addForm = new LookupedCarsForm(availableCars, _tcAccessTypeColumn.HeaderText))
             {
-                Car = selectedCar,
-                DoorEnvironment = _editingObject,
-                AccessType = CarDoorEnvironmentAccessType.None
-            });
+                if (addForm.ShowDialog(this) != DialogResult.OK)
+                    return;
 
-            LoadCarDoorEnvironments();
+                var selectedCars = addForm.SelectedCars;
+                if (selectedCars == null)
+                    return;
+
+                foreach (var selectedCar in selectedCars)
+                {
+                    if (selectedCar == null)
+                        continue;
+
+                    if (_carDoorEnvironments.Any(cde => cde.Car != null && cde.Car.IdCar == selectedCar.IdCar))
+                        continue;
+                    _carDoorEnvironments.Add(new CarDoorEnvironment
+                    {
+                        Car = selectedCar,
+                        DoorEnvironment = _editingObject,
+                        AccessType = addForm.SelectedAccessType
+                    });
+                }
+
+                LoadCarDoorEnvironments();
+            }
         }
 
         private ICollection<Car> GetAvailableCars(out Exception error)
@@ -3250,6 +3258,17 @@ namespace Contal.Cgp.NCAS.Client
             return allCars
                 .Where(car => !assignedCarIds.Contains(car.IdCar))
                 .ToList();
+        }
+
+        private static string GetCarDisplayName(Car car)
+        {
+            if (car == null)
+                return string.Empty;
+
+            if (!string.IsNullOrEmpty(car.Lp))
+                return car.Lp;
+
+            return car.ToString();
         }
 
         private static ICollection<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
@@ -3322,6 +3341,133 @@ namespace Contal.Cgp.NCAS.Client
             public string CarName { get; set; }
 
             public CarDoorEnvironmentAccessType AccessType { get; set; }
+        }
+
+        private class LookupedCarsForm : Form
+        {
+            private readonly ListView _carsListView;
+            private readonly ComboBox _cbAccessType;
+            private bool _selectionFromCheckBox;
+
+            public LookupedCarsForm(IEnumerable<Car> cars, string accessTypeTitle)
+            {
+                Text = "lookupedCars";
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                StartPosition = FormStartPosition.CenterParent;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                ShowInTaskbar = false;
+                Size = new Size(500, 400);
+
+                _carsListView = new ListView
+                {
+                    Dock = DockStyle.Fill,
+                    CheckBoxes = true,
+                    View = View.List
+                };
+
+                _carsListView.MouseDown += (sender, args) =>
+                {
+                    _selectionFromCheckBox = _carsListView.HitTest(args.Location).Location ==
+                                             ListViewHitTestLocations.StateImage;
+                };
+
+                foreach (var car in cars.OrderBy(car => car?.Lp))
+                {
+                    var item = new ListViewItem(GetCarDisplayName(car))
+                    {
+                        Tag = car
+                    };
+                    _carsListView.Items.Add(item);
+                }
+
+                _carsListView.ItemSelectionChanged += (sender, args) =>
+                {
+                    if (_selectionFromCheckBox)
+                    {
+                        _selectionFromCheckBox = false;
+                        return;
+                    }
+
+                    if (args.IsSelected)
+                    {
+                        args.Item.Checked = !args.Item.Checked;
+                        _carsListView.SelectedIndices.Clear();
+                    }
+                };
+
+                var accessPanel = new Panel
+                {
+                    Dock = DockStyle.Left,
+                    Width = 200,
+                    Padding = new Padding(10)
+                };
+
+                var accessLabel = new Label
+                {
+                    AutoSize = true,
+                    Dock = DockStyle.Top,
+                    Text = accessTypeTitle
+                };
+
+                _cbAccessType = new ComboBox
+                {
+                    Dock = DockStyle.Top,
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    Margin = new Padding(0, 5, 0, 0)
+                };
+
+                _cbAccessType.Items.AddRange(Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
+                    .Cast<object>()
+                    .ToArray());
+                _cbAccessType.SelectedItem = CarDoorEnvironmentAccessType.None;
+
+                var buttonsPanel = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Padding = new Padding(10)
+                };
+
+                var addButton = new Button
+                {
+                    Text = "Add",
+                    DialogResult = DialogResult.OK,
+                    Size = new Size(90, 32)
+                };
+
+                var cancelButton = new Button
+                {
+                    Text = "Cancel",
+                    DialogResult = DialogResult.Cancel,
+                    Size = new Size(90, 32)
+                };
+
+                buttonsPanel.Controls.Add(addButton);
+                buttonsPanel.Controls.Add(cancelButton);
+
+                accessPanel.Controls.Add(_cbAccessType);
+                accessPanel.Controls.Add(accessLabel);
+
+                Controls.Add(_carsListView);
+                Controls.Add(accessPanel);
+                Controls.Add(buttonsPanel);
+
+                AcceptButton = addButton;
+                CancelButton = cancelButton;
+            }
+
+            public IEnumerable<Car> SelectedCars => _carsListView
+                .CheckedItems
+                .Cast<ListViewItem>()
+                .Select(item => item.Tag as Car)
+                .Where(car => car != null)
+                .ToList();
+
+            public CarDoorEnvironmentAccessType SelectedAccessType =>
+                _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
+                    ? selected
+                    : CarDoorEnvironmentAccessType.None;
         }
 
         protected override bool LocalAlarmInstructionsView()
