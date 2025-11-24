@@ -3287,13 +3287,13 @@ namespace Contal.Cgp.NCAS.Client
 
         private void TryInsertCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
         {
-            var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
-            var carDoorEnvironmentsTable = provider?.CarDoorEnvironments;
-            if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
-                return;
-
             try
             {
+                var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+                var carDoorEnvironmentsTable = provider?.CarDoorEnvironments;
+                if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
+                    return;
+
                 var insertResult = carDoorEnvironmentsTable.Insert(ref carDoorEnvironment, out var insertError);
 
                 if (insertResult == true)
@@ -3304,6 +3304,11 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     MessageBox.Show(insertError.Message);
                 }
+            }
+            catch (MissingMethodException)
+            {
+                MessageBox.Show(
+                    "Current server version does not support car door environments. Please update the server.");
             }
             catch (Exception ex)
             {
