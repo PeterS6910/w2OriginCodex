@@ -3289,8 +3289,15 @@ namespace Contal.Cgp.NCAS.Client
         {
             try
             {
-                var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
-                var carDoorEnvironmentsTable = provider?.CarDoorEnvironments;
+                var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
+                               ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+                if (provider == null)
+                {
+                    MessageBox.Show("NCAS remoting provider is not available – cannot save car door environments.");
+                    return;
+                }
+
+                var carDoorEnvironmentsTable = provider.CarDoorEnvironments;
                 if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
                     return;
 
