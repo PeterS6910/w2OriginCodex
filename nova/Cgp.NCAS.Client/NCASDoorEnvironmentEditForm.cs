@@ -3269,6 +3269,8 @@ namespace Contal.Cgp.NCAS.Client
             var selected = GetSelectedCarDoorEnvironment();
             if (selected == null)
                 return;
+            if (selected.IdCarDoorEnvironment != Guid.Empty)
+                TryDeleteCarDoorEnvironment(selected);
 
             _carDoorEnvironments.Remove(selected);
             LoadCarDoorEnvironments();
@@ -3310,6 +3312,40 @@ namespace Contal.Cgp.NCAS.Client
                 else if (insertError != null)
                 {
                     MessageBox.Show(insertError.Message);
+                }
+            }
+            catch (MissingMethodException)
+            {
+                MessageBox.Show(
+                    "Current server version does not support car door environments. Please update the server.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void TryDeleteCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
+        {
+            try
+            {
+                var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
+                               ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+                if (provider == null)
+                {
+                    MessageBox.Show("NCAS remoting provider is not available – cannot delete car door environments.");
+                    return;
+                }
+
+                var carDoorEnvironmentsTable = provider.CarDoorEnvironments;
+                if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
+                    return;
+
+                var deleteResult = carDoorEnvironmentsTable.Delete(carDoorEnvironment, out var deleteError);
+
+                if (deleteResult != true && deleteError != null)
+                {
+                    MessageBox.Show(deleteError.Message);
                 }
             }
             catch (MissingMethodException)
