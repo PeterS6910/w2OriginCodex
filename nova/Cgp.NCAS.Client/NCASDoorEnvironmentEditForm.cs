@@ -1,10 +1,7 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting;
 using System.Windows.Forms;
 using Contal.Cgp.Client;
 using Contal.Cgp.NCAS.Server.Beans;
