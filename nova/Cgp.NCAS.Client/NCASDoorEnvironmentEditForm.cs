@@ -2,6 +2,7 @@ using Contal.Cgp.Client;
 using Contal.Cgp.Client.PluginSupport;
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Definitions;
+using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.RemotingCommon;
 using Contal.Cgp.Server.Beans;
@@ -3286,7 +3287,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void TryInsertCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
         {
-            var provider = CgpClient.Singleton.MainServerProvider;
+            var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
             var carDoorEnvironmentsTable = provider?.CarDoorEnvironments;
             if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
                 return;

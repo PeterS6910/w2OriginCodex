@@ -15,8 +15,7 @@ namespace Contal.Cgp.NCAS.Server.DB
     {
         private CarDoorEnvironments()
             : base(
-                  null,
-                  new CudPreparationForObjectWithVersion<CarDoorEnvironment>())
+                  null)
         {
         }
 
