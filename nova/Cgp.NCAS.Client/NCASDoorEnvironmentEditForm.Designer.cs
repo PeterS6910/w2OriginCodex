@@ -142,6 +142,7 @@ namespace Contal.Cgp.NCAS.Client
             this._dgCarDoorEnvironments = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._tcSymbolColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this._bRemoveCarDoorEnvironment = new System.Windows.Forms.Button();
             this._bEditCarDoorEnvironment = new System.Windows.Forms.Button();
             this._bAddCarDoorEnvironment = new System.Windows.Forms.Button();
@@ -1711,6 +1712,7 @@ namespace Contal.Cgp.NCAS.Client
             this._dgCarDoorEnvironments.DataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgCarDoorEnvironments.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._dgCarDoorEnvironments.DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._tcSymbolColumn,
             this._tcCarColumn,
             this._tcAccessTypeColumn});
             this._dgCarDoorEnvironments.DataGrid.MultiSelect = false;
@@ -1736,15 +1738,24 @@ namespace Contal.Cgp.NCAS.Client
             //
             this._tcCarColumn.DataPropertyName = "CarName";
             this._tcCarColumn.HeaderText = "Car";
-            this._tcCarColumn.Name = "_tcCarColumn";
+            this._tcCarColumn.Name = "CarName";
             this._tcCarColumn.ReadOnly = true;
             //
             // _tcAccessTypeColumn
             //
             this._tcAccessTypeColumn.DataPropertyName = "AccessType";
             this._tcAccessTypeColumn.HeaderText = "Access type";
-            this._tcAccessTypeColumn.Name = "_tcAccessTypeColumn";
+            this._tcAccessTypeColumn.Name = "AccessType";
             this._tcAccessTypeColumn.ReadOnly = true;
+            //
+            // _tcSymbolColumn
+            //
+            this._tcSymbolColumn.DataPropertyName = "Symbol";
+            this._tcSymbolColumn.HeaderText = "Symbol";
+            this._tcSymbolColumn.Name = "Symbol";
+            this._tcSymbolColumn.ReadOnly = true;
+            this._tcSymbolColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._tcSymbolColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             //
             // _bRemoveCarDoorEnvironment
             //
@@ -2026,6 +2037,7 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.Button _bEditCarDoorEnvironment;
         private System.Windows.Forms.Button _bAddCarDoorEnvironment;
         private Contal.Cgp.Components.CgpDataGridView _dgCarDoorEnvironments;
+        private System.Windows.Forms.DataGridViewImageColumn _tcSymbolColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _tcCarColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _tcAccessTypeColumn;
         private System.Windows.Forms.TabPage _tpUserFolders;

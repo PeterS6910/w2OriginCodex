@@ -1,5 +1,6 @@
 using Contal.Cgp.Client;
 using Contal.Cgp.Client.PluginSupport;
+using Contal.Cgp.Components;
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Definitions;
 using Contal.Cgp.NCAS.RemotingCommon;
@@ -27,6 +28,7 @@ namespace Contal.Cgp.NCAS.Client
 #else
         ACgpPluginEditFormWithAlarmInstructions<DoorEnvironment>
 #endif
+                , ICgpDataGridView
     {
         private const int DEFAULTIMPULSEDELAY = 1000;
         public const int BEFORE_UNLOCK_TIME = 50;
@@ -97,6 +99,12 @@ namespace Contal.Cgp.NCAS.Client
             _bRemoveCarDoorEnvironment.Text = GetString("General_bRemove");
             _tcCarColumn.HeaderText = _tpCar.Text;
             _tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
+
+            _dgCarDoorEnvironments.LocalizationHelper = NCASClient.LocalizationHelper;
+            _dgCarDoorEnvironments.ImageList = ((ICgpVisualPlugin)Plugin).GetPluginObjectsImages();
+            _dgCarDoorEnvironments.CgpDataGridEvents = this;
+            _dgCarDoorEnvironments.EnabledInsertButton = true;
+            _dgCarDoorEnvironments.EnabledDeleteButton = true;
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
             {
@@ -492,6 +500,9 @@ namespace Contal.Cgp.NCAS.Client
             RefreshInternalCardReader();
             RefreshExternalCardReader();
             _bApply.Enabled = false;
+
+            _carDoorEnvironments.Clear();
+            LoadCarDoorEnvironments();
         }
 
         protected override void SetValuesEdit()
@@ -744,6 +755,8 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_editingObject.Description != null)
                 _eDescription.Text = _editingObject.Description;
+
+            RefreshCarDoorEnvironmentsFromServer();
 
             var alarmArcsByAlarmType = new SyncDictionary<AlarmType, ICollection<AlarmArc>>();
 
@@ -3193,6 +3206,7 @@ namespace Contal.Cgp.NCAS.Client
                 .OrderBy(cde => cde.Car?.Lp)
                 .Select(cde => new CarDoorEnvironmentView
                 {
+                    Symbol = Plugin.GetImageForAOrmObject(cde.Car),
                     CarId = cde.Car?.IdCar ?? Guid.Empty,
                     CarName = cde.Car?.Lp ?? string.Empty,
                     AccessType = cde.AccessType
@@ -3274,6 +3288,49 @@ namespace Contal.Cgp.NCAS.Client
 
             _carDoorEnvironments.Remove(selected);
             LoadCarDoorEnvironments();
+        }
+
+        void ICgpDataGridView.EditClick()
+        {
+            EditSelectedCarDoorEnvironment();
+        }
+
+        void ICgpDataGridView.EditClick(ICollection<int> indexes)
+        {
+            SelectCarDoorEnvironmentIndexes(indexes);
+            EditSelectedCarDoorEnvironment();
+        }
+
+        void ICgpDataGridView.DeleteClick()
+        {
+            RemoveSelectedCarDoorEnvironment();
+        }
+
+        void ICgpDataGridView.DeleteClick(ICollection<int> indexes)
+        {
+            SelectCarDoorEnvironmentIndexes(indexes);
+            RemoveSelectedCarDoorEnvironment();
+        }
+
+        void ICgpDataGridView.InsertClick()
+        {
+            AddCarDoorEnvironment();
+        }
+
+        private void SelectCarDoorEnvironmentIndexes(ICollection<int> indexes)
+        {
+            if (indexes == null || indexes.Count == 0)
+                return;
+
+            foreach (DataGridViewRow row in _dgCarDoorEnvironments.DataGrid.Rows)
+            {
+                row.Selected = false;
+            }
+
+            foreach (var index in indexes.Where(i => i >= 0 && i < _dgCarDoorEnvironments.DataGrid.Rows.Count))
+            {
+                _dgCarDoorEnvironments.DataGrid.Rows[index].Selected = true;
+            }
         }
 
         private CarDoorEnvironment GetSelectedCarDoorEnvironment()
@@ -3358,6 +3415,7 @@ namespace Contal.Cgp.NCAS.Client
                 MessageBox.Show(ex.Message);
             }
         }
+
 
         private ICollection<CarDoorEnvironment> GetCarDoorEnvironmentsFromServer(out Exception error)
         {
@@ -3445,6 +3503,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private class CarDoorEnvironmentView
         {
+            public Image Symbol { get; set; }
             public Guid CarId { get; set; }
             public string CarName { get; set; }
 
