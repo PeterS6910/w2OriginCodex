@@ -434,6 +434,22 @@ namespace Contal.Cgp.NCAS.Server
             }
         }
 
+        public ICarDoorEnvironments CarDoorEnvironments
+        {
+            get
+            {
+                try
+                {
+                    ValidateSession();
+                    return DB.CarDoorEnvironments.Singleton;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
         public IBaseOrmTable<DevicesAlarmSetting> DevicesAlarmSettings
         {
             get

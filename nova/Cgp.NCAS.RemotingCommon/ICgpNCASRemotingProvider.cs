@@ -32,6 +32,7 @@ namespace Contal.Cgp.NCAS.RemotingCommon
         ISecurityTimeZoneDateSettings SecurityTimeZoneDateSettings { get; }
         IAccessZones AccessZones { get; }
         IDoorEnvironments DoorEnvironments { get; }
+        ICarDoorEnvironments CarDoorEnvironments { get; }
         IBaseOrmTable<DevicesAlarmSetting> DevicesAlarmSettings { get; }
         IScenes Scenes { get; }
         IGraphicSymbols GraphicSymbols { get; }

@@ -146,6 +146,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB\CarDoorEnvironments.cs" />
     <Compile Include="DB\ExcelReportOutputs.cs" />
     <Compile Include="DB\LprCameras.cs" />
     <Compile Include="DB\PersonAttributeOutputs.cs" />

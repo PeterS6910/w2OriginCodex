@@ -3287,27 +3287,19 @@ namespace Contal.Cgp.NCAS.Client
         private void TryInsertCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
         {
             var provider = CgpClient.Singleton.MainServerProvider;
-            if (provider == null || carDoorEnvironment == null)
+            var carDoorEnvironmentsTable = provider?.CarDoorEnvironments;
+            if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
                 return;
 
             try
             {
-                var carDoorEnvironmentsTable = provider.GetType().GetProperty("CarDoorEnvironments", BindingFlags.Instance | BindingFlags.Public)?.GetValue(provider);
-                if (carDoorEnvironmentsTable == null)
-                    return;
-
-                var insertMethod = carDoorEnvironmentsTable.GetType().GetMethod("Insert", new[] { typeof(CarDoorEnvironment).MakeByRefType(), typeof(Exception).MakeByRefType() });
-                if (insertMethod == null)
-                    return;
-
-                var parameters = new object[] { carDoorEnvironment, null };
-                var insertResult = insertMethod.Invoke(carDoorEnvironmentsTable, parameters) as bool?;
+                var insertResult = carDoorEnvironmentsTable.Insert(ref carDoorEnvironment, out var insertError);
 
                 if (insertResult == true)
                 {
                     Plugin.AddToRecentList(carDoorEnvironment);
                 }
-                else if (parameters[1] is Exception insertError)
+                else if (insertError != null)
                 {
                     MessageBox.Show(insertError.Message);
                 }
