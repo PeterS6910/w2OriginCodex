@@ -3143,9 +3143,8 @@ namespace Contal.Cgp.NCAS.Client
 
         private void RefreshCarDoorEnvironmentsFromServer()
         {
-            var provider = Plugin?.MainServerProvider;
-            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(provider, "CarDoorEnvironments", out var error)
-                ?.Where(cde => cde.DoorEnvironment != null &&
+            var carDoorEnvironments = GetCarDoorEnvironmentsFromServer(out var error)
+                            ?.Where(cde => cde.DoorEnvironment != null &&
                                cde.DoorEnvironment.IdDoorEnvironment == _editingObject.IdDoorEnvironment)
                 .ToList();
 
@@ -3228,6 +3227,35 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
+        private ICollection<CarDoorEnvironment> GetCarDoorEnvironmentsFromServer(out Exception error)
+        {
+            error = null;
+
+            var provider = CgpClient.Singleton.MainServerProvider;
+            if (provider == null)
+            {
+                error = new MissingFieldException(
+                    typeof(CgpClient).FullName,
+                    nameof(CgpClient.Singleton.MainServerProvider));
+                return null;
+            }
+
+            var carDoorEnvironments = provider
+                .GetAllOrmObjectsOfObjectType(null, null)
+                ?.OfType<CarDoorEnvironment>()
+                .ToList();
+
+            if (carDoorEnvironments == null)
+            {
+                error = new MissingMemberException(
+                    provider.GetType().FullName,
+                    nameof(ICgpServerRemotingProvider.GetAllOrmObjectsOfObjectType));
+            }
+
+            return carDoorEnvironments;
+        }
+
+
         private ICollection<Car> GetAvailableCars(out Exception error)
         {
             error = null;
@@ -3243,7 +3271,7 @@ namespace Contal.Cgp.NCAS.Client
             if (error != null || allCars == null)
                 return allCars;
 
-            var carDoorEnvironments = InvokeListProvider<CarDoorEnvironment>(Plugin.MainServerProvider, "CarDoorEnvironments", out error);
+            var carDoorEnvironments = GetCarDoorEnvironmentsFromServer(out error);
             if (error != null)
                 return null;
 
@@ -3269,69 +3297,6 @@ namespace Contal.Cgp.NCAS.Client
                 return car.Lp;
 
             return car.ToString();
-        }
-
-        private static ICollection<T> InvokeListProvider<T>(object provider, string propertyName, out Exception error) where T : class
-        {
-            error = null;
-            if (provider == null)
-                return null;
-
-            var providerType = provider.GetType();
-            var providerProperty = providerType.GetProperty(
-                propertyName,
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (providerProperty == null)
-            {
-                providerProperty = providerType
-                    .GetInterfaces()
-                    .Select(iface => iface.GetProperty(
-                        propertyName,
-                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-                    .FirstOrDefault(prop => prop != null);
-            }
-
-            object tableProvider = null;
-
-            if (providerProperty != null)
-            {
-                tableProvider = providerProperty.GetValue(provider, null);
-            }
-            else
-            {
-                var isRemoteProxy = RemotingServices.IsTransparentProxy(provider);
-
-                if (!isRemoteProxy)
-                {
-                    var providerPropertyDescriptor = TypeDescriptor.GetProperties(provider).Find(propertyName, true);
-                    if (providerPropertyDescriptor != null)
-                    {
-                        tableProvider = providerPropertyDescriptor.GetValue(provider);
-                    }
-                }
-                if (tableProvider == null)
-                {
-                    if (isRemoteProxy)
-                    {
-                        error = new MissingFieldException(providerType.FullName, propertyName);
-                        return null;
-                    }
-                }
-            }
-
-            if (tableProvider != null)
-            {
-                var listMethod = tableProvider.GetType().GetMethod("List", new[] { typeof(Exception).MakeByRefType() });
-                if (listMethod != null)
-                {
-                    object[] parameters = { null };
-                    var result = listMethod.Invoke(tableProvider, parameters);
-                    error = parameters[0] as Exception;
-                    return result as ICollection<T>;
-                }
-            }
-
-            return null;
         }
 
         #region AlarmInstructions
