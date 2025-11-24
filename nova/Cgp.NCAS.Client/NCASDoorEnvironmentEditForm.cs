@@ -3237,10 +3237,20 @@ namespace Contal.Cgp.NCAS.Client
                 return null;
             }
 
-            var carDoorEnvironments = provider
-                .GetAllOrmObjectsOfObjectType(null, null)
-                ?.OfType<CarDoorEnvironment>()
-                .ToList();
+            List<CarDoorEnvironment> carDoorEnvironments = null;
+
+            try
+            {
+                carDoorEnvironments = provider
+                    .GetAllOrmObjectsOfObjectType(null, new List<string>())
+                    ?.OfType<CarDoorEnvironment>()
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+                return null;
+            }
 
             if (carDoorEnvironments == null)
             {
