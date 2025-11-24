@@ -3152,7 +3152,7 @@ namespace Contal.Cgp.NCAS.Client
             if (error != null || carDoorEnvironments == null)
                 return;
 
-            var carsTable = (provider as ICgpServerRemotingProvider)?.Cars;
+            var carsTable = CgpClient.Singleton.MainServerProvider?.Cars;
             if (carsTable != null)
             {
                 foreach (var carDoorEnvironment in carDoorEnvironments)
@@ -3232,7 +3232,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             error = null;
 
-            var carsTable = (Plugin?.MainServerProvider as ICgpServerRemotingProvider)?.Cars;
+            var carsTable = CgpClient.Singleton.MainServerProvider?.Cars;
             var allCars = carsTable?.List(out error);
             if (carsTable == null)
             {
