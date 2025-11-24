@@ -3187,7 +3187,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void LoadCarDoorEnvironments()
         {
-            _dgCarDoorEnvironments.DataSource = null;
+            _dgCarDoorEnvironments.DataGrid.DataSource = null;
 
             var view = _carDoorEnvironments
                 .OrderBy(cde => cde.Car?.Lp)
@@ -3199,7 +3199,7 @@ namespace Contal.Cgp.NCAS.Client
                 })
                 .ToList();
 
-            _dgCarDoorEnvironments.DataSource = view;
+            _dgCarDoorEnvironments.DataGrid.DataSource = view;
         }
 
         private void AddCarDoorEnvironment()
@@ -3278,7 +3278,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private CarDoorEnvironment GetSelectedCarDoorEnvironment()
         {
-            if (!(_dgCarDoorEnvironments.CurrentRow?.DataBoundItem is CarDoorEnvironmentView view))
+            if (!(_dgCarDoorEnvironments.DataGrid.CurrentRow?.DataBoundItem is CarDoorEnvironmentView view))
                 return null;
 
             if (view.CarId != Guid.Empty)

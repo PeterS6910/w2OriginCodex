@@ -139,7 +139,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lOutput1 = new System.Windows.Forms.Label();
             this._cbOutputDoorAjar = new System.Windows.Forms.ComboBox();
             this._tpCar = new System.Windows.Forms.TabPage();
-            this._dgCarDoorEnvironments = new System.Windows.Forms.DataGridView();
+            this._dgCarDoorEnvironments = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._bRemoveCarDoorEnvironment = new System.Windows.Forms.Button();
@@ -177,7 +177,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputSabotage.SuspendLayout();
             this._gbOutputIntrusion.SuspendLayout();
             this._gbOutputDoorAjar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments.DataGrid)).BeginInit();
             this._tpUserFolders.SuspendLayout();
             this._tpDescription.SuspendLayout();
             this.SuspendLayout();
@@ -1700,28 +1700,37 @@ namespace Contal.Cgp.NCAS.Client
             //
             // _dgCarDoorEnvironments
             //
-            this._dgCarDoorEnvironments.AllowUserToAddRows = false;
-            this._dgCarDoorEnvironments.AllowUserToDeleteRows = false;
-            this._dgCarDoorEnvironments.AllowUserToResizeRows = false;
+            this._dgCarDoorEnvironments.AllwaysRefreshOrder = false;
             this._dgCarDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._dgCarDoorEnvironments.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this._dgCarDoorEnvironments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dgCarDoorEnvironments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._dgCarDoorEnvironments.CopyOnRightClick = true;
+            this._dgCarDoorEnvironments.DataGrid.AllowUserToAddRows = false;
+            this._dgCarDoorEnvironments.DataGrid.AllowUserToDeleteRows = false;
+            this._dgCarDoorEnvironments.DataGrid.AllowUserToResizeRows = false;
+            this._dgCarDoorEnvironments.DataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgCarDoorEnvironments.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dgCarDoorEnvironments.DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._tcCarColumn,
             this._tcAccessTypeColumn});
+            this._dgCarDoorEnvironments.DataGrid.MultiSelect = false;
+            this._dgCarDoorEnvironments.DataGrid.Name = "_dgvData";
+            this._dgCarDoorEnvironments.DataGrid.ReadOnly = true;
+            this._dgCarDoorEnvironments.DataGrid.RowHeadersVisible = false;
+            this._dgCarDoorEnvironments.DataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this._dgCarDoorEnvironments.DataGrid.RowTemplate.Height = 24;
+            this._dgCarDoorEnvironments.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._dgCarDoorEnvironments.DataGrid.TabIndex = 0;
+            this._dgCarDoorEnvironments.DataGrid.TabStop = false;
+            this._dgCarDoorEnvironments.DataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgCarDoorEnvironments_CellDoubleClick);
+            this._dgCarDoorEnvironments.LocalizationHelper = null;
             this._dgCarDoorEnvironments.Location = new System.Drawing.Point(3, 3);
-            this._dgCarDoorEnvironments.MultiSelect = false;
+
             this._dgCarDoorEnvironments.Name = "_dgCarDoorEnvironments";
-            this._dgCarDoorEnvironments.ReadOnly = true;
-            this._dgCarDoorEnvironments.RowHeadersVisible = false;
-            this._dgCarDoorEnvironments.RowTemplate.Height = 24;
-            this._dgCarDoorEnvironments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+
             this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 389);
             this._dgCarDoorEnvironments.TabIndex = 2;
             this._dgCarDoorEnvironments.TabStop = false;
-            this._dgCarDoorEnvironments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgCarDoorEnvironments_CellDoubleClick);
             //
             // _tcCarColumn
             //
@@ -1893,7 +1902,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputIntrusion.PerformLayout();
             this._gbOutputDoorAjar.ResumeLayout(false);
             this._gbOutputDoorAjar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments.DataGrid)).EndInit();
             this._tpUserFolders.ResumeLayout(false);
             this._tpDescription.ResumeLayout(false);
             this._tpDescription.PerformLayout();
@@ -2016,7 +2025,7 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.Button _bRemoveCarDoorEnvironment;
         private System.Windows.Forms.Button _bEditCarDoorEnvironment;
         private System.Windows.Forms.Button _bAddCarDoorEnvironment;
-        private System.Windows.Forms.DataGridView _dgCarDoorEnvironments;
+        private Contal.Cgp.Components.CgpDataGridView _dgCarDoorEnvironments;
         private System.Windows.Forms.DataGridViewTextBoxColumn _tcCarColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _tcAccessTypeColumn;
         private System.Windows.Forms.TabPage _tpUserFolders;
