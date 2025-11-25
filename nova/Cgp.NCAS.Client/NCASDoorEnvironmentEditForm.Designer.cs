@@ -252,7 +252,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._eResultAccessGranted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._eResultAccessGranted.Location = new System.Drawing.Point(169, 64);
+            this._eResultAccessGranted.Location = new System.Drawing.Point(169, 94);
             this._eResultAccessGranted.Name = "_eResultAccessGranted";
             this._eResultAccessGranted.ReadOnly = true;
             this._eResultAccessGranted.Size = new System.Drawing.Size(458, 20);
@@ -260,9 +260,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _bAccessGranted
             // 
-            this._bAccessGranted.Location = new System.Drawing.Point(12, 64);
+            this._bAccessGranted.Location = new System.Drawing.Point(12, 87);
             this._bAccessGranted.Name = "_bAccessGranted";
-            this._bAccessGranted.Size = new System.Drawing.Size(138, 23);
+            this._bAccessGranted.Size = new System.Drawing.Size(138, 32);
             this._bAccessGranted.TabIndex = 4;
             this._bAccessGranted.Text = "Access granted";
             this._bAccessGranted.UseVisualStyleBackColor = true;
@@ -402,7 +402,7 @@ namespace Contal.Cgp.NCAS.Client
             //
             this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(642, 40);
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(642, 64);
             this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
             this._chbIsVehicleAccess.Size = new System.Drawing.Size(112, 17);
             this._chbIsVehicleAccess.TabIndex = 6;
@@ -434,11 +434,11 @@ namespace Contal.Cgp.NCAS.Client
             this._tcDoorsAutomat.Controls.Add(this._tpUserFolders);
             this._tcDoorsAutomat.Controls.Add(this._tpReferencedBy);
             this._tcDoorsAutomat.Controls.Add(this._tpDescription);
-            this._tcDoorsAutomat.Location = new System.Drawing.Point(15, 93);
+            this._tcDoorsAutomat.Location = new System.Drawing.Point(15, 129);
             this._tcDoorsAutomat.Multiline = true;
             this._tcDoorsAutomat.Name = "_tcDoorsAutomat";
             this._tcDoorsAutomat.SelectedIndex = 0;
-            this._tcDoorsAutomat.Size = new System.Drawing.Size(857, 458);
+            this._tcDoorsAutomat.Size = new System.Drawing.Size(857, 422);
             this._tcDoorsAutomat.TabIndex = 2;
             this._tcDoorsAutomat.TabStop = false;
             // 
@@ -450,7 +450,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDoorsTiming.Location = new System.Drawing.Point(4, 22);
             this._tpDoorsTiming.Name = "_tpDoorsTiming";
             this._tpDoorsTiming.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 432);
+            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 396);
             this._tpDoorsTiming.TabIndex = 3;
             this._tpDoorsTiming.Text = "Doors Timing";
             this._tpDoorsTiming.UseVisualStyleBackColor = true;
@@ -735,7 +735,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpApas.Location = new System.Drawing.Point(4, 22);
             this._tpApas.Name = "_tpApas";
             this._tpApas.Padding = new System.Windows.Forms.Padding(3);
-            this._tpApas.Size = new System.Drawing.Size(849, 432);
+            this._tpApas.Size = new System.Drawing.Size(849, 396);
             this._tpApas.TabIndex = 5;
             this._tpApas.Text = "APAS";
             this._tpApas.UseVisualStyleBackColor = true;
@@ -1476,7 +1476,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpAlarmSettings.Location = new System.Drawing.Point(4, 22);
             this._tpAlarmSettings.Name = "_tpAlarmSettings";
             this._tpAlarmSettings.Padding = new System.Windows.Forms.Padding(3);
-            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 432);
+            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 396);
             this._tpAlarmSettings.TabIndex = 7;
             this._tpAlarmSettings.Text = "Alarm settings";
             this._tpAlarmSettings.UseVisualStyleBackColor = true;
@@ -1565,7 +1565,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpSpecialOutputs.Location = new System.Drawing.Point(4, 22);
             this._tpSpecialOutputs.Name = "_tpSpecialOutputs";
             this._tpSpecialOutputs.Padding = new System.Windows.Forms.Padding(3);
-            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 432);
+            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 396);
             this._tpSpecialOutputs.TabIndex = 8;
             this._tpSpecialOutputs.Text = "Special outputs";
             this._tpSpecialOutputs.UseVisualStyleBackColor = true;
@@ -1693,7 +1693,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpCar.Controls.Add(this._bAddCarDoorEnvironment);
             this._tpCar.Location = new System.Drawing.Point(4, 22);
             this._tpCar.Name = "_tpCar";
-            this._tpCar.Size = new System.Drawing.Size(849, 432);
+            this._tpCar.Size = new System.Drawing.Size(849, 396);
             this._tpCar.TabIndex = 12;
             this._tpCar.Text = "Car";
             this._tpCar.UseVisualStyleBackColor = true;
@@ -1797,7 +1797,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpUserFolders.Controls.Add(this._lbUserFolders);
             this._tpUserFolders.Location = new System.Drawing.Point(4, 22);
             this._tpUserFolders.Name = "_tpUserFolders";
-            this._tpUserFolders.Size = new System.Drawing.Size(849, 432);
+            this._tpUserFolders.Size = new System.Drawing.Size(849, 396);
             this._tpUserFolders.TabIndex = 11;
             this._tpUserFolders.Text = "User folders";
             this._tpUserFolders.UseVisualStyleBackColor = true;
@@ -1838,7 +1838,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpReferencedBy.Location = new System.Drawing.Point(4, 22);
             this._tpReferencedBy.Name = "_tpReferencedBy";
             this._tpReferencedBy.Padding = new System.Windows.Forms.Padding(3);
-            this._tpReferencedBy.Size = new System.Drawing.Size(849, 432);
+            this._tpReferencedBy.Size = new System.Drawing.Size(849, 396);
             this._tpReferencedBy.TabIndex = 10;
             this._tpReferencedBy.Text = "Referenced by";
             this._tpReferencedBy.UseVisualStyleBackColor = true;
@@ -1850,7 +1850,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDescription.Location = new System.Drawing.Point(4, 22);
             this._tpDescription.Name = "_tpDescription";
             this._tpDescription.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDescription.Size = new System.Drawing.Size(849, 432);
+            this._tpDescription.Size = new System.Drawing.Size(849, 396);
             this._tpDescription.TabIndex = 9;
             this._tpDescription.Text = "Description";
             this._tpDescription.UseVisualStyleBackColor = true;

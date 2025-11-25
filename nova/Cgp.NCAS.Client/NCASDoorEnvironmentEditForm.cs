@@ -105,6 +105,7 @@ namespace Contal.Cgp.NCAS.Client
             _dgCarDoorEnvironments.CgpDataGridEvents = this;
             _dgCarDoorEnvironments.EnabledInsertButton = true;
             _dgCarDoorEnvironments.EnabledDeleteButton = true;
+            RefreshCarDoorEnvironmentsFromServer();
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
             {
@@ -3182,6 +3183,13 @@ namespace Contal.Cgp.NCAS.Client
 
             if (error != null || carDoorEnvironments == null)
                 return;
+
+            if (carDoorEnvironments.Count == 0 && _carDoorEnvironments.Count > 0)
+            {
+                // Do not clear already loaded items when the server returns an unexpected empty list
+                LoadCarDoorEnvironments();
+                return;
+            }
 
             var carsTable = CgpClient.Singleton.MainServerProvider?.Cars;
             if (carsTable != null)
