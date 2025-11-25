@@ -7,8 +7,10 @@
     </id>
     <many-to-one name="DoorEnvironment" column="IdDoorEnvironment" class="Contal.Cgp.NCAS.Server.Beans.DoorEnvironment, Cgp.NCAS.Server.Beans" not-null="true" />
     <many-to-one name="Car" column="IdCar" class="Contal.Cgp.Server.Beans.Car, Cgp.Server.Beans" not-null="true" />
-    <property name="AccessType"
-          not-null="true"
-          type="NHibernate.Type.EnumByteType`1[[Contal.Cgp.NCAS.Server.Beans.CarDoorEnvironmentAccessType, Cgp.NCAS.Server.Beans]], NHibernate" />
+    <property name="AccessType" not-null="true">
+      <type name="NHibernate.Type.EnumByteType, NHibernate">
+        <param name="enumClass">Contal.Cgp.NCAS.Server.Beans.CarDoorEnvironmentAccessType, Cgp.NCAS.Server.Beans</param>
+      </type>
+    </property>
   </class>
 </hibernate-mapping>
