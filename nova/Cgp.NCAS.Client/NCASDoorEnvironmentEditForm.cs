@@ -818,6 +818,7 @@ namespace Contal.Cgp.NCAS.Client
             RefreshInternalCardReader();
             RefreshExternalCardReader();
             RefreshConfigured();
+            RefreshCarDoorEnvironmentsFromServer();
             SetReferencedBy();
             _bApply.Enabled = false;
         }
