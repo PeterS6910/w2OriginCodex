@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -27,7 +27,7 @@ namespace Contal.Cgp.Client
     /// 	Generic abstract class for Edit Form classes.
     /// </summary>
     public abstract class ACgpEditForm<T> :
-        MdiChildForm, 
+        MdiChildForm,
         ICgpEditForm,
         IExtendedCgpEditForm,
         IEditFormBase
@@ -51,6 +51,23 @@ namespace Contal.Cgp.Client
         private SizeF _scaleF = new SizeF(1.0F, 1.0F);//DPI 100%
 
         public event Action<object> EditingObjectChanged;
+
+        private void CloseSafely()
+        {
+            if (IsHandleCreated && !RecreatingHandle)
+            {
+                Close();
+            }
+            else
+            {
+                BeginInvoke(new MethodInvoker(() =>
+                {
+                    if (!IsDisposed)
+                        Close();
+                }));
+            }
+        }
+
 
         public void ShowAndRunSetValues()
         {
@@ -110,8 +127,8 @@ namespace Contal.Cgp.Client
             //default ControlBox settings
             ControlBox = true;
             MinimizeBox = false;
-         
-       
+
+
             _editingObject = editingObject;
             _showOption = showOption;
 
@@ -119,7 +136,7 @@ namespace Contal.Cgp.Client
                 MdiParent = CgpClientMainForm.Singleton;
 
             FormOnEnter += EditForm_Enter;
-           
+
             _eventColorChanged = ColorSettingsChanged;
             ColorSettingsChangedHandler.Singleton.RegisterColorChanged(_eventColorChanged);
             MouseWheel += EditFormMouseWheel;
@@ -192,14 +209,14 @@ namespace Contal.Cgp.Client
             MdiParent = CgpClientMainForm.Singleton;
             FormBorderStyle = FormBorderStyle.Sizable;
             Dock = DockStyle.None;
-            
-            
+
+
             var objectName = string.Empty;
             if (_editingObject != null)
                 objectName = _editingObject.ToString();
 
             CgpClientMainForm.Singleton.AddToOpenWindows(this, objectName);
-            
+
             CgpClientMainForm.Singleton.SetActOpenWindow(this);
             CgpClientMainForm.Singleton.RemoveFormUndockedForms(this);
 
@@ -230,7 +247,7 @@ namespace Contal.Cgp.Client
         {
             if (MdiParent == null)
             {
-                WindowState = 
+                WindowState =
                     WindowState == FormWindowState.Maximized
                         ? FormWindowState.Normal
                         : FormWindowState.Maximized;
@@ -385,11 +402,11 @@ namespace Contal.Cgp.Client
                     }
                 }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
                 Dialog.Error(GetString("ErrorSetValuesFailed"));
-                Close();
+                CloseSafely();
             }
         }
 
@@ -535,7 +552,7 @@ namespace Contal.Cgp.Client
                     LocalizationHelper.TranslateDataGridViewColumnsHeaders(dgGlobalInstructions);
                 }
             }
-            catch(Exception error) 
+            catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
             }
@@ -591,7 +608,7 @@ namespace Contal.Cgp.Client
                     GlobalAlarmInstructionsInsert(globalAlarmInstruction);
                 }
             }
-            catch(Exception error) 
+            catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
             }
@@ -620,7 +637,7 @@ namespace Contal.Cgp.Client
                     GlobalAlarmInstructionsInsert(globalAlarmInstruction);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandledExceptionAdapter.Examine(ex);
                 Dialog.Error(LocalizationHelper.GetString("ErrorInsertGlobalAlarmInstructionToObjectFailed"));
@@ -641,7 +658,7 @@ namespace Contal.Cgp.Client
             }
             catch (Exception exception)
             {
-                if (exception is SqlUniqueException) 
+                if (exception is SqlUniqueException)
                     Dialog.Error(LocalizationHelper.GetString("ErrorGlobalAlarmInstructionIsAlreadAddedToThisObject"));
                 else
                 {
@@ -811,7 +828,7 @@ namespace Contal.Cgp.Client
                     if (SaveToDatabase())
                     {
                         applied = true;
-                  
+
                         ReloadEditingObject(out _isEditAllowed);
                         if (_showOption == ShowOptionsEditForm.Insert)
                             _showOption = ShowOptionsEditForm.Edit;
@@ -967,7 +984,7 @@ namespace Contal.Cgp.Client
                         }
 
                         var retValue = SaveToDatabaseInsert();
-                        
+
                         if (retValue)
                         {
                             InsertStructuredSubSiteObject(
@@ -1027,7 +1044,7 @@ namespace Contal.Cgp.Client
                                 //}
                                 InternalReloadEditingObjectWithEditedData();
                             }
-                            catch(Exception err)
+                            catch (Exception err)
                             {
                                 HandledExceptionAdapter.Examine(err);
                                 Dialog.Error(GetString("ErrorEditFailed") + ": " + error.Message);
@@ -1184,7 +1201,7 @@ namespace Contal.Cgp.Client
         protected void ConnectionLost()
         {
             if (CgpClient.Singleton.IsConnectionLost(true))
-                Close();
+                CloseSafely();
         }
 
         public bool ShowInsertDialog(ref T outObj)
@@ -1230,7 +1247,7 @@ namespace Contal.Cgp.Client
                 }
                 tabCon.SelectedIndex = i;
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 HandledExceptionAdapter.Examine(error);
             }
@@ -1282,7 +1299,7 @@ namespace Contal.Cgp.Client
             }
         }
 
-   
+
         #endregion
 
         #region UserFolders
