@@ -3429,12 +3429,13 @@ namespace Contal.Cgp.NCAS.Client
         {
             error = null;
 
-            var provider = CgpClient.Singleton.MainServerProvider;
+            var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
+               ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
             if (provider == null)
             {
                 error = new MissingFieldException(
-                    typeof(CgpClient).FullName,
-                    nameof(CgpClient.Singleton.MainServerProvider));
+                    typeof(ICgpNCASRemotingProvider).FullName,
+                    nameof(ICgpNCASRemotingProvider));
                 return null;
             }
 
@@ -3447,7 +3448,7 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     error = new MissingMemberException(
                         provider.GetType().FullName,
-                        nameof(ICgpServerRemotingProvider.CarDoorEnvironments));
+                        nameof(ICgpNCASRemotingProvider.CarDoorEnvironments));
                     return null;
                 }
 
@@ -3464,9 +3465,8 @@ namespace Contal.Cgp.NCAS.Client
             if (carDoorEnvironments == null && error == null)
             {
                 error = new MissingMemberException(
-                    provider.GetType().FullName,
-                                        provider.CarDoorEnvironments.GetType().FullName,
-                    nameof(ICarDoorEnvironments.GetByDoorEnvironmentId));
+                            provider.CarDoorEnvironments.GetType().FullName,
+                        nameof(ICarDoorEnvironments.GetByDoorEnvironmentId));
             }
 
             return carDoorEnvironments;
