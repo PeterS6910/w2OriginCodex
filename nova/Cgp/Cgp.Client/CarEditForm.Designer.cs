@@ -20,11 +20,12 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Label _lAssignedCards;
         private System.Windows.Forms.Label _lAvailableCards;
         private System.Windows.Forms.Button _bDeleteDoorEnvironment;
-        private System.Windows.Forms.Button _bCreateDoorEnvironment;
+        private System.Windows.Forms.Button _bEditDoorEnvironment;
         private System.Windows.Forms.Button _bAddDoorEnvironment;
-        private System.Windows.Forms.ListView _lvDoorEnvironments;
-        private System.Windows.Forms.ColumnHeader _chDoorEnvironment;
-        private System.Windows.Forms.ColumnHeader _chAccessType;
+        private Contal.Cgp.Components.CgpDataGridView _dgDoorEnvironments;
+        private System.Windows.Forms.DataGridViewImageColumn _tcSymbolColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _tcDoorEnvironmentColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _tcAccessTypeColumn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -62,11 +63,12 @@ namespace Contal.Cgp.Client
             this._lvAssignedCards = new System.Windows.Forms.ListView();
             this._tpDoorEnvironment = new System.Windows.Forms.TabPage();
             this._bDeleteDoorEnvironment = new System.Windows.Forms.Button();
-            this._bCreateDoorEnvironment = new System.Windows.Forms.Button();
+            this._bEditDoorEnvironment = new System.Windows.Forms.Button();
             this._bAddDoorEnvironment = new System.Windows.Forms.Button();
-            this._lvDoorEnvironments = new System.Windows.Forms.ListView();
-            this._chDoorEnvironment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._chAccessType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._dgDoorEnvironments = new Contal.Cgp.Components.CgpDataGridView();
+            this._tcSymbolColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this._tcDoorEnvironmentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
@@ -264,10 +266,10 @@ namespace Contal.Cgp.Client
             //
             // _tpDoorEnvironment
             //
+            this._tpDoorEnvironment.Controls.Add(this._dgDoorEnvironments);
             this._tpDoorEnvironment.Controls.Add(this._bDeleteDoorEnvironment);
-            this._tpDoorEnvironment.Controls.Add(this._bCreateDoorEnvironment);
+            this._tpDoorEnvironment.Controls.Add(this._bEditDoorEnvironment);
             this._tpDoorEnvironment.Controls.Add(this._bAddDoorEnvironment);
-            this._tpDoorEnvironment.Controls.Add(this._lvDoorEnvironments);
             this._tpDoorEnvironment.Location = new System.Drawing.Point(4, 29);
             this._tpDoorEnvironment.Name = "_tpDoorEnvironment";
             this._tpDoorEnvironment.Padding = new System.Windows.Forms.Padding(3);
@@ -275,6 +277,7 @@ namespace Contal.Cgp.Client
             this._tpDoorEnvironment.TabIndex = 2;
             this._tpDoorEnvironment.Text = "DoorEnvironment";
             this._tpDoorEnvironment.UseVisualStyleBackColor = true;
+            this._tpDoorEnvironment.Enter += new System.EventHandler(this._tpDoorEnvironment_Enter);
             //
             // _bDeleteDoorEnvironment
             //
@@ -287,16 +290,16 @@ namespace Contal.Cgp.Client
             this._bDeleteDoorEnvironment.UseVisualStyleBackColor = true;
             this._bDeleteDoorEnvironment.Click += new System.EventHandler(this._bDeleteDoorEnvironment_Click);
             //
-            // _bCreateDoorEnvironment
+            // _bEditDoorEnvironment
             //
-            this._bCreateDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bCreateDoorEnvironment.Location = new System.Drawing.Point(108, 299);
-            this._bCreateDoorEnvironment.Name = "_bCreateDoorEnvironment";
-            this._bCreateDoorEnvironment.Size = new System.Drawing.Size(96, 32);
-            this._bCreateDoorEnvironment.TabIndex = 2;
-            this._bCreateDoorEnvironment.Text = "Create";
-            this._bCreateDoorEnvironment.UseVisualStyleBackColor = true;
-            this._bCreateDoorEnvironment.Click += new System.EventHandler(this._bCreateDoorEnvironment_Click);
+            this._bEditDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._bEditDoorEnvironment.Location = new System.Drawing.Point(108, 299);
+            this._bEditDoorEnvironment.Name = "_bEditDoorEnvironment";
+            this._bEditDoorEnvironment.Size = new System.Drawing.Size(96, 32);
+            this._bEditDoorEnvironment.TabIndex = 2;
+            this._bEditDoorEnvironment.Text = "Edit";
+            this._bEditDoorEnvironment.UseVisualStyleBackColor = true;
+            this._bEditDoorEnvironment.Click += new System.EventHandler(this._bEditDoorEnvironment_Click);
             //
             // _bAddDoorEnvironment
             //
@@ -309,34 +312,61 @@ namespace Contal.Cgp.Client
             this._bAddDoorEnvironment.UseVisualStyleBackColor = true;
             this._bAddDoorEnvironment.Click += new System.EventHandler(this._bAddDoorEnvironment_Click);
             //
-            // _lvDoorEnvironments
+            // _dgDoorEnvironments
             //
-            this._lvDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._lvDoorEnvironments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this._chDoorEnvironment,
-            this._chAccessType});
-            this._lvDoorEnvironments.FullRowSelect = true;
-            this._lvDoorEnvironments.GridLines = true;
-            this._lvDoorEnvironments.HideSelection = false;
-            this._lvDoorEnvironments.Location = new System.Drawing.Point(6, 6);
-            this._lvDoorEnvironments.MultiSelect = false;
-            this._lvDoorEnvironments.Name = "_lvDoorEnvironments";
-            this._lvDoorEnvironments.Size = new System.Drawing.Size(576, 287);
-            this._lvDoorEnvironments.TabIndex = 0;
-            this._lvDoorEnvironments.UseCompatibleStateImageBehavior = false;
-            this._lvDoorEnvironments.View = System.Windows.Forms.View.Details;
+            this._dgDoorEnvironments.AllwaysRefreshOrder = false;
+            this._dgDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._dgDoorEnvironments.CopyOnRightClick = true;
+            this._dgDoorEnvironments.DataGrid.AllowUserToAddRows = false;
+            this._dgDoorEnvironments.DataGrid.AllowUserToDeleteRows = false;
+            this._dgDoorEnvironments.DataGrid.AllowUserToResizeRows = false;
+            this._dgDoorEnvironments.DataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgDoorEnvironments.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dgDoorEnvironments.DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._tcSymbolColumn,
+            this._tcDoorEnvironmentColumn,
+            this._tcAccessTypeColumn});
+            this._dgDoorEnvironments.DataGrid.MultiSelect = false;
+            this._dgDoorEnvironments.DataGrid.Name = "_dgvData";
+            this._dgDoorEnvironments.DataGrid.ReadOnly = true;
+            this._dgDoorEnvironments.DataGrid.RowHeadersVisible = false;
+            this._dgDoorEnvironments.DataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this._dgDoorEnvironments.DataGrid.RowTemplate.Height = 24;
+            this._dgDoorEnvironments.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._dgDoorEnvironments.DataGrid.TabIndex = 4;
+            this._dgDoorEnvironments.DataGrid.TabStop = false;
+            this._dgDoorEnvironments.DataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgDoorEnvironments_CellDoubleClick);
+            this._dgDoorEnvironments.LocalizationHelper = null;
+            this._dgDoorEnvironments.Location = new System.Drawing.Point(6, 6);
+            this._dgDoorEnvironments.Name = "_dgDoorEnvironments";
+            this._dgDoorEnvironments.Size = new System.Drawing.Size(576, 287);
+            this._dgDoorEnvironments.TabIndex = 0;
+            this._dgDoorEnvironments.TabStop = false;
             //
-            // _chDoorEnvironment
+            // _tcSymbolColumn
             //
-            this._chDoorEnvironment.Text = "DoorEnvironment";
-            this._chDoorEnvironment.Width = 380;
+            this._tcSymbolColumn.DataPropertyName = "Symbol";
+            this._tcSymbolColumn.HeaderText = "Symbol";
+            this._tcSymbolColumn.Name = "Symbol";
+            this._tcSymbolColumn.ReadOnly = true;
+            this._tcSymbolColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._tcSymbolColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             //
-            // _chAccessType
+            // _tcDoorEnvironmentColumn
             //
-            this._chAccessType.Text = "AccessType";
-            this._chAccessType.Width = 160;
+            this._tcDoorEnvironmentColumn.DataPropertyName = "DoorEnvironmentName";
+            this._tcDoorEnvironmentColumn.HeaderText = "DoorEnvironment";
+            this._tcDoorEnvironmentColumn.Name = "DoorEnvironment";
+            this._tcDoorEnvironmentColumn.ReadOnly = true;
+            //
+            // _tcAccessTypeColumn
+            //
+            this._tcAccessTypeColumn.DataPropertyName = "AccessType";
+            this._tcAccessTypeColumn.HeaderText = "AccessType";
+            this._tcAccessTypeColumn.Name = "AccessType";
+            this._tcAccessTypeColumn.ReadOnly = true;
             // 
             // CarEditForm
             // 
