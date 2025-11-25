@@ -3,7 +3,6 @@ using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Globals;
 using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server.Beans;
-using Contal.Cgp.BaseLib;
 using Contal.Cgp.Server;
 using Contal.Cgp.Server.Beans;
 using Contal.Cgp.Server.DB;
@@ -85,7 +84,7 @@ namespace Contal.Cgp.NCAS.Server.DB
             var filterSettings = new List<FilterSettings>
             {
                 new FilterSettings(
-                    CarDoorEnvironment.COLUMN_DOOR_ENVIRONMENT,
+                    CarDoorEnvironment.COLUMN_ID_DOOR_ENVIRONMENT,
                     idDoorEnvironment,
                     ComparerModes.EQUALL)
             };

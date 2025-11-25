@@ -16,8 +16,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
     public class CarDoorEnvironment : AOrmObject
     {
         public const string COLUMN_ID_CAR_DOOR_ENVIRONMENT = "IdCarDoorEnvironment";
-        public const string COLUMN_DOOR_ENVIRONMENT = "IdDoorEnvironment";
-        public const string COLUMN_CAR = "IdCar";
+        public const string COLUMN_ID_DOOR_ENVIRONMENT = "IdDoorEnvironment";
+        public const string COLUMN_ID_CAR = "IdCar";
         public const string COLUMN_ACCESS_TYPE = "AccessType";
 
         public virtual Guid IdCarDoorEnvironment { get; set; }
