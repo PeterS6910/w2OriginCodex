@@ -3183,7 +3183,6 @@ namespace Contal.Cgp.NCAS.Client
 
             if (error != null || carDoorEnvironments == null)
                 return;
-
             if (carDoorEnvironments.Count == 0 && _carDoorEnvironments.Count > 0)
             {
                 // Do not clear already loaded items when the server returns an unexpected empty list
@@ -3439,14 +3438,22 @@ namespace Contal.Cgp.NCAS.Client
                 return null;
             }
 
-            List<CarDoorEnvironment> carDoorEnvironments = null;
+            List<CarDoorEnvironment> carDoorEnvironments;
 
             try
             {
-                carDoorEnvironments = provider
-                    .GetAllOrmObjectsOfObjectType(null, new List<string>())
-                    ?.OfType<CarDoorEnvironment>()
-                    .ToList();
+                var carDoorEnvironmentsTable = provider.CarDoorEnvironments;
+                if (carDoorEnvironmentsTable == null)
+                {
+                    error = new MissingMemberException(
+                        provider.GetType().FullName,
+                        nameof(ICgpServerRemotingProvider.CarDoorEnvironments));
+                    return null;
+                }
+
+                carDoorEnvironments = carDoorEnvironmentsTable
+                    .GetByDoorEnvironmentId(_editingObject.IdDoorEnvironment, out error)
+                    ?.ToList();
             }
             catch (Exception ex)
             {
@@ -3454,11 +3461,12 @@ namespace Contal.Cgp.NCAS.Client
                 return null;
             }
 
-            if (carDoorEnvironments == null)
+            if (carDoorEnvironments == null && error == null)
             {
                 error = new MissingMemberException(
                     provider.GetType().FullName,
-                    nameof(ICgpServerRemotingProvider.GetAllOrmObjectsOfObjectType));
+                                        provider.CarDoorEnvironments.GetType().FullName,
+                    nameof(ICarDoorEnvironments.GetByDoorEnvironmentId));
             }
 
             return carDoorEnvironments;
