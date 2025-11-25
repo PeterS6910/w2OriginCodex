@@ -1730,7 +1730,7 @@ namespace Contal.Cgp.NCAS.Client
 
             this._dgCarDoorEnvironments.Name = "_dgCarDoorEnvironments";
 
-            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 389);
+            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 351);
             this._dgCarDoorEnvironments.TabIndex = 2;
             this._dgCarDoorEnvironments.TabStop = false;
             //
@@ -1760,7 +1760,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bRemoveCarDoorEnvironment
             //
             this._bRemoveCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bRemoveCarDoorEnvironment.Location = new System.Drawing.Point(227, 398);
+            this._bRemoveCarDoorEnvironment.Location = new System.Drawing.Point(227, 360);
             this._bRemoveCarDoorEnvironment.Name = "_bRemoveCarDoorEnvironment";
             this._bRemoveCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
             this._bRemoveCarDoorEnvironment.TabIndex = 3;
@@ -1771,7 +1771,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bEditCarDoorEnvironment
             //
             this._bEditCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bEditCarDoorEnvironment.Location = new System.Drawing.Point(115, 398);
+            this._bEditCarDoorEnvironment.Location = new System.Drawing.Point(115, 360);
             this._bEditCarDoorEnvironment.Name = "_bEditCarDoorEnvironment";
             this._bEditCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
             this._bEditCarDoorEnvironment.TabIndex = 2;
@@ -1782,7 +1782,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bAddCarDoorEnvironment
             //
             this._bAddCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(3, 398);
+            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(3, 360);
             this._bAddCarDoorEnvironment.Name = "_bAddCarDoorEnvironment";
             this._bAddCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
             this._bAddCarDoorEnvironment.TabIndex = 1;
