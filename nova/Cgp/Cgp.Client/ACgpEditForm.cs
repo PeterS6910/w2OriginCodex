@@ -52,21 +52,21 @@ namespace Contal.Cgp.Client
 
         public event Action<object> EditingObjectChanged;
 
-        private void CloseSafely()
-        {
-            if (IsHandleCreated && !RecreatingHandle)
-            {
-                Close();
-            }
-            else
-            {
-                BeginInvoke(new MethodInvoker(() =>
-                {
-                    if (!IsDisposed)
-                        Close();
-                }));
-            }
-        }
+        //private void CloseSafely()
+        //{
+        //    if (IsHandleCreated && !RecreatingHandle)
+        //    {
+        //        Close();
+        //    }
+        //    else
+        //    {
+        //        BeginInvoke(new MethodInvoker(() =>
+        //        {
+        //            if (!IsDisposed)
+        //                Close();
+        //        }));
+        //    }
+        //}
 
 
         public void ShowAndRunSetValues()
@@ -406,7 +406,7 @@ namespace Contal.Cgp.Client
             {
                 HandledExceptionAdapter.Examine(error);
                 Dialog.Error(GetString("ErrorSetValuesFailed"));
-                CloseSafely();
+                Close();
             }
         }
 
@@ -1201,7 +1201,7 @@ namespace Contal.Cgp.Client
         protected void ConnectionLost()
         {
             if (CgpClient.Singleton.IsConnectionLost(true))
-                CloseSafely();
+                Close();
         }
 
         public bool ShowInsertDialog(ref T outObj)

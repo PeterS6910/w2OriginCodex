@@ -400,9 +400,9 @@ namespace Contal.Cgp.NCAS.Client
             //
             // _chbIsVehicleAccess
             //
-            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(642, 64);
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(15, 64);
             this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
             this._chbIsVehicleAccess.Size = new System.Drawing.Size(112, 17);
             this._chbIsVehicleAccess.TabIndex = 6;

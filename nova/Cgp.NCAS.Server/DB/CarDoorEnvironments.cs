@@ -81,15 +81,24 @@ namespace Contal.Cgp.NCAS.Server.DB
         {
             error = null;
 
-            var filterSettings = new List<FilterSettings>
+            try
             {
-                new FilterSettings(
-                    CarDoorEnvironment.COLUMN_ID_DOOR_ENVIRONMENT,
-                    idDoorEnvironment,
-                    ComparerModes.EQUALL)
-            };
+                var filterSettings = new List<FilterSettings>
+        {
+            new FilterSettings(
+                CarDoorEnvironment.COLUMN_ID_DOOR_ENVIRONMENT,
+                idDoorEnvironment,
+                ComparerModes.EQUALL)
+        };
 
-            return SelectByCriteria(filterSettings, out error);
+                var result = SelectByCriteria(filterSettings, out error);
+                return result ?? new List<CarDoorEnvironment>();
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+                return new List<CarDoorEnvironment>();
+            }
         }
     }
 }
