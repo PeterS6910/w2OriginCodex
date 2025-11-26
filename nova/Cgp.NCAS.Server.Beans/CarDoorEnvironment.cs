@@ -22,6 +22,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
         public virtual Guid IdCarDoorEnvironment { get; set; }
         public virtual Guid IdDoorEnvironment { get; set; }
+        public virtual Guid IdCar { get; set; }
         public virtual DoorEnvironment DoorEnvironment { get; set; }
         public virtual Car Car { get; set; }
         public virtual CarDoorEnvironmentAccessType AccessType { get; set; }
