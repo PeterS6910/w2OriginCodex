@@ -3671,7 +3671,7 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     AutoSize = true,
                     Dock = DockStyle.Top,
-                    Text = GetString("NCASDoorEnvironmentEditForm_SelectAll")
+                    Text = selectAllTitle
                 };
 
                 _cbSelectUnselectAll.CheckedChanged += (sender, args) =>
