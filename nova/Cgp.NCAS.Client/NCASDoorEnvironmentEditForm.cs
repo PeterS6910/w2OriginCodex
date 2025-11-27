@@ -3631,7 +3631,8 @@ namespace Contal.Cgp.NCAS.Client
                     string accessTypeTitle,
                     Func<Car, Image> getCarSymbol)
             {
-                var selectAllTitle = GetString("LookupedCCUsForm_cbSelectUnselectAll");
+                var selectAllTitle = CgpClient.Singleton.LocalizationHelper
+                                        .GetString("LookupedCCUsForm_cbSelectUnselectAll");
                 Text = "lookupedCars";
                 FormBorderStyle = FormBorderStyle.FixedDialog;
                 StartPosition = FormStartPosition.CenterParent;
@@ -3675,13 +3676,12 @@ namespace Contal.Cgp.NCAS.Client
                     ReadOnly = true
                 };
 
-                var selectAllTitle = NCASClient.LocalizationHelper.GetString("NCASDCUEditForm_chbSelectAll");
-
                 var carColumn = new DataGridViewTextBoxColumn
                 {
                     Name = nameof(LookupedCarView.CarName),
                     DataPropertyName = nameof(LookupedCarView.CarName),
-                    HeaderText = GetString("NCASDoorEnvironmentEditForm_tpCar"),
+                    HeaderText = CgpClient.Singleton.LocalizationHelper
+                        .GetString("NCASDoorEnvironmentEditForm_tpCar"),
                     ReadOnly = true
                 };
 
@@ -3733,10 +3733,11 @@ namespace Contal.Cgp.NCAS.Client
 
                 _cbSelectUnselectAll.CheckedChanged += (sender, args) =>
                 {
-                    foreach (ListViewItem item in _carsListView.Items)
-                    {
+                    if (_updatingSelectAll)
+                        return;
+
+                    foreach (var carView in _carsBinding)
                         carView.Selected = _cbSelectUnselectAll.CheckState == CheckState.Checked;
-                    }
                     _carsGrid.DataGrid.Refresh();
                 };
 
