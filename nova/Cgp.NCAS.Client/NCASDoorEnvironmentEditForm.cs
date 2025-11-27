@@ -15,9 +15,11 @@ using Contal.IwQuick.Threads;
 using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace Contal.Cgp.NCAS.Client
@@ -3240,7 +3242,10 @@ namespace Contal.Cgp.NCAS.Client
                 return;
             }
 
-            using (var addForm = new LookupedCarsForm(availableCars, _tcAccessTypeColumn.HeaderText))
+            using (var addForm = new LookupedCarsForm(
+           availableCars,
+           _tcAccessTypeColumn.HeaderText,
+           car => Plugin.GetImageForAOrmObject(car)))
             {
                 if (addForm.ShowDialog(this) != DialogResult.OK)
                     return;
@@ -3615,55 +3620,106 @@ namespace Contal.Cgp.NCAS.Client
 
         private class LookupedCarsForm : Form
         {
-            private readonly ListView _carsListView;
+            private readonly CgpDataGridView _carsGrid;
+            private readonly BindingList<LookupedCarView> _carsBinding;
             private readonly ComboBox _cbAccessType;
             private readonly CheckBox _cbSelectUnselectAll;
-            private bool _selectionFromCheckBox;
+            private bool _updatingSelectAll;
 
-            public LookupedCarsForm(IEnumerable<Car> cars, string accessTypeTitle)
+            public LookupedCarsForm(
+                    IEnumerable<Car> cars,
+                    string accessTypeTitle,
+                    Func<Car, Image> getCarSymbol)
             {
+                var selectAllTitle = GetString("LookupedCCUsForm_cbSelectUnselectAll");
                 Text = "lookupedCars";
                 FormBorderStyle = FormBorderStyle.FixedDialog;
                 StartPosition = FormStartPosition.CenterParent;
                 MinimizeBox = false;
                 MaximizeBox = false;
                 ShowInTaskbar = false;
-                Size = new Size(500, 400);
+                Size = new Size(700, 450);
 
-                _carsListView = new ListView
+                _carsGrid = new CgpDataGridView
                 {
                     Dock = DockStyle.Fill,
-                    CheckBoxes = true,
-                    View = View.List
+                    AllwaysRefreshOrder = false,
+                    CopyOnRightClick = true
                 };
 
-                _carsListView.MouseDown += (sender, args) =>
+                _carsGrid.DataGrid.AutoGenerateColumns = false;
+                _carsGrid.DataGrid.AllowUserToAddRows = false;
+                _carsGrid.DataGrid.AllowUserToDeleteRows = false;
+                _carsGrid.DataGrid.AllowUserToResizeRows = false;
+                _carsGrid.DataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                _carsGrid.DataGrid.MultiSelect = false;
+                _carsGrid.DataGrid.ReadOnly = false;
+                _carsGrid.DataGrid.RowHeadersVisible = false;
+                _carsGrid.DataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                var selectedColumn = new DataGridViewCheckBoxColumn
                 {
-                    _selectionFromCheckBox = _carsListView.HitTest(args.Location).Location ==
-                                             ListViewHitTestLocations.StateImage;
+                    Name = nameof(LookupedCarView.Selected),
+                    DataPropertyName = nameof(LookupedCarView.Selected),
+                    HeaderText = string.Empty,
+                    Width = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
                 };
 
-                foreach (var car in cars.OrderBy(car => car?.Lp))
+                var symbolColumn = new DataGridViewImageColumn
                 {
-                    var item = new ListViewItem(GetCarDisplayName(car))
-                    {
-                        Tag = car
-                    };
-                    _carsListView.Items.Add(item);
-                }
+                    Name = nameof(LookupedCarView.Symbol),
+                    DataPropertyName = nameof(LookupedCarView.Symbol),
+                    HeaderText = "Symbol",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    ReadOnly = true
+                };
 
-                _carsListView.ItemSelectionChanged += (sender, args) =>
+                var selectAllTitle = NCASClient.LocalizationHelper.GetString("NCASDCUEditForm_chbSelectAll");
+
+                var carColumn = new DataGridViewTextBoxColumn
                 {
-                    if (_selectionFromCheckBox)
+                    Name = nameof(LookupedCarView.CarName),
+                    DataPropertyName = nameof(LookupedCarView.CarName),
+                    HeaderText = GetString("NCASDoorEnvironmentEditForm_tpCar"),
+                    ReadOnly = true
+                };
+
+                _carsGrid.DataGrid.Columns.Add(selectedColumn);
+                _carsGrid.DataGrid.Columns.Add(symbolColumn);
+                _carsGrid.DataGrid.Columns.Add(carColumn);
+
+                _carsBinding = new BindingList<LookupedCarView>(cars
+                    ?.OrderBy(car => car?.Lp)
+                    .Select(car => new LookupedCarView
                     {
-                        _selectionFromCheckBox = false;
+                        Car = car,
+                        CarName = GetCarDisplayName(car),
+                        Selected = false,
+                        Symbol = getCarSymbol?.Invoke(car)
+                    })
+                    .ToList() ?? new List<LookupedCarView>());
+
+                _carsGrid.DataGrid.DataSource = _carsBinding;
+                _carsGrid.DataGrid.CellClick += (sender, args) =>
+                {
+                    if (args.RowIndex < 0)
                         return;
-                    }
 
-                    if (args.IsSelected)
+                    var carView = _carsBinding.ElementAt(args.RowIndex);
+                    if (args.ColumnIndex != selectedColumn.Index)
+                        carView.Selected = !carView.Selected;
+
+                    _carsGrid.DataGrid.Refresh();
+                    UpdateSelectAllState();
+                };
+
+                _carsGrid.DataGrid.CurrentCellDirtyStateChanged += (sender, args) =>
+                {
+                    if (_carsGrid.DataGrid.IsCurrentCellDirty)
                     {
-                        args.Item.Checked = !args.Item.Checked;
-                        _carsListView.SelectedIndices.Clear();
+                        _carsGrid.DataGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                        UpdateSelectAllState();
                     }
                 };
 
@@ -3671,29 +3727,32 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     AutoSize = true,
                     Dock = DockStyle.Top,
-                    Text = selectAllTitle
+                    Text = selectAllTitle,
+                    ThreeState = true
                 };
 
                 _cbSelectUnselectAll.CheckedChanged += (sender, args) =>
                 {
                     foreach (ListViewItem item in _carsListView.Items)
                     {
-                        item.Checked = _cbSelectUnselectAll.Checked;
+                        carView.Selected = _cbSelectUnselectAll.CheckState == CheckState.Checked;
                     }
+                    _carsGrid.DataGrid.Refresh();
                 };
 
-
-                var accessPanel = new Panel
+                var accessPanel = new TableLayoutPanel
                 {
-                    Dock = DockStyle.Left,
-                    Width = 200,
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 1,
+                    RowCount = 3,
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink,
                     Padding = new Padding(10)
                 };
 
                 var accessLabel = new Label
                 {
                     AutoSize = true,
-                    Dock = DockStyle.Top,
                     Text = accessTypeTitle
                 };
 
@@ -3711,7 +3770,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 var buttonsPanel = new FlowLayoutPanel
                 {
-                    Dock = DockStyle.Bottom,
+                    Dock = DockStyle.Fill,
                     FlowDirection = FlowDirection.RightToLeft,
                     Padding = new Padding(10)
                 };
@@ -3733,21 +3792,38 @@ namespace Contal.Cgp.NCAS.Client
                 buttonsPanel.Controls.Add(addButton);
                 buttonsPanel.Controls.Add(cancelButton);
 
-                accessPanel.Controls.Add(_cbSelectUnselectAll);
-                accessPanel.Controls.Add(_cbAccessType);
-                accessPanel.Controls.Add(accessLabel);
+                accessPanel.Controls.Add(accessLabel, 0, 0);
+                accessPanel.Controls.Add(_cbAccessType, 0, 1);
+                accessPanel.Controls.Add(_cbSelectUnselectAll, 0, 2);
 
-                Controls.Add(_carsListView);
-                Controls.Add(accessPanel);
-                Controls.Add(buttonsPanel);
+                var mainLayout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 2,
+                    RowCount = 2
+                };
+
+                mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));
+                mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                mainLayout.Controls.Add(_carsGrid, 0, 0);
+                mainLayout.Controls.Add(accessPanel, 1, 0);
+                mainLayout.Controls.Add(buttonsPanel, 0, 1);
+                mainLayout.SetColumnSpan(buttonsPanel, 2);
+
+                Controls.Add(mainLayout);
+
+                UpdateSelectAllState();
 
                 AcceptButton = addButton;
                 CancelButton = cancelButton;
             }
 
-            public IEnumerable<Car> SelectedCars => _carsListView.CheckedItems
-                .Cast<ListViewItem>()
-                .Select(item => item.Tag as Car)
+            public IEnumerable<Car> SelectedCars => _carsBinding
+                .Where(carView => carView.Selected)
+                .Select(carView => carView.Car)
                 .Where(car => car != null)
                 .ToList();
 
@@ -3755,6 +3831,28 @@ namespace Contal.Cgp.NCAS.Client
                 _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
                     ? selected
                     : CarDoorEnvironmentAccessType.None;
+            private void UpdateSelectAllState()
+            {
+                _updatingSelectAll = true;
+
+                var selectedCount = _carsBinding.Count(carView => carView.Selected);
+                if (selectedCount == 0)
+                    _cbSelectUnselectAll.CheckState = CheckState.Unchecked;
+                else if (selectedCount == _carsBinding.Count)
+                    _cbSelectUnselectAll.CheckState = CheckState.Checked;
+                else
+                    _cbSelectUnselectAll.CheckState = CheckState.Indeterminate;
+
+                _updatingSelectAll = false;
+            }
+
+            private class LookupedCarView
+            {
+                public bool Selected { get; set; }
+                public Image Symbol { get; set; }
+                public string CarName { get; set; }
+                public Car Car { get; set; }
+            }
         }
 
         protected override bool LocalAlarmInstructionsView()
