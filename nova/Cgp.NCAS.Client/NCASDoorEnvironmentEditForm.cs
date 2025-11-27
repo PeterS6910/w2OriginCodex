@@ -3617,6 +3617,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             private readonly ListView _carsListView;
             private readonly ComboBox _cbAccessType;
+            private readonly CheckBox _cbSelectUnselectAll;
             private bool _selectionFromCheckBox;
 
             public LookupedCarsForm(IEnumerable<Car> cars, string accessTypeTitle)
@@ -3665,6 +3666,22 @@ namespace Contal.Cgp.NCAS.Client
                         _carsListView.SelectedIndices.Clear();
                     }
                 };
+
+                _cbSelectUnselectAll = new CheckBox
+                {
+                    AutoSize = true,
+                    Dock = DockStyle.Top,
+                    Text = GetString("NCASDoorEnvironmentEditForm_SelectAll")
+                };
+
+                _cbSelectUnselectAll.CheckedChanged += (sender, args) =>
+                {
+                    foreach (ListViewItem item in _carsListView.Items)
+                    {
+                        item.Checked = _cbSelectUnselectAll.Checked;
+                    }
+                };
+
 
                 var accessPanel = new Panel
                 {
@@ -3720,7 +3737,7 @@ namespace Contal.Cgp.NCAS.Client
                 accessPanel.Controls.Add(_cbAccessType);
                 accessPanel.Controls.Add(accessLabel);
 
-                Controls.Add(_dgLookupedCars);
+                Controls.Add(_carsListView);
                 Controls.Add(accessPanel);
                 Controls.Add(buttonsPanel);
 
@@ -3728,49 +3745,9 @@ namespace Contal.Cgp.NCAS.Client
                 CancelButton = cancelButton;
             }
 
-            private void AddColumns()
-            {
-                if (!_dgLookupedCars.Columns.Contains(LookupedCar.COLUMN_CHECKED))
-                {
-                    var columnChecked = new DataGridViewCheckBoxColumn
-                    {
-                        Name = LookupedCar.COLUMN_CHECKED,
-                        DataPropertyName = LookupedCar.COLUMN_CHECKED,
-                        Width = 60,
-                        ReadOnly = false
-                    };
-                    _dgLookupedCars.Columns.Add(columnChecked);
-                }
-
-                if (!_dgLookupedCars.Columns.Contains(LookupedCar.COLUMN_LP))
-                {
-                    var columnLp = new DataGridViewTextBoxColumn
-                    {
-                        Name = LookupedCar.COLUMN_LP,
-                        DataPropertyName = LookupedCar.COLUMN_LP,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                        ReadOnly = true
-                    };
-                    _dgLookupedCars.Columns.Add(columnLp);
-                }
-
-                if (!_dgLookupedCars.Columns.Contains(LookupedCar.COLUMN_BRAND))
-                {
-                    var columnBrand = new DataGridViewTextBoxColumn
-                    {
-                        Name = LookupedCar.COLUMN_BRAND,
-                        DataPropertyName = LookupedCar.COLUMN_BRAND,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                        ReadOnly = true
-                    };
-                    _dgLookupedCars.Columns.Add(columnBrand);
-                }
-            }
-
-            public IEnumerable<Car> SelectedCars => _bsCars.List
-                .Cast<LookupedCar>()
-                .Where(car => car.Checked)
-                .Select(car => car.Car)
+            public IEnumerable<Car> SelectedCars => _carsListView.CheckedItems
+                .Cast<ListViewItem>()
+                .Select(item => item.Tag as Car)
                 .Where(car => car != null)
                 .ToList();
 
