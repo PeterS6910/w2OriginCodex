@@ -7,8 +7,8 @@
     </id>
     <many-to-one name="DoorEnvironment" column="IdDoorEnvironment" class="Contal.Cgp.NCAS.Server.Beans.DoorEnvironment, Cgp.NCAS.Server.Beans" not-null="true" />
     <many-to-one name="Car" column="IdCar" class="Contal.Cgp.Server.Beans.Car, Cgp.Server.Beans" not-null="true" />
-    <property name="IdDoorEnvironment" column="IdDoorEnvironment" insert="false" update="false"/>
-    <property name="IdCar"             column="IdCar"             insert="false" update="false"/>
+    <property name="IdDoorEnvironment" column="IdDoorEnvironment" insert="false" update="false" not-null="true"/>
+    <property name="IdCar"             column="IdCar"             insert="false" update="false" not-null="true"/>
     <property name="AccessType" not-null="true" />
   </class>
 </hibernate-mapping>
