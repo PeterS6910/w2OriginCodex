@@ -6,6 +6,7 @@ using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server;
 using Contal.Cgp.Server.Beans;
 using Contal.Cgp.Server.DB;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 
@@ -74,6 +75,33 @@ namespace Contal.Cgp.NCAS.Server.DB
         }
 
         public override ObjectType ObjectType => ObjectType.NotSupport;
+
+        protected override bool AddCriteriaSpecial(ref ICriteria criteria, FilterSettings filterSetting)
+        {
+            if (filterSetting.Column == CarDoorEnvironment.COLUMN_ID_DOOR_ENVIRONMENT)
+            {
+                criteria = FilterSettingsToCriteria.AddCriteria(
+                    criteria,
+                    new FilterSettings(
+                        $"{nameof(CarDoorEnvironment.DoorEnvironment)}.{DoorEnvironment.COLUMNIDDOORENVIRONMENT}",
+                        filterSetting.Value,
+                        filterSetting.ComparerMode));
+                return true;
+            }
+
+            if (filterSetting.Column == CarDoorEnvironment.COLUMN_ID_CAR)
+            {
+                criteria = FilterSettingsToCriteria.AddCriteria(
+                    criteria,
+                    new FilterSettings(
+                        $"{nameof(CarDoorEnvironment.Car)}.{Car.COLUMNIDCAR}",
+                        filterSetting.Value,
+                        filterSetting.ComparerMode));
+                return true;
+            }
+
+            return base.AddCriteriaSpecial(ref criteria, filterSetting);
+        }
 
         public ICollection<CarDoorEnvironment> GetByDoorEnvironmentId(
     Guid idDoorEnvironment,
