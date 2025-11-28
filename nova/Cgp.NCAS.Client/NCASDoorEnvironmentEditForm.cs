@@ -3290,6 +3290,8 @@ namespace Contal.Cgp.NCAS.Client
                     return;
 
                 selected.AccessType = editForm.SelectedAccessType;
+                if (selected.IdCarDoorEnvironment != Guid.Empty)
+                    TryUpdateCarDoorEnvironment(selected);
                 LoadCarDoorEnvironments();
             }
         }
@@ -3385,6 +3387,40 @@ namespace Contal.Cgp.NCAS.Client
                 else if (insertError != null)
                 {
                     MessageBox.Show(insertError.Message);
+                }
+            }
+            catch (MissingMethodException)
+            {
+                MessageBox.Show(
+                    "Current server version does not support car door environments. Please update the server.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void TryUpdateCarDoorEnvironment(CarDoorEnvironment carDoorEnvironment)
+        {
+            try
+            {
+                var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
+                               ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+                if (provider == null)
+                {
+                    MessageBox.Show("NCAS remoting provider is not available – cannot save car door environments.");
+                    return;
+                }
+
+                var carDoorEnvironmentsTable = provider.CarDoorEnvironments;
+                if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
+                    return;
+
+                var updateResult = carDoorEnvironmentsTable.Update(carDoorEnvironment, out var updateError);
+
+                if (updateResult != true && updateError != null)
+                {
+                    MessageBox.Show(updateError.Message);
                 }
             }
             catch (MissingMethodException)
@@ -3533,7 +3569,7 @@ namespace Contal.Cgp.NCAS.Client
             public string CarName { get; set; }
 
             public CarDoorEnvironmentAccessType AccessType { get; set; }
-        }        
+        }
 
         private class LookupedCarsForm : Form
         {
@@ -3579,18 +3615,9 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     Name = nameof(LookupedCarView.Selected),
                     DataPropertyName = nameof(LookupedCarView.Selected),
-                    HeaderText = string.Empty,
+                    HeaderText = "Selected",
                     Width = 40,
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-                };
-
-                var symbolColumn = new DataGridViewImageColumn
-                {
-                    Name = nameof(LookupedCarView.Symbol),
-                    DataPropertyName = nameof(LookupedCarView.Symbol),
-                    HeaderText = "Symbol",
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                    ReadOnly = true
                 };
 
                 var carColumn = new DataGridViewTextBoxColumn
@@ -3603,7 +3630,6 @@ namespace Contal.Cgp.NCAS.Client
                 };
 
                 _carsGrid.DataGrid.Columns.Add(selectedColumn);
-                _carsGrid.DataGrid.Columns.Add(symbolColumn);
                 _carsGrid.DataGrid.Columns.Add(carColumn);
 
                 _carsBinding = new BindingList<LookupedCarView>(cars
@@ -3717,19 +3743,18 @@ namespace Contal.Cgp.NCAS.Client
                 var mainLayout = new TableLayoutPanel
                 {
                     Dock = DockStyle.Fill,
-                    ColumnCount = 2,
-                    RowCount = 2
+                    ColumnCount = 1,
+                    RowCount = 3
                 };
 
-                mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));
-                mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
+                mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
                 mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
                 mainLayout.Controls.Add(_carsGrid, 0, 0);
-                mainLayout.Controls.Add(accessPanel, 1, 0);
-                mainLayout.Controls.Add(buttonsPanel, 0, 1);
-                mainLayout.SetColumnSpan(buttonsPanel, 2);
+                mainLayout.Controls.Add(accessPanel, 0, 1);
+                mainLayout.Controls.Add(buttonsPanel, 0, 2);
 
                 Controls.Add(mainLayout);
 
