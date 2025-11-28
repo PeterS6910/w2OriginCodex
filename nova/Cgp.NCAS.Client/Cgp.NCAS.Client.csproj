@@ -295,6 +295,12 @@
     <Compile Include="NCASAntiPassBackZonesForm.Designer.cs">
       <DependentUpon>NCASAntiPassBackZonesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NCASCarDoorEnvironmentEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NCASCarDoorEnvironmentEditForm.Designer.cs">
+      <DependentUpon>NCASCarDoorEnvironmentEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NCASCatSmsConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -725,6 +731,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NCASAntiPassBackZonesForm.resx">
       <DependentUpon>NCASAntiPassBackZonesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NCASCarDoorEnvironmentEditForm.resx">
+      <DependentUpon>NCASCarDoorEnvironmentEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NCASCatSmsConfiguration.resx">
       <DependentUpon>NCASCatSmsConfiguration.cs</DependentUpon>
