@@ -43,7 +43,7 @@ namespace Contal.Cgp.NCAS.Client
             _lCar.Text = GetString("NCASCarDoorEnvironmentEditForm_lCar");
             _lAccessType.Text = GetString("NCASCarDoorEnvironmentEditForm_lAccessType");
 
-            _bOk.Text = GetString("General_bOk");
+            _bOk.Text = GetString("General_bUpdate");
             _bCancel.Text = GetString("General_bCancel");
         }
     }
