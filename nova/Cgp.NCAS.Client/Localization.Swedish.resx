@@ -432,6 +432,18 @@
   <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
     <value>Bil</value>
   </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lCar" xml:space="preserve">
+    <value>Bil</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lAccessType" xml:space="preserve">
+    <value>Behörighetstyp</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lDoorEnvironment" xml:space="preserve">
+    <value>Dörrmiljö</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm" xml:space="preserve">
+    <value>Redigera bildörrmiljö</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_AccessType" xml:space="preserve">
     <value>Behörighetstyp</value>
   </data>

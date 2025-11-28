@@ -3281,7 +3281,10 @@ namespace Contal.Cgp.NCAS.Client
             if (selected == null)
                 return;
 
-            using (var editForm = new CarDoorEnvironmentAccessTypeForm(_tcAccessTypeColumn.HeaderText, selected.AccessType))
+            using (var editForm = new NCASCarDoorEnvironmentEditForm(
+                                        _editingObject?.Name,
+                                        selected.Car?.Lp,
+                                        selected.AccessType))
             {
                 if (editForm.ShowDialog(this) != DialogResult.OK)
                     return;
@@ -3530,93 +3533,7 @@ namespace Contal.Cgp.NCAS.Client
             public string CarName { get; set; }
 
             public CarDoorEnvironmentAccessType AccessType { get; set; }
-        }
-
-        private class CarDoorEnvironmentAccessTypeForm : Form
-        {
-            private readonly ComboBox _cbAccessType;
-
-            public CarDoorEnvironmentAccessTypeForm(string accessTypeTitle, CarDoorEnvironmentAccessType currentAccessType)
-            {
-                Text = "editCarDoorEnvironment";
-                FormBorderStyle = FormBorderStyle.FixedDialog;
-                StartPosition = FormStartPosition.CenterParent;
-                MinimizeBox = false;
-                MaximizeBox = false;
-                ShowInTaskbar = false;
-                Size = new Size(350, 170);
-
-                var layout = new TableLayoutPanel
-                {
-                    Dock = DockStyle.Fill,
-                    ColumnCount = 2,
-                    RowCount = 2,
-                    Padding = new Padding(10)
-                };
-
-                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45f));
-                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55f));
-                layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
-
-                var accessLabel = new Label
-                {
-                    AutoSize = true,
-                    Anchor = AnchorStyles.Left,
-                    Text = accessTypeTitle,
-                    Margin = new Padding(3, 6, 3, 6)
-                };
-
-                _cbAccessType = new ComboBox
-                {
-                    Dock = DockStyle.Fill,
-                    DropDownStyle = ComboBoxStyle.DropDownList
-                };
-
-                _cbAccessType.Items.AddRange(Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
-                    .Cast<object>()
-                    .ToArray());
-                _cbAccessType.SelectedItem = currentAccessType;
-
-                var buttonsPanel = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom,
-                    FlowDirection = FlowDirection.RightToLeft,
-                    Padding = new Padding(10)
-                };
-
-                var okButton = new Button
-                {
-                    Text = "OK",
-                    DialogResult = DialogResult.OK,
-                    Size = new Size(90, 32)
-                };
-
-                var cancelButton = new Button
-                {
-                    Text = "Cancel",
-                    DialogResult = DialogResult.Cancel,
-                    Size = new Size(90, 32)
-                };
-
-                buttonsPanel.Controls.Add(okButton);
-                buttonsPanel.Controls.Add(cancelButton);
-
-                layout.Controls.Add(accessLabel, 0, 0);
-                layout.Controls.Add(_cbAccessType, 1, 0);
-
-                Controls.Add(layout);
-                Controls.Add(buttonsPanel);
-
-                AcceptButton = okButton;
-                CancelButton = cancelButton;
-            }
-
-            public CarDoorEnvironmentAccessType SelectedAccessType =>
-                _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
-                    ? selected
-                    : CarDoorEnvironmentAccessType.None;
-        }
+        }        
 
         private class LookupedCarsForm : Form
         {

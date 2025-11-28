@@ -2252,6 +2252,9 @@ Would you like to apply unlocked security level anyway ?</value>
   <data name="NCASDoorEnvironmentEditForm_lDoorEnvironment" xml:space="preserve">
     <value>Door environment</value>
   </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lDoorEnvironment" xml:space="preserve">
+    <value>Door environment</value>
+  </data>
   <data name="TextCardNotPresent" xml:space="preserve">
     <value>Card not present</value>
   </data>
@@ -2826,6 +2829,15 @@ Continue anyway?</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
     <value>Car</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lCar" xml:space="preserve">
+    <value>Car</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditForm_lAccessType" xml:space="preserve">
+    <value>Access type</value>
+  </data>
+  <data name="NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm" xml:space="preserve">
+    <value>Edit car door environment</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_AccessType" xml:space="preserve">
     <value>Access type</value>

@@ -6525,6 +6525,42 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typ prístupu.
+        /// </summary>
+        internal static string NCASCarDoorEnvironmentEditForm_lAccessType {
+            get {
+                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lAccessType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        internal static string NCASCarDoorEnvironmentEditForm_lCar {
+            get {
+                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zariadenie dvier.
+        /// </summary>
+        internal static string NCASCarDoorEnvironmentEditForm_lDoorEnvironment {
+            get {
+                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editovanie dverného automatu auta.
+        /// </summary>
+        internal static string NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm {
+            get {
+                return ResourceManager.GetString("NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Posledná karta.
         /// </summary>
         internal static string NCASCardReaderEditForm_bLastUsedcard {
