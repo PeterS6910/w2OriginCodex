@@ -3773,7 +3773,8 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     Dock = DockStyle.Fill,
                     ColumnCount = 1,
-                    RowCount = 3
+                    RowCount = 3,
+                    Padding = new Padding(10)
                 };
 
                 mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
