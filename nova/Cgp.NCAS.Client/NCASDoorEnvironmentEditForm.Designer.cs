@@ -408,6 +408,9 @@ namespace Contal.Cgp.NCAS.Client
             this._chbIsVehicleAccess.TabIndex = 6;
             this._chbIsVehicleAccess.Text = "Vehicle access";
             this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
+            this._chbIsVehicleAccess.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this._chbIsVehicleAccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._chbIsVehicleAccess.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
             // 
             // _bApply

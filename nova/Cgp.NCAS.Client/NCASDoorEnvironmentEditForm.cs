@@ -105,8 +105,9 @@ namespace Contal.Cgp.NCAS.Client
             _dgCarDoorEnvironments.LocalizationHelper = NCASClient.LocalizationHelper;
             _dgCarDoorEnvironments.ImageList = ((ICgpVisualPlugin)Plugin).GetPluginObjectsImages();
             _dgCarDoorEnvironments.CgpDataGridEvents = this;
-            _dgCarDoorEnvironments.EnabledInsertButton = true;
+            _dgCarDoorEnvironments.EnabledInsertButton = false;
             _dgCarDoorEnvironments.EnabledDeleteButton = true;
+            _dgCarDoorEnvironments.AutoOpenEditFormByDoubleClick = false;
             RefreshCarDoorEnvironmentsFromServer();
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
@@ -3619,7 +3620,10 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     Name = nameof(LookupedCarView.Selected),
                     DataPropertyName = nameof(LookupedCarView.Selected),
-                    HeaderText = "Selected",
+                    HeaderText = GetLocalizedString(
+                        localizationHelper,
+                        "NCASDoorEnvironmentEditForm_SelectedCars",
+                        "Selected"),
                     Width = 40,
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
                 };
@@ -3701,7 +3705,10 @@ namespace Contal.Cgp.NCAS.Client
                 var accessLabel = new Label
                 {
                     AutoSize = true,
-                    Text = accessTypeTitle
+                    Text = GetLocalizedString(
+                        localizationHelper,
+                        "NCASDoorEnvironmentEditForm_AccessType",
+                        accessTypeTitle)
                 };
 
                 _cbAccessType = new ComboBox
@@ -3725,14 +3732,20 @@ namespace Contal.Cgp.NCAS.Client
 
                 var addButton = new Button
                 {
-                    Text = "Add",
+                    Text = GetLocalizedString(
+                        localizationHelper,
+                        "General_bAdd",
+                        "Add"),
                     DialogResult = DialogResult.OK,
                     Size = new Size(90, 32)
                 };
 
                 var cancelButton = new Button
                 {
-                    Text = "Cancel",
+                    Text = GetLocalizedString(
+                        localizationHelper,
+                        "General_bCancel",
+                        "Cancel"),
                     DialogResult = DialogResult.Cancel,
                     Size = new Size(90, 32)
                 };
@@ -3778,6 +3791,7 @@ namespace Contal.Cgp.NCAS.Client
                 _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
                     ? selected
                     : CarDoorEnvironmentAccessType.None;
+
             private static string GetLocalizedString(
                                     LocalizationHelper localizationHelper,
                                     string resourceKey,
