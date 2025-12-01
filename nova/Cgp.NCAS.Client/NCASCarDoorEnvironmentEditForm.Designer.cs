@@ -108,17 +108,13 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this._bCancel, "_bCancel");
-            this._bOk.AutoSize = true;
-            this._bOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._bCancel.Name = "_bCancel";
             this._bCancel.UseVisualStyleBackColor = true;
             // 
             // _bOk
             // 
-            this._bOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this._bOk, "_bOk");
-            this._bOk.AutoSize = true;
-            this._bOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._bOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._bOk.Name = "_bOk";
             this._bOk.UseVisualStyleBackColor = true;
             // 
@@ -139,6 +135,7 @@ namespace Contal.Cgp.NCAS.Client
             this._fieldsLayout.ResumeLayout(false);
             this._fieldsLayout.PerformLayout();
             this._buttonsPanel.ResumeLayout(false);
+            this._buttonsPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }

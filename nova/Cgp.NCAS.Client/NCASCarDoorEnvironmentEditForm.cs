@@ -1,7 +1,9 @@
-using System;
-using System.Windows.Forms;
 using Contal.Cgp.Client;
 using Contal.Cgp.NCAS.Server.Beans;
+using Contal.Cgp.Server.Beans;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Contal.Cgp.NCAS.Client
 {
@@ -19,14 +21,13 @@ namespace Contal.Cgp.NCAS.Client
             _tbCar.Text = carName;
 
             _cbAccessType.DropDownStyle = ComboBoxStyle.DropDownList;
-            _cbAccessType.DataSource = Enum.GetValues(typeof(CarDoorEnvironmentAccessType));
-            _cbAccessType.SelectedItem = accessType;
+            SetAccessTypeOptions(accessType);
 
             ApplyLocalization();
         }
 
         public CarDoorEnvironmentAccessType SelectedAccessType =>
-            _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType accessType
+              _cbAccessType.SelectedValue is CarDoorEnvironmentAccessType accessType
                 ? accessType
                 : CarDoorEnvironmentAccessType.None;
 
@@ -45,6 +46,32 @@ namespace Contal.Cgp.NCAS.Client
 
             _bOk.Text = GetString("General_bUpdate");
             _bCancel.Text = GetString("General_bCancel");
+
+            SetAccessTypeOptions(SelectedAccessType);
+        }
+
+        private void SetAccessTypeOptions(CarDoorEnvironmentAccessType selectedAccessType)
+        {
+            _cbAccessType.DisplayMember = nameof(AccessTypeItem.Text);
+            _cbAccessType.ValueMember = nameof(AccessTypeItem.Value);
+
+            _cbAccessType.DataSource = Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
+                .Cast<CarDoorEnvironmentAccessType>()
+                .Select(value => new AccessTypeItem
+                {
+                    Text = GetString($"CarDoorEnvironmentAccessType_{value}") ?? value.ToString(),
+                    Value = value
+                })
+                .ToList();
+
+            _cbAccessType.SelectedValue = selectedAccessType;
+        }
+
+        private class AccessTypeItem
+        {
+            public string Text { get; set; }
+
+            public CarDoorEnvironmentAccessType Value { get; set; }
         }
     }
 }

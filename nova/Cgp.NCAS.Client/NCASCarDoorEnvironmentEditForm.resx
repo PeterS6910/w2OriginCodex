@@ -369,14 +369,20 @@
   <data name="&gt;&gt;_bCancel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="_bOk.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_bOk.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="_bOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>299, 8</value>
+    <value>331, 8</value>
   </data>
   <data name="_bOk.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 3, 3, 3</value>
   </data>
   <data name="_bOk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 32</value>
+    <value>41, 30</value>
   </data>
   <data name="_bOk.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
