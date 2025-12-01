@@ -99,6 +99,8 @@ namespace Contal.Cgp.NCAS.Client
             _bAddCarDoorEnvironment.Text = GetString("General_bAdd");
             _bEditCarDoorEnvironment.Text = GetString("General_bEdit");
             _bRemoveCarDoorEnvironment.Text = GetString("General_bRemove");
+            _tcSymbolColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_Symbol");
+            _tcSymbolColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             _tcCarColumn.HeaderText = _tpCar.Text;
             _tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
 

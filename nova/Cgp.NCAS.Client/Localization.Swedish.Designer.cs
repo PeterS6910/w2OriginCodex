@@ -14530,6 +14530,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Symbol.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_Symbol {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_Symbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to APAS.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_tpApas {

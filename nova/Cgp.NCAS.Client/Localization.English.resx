@@ -6856,6 +6856,9 @@ Do you want to change the input control of {1} to forcefully blocked ?</value>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn" xml:space="preserve">
     <value>Selected</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
   <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
     <value>None</value>
   </data>

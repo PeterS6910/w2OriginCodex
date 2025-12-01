@@ -6904,6 +6904,9 @@ Vill Ni ändra ingångskontroll på {1} till forcerad blockering?</value>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn" xml:space="preserve">
     <value>Markerad</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
   <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
     <value>Ingen</value>
   </data>

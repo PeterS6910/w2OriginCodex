@@ -4783,6 +4783,9 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn" xml:space="preserve">
     <value>Vybrané</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
   <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
     <value>Žiadne</value>
   </data>
