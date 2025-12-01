@@ -6898,4 +6898,22 @@ Vill Ni ändra ingångskontroll på {1} till forcerad blockering?</value>
   <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
     <value>Fordonsåtkomst</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
+    <value>Sökta fordon</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn" xml:space="preserve">
+    <value>Markerad</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
+    <value>Ingen</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_Free" xml:space="preserve">
+    <value>Fri</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_CardRequired" xml:space="preserve">
+    <value>Kort krävs</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_AccessDenied" xml:space="preserve">
+    <value>Åtkomst nekad</value>
+  </data>
 </root>

@@ -1411,6 +1411,42 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Åtkomst nekad.
+        /// </summary>
+        internal static string CarDoorEnvironmentAccessType_AccessDenied {
+            get {
+                return ResourceManager.GetString("CarDoorEnvironmentAccessType_AccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kort krävs.
+        /// </summary>
+        internal static string CarDoorEnvironmentAccessType_CardRequired {
+            get {
+                return ResourceManager.GetString("CarDoorEnvironmentAccessType_CardRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fri.
+        /// </summary>
+        internal static string CarDoorEnvironmentAccessType_Free {
+            get {
+                return ResourceManager.GetString("CarDoorEnvironmentAccessType_Free", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ingen.
+        /// </summary>
+        internal static string CarDoorEnvironmentAccessType_None {
+            get {
+                return ResourceManager.GetString("CarDoorEnvironmentAccessType_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kort + Kod.
         /// </summary>
         internal static string cardpin {
@@ -14427,6 +14463,24 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string NCASDoorEnvironmentEditForm_lLockDoor {
             get {
                 return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lLockDoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sökta fordon.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lookupedCars {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lookupedCars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markerad.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn", resourceCulture);
             }
         }
         

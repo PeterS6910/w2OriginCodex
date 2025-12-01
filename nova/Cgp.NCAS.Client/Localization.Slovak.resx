@@ -4777,4 +4777,22 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
     <value>Prístup vozidla</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
+    <value>Vyhľadané vozidlá</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn" xml:space="preserve">
+    <value>Vybrané</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
+    <value>Žiadne</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_Free" xml:space="preserve">
+    <value>Voľné</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_CardRequired" xml:space="preserve">
+    <value>Vyžaduje sa karta</value>
+  </data>
+  <data name="CarDoorEnvironmentAccessType_AccessDenied" xml:space="preserve">
+    <value>Prístup zamietnutý</value>
+  </data>
 </root>
