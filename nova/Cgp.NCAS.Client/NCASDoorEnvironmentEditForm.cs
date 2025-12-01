@@ -3584,9 +3584,13 @@ namespace Contal.Cgp.NCAS.Client
                     string accessTypeTitle,
                     Func<Car, Image> getCarSymbol)
             {
+                var localizationHelper = CgpClient.Singleton.LocalizationHelper;
                 var selectAllTitle = CgpClient.Singleton.LocalizationHelper
                                         .GetString("LookupedCCUsForm_cbSelectUnselectAll");
-                Text = "lookupedCars";
+                Text = GetLocalizedString(
+                            localizationHelper,
+                            "NCASDoorEnvironmentEditForm_lookupedCars",
+                            "lookupedCars");
                 FormBorderStyle = FormBorderStyle.FixedDialog;
                 StartPosition = FormStartPosition.CenterParent;
                 MinimizeBox = false;
@@ -3774,6 +3778,14 @@ namespace Contal.Cgp.NCAS.Client
                 _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
                     ? selected
                     : CarDoorEnvironmentAccessType.None;
+            private static string GetLocalizedString(
+                                    LocalizationHelper localizationHelper,
+                                    string resourceKey,
+                                    string defaultValue)
+            {
+                var localizedText = localizationHelper?.GetString(resourceKey);
+                return string.IsNullOrEmpty(localizedText) ? defaultValue : localizedText;
+            }
             private void UpdateSelectAllState()
             {
                 _updatingSelectAll = true;
