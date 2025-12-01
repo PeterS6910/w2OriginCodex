@@ -3718,10 +3718,20 @@ namespace Contal.Cgp.NCAS.Client
                     Margin = new Padding(0, 5, 0, 0)
                 };
 
-                _cbAccessType.Items.AddRange(Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
-                    .Cast<object>()
-                    .ToArray());
-                _cbAccessType.SelectedItem = CarDoorEnvironmentAccessType.None;
+                _cbAccessType.DisplayMember = nameof(AccessTypeItem.Text);
+                _cbAccessType.ValueMember = nameof(AccessTypeItem.Value);
+                _cbAccessType.DataSource = Enum.GetValues(typeof(CarDoorEnvironmentAccessType))
+                    .Cast<CarDoorEnvironmentAccessType>()
+                    .Select(value => new AccessTypeItem
+                    {
+                        Text = GetLocalizedString(
+                            localizationHelper,
+                            $"CarDoorEnvironmentAccessType_{value}",
+                            value.ToString()),
+                        Value = value
+                    })
+                    .ToList();
+                _cbAccessType.SelectedValue = CarDoorEnvironmentAccessType.None;
 
                 var buttonsPanel = new FlowLayoutPanel
                 {
@@ -3788,7 +3798,7 @@ namespace Contal.Cgp.NCAS.Client
                 .ToList();
 
             public CarDoorEnvironmentAccessType SelectedAccessType =>
-                _cbAccessType.SelectedItem is CarDoorEnvironmentAccessType selected
+                _cbAccessType.SelectedValue is CarDoorEnvironmentAccessType selected
                     ? selected
                     : CarDoorEnvironmentAccessType.None;
 
@@ -3822,6 +3832,12 @@ namespace Contal.Cgp.NCAS.Client
                 public string CarName { get; set; }
                 public Car Car { get; set; }
             }
+        }
+
+        private class AccessTypeItem
+        {
+            public string Text { get; set; }
+            public CarDoorEnvironmentAccessType Value { get; set; }
         }
 
         protected override bool LocalAlarmInstructionsView()
