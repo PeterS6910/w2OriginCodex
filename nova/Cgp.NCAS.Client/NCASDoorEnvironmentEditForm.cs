@@ -3585,17 +3585,17 @@ namespace Contal.Cgp.NCAS.Client
                     string accessTypeTitle,
                     Func<Car, Image> getCarSymbol)
             {
-                var localizationHelper = CgpClient.Singleton.LocalizationHelper;
-                var selectAllTitle = CgpClient.Singleton.LocalizationHelper
+                var localizationHelper = NCASClient.LocalizationHelper;
+                var selectAllTitle = NCASClient.LocalizationHelper
                                         .GetString("LookupedCCUsForm_cbSelectUnselectAll");
                 Text = GetLocalizedString(
                             localizationHelper,
                             "NCASDoorEnvironmentEditForm_lookupedCars",
                             "lookupedCars");
-                FormBorderStyle = FormBorderStyle.FixedDialog;
+                FormBorderStyle = FormBorderStyle.Sizable;
                 StartPosition = FormStartPosition.CenterParent;
-                MinimizeBox = false;
-                MaximizeBox = false;
+                MinimizeBox = true;
+                MaximizeBox = true;
                 ShowInTaskbar = false;
                 Size = new Size(700, 450);
 
