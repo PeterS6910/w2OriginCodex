@@ -3632,8 +3632,10 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     Name = nameof(LookupedCarView.CarName),
                     DataPropertyName = nameof(LookupedCarView.CarName),
-                    HeaderText = CgpClient.Singleton.LocalizationHelper
-                        .GetString("NCASDoorEnvironmentEditForm_tpCar"),
+                    HeaderText = GetLocalizedString(
+                        localizationHelper,
+                        "NCASDoorEnvironmentEditForm_tpCar",
+                        "Car"),
                     ReadOnly = true
                 };
 
