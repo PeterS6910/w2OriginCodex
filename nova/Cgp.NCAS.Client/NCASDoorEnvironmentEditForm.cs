@@ -3622,7 +3622,7 @@ namespace Contal.Cgp.NCAS.Client
                     DataPropertyName = nameof(LookupedCarView.Selected),
                     HeaderText = GetLocalizedString(
                         localizationHelper,
-                        "NCASDoorEnvironmentEditForm_SelectedCars",
+                        "NCASDoorEnvironmentEditForm_lookupedCars_SelectedColumn",
                         "Selected"),
                     Width = 40,
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
