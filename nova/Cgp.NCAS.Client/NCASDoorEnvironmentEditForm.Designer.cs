@@ -1740,21 +1740,21 @@ namespace Contal.Cgp.NCAS.Client
             // _tcCarColumn
             //
             this._tcCarColumn.DataPropertyName = "CarName";
-            this._tcCarColumn.HeaderText = "Car";
+            this._tcCarColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_tpCar");
             this._tcCarColumn.Name = "CarName";
             this._tcCarColumn.ReadOnly = true;
             //
             // _tcAccessTypeColumn
             //
             this._tcAccessTypeColumn.DataPropertyName = "AccessType";
-            this._tcAccessTypeColumn.HeaderText = "Access type";
+            this._tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
             this._tcAccessTypeColumn.Name = "AccessType";
             this._tcAccessTypeColumn.ReadOnly = true;
             //
             // _tcSymbolColumn
             //
             this._tcSymbolColumn.DataPropertyName = "Symbol";
-            this._tcSymbolColumn.HeaderText = "Symbol";
+            this._tcSymbolColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_Symbol");
             this._tcSymbolColumn.Name = "Symbol";
             this._tcSymbolColumn.ReadOnly = true;
             this._tcSymbolColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
