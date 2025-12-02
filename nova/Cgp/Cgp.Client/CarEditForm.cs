@@ -1,14 +1,15 @@
 using Contal.Cgp.BaseLib;
 using Contal.Cgp.Globals;
+using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server;
 using Contal.Cgp.NCAS.Server.Beans;
-using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.RemotingCommon;
 using Contal.Cgp.Server.Beans;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace Contal.Cgp.Client
@@ -56,19 +57,31 @@ namespace Contal.Cgp.Client
         protected override bool SaveToDatabaseInsert()
         {
             Exception error;
-            return CgpClient.Singleton.MainServerProvider.Cars.Insert(ref _editingObject, out error);
+            var provider = GetCarProvider(out error);
+            if (provider == null)
+                return false;
+
+            return provider.Cars.Insert(ref _editingObject, out error);
         }
 
         protected override bool SaveToDatabaseEdit()
         {
             Exception error;
-            return CgpClient.Singleton.MainServerProvider.Cars.Update(_editingObject, out error);
+            var provider = GetCarProvider(out error);
+            if (provider == null)
+                return false;
+
+            return provider.Cars.Update(_editingObject, out error);
         }
 
         protected override bool SaveToDatabaseEditOnlyInDatabase()
         {
             Exception error;
-            return CgpClient.Singleton.MainServerProvider.Cars.UpdateOnlyInDatabase(_editingObject, out error);
+            var provider = GetCarProvider(out error);
+            if (provider == null)
+                return false;
+
+            return provider.Cars.UpdateOnlyInDatabase(_editingObject, out error);
         }
 
         protected override void RegisterEvents()
@@ -156,8 +169,15 @@ namespace Contal.Cgp.Client
             if (_editingObject.IdCar == Guid.Empty)
                 return;
             Exception error;
-            ICollection<Card> allCardsCollection =
-                CgpClient.Singleton.MainServerProvider.Cards.List(out error);
+            var provider = GetCarProvider(out error);
+            if (provider == null)
+            {
+                if (error != null)
+                    MessageBox.Show(error.Message);
+                return;
+            }
+
+            ICollection<Card> allCardsCollection = provider.Cards.List(out error);
             var activeCards = new List<Card>();
             if (allCardsCollection != null)
             {
@@ -172,7 +192,7 @@ namespace Contal.Cgp.Client
                     }
                 }
             }
-            IList<Card> assigned = CgpClient.Singleton.MainServerProvider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
+            IList<Card> assigned = provider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
             var assignedSet = new HashSet<Guid>();
             if (assigned != null)
             {
@@ -182,7 +202,7 @@ namespace Contal.Cgp.Client
                     string cardText = card.FullCardNumber.ToString();
                     if (card.Person != null && card.GuidPerson != Guid.Empty)
                     {
-                        var person = CgpClient.Singleton.MainServerProvider.Persons.GetObjectById(card.GuidPerson);
+                        var person = provider.Persons.GetObjectById(card.GuidPerson);
                         cardText += " - " + person.FirstName + " " + person.Surname;
                     }
 
@@ -196,7 +216,7 @@ namespace Contal.Cgp.Client
                     string cardText = card.FullCardNumber.ToString();
                     if (card.Person != null && card.GuidPerson != Guid.Empty)
                     {
-                        var person = CgpClient.Singleton.MainServerProvider.Persons.GetObjectById(card.GuidPerson);
+                        var person = provider.Persons.GetObjectById(card.GuidPerson);
                         cardText += " - " + person.FirstName + " " + person.Surname;
                     }
                     _lvAvailableCards.Items.Add(new ListViewItem(cardText) { Tag = card });
@@ -204,13 +224,21 @@ namespace Contal.Cgp.Client
             }
         }
 
-        private static string BuildCardDescription(Card card)
+        private string BuildCardDescription(Card card)
         {
             string cardText = card.FullCardNumber.ToString();
 
             if (card.GuidPerson != Guid.Empty)
             {
-                Person person = CgpClient.Singleton.MainServerProvider.Persons.GetObjectById(card.GuidPerson);
+                var provider = GetCarProvider(out var error);
+                if (provider == null)
+                {
+                    if (error != null)
+                        MessageBox.Show(error.Message);
+                    return cardText;
+                }
+
+                Person person = provider.Persons.GetObjectById(card.GuidPerson);
                 cardText += " - " + person?.FirstName + " " + person?.Surname;
             }
 
@@ -226,7 +254,17 @@ namespace Contal.Cgp.Client
             {
                 var card = item.Tag as Card;
                 if (card != null)
-                    CgpClient.Singleton.MainServerProvider.CarCards.UnassignCardFromCar(_editingObject.IdCar, card.IdCard);
+                {
+                    var provider = GetCarProvider(out var providerError);
+                    if (provider == null)
+                    {
+                        if (providerError != null)
+                            MessageBox.Show(providerError.Message);
+                        return;
+                    }
+
+                    provider.CarCards.UnassignCardFromCar(_editingObject.IdCar, card.IdCard);
+                }
             }
             LoadCards();
         }
@@ -239,7 +277,17 @@ namespace Contal.Cgp.Client
             {
                 var card = item.Tag as Card;
                 if (card != null)
-                    CgpClient.Singleton.MainServerProvider.CarCards.AssignCardToCar(_editingObject.IdCar, card.IdCard);
+                {
+                    var provider = GetCarProvider(out var providerError);
+                    if (provider == null)
+                    {
+                        if (providerError != null)
+                            MessageBox.Show(providerError.Message);
+                        return;
+                    }
+
+                    provider.CarCards.AssignCardToCar(_editingObject.IdCar, card.IdCard);
+                }
             }
             LoadCards();
         }
@@ -298,7 +346,12 @@ namespace Contal.Cgp.Client
             if (error != null || carDoorEnvironments == null)
                 return;
 
-            var doorEnvironmentsTable = CgpClient.Singleton.MainServerProvider?.DoorEnvironments;
+            var doorEnvironmentsTable = GetNcasProvider(out var providerError)?.DoorEnvironments;
+            if (providerError != null)
+            {
+                MessageBox.Show(providerError.Message);
+                return;
+            }
             if (doorEnvironmentsTable != null)
             {
                 foreach (var carDoorEnvironment in carDoorEnvironments)
@@ -439,20 +492,22 @@ namespace Contal.Cgp.Client
         {
             error = null;
 
-            var doorEnvironmentsTable =
-                CgpClient.Singleton.MainServerProvider?.DoorEnvironments;
+            var ncasProvider = GetNcasProvider(out error);
+            var doorEnvironmentsTable = ncasProvider?.DoorEnvironments;
             var allDoorEnvironments = doorEnvironmentsTable?.List(out error);
             if (doorEnvironmentsTable == null)
             {
                 error = new MissingFieldException(
-                    typeof(CgpClient).FullName,
+                    typeof(ICgpNCASRemotingProvider).FullName,
                     nameof(ICgpServerRemotingProvider.DoorEnvironments));
             }
 
             if (error != null || allDoorEnvironments == null)
                 return allDoorEnvironments;
 
-            var provider = CgpClient.Singleton.MainServerProvider;
+            var provider = GetCarProvider(out error);
+            if (provider == null)
+                return allDoorEnvironments;
 
             var assignedDoorEnvironmentIds = new HashSet<Guid>(
                 _doorEnvironments
@@ -468,19 +523,14 @@ namespace Contal.Cgp.Client
         {
             error = null;
 
-            var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var provider = GetNcasProvider(out error);
             if (provider == null)
-            {
-                error = new MissingFieldException(
-                    typeof(CgpClient).FullName,
-                    nameof(ICgpNCASRemotingProvider.CarDoorEnvironments));
                 return null;
-            }
             var carDoorEnvironments = provider.CarDoorEnvironments;
             if (carDoorEnvironments == null)
             {
                 error = new MissingMemberException(
-                    provider.GetType().FullName,
+                    typeof(ICgpNCASRemotingProvider).FullName,
                     nameof(ICgpNCASRemotingProvider.CarDoorEnvironments));
             }
             return carDoorEnvironments;
@@ -572,6 +622,38 @@ namespace Contal.Cgp.Client
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private ICgpRemotingProvider GetCarProvider(out Exception error)
+        {
+            error = null;
+
+            var provider = Plugin.MainServerProvider as ICgpRemotingProvider
+                           ?? CgpClient.Singleton.MainServerProvider as ICgpRemotingProvider;
+            if (provider == null)
+            {
+                error = new MissingFieldException(
+                    typeof(ICgpRemotingProvider).FullName,
+                    nameof(ICgpRemotingProvider));
+            }
+
+            return provider;
+        }
+
+        private ICgpNCASRemotingProvider GetNcasProvider(out Exception error)
+        {
+            error = null;
+
+            var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
+                           ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (provider == null)
+            {
+                error = new MissingFieldException(
+                    typeof(ICgpNCASRemotingProvider).FullName,
+                    nameof(ICgpNCASRemotingProvider));
+            }
+
+            return provider;
         }
 
         private class CarDoorEnvironmentView
