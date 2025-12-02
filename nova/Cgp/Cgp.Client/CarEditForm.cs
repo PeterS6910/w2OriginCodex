@@ -624,17 +624,17 @@ namespace Contal.Cgp.Client
             }
         }
 
-        private ICgpRemotingProvider GetCarProvider(out Exception error)
+        private ICgpServerRemotingProvider GetCarProvider(out Exception error)
         {
             error = null;
 
-            var provider = Plugin.MainServerProvider as ICgpRemotingProvider
-                           ?? CgpClient.Singleton.MainServerProvider as ICgpRemotingProvider;
+            var provider = CgpClient.Singleton.MainServerProvider as ICgpServerRemotingProvider
+                           ?? CgpClient.Singleton.MainServerProvider as ICgpServerRemotingProvider;
             if (provider == null)
             {
                 error = new MissingFieldException(
-                    typeof(ICgpRemotingProvider).FullName,
-                    nameof(ICgpRemotingProvider));
+                    typeof(ICgpServerRemotingProvider).FullName,
+                    nameof(ICgpServerRemotingProvider));
             }
 
             return provider;
@@ -658,7 +658,7 @@ namespace Contal.Cgp.Client
 
         private class CarDoorEnvironmentView
         {
-            public Image Symbol { get; set; }
+            public System.Drawing.Image Symbol { get; set; }
             public Guid DoorEnvironmentId { get; set; }
             public string DoorEnvironmentName { get; set; }
 
