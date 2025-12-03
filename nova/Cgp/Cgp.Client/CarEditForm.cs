@@ -578,7 +578,22 @@ namespace Contal.Cgp.Client
                 if (table == null || carDoorEnvironment == null)
                     return;
 
-                var updateResult = table.Update(carDoorEnvironment, out var updateError);
+                var carDoorEnvironmentForEdit = table.GetObjectForEdit(
+    carDoorEnvironment.IdCarDoorEnvironment,
+    out var editError);
+
+                if (editError != null)
+                {
+                    MessageBox.Show(editError.Message);
+                    return;
+                }
+
+                if (carDoorEnvironmentForEdit == null)
+                    return;
+
+                carDoorEnvironmentForEdit.AccessType = carDoorEnvironment.AccessType;
+
+                var updateResult = table.Update(carDoorEnvironmentForEdit, out var updateError);
 
                 if (updateResult != true && updateError != null)
                     MessageBox.Show(updateError.Message);
@@ -643,8 +658,7 @@ namespace Contal.Cgp.Client
         {
             error = null;
 
-            var provider = Plugin.MainServerProvider as ICgpNCASRemotingProvider
-                           ?? CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var provider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
             if (provider == null)
             {
                 error = new MissingFieldException(

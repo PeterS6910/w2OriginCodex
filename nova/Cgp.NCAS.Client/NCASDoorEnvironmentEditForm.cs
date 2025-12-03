@@ -3419,7 +3419,22 @@ namespace Contal.Cgp.NCAS.Client
                 if (carDoorEnvironmentsTable == null || carDoorEnvironment == null)
                     return;
 
-                var updateResult = carDoorEnvironmentsTable.Update(carDoorEnvironment, out var updateError);
+                var carDoorEnvironmentForEdit = carDoorEnvironmentsTable.GetObjectForEdit(
+                                                    carDoorEnvironment.IdCarDoorEnvironment,
+                                                    out var editError);
+
+                if (editError != null)
+                {
+                    MessageBox.Show(editError.Message);
+                    return;
+                }
+
+                if (carDoorEnvironmentForEdit == null)
+                    return;
+
+                carDoorEnvironmentForEdit.AccessType = carDoorEnvironment.AccessType;
+
+                var updateResult = carDoorEnvironmentsTable.Update(carDoorEnvironmentForEdit, out var updateError);
 
                 if (updateResult != true && updateError != null)
                 {
