@@ -1843,7 +1843,10 @@ namespace Contal.Cgp.DBSCreator
             }
 
             if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE CarCard ADD CONSTRAINT FK_CarCard_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)",
+                    @"IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE name = 'FK_CarCard_Car' AND parent_object_id = OBJECT_ID('CarCard'))
+                    BEGIN
+                        ALTER TABLE CarCard ADD CONSTRAINT FK_CarCard_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)
+                    END",
                     false,
                     out error))
             {
@@ -1851,9 +1854,12 @@ namespace Contal.Cgp.DBSCreator
             }
 
             if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE CarCard ADD CONSTRAINT FK_CarCard_Card FOREIGN KEY (IdCard) REFERENCES Card(IdCard)",
+                    @"IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE name = 'FK_CarCard_Card' AND parent_object_id = OBJECT_ID('CarCard'))
+                    BEGIN
+                        ALTER TABLE CarCard ADD CONSTRAINT FK_CarCard_Card FOREIGN KEY (IdCard) REFERENCES Card(IdCard)
+                    END",
                     false,
-                                        out error))
+                    out error))
             {
                 return false;
             }
