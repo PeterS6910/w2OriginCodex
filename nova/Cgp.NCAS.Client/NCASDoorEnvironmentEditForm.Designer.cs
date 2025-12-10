@@ -471,7 +471,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbDoorsDelays.Controls.Add(this._eDelayBeforeUnlock);
             this._gbDoorsDelays.Location = new System.Drawing.Point(317, 6);
             this._gbDoorsDelays.Name = "_gbDoorsDelays";
-            this._gbDoorsDelays.Size = new System.Drawing.Size(304, 151);
+            this._gbDoorsDelays.Size = new System.Drawing.Size(500, 151);
             this._gbDoorsDelays.TabIndex = 1;
             this._gbDoorsDelays.TabStop = false;
             this._gbDoorsDelays.Text = "Door delays";
@@ -492,7 +492,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeLock.Location = new System.Drawing.Point(141, 45);
+            this._eDelayBeforeLock.Location = new System.Drawing.Point(344, 45);
             this._eDelayBeforeLock.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -549,7 +549,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeBreakIn.Location = new System.Drawing.Point(141, 97);
+            this._eDelayBeforeBreakIn.Location = new System.Drawing.Point(344, 97);
             this._eDelayBeforeBreakIn.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -567,7 +567,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeClose.Location = new System.Drawing.Point(141, 71);
+            this._eDelayBeforeClose.Location = new System.Drawing.Point(344, 71);
             this._eDelayBeforeClose.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -590,7 +590,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeUnlock.Location = new System.Drawing.Point(141, 19);
+            this._eDelayBeforeUnlock.Location = new System.Drawing.Point(344, 19);
             this._eDelayBeforeUnlock.Maximum = new decimal(new int[] {
             65535,
             0,
