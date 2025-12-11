@@ -469,9 +469,9 @@ namespace Contal.Cgp.NCAS.Client
             this._gbDoorsDelays.Controls.Add(this._eDelayBeforeBreakIn);
             this._gbDoorsDelays.Controls.Add(this._eDelayBeforeClose);
             this._gbDoorsDelays.Controls.Add(this._eDelayBeforeUnlock);
-            this._gbDoorsDelays.Location = new System.Drawing.Point(317, 6);
+            this._gbDoorsDelays.Location = new System.Drawing.Point(422, 6);
             this._gbDoorsDelays.Name = "_gbDoorsDelays";
-            this._gbDoorsDelays.Size = new System.Drawing.Size(500, 151);
+            this._gbDoorsDelays.Size = new System.Drawing.Size(410, 151);
             this._gbDoorsDelays.TabIndex = 1;
             this._gbDoorsDelays.TabStop = false;
             this._gbDoorsDelays.Text = "Door delays";
@@ -492,7 +492,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeLock.Location = new System.Drawing.Point(344, 45);
+            this._eDelayBeforeLock.Location = new System.Drawing.Point(260, 45);
             this._eDelayBeforeLock.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -549,7 +549,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeBreakIn.Location = new System.Drawing.Point(344, 97);
+            this._eDelayBeforeBreakIn.Location = new System.Drawing.Point(260, 97);
             this._eDelayBeforeBreakIn.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -567,7 +567,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeClose.Location = new System.Drawing.Point(344, 71);
+            this._eDelayBeforeClose.Location = new System.Drawing.Point(260, 71);
             this._eDelayBeforeClose.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -590,7 +590,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0,
             0});
-            this._eDelayBeforeUnlock.Location = new System.Drawing.Point(344, 19);
+            this._eDelayBeforeUnlock.Location = new System.Drawing.Point(260, 19);
             this._eDelayBeforeUnlock.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -618,7 +618,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbDoorsTimes.Controls.Add(this._lTimeUnlock);
             this._gbDoorsTimes.Location = new System.Drawing.Point(6, 6);
             this._gbDoorsTimes.Name = "_gbDoorsTimes";
-            this._gbDoorsTimes.Size = new System.Drawing.Size(304, 151);
+            this._gbDoorsTimes.Size = new System.Drawing.Size(410, 151);
             this._gbDoorsTimes.TabIndex = 0;
             this._gbDoorsTimes.TabStop = false;
             this._gbDoorsTimes.Text = "Door timing";
@@ -634,7 +634,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eTimePreAlarm
             // 
-            this._eTimePreAlarm.Location = new System.Drawing.Point(141, 71);
+            this._eTimePreAlarm.Location = new System.Drawing.Point(190, 71);
             this._eTimePreAlarm.Maximum = new decimal(new int[] {
             240,
             0,
@@ -671,7 +671,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eTimeSirenAjar
             // 
-            this._eTimeSirenAjar.Location = new System.Drawing.Point(141, 116);
+            this._eTimeSirenAjar.Location = new System.Drawing.Point(190, 116);
             this._eTimeSirenAjar.Maximum = new decimal(new int[] {
             1800,
             0,
@@ -685,7 +685,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eTimeOpen
             // 
-            this._eTimeOpen.Location = new System.Drawing.Point(141, 45);
+            this._eTimeOpen.Location = new System.Drawing.Point(190, 45);
             this._eTimeOpen.Maximum = new decimal(new int[] {
             1800,
             0,
@@ -703,7 +703,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eTimeUnlock
             // 
-            this._eTimeUnlock.Location = new System.Drawing.Point(141, 19);
+            this._eTimeUnlock.Location = new System.Drawing.Point(190, 19);
             this._eTimeUnlock.Maximum = new decimal(new int[] {
             240,
             0,
