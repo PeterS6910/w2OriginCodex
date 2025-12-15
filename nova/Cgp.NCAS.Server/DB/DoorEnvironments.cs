@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,8 +193,8 @@ namespace Contal.Cgp.NCAS.Server.DB
             {
                 SetDelayToOnOffForInput(
                     newDoorEnvironment.SensorsOpenDoors,
-                    newDoorEnvironment.DoorDelayBeforeBreakIn,
-                    newDoorEnvironment.DoorDelayBeforeClose);
+                    0,  //newDoorEnvironment.DoorDelayBeforeBreakIn,
+                    0); //newDoorEnvironment.DoorDelayBeforeClose);
             }
 
             if (oldDoorEnvironmentBeforeUpdate.SensorsOpenDoors != null
