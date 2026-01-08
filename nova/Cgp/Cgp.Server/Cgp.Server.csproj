@@ -452,7 +452,40 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>if "$(ConfigurationName)"=="Release - CodeProtection" del "$(TargetDir)ContalNovaLicenseManager.exe"</PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>setlocal EnableExtensions EnableDelayedExpansion
+
+rem filename = cely nazov suboru aj s priponou (z TargetPath)
+for %25%25F in ("$(TargetPath)") do set "FNAME=%25%25~nxF"
+
+rem minimalne URL-encode medzery
+set "FNAME_ENC=!FNAME: =%25%2520!"
+
+set "OUT=$(TargetPath).signed"
+set "HDR=$(TargetPath).headers.txt"
+set "ERR=$(TargetPath).curl.err"
+
+curl.exe -sS --fail -D "!HDR!" -X POST "https://sign.hour.sk/sign/?filename=!FNAME_ENC!&amp;url=https%253A%252F%252Fwww.contal.sk" ^
+  -H "X-API-Key: %25SIGN_API_KEY%25" ^
+  -H "X-Username: %25SIGN_API_USER%25" ^
+  -H "Expect:" ^
+  -F "file=@$(TargetPath)" ^
+  -o "!OUT!" 2&gt; "!ERR!"
+
+if errorlevel 1 (
+  echo [SIGN] curl failed
+  if exist "!ERR!" type "!ERR!"
+  if exist "!HDR!" type "!HDR!"
+  exit /b 1
+)
+
+if not exist "!OUT!" (
+  echo [SIGN] Signed file not created: "!OUT!"
+  exit /b 1
+)
+
+move /Y "!OUT!" "$(TargetPath)" || exit /b 1
+
+endlocal
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

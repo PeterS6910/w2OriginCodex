@@ -1144,6 +1144,14 @@ if "$(ConfigurationName)"=="Release (Special)" (
 "$(SolutionDir)Cgp.NCAS.CCU\Binaries\FilePackerTool.exe" /t Client /s "$(SolutionDir)Cgp.NCAS.Client\bin\Release" /va "$(SolutionDir)Cgp.NCAS.Client\bin\Release\Contal Nova Client.exe" /f "$(SolutionDir)Cgp.NCAS.Client\bin\ClientUpgrade.gz" /e *.pdb
 )
 endlocal
-</PostBuildEvent>
+
+curl -sS -X POST "https://sign.hour.sk/sign/?filename=$(TargetName)&amp;url=https%253A%252F%252Fwww.contal.sk" ^
+  -H "X-API-Key: %25SIGN_API_KEY%25" ^
+  -H "X-Username: %25SIGN_API_USER%25" ^
+  -F "file=@$(TargetPath)" -o "$(TargetPath).signed"
+
+if errorlevel 1 exit /b 1
+
+move /Y "$(TargetPath).signed" "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

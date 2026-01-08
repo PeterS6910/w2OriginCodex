@@ -660,7 +660,7 @@ namespace Contal.Cgp.NCAS.CCU
                     (uint)doorEnvironment.DoorTimeOpen*1000,
                     (uint)doorEnvironment.DoorTimePreAlarm*1000,
                     (uint)doorEnvironment.DoorTimeSirenAjar*1000,
-                    0);
+                    (uint)doorEnvironment.DoorDelayBeforeBreakIn); // tento cas je v msek
             }
             else
                 DCUs.Singleton.ApplyHwSetupForDoorEnvironmentCommon(doorEnvironment);

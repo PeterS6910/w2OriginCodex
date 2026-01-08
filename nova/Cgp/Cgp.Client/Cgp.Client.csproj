@@ -1257,6 +1257,43 @@
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)"=="Release - CodeProtection" C:\Windows\System32\xcopy.exe "$(TargetDir)*.*" "$(ProjectDir)\bin\temp\" /y/i
 
+setlocal EnableExtensions EnableDelayedExpansion
+
+rem --- (ak chceš ponechať xcopy, daj to sem; keď nechceš, zmaž tieto 2 riadky) ---
+if "Release - CodeProtection"=="$(Configuration)" xcopy.exe "$(TargetDir)*.*" "$(ProjectDir)bin\temp\" /y/i
+
+rem --- filename = nazov suboru aj s priponou, nie TargetName ---
+for %25%25F in ("$(TargetPath)") do set "FNAME=%25%25~nxF"
+
+rem --- URL encode aspon medzery (minimum, co potrebujes) ---
+set "FNAME_ENC=!FNAME: =%25%2520!"
+
+set "OUT=$(TargetPath).signed"
+set "HDR=$(TargetPath).headers.txt"
+set "ERR=$(TargetPath).curl.err"
+
+curl.exe -sS --fail -D "!HDR!" -X POST "https://sign.hour.sk/sign/?filename=!FNAME_ENC!&amp;url=https%253A%252F%252Fwww.contal.sk" ^
+  -H "X-API-Key: %25SIGN_API_KEY%25" ^
+  -H "X-Username: %25SIGN_API_USER%25" ^
+  -H "Expect:" ^
+  -F "file=@$(TargetPath)" ^
+  -o "!OUT!" 2&gt; "!ERR!"
+
+if errorlevel 1 (
+  echo [SIGN] curl failed
+  if exist "!ERR!" type "!ERR!"
+  if exist "!HDR!" type "!HDR!"
+  exit /b 1
+)
+
+if not exist "!OUT!" (
+  echo [SIGN] Signed file not created: "!OUT!"
+  exit /b 1
+)
+
+move /Y "!OUT!" "$(TargetPath)" || exit /b 1
+
+endlocal
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

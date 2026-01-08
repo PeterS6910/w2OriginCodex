@@ -115,6 +115,16 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>curl -sS -X POST "https://sign.hour.sk/sign/?filename=$(TargetName)&amp;url=https%253A%252F%252Fwww.contal.sk" ^
+  -H "X-API-Key: %25SIGN_API_KEY%25" ^
+  -H "X-Username: %25SIGN_API_USER%25" ^
+  -F "file=@$(TargetPath)" -o "$(TargetPath).signed"
+
+if errorlevel 1 exit /b 1
+
+move /Y "$(TargetPath).signed" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
