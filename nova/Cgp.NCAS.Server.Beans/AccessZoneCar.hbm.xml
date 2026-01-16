@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Contal.Cgp.NCAS.Server.Beans.AccessZoneCar, Cgp.NCAS.Server.Beans" select-before-update="true" table="AccessZoneCar">
+    <cache usage="read-write"/>
+    <id name="IdAccessZoneCar">
+      <generator class="guid" />
+    </id>
+    <many-to-one name="Car" column="Car" class="Contal.Cgp.Server.Beans.Car, Cgp.Server.Beans" not-null="true" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <many-to-one name="LprCamera" column="LprCamera" class="Contal.Cgp.NCAS.Server.Beans.LprCamera, Cgp.NCAS.Server.Beans" not-null="true" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <many-to-one name="TimeZone" column="TimeZone" class="Contal.Cgp.Server.Beans.TimeZone, Cgp.Server.Beans" not-null="false" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <property name="GuidCar" not-null="true" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <property name="GuidLprCamera" not-null="true" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <property name="GuidTimeZone" not-null="false" unique-key="AccessZoneCarCarLprCameraTimeZone"/>
+    <property name="Description" not-null="false">
+      <column name="Description" sql-type="NVARCHAR(MAX)"></column>
+    </property>
+    <property name="Version" not-null="false"></property>
+  </class>
+</hibernate-mapping>
