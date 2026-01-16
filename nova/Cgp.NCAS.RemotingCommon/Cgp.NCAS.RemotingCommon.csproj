@@ -66,6 +66,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IAccessZoneCars.cs" />
     <Compile Include="IACLGroups.cs" />
     <Compile Include="IAlarmArcs.cs" />
     <Compile Include="IAlarmTransmitters.cs" />

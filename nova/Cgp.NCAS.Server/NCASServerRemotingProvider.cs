@@ -418,6 +418,22 @@ namespace Contal.Cgp.NCAS.Server
             }
         }
 
+        public IAccessZoneCars AccessZoneCars
+        {
+            get
+            {
+                try
+                {
+                    ValidateSession();
+                    return DB.AccessZoneCars.Singleton;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
         public IDoorEnvironments DoorEnvironments
         {
             get
