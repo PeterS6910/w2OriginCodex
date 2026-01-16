@@ -2,6 +2,7 @@ using System;
 using Contal.Cgp.Globals;
 using Contal.Cgp.Server.Beans;
 using Contal.IwQuick.Data;
+using TimeZone = Contal.Cgp.Server.Beans.TimeZone;
 
 namespace Contal.Cgp.NCAS.Server.Beans
 {
