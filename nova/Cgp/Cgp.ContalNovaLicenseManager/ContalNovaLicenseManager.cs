@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,9 +10,9 @@ using System.IO;
 using Contal.IwQuick.Sys;
 using Contal.IwQuick.UI;
 using Contal.IwQuick;
-using Contal.Cgp.Globals.PlatformPC;
 using Contal.SLA.Client;
 using Contal.SLA.Client.Interfaces;
+using Contal.Cgp.Globals.PlatformPC;
 
 namespace Contal.Cgp.ContalNovaLicenseManager
 {
