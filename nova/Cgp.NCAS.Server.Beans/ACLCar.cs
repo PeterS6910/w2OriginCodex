@@ -6,7 +6,7 @@ using Contal.IwQuick.Data;
 namespace Contal.Cgp.NCAS.Server.Beans
 {
     [Serializable]
-    [LwSerialize(305)]
+    [LwSerialize(844)]
     [LwSerializeMode(LwSerializationMode.Selective, DirectMemberType.All)]
     [LwSerializeNoParent]
     public class ACLCar : AOrmObjectWithVersion

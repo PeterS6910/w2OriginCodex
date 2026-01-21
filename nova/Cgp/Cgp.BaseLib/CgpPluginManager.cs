@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +48,7 @@ namespace Contal.Cgp.BaseLib
         where TCgpPlugin : class, ICgpPlugin
         where TCgpPluginDescriptor : CgpPluginDescriptor<TCgpPlugin>, new()
     {
+        private static readonly Log PluginLog = new Log("CgpPluginManager", true, true, false);
         private readonly Dictionary<string, TCgpPluginDescriptor> _plugins = 
             new Dictionary<string, TCgpPluginDescriptor>(4);
 
@@ -281,8 +282,9 @@ namespace Contal.Cgp.BaseLib
                 assemblyName = possiblePlugin.FullName;
                 return (pluginTypes != null && pluginTypes.Count > 0);
             }
-            catch
+            catch (Exception ex)
             {
+                LogPluginFailure("Reflection-only load failed for plugin assembly.", path, null, ex);
                 return false;
             }
         }
@@ -413,8 +415,9 @@ namespace Contal.Cgp.BaseLib
                                     InitializePlugin(plugin);
                                 }
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                LogPluginFailure("Failed to initialize plugin instance.", path, typeFullname, ex);
                                 failedDesc = path + "/" + cgpDesignation ?? "unknown";
                                 InvokePluginFailed(failedDesc);
 
@@ -424,6 +427,7 @@ namespace Contal.Cgp.BaseLib
                         }
                         catch (Exception ex)
                         {
+                            LogPluginFailure("Failed to create plugin instance.", path, typeFullname, ex);
                             InvokePluginFailed(path);
                             if (null != failedPlugins)
                                 failedPlugins.AddLast(path);
@@ -434,6 +438,7 @@ namespace Contal.Cgp.BaseLib
             }
             else
             {
+                LogPluginFailure("Assembly does not expose any compatible plugin types.", path, null, null);
                 InvokePluginFailed(path);
                 if (null != failedPlugins)
                     failedPlugins.AddLast(path);
@@ -444,6 +449,20 @@ namespace Contal.Cgp.BaseLib
                 null != loadedPlugins 
                     ? loadedPlugins.Count
                     : 0;
+        }
+
+        private static void LogPluginFailure(string message, string path, string typeFullname, Exception exception)
+        {
+            var details = new StringBuilder(message);
+            details.Append(" Assembly: ").Append(path ?? "unknown");
+
+            if (!string.IsNullOrEmpty(typeFullname))
+                details.Append(" Type: ").Append(typeFullname);
+
+            if (exception != null)
+                details.Append(" Exception: ").Append(exception);
+
+            PluginLog.Error(details.ToString());
         }
 
         protected virtual void InitializePluginInternal(TCgpPlugin plugin)
