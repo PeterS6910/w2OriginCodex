@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AACardReader.cs" />
-    <Compile Include="AccessZoneCar.cs" />
+    <EmbeddedResource Include="AccessZoneCar.cs" />
     <Compile Include="ACLCar.cs" />
     <Compile Include="CarDoorEnvironment.cs" />
     <Compile Include="ExcelReportOutput.cs" />
@@ -297,7 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AccessZoneCar.hbm.xml" />
-    <Content Include="ACLCar.hbm.xml" />
+    <EmbeddedResource Include="ACLCar.hbm.xml" />
     <Content Include="CarDoorEnvironment.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
