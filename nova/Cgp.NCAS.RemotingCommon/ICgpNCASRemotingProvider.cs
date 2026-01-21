@@ -23,6 +23,7 @@ namespace Contal.Cgp.NCAS.RemotingCommon
         IACLSettingAAs ACLSettingAAs { get; }
         IInputs Inputs { get; }
         IACLPersons ACLPersons { get; }
+        IACLCars ACLCars { get; }
         IOutputs Outputs { get; }
         IAlarmAreas AlarmAreas { get; }
         IAACardReaders AACardReaders { get; }

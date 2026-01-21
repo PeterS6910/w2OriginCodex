@@ -1,4 +1,6 @@
 using Contal.Cgp.BaseLib;
+using Contal.Cgp.Client.PluginSupport;
+using Contal.Cgp.Globals;
 using Contal.Cgp.Server.Beans;
 using Contal.IwQuick;
 using Contal.IwQuick.UI;
@@ -41,11 +43,25 @@ namespace Contal.Cgp.Client
             InitializeComponent();
             FormOnEnter += FormEnter;
             InitCGPDataGridView();
+            SetVisiblePluginButtons();
         }
 
         private void FormEnter(Form form)
         {
 
+        }
+        private void SetVisiblePluginButtons()
+        {
+            bool visibleButton = false;
+            foreach (ICgpVisualPlugin item in CgpClient.Singleton.PluginManager.GetVisualPlugins())
+            {
+                if (item.FriendlyName == "NCAS plugin")
+                {
+                    visibleButton = true;
+                    break;
+                }
+            }
+            _bAclAssignment.Visible = visibleButton;
         }
 
         private void InitCGPDataGridView()
@@ -174,6 +190,38 @@ namespace Contal.Cgp.Client
         private void _bFilterClear_Click(object sender, EventArgs e)
         {
             FilterClear_Click();
+        }
+
+        private void _bAclAssignment_Click(object sender, EventArgs e)
+        {
+            IPluginMainForm obj = null;
+            foreach (ICgpVisualPlugin item in CgpClient.Singleton.PluginManager.GetVisualPlugins())
+            {
+                if (item.FriendlyName == "NCAS plugin")
+                {
+                    obj = item.GetEditPluginForm();
+                }
+            }
+
+            if (obj != null)
+            {
+                obj.SpecialAction(GetSelectedCars());
+            }
+        }
+
+        private List<object> GetSelectedCars()
+        {
+            var idSelectedCars = new List<object>();
+
+            BindingSource bs = _cdgvData.DataGrid.DataSource as BindingSource;
+
+            for (int i = 0; i < _cdgvData.SelectedRows.Count; i++)
+            {
+                CarShort carShort = (CarShort)bs.List[_cdgvData.SelectedRows[i].Index];
+                idSelectedCars.Add(new IdAndObjectType(carShort.IdCar, ObjectType.Car));
+            }
+
+            return idSelectedCars;
         }
 
         protected override void ClearFilterEdits()

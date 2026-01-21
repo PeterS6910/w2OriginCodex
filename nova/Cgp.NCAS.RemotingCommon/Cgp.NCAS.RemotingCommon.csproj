@@ -67,6 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IAccessZoneCars.cs" />
+    <Compile Include="IACLCars.cs" />
     <Compile Include="IACLGroups.cs" />
     <Compile Include="IAlarmArcs.cs" />
     <Compile Include="IAlarmTransmitters.cs" />

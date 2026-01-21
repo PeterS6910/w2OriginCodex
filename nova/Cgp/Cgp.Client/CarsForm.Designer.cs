@@ -12,6 +12,7 @@ namespace Contal.Cgp.Client
             this._cdgvData = new Contal.Cgp.Components.CgpDataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this._lRecordCount = new System.Windows.Forms.Label();
+            this._bAclAssignment = new System.Windows.Forms.Button();
             this._eBrandFilter = new System.Windows.Forms.TextBox();
             this._lBrand = new System.Windows.Forms.Label();
             this._eLpFilter = new System.Windows.Forms.TextBox();
@@ -54,6 +55,7 @@ namespace Contal.Cgp.Client
             // panel3
             // 
             this.panel3.Controls.Add(this._lRecordCount);
+            this.panel3.Controls.Add(this._bAclAssignment);
             this.panel3.Controls.Add(this._eBrandFilter);
             this.panel3.Controls.Add(this._lBrand);
             this.panel3.Controls.Add(this._eLpFilter);
@@ -76,6 +78,17 @@ namespace Contal.Cgp.Client
             this._lRecordCount.Size = new System.Drawing.Size(115, 25);
             this._lRecordCount.TabIndex = 18;
             this._lRecordCount.Text = "RecordCount";
+            // 
+            // _bAclAssignment
+            // 
+            this._bAclAssignment.Location = new System.Drawing.Point(408, 28);
+            this._bAclAssignment.Margin = new System.Windows.Forms.Padding(4);
+            this._bAclAssignment.Name = "_bAclAssignment";
+            this._bAclAssignment.Size = new System.Drawing.Size(152, 33);
+            this._bAclAssignment.TabIndex = 19;
+            this._bAclAssignment.Text = "ACL assignment";
+            this._bAclAssignment.UseVisualStyleBackColor = true;
+            this._bAclAssignment.Click += new System.EventHandler(this._bAclAssignment_Click);
             // 
             // _eBrandFilter
             // 
@@ -159,5 +172,6 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TextBox _eLpFilter;
         private System.Windows.Forms.Label _lLp;
         private System.Windows.Forms.Label _lRecordCount;
+        private System.Windows.Forms.Button _bAclAssignment;
     }
 }

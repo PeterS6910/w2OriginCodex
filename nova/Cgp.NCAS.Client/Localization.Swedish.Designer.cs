@@ -1402,6 +1402,33 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bil behörighetszon tilldelning.
+        /// </summary>
+        internal static string CarAclAssignmentCarAclAssignment {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentCarAclAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bil behörighetszon tilldelning avslutades med fel.
+        /// </summary>
+        internal static string CarAclAssignmentErrors {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bil behörighetszon tilldelning lyckades.
+        /// </summary>
+        internal static string CarAclAssignmentOk {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kort.
         /// </summary>
         internal static string card {

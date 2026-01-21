@@ -3628,6 +3628,15 @@ Pokračovať?</value>
   <data name="PersonAclAssignmentErrors" xml:space="preserve">
     <value>Priradenie skončilo s chybami</value>
   </data>
+  <data name="CarAclAssignmentErrors" xml:space="preserve">
+    <value>Priradenie ZPP vozidlám skončilo s chybami</value>
+  </data>
+  <data name="CarAclAssignmentOk" xml:space="preserve">
+    <value>Priradenie ZPP vozidlám úspešne ukončené</value>
+  </data>
+  <data name="CarAclAssignmentCarAclAssignment" xml:space="preserve">
+    <value>Priradenie ZPP vozidlám</value>
+  </data>
   <data name="PersonAclAssignmentOk" xml:space="preserve">
     <value>Priradenie úspešne ukončené</value>
   </data>

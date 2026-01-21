@@ -290,6 +290,21 @@ namespace Contal.Cgp.NCAS.Server
                 }
             }
         }
+        public IACLCars ACLCars
+        {
+            get
+            {
+                try
+                {
+                    ValidateSession();
+                    return DB.ACLCars.Singleton;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
 
         public IOutputs Outputs
         {

@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Contal.Cgp.Client;
 using Contal.Cgp.Client.PluginSupport;
+using Contal.Cgp.Globals;
 using Contal.Cgp.Server.Beans;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.BaseLib;
@@ -21,7 +23,9 @@ namespace Contal.Cgp.NCAS.Client
     {
         private ListOfObjects _actAccessControlLists;
         private List<Object> _persons;
+        private List<Object> _cars;
         private List<Guid> _acls;
+        private bool _assigningCars;
         private DVoid2Void _dAfterTranslateForm;
 
         public override NCASClient Plugin
@@ -107,7 +111,7 @@ namespace Contal.Cgp.NCAS.Client
             }
             else
             {
-                _persons = persons;
+                SetAssignmentTargets(persons);
                 ModifyAccesControlList();
             }
         }
@@ -134,17 +138,23 @@ namespace Contal.Cgp.NCAS.Client
 
             SafeThread.StartThread(() =>
             {
-                var errors = Plugin.MainServerProvider.ACLPersons.PersonAclAssignment(
-                    _persons,
-                    _acls,
-                    _tbdpDateFrom.Value,
-                    _tbdpDateTo.Value);
+                var errors = _assigningCars
+                    ? Plugin.MainServerProvider.ACLCars.CarAclAssignment(
+                        _cars,
+                        _acls,
+                        _tbdpDateFrom.Value,
+                        _tbdpDateTo.Value)
+                    : Plugin.MainServerProvider.ACLPersons.PersonAclAssignment(
+                        _persons,
+                        _acls,
+                        _tbdpDateFrom.Value,
+                        _tbdpDateTo.Value);
 
                 BeginInvoke(new Action(() =>
                 {
                     Dialog.Info(errors == null
-                        ? GetString("PersonAclAssignmentOk")
-                        : GetString("PersonAclAssignmentErrors"));
+                        ? GetString(GetAssignmentOkKey())
+                        : GetString(GetAssignmentErrorsKey()));
 
                     Close();
                 }));
@@ -161,6 +171,52 @@ namespace Contal.Cgp.NCAS.Client
             }
 
             return true;
+        }
+
+        private void SetAssignmentTargets(List<Object> objects)
+        {
+            _persons = null;
+            _cars = null;
+            _assigningCars = false;
+
+            if (objects == null || objects.Count == 0)
+                return;
+
+            var typedObjects = objects.OfType<IdAndObjectType>().ToList();
+            if (typedObjects.Count > 0)
+            {
+                if (typedObjects.All(item => item.ObjectType == ObjectType.Car))
+                {
+                    _assigningCars = true;
+                    _cars = typedObjects.Select(item => item.Id).ToList();
+                }
+                else
+                {
+                    _persons = typedObjects.Select(item => item.Id).ToList();
+                }
+            }
+            else
+            {
+                _persons = objects;
+            }
+
+            Text = GetString(_assigningCars
+                ? "CarAclAssignmentCarAclAssignment"
+                : "PersonAclAssignmentPersonAclAssignment");
+        }
+
+        private string GetAssignmentOkKey()
+        {
+            return _assigningCars
+                ? "CarAclAssignmentOk"
+                : "PersonAclAssignmentOk";
+        }
+
+        private string GetAssignmentErrorsKey()
+        {
+            return _assigningCars
+                ? "CarAclAssignmentErrors"
+                : "PersonAclAssignmentErrors";
         }
     }
 }

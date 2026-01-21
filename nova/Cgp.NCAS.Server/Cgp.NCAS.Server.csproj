@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DB\AccessZoneCars.cs" />
+    <Compile Include="DB\ACLCars.cs" />
     <Compile Include="DB\CarDoorEnvironments.cs" />
     <Compile Include="DB\ExcelReportOutputs.cs" />
     <Compile Include="DB\LprCameras.cs" />

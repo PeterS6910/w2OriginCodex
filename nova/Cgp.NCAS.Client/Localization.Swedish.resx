@@ -3679,6 +3679,15 @@ Fortsätt ändå?</value>
   <data name="PersonAclAssignmentErrors" xml:space="preserve">
     <value>Person behörighetszon tilldelning avslutades med fel</value>
   </data>
+  <data name="CarAclAssignmentErrors" xml:space="preserve">
+    <value>Bil behörighetszon tilldelning avslutades med fel</value>
+  </data>
+  <data name="CarAclAssignmentOk" xml:space="preserve">
+    <value>Bil behörighetszon tilldelning lyckades</value>
+  </data>
+  <data name="CarAclAssignmentCarAclAssignment" xml:space="preserve">
+    <value>Bil behörighetszon tilldelning</value>
+  </data>
   <data name="PersonAclAssignmentOk" xml:space="preserve">
     <value>Person behörighetszon tilldelning lyckades</value>
   </data>

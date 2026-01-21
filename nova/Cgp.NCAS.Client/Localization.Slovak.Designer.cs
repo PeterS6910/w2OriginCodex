@@ -1150,6 +1150,33 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Priradenie ZPP vozidlám.
+        /// </summary>
+        internal static string CarAclAssignmentCarAclAssignment {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentCarAclAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Priradenie ZPP vozidlám skončilo s chybami.
+        /// </summary>
+        internal static string CarAclAssignmentErrors {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Priradenie ZPP vozidlám úspešne ukončené.
+        /// </summary>
+        internal static string CarAclAssignmentOk {
+            get {
+                return ResourceManager.GetString("CarAclAssignmentOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Karta.
         /// </summary>
         internal static string card {

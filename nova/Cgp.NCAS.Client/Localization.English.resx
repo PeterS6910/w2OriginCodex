@@ -471,6 +471,15 @@
   <data name="PersonAclAssignmentOk" xml:space="preserve">
     <value>Person ACL assignment succeed</value>
   </data>
+  <data name="CarAclAssignmentOk" xml:space="preserve">
+    <value>Car ACL assignment succeed</value>
+  </data>
+  <data name="CarAclAssignmentErrors" xml:space="preserve">
+    <value>Car ACL assignment ended with errors</value>
+  </data>
+  <data name="CarAclAssignmentCarAclAssignment" xml:space="preserve">
+    <value>Car ACL assignment</value>
+  </data>
   <data name="NCASCCUEditForm_lAvailableVersions" xml:space="preserve">
     <value>Available versions</value>
   </data>
