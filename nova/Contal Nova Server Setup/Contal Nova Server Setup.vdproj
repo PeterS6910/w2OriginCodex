@@ -3748,7 +3748,7 @@
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Cgp.DBSCreator.dll"
+            "SourcePath" = "8:..\\Cgp.NCAS.Server\\bin\\Release - CodeProtection\\Final\\Cgp.DBSCreator.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5946AA58F6FB40418CD33F80B66A3859"
@@ -3992,7 +3992,7 @@
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:WcfServiceNovaConnection.dll"
+            "SourcePath" = "8:..\\Cgp.NCAS.Server\\bin\\Release - CodeProtection\\Final\\WcfServiceNovaConnection.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5946AA58F6FB40418CD33F80B66A3859"
@@ -4063,7 +4063,7 @@
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Cgp.NCAS.Server.Beans.dll"
+            "SourcePath" = "8:..\\Cgp.NCAS.Server\\bin\\Release - CodeProtection\\Final\\Cgp.NCAS.Server.Beans.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5946AA58F6FB40418CD33F80B66A3859"
