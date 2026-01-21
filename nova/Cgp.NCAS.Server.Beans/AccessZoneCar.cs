@@ -7,7 +7,7 @@ using TimeZone = Contal.Cgp.Server.Beans.TimeZone;
 namespace Contal.Cgp.NCAS.Server.Beans
 {
     [Serializable()]
-    [LwSerialize(334)]
+    [LwSerialize(845)]
     [LwSerializeMode(LwSerializationMode.Selective, DirectMemberType.All)]
     [LwSerializeNoParent]
     public class AccessZoneCar : AOrmObjectWithVersion
