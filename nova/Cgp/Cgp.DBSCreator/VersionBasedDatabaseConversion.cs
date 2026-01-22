@@ -1863,45 +1863,7 @@ namespace Contal.Cgp.DBSCreator
             {
                 return false;
             }
-
-            if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    @"
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='CarDoorEnvironment' AND xtype='U')
-                    BEGIN
-                        CREATE TABLE CarDoorEnvironment (
-                            IdCarDoorEnvironment uniqueidentifier not null primary key,
-                            IdDoorEnvironment uniqueidentifier not null,
-                            IdCar uniqueidentifier not null,
-                            AccessType tinyint not null
-                        )
-                    END",
-                    false,
-                    out error))
-            {
-                return false;
-            }
-
-            if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE CarDoorEnvironment ADD CONSTRAINT FK_CarDoorEnvironment_DoorEnvironment FOREIGN KEY (IdDoorEnvironment) REFERENCES DoorEnvironment(IdDoorEnvironment)",
-                    false,
-                    out error))
-            {
-                return false;
-            }
-
-            if (!_databaseCommandExecutor.RunSqlNonQuery(
-                    "ALTER TABLE CarDoorEnvironment ADD CONSTRAINT FK_CarDoorEnvironment_Car FOREIGN KEY (IdCar) REFERENCES Car(IdCar)",
-                    false,
-                    out error))
-            {
-                return false;
-            }
-
-            return _databaseCommandExecutor.RunSqlNonQuery(
-                    @"IF NOT EXISTS (SELECT name FROM sys.indexes WHERE name = 'IX_CarDoorEnvironment_Unique')
-                        CREATE UNIQUE INDEX IX_CarDoorEnvironment_Unique ON CarDoorEnvironment(IdDoorEnvironment, IdCar)",
-                    false,
-                    out error);
+            return true;
         }
         private bool ConversionCgpNCASServerBeans1_1(out Exception error)
         {

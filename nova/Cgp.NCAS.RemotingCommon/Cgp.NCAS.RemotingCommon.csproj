@@ -72,7 +72,6 @@
     <Compile Include="IAlarmArcs.cs" />
     <Compile Include="IAlarmTransmitters.cs" />
     <Compile Include="IAntiPassBackZones.cs" />
-    <Compile Include="ICarDoorEnvironments.cs" />
     <Compile Include="IDoorEnvironments.cs" />
     <Compile Include="IAAInputs.cs" />
     <Compile Include="IAACardReaders.cs" />

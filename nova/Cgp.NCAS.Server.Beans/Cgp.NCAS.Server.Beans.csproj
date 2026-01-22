@@ -90,7 +90,6 @@
     <Compile Include="AACardReader.cs" />
     <Compile Include="AccessZoneCar.cs" />
     <Compile Include="ACLCar.cs" />
-    <Compile Include="CarDoorEnvironment.cs" />
     <Compile Include="ExcelReportOutput.cs" />
     <Compile Include="LprCamera.cs" />
     <Compile Include="PersonAttributeOutput.cs" />
@@ -298,7 +297,6 @@
   <ItemGroup>
     <EmbeddedResource Include="AccessZoneCar.hbm.xml" />
     <EmbeddedResource Include="ACLCar.hbm.xml" />
-    <Content Include="CarDoorEnvironment.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

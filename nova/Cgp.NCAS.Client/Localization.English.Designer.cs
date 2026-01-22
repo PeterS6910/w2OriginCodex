@@ -1429,42 +1429,6 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Access denied.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_AccessDenied {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_AccessDenied", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Card required.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_CardRequired {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_CardRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_Free {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_Free", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to None.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_None {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_None", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Card + PIN.
         /// </summary>
         internal static string cardpin {
@@ -9160,42 +9124,6 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string NCASAntiPassBackZonesFormNCASAntiPassBackZonesForm {
             get {
                 return ResourceManager.GetString("NCASAntiPassBackZonesFormNCASAntiPassBackZonesForm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Access type.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lAccessType {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lAccessType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Car.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lCar {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lCar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Door environment.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lDoorEnvironment {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lDoorEnvironment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit car door environment.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm", resourceCulture);
             }
         }
         

@@ -1195,42 +1195,6 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prístup zamietnutý.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_AccessDenied {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_AccessDenied", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vyžaduje sa karta.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_CardRequired {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_CardRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Voľné.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_Free {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_Free", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Žiadne.
-        /// </summary>
-        internal static string CarDoorEnvironmentAccessType_None {
-            get {
-                return ResourceManager.GetString("CarDoorEnvironmentAccessType_None", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Karta + PIN.
         /// </summary>
         internal static string cardpin {
@@ -6584,42 +6548,6 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string NCASAntiPassBackZonesFormNCASAntiPassBackZonesForm {
             get {
                 return ResourceManager.GetString("NCASAntiPassBackZonesFormNCASAntiPassBackZonesForm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Typ prístupu.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lAccessType {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lAccessType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Auto.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lCar {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lCar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zariadenie dvier.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditForm_lDoorEnvironment {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditForm_lDoorEnvironment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Editovanie dverného automatu auta.
-        /// </summary>
-        internal static string NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm {
-            get {
-                return ResourceManager.GetString("NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm", resourceCulture);
             }
         }
         

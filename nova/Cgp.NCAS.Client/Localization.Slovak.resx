@@ -1638,18 +1638,6 @@
   <data name="NCASDoorEnvironmentEditFormNCASDoorEnvironmentEditForm" xml:space="preserve">
     <value>Editovanie dverného automatu</value>
   </data>
-  <data name="NCASCarDoorEnvironmentEditFormNCASCarDoorEnvironmentEditForm" xml:space="preserve">
-    <value>Editovanie dverného automatu auta</value>
-  </data>
-  <data name="NCASCarDoorEnvironmentEditForm_lDoorEnvironment" xml:space="preserve">
-    <value>Zariadenie dvier</value>
-  </data>
-  <data name="NCASCarDoorEnvironmentEditForm_lCar" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="NCASCarDoorEnvironmentEditForm_lAccessType" xml:space="preserve">
-    <value>Typ prístupu</value>
-  </data>
   <data name="NCASDoorEnvironmentEditForm_chbElectricStrikeImpulse" xml:space="preserve">
     <value>Spínať impulzom</value>
   </data>
@@ -4794,17 +4782,5 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
     <value>Symbol</value>
-  </data>
-  <data name="CarDoorEnvironmentAccessType_None" xml:space="preserve">
-    <value>Žiadne</value>
-  </data>
-  <data name="CarDoorEnvironmentAccessType_Free" xml:space="preserve">
-    <value>Voľné</value>
-  </data>
-  <data name="CarDoorEnvironmentAccessType_CardRequired" xml:space="preserve">
-    <value>Vyžaduje sa karta</value>
-  </data>
-  <data name="CarDoorEnvironmentAccessType_AccessDenied" xml:space="preserve">
-    <value>Prístup zamietnutý</value>
   </data>
 </root>
