@@ -57,7 +57,6 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack = new System.Windows.Forms.Panel();
             this._lActualState = new System.Windows.Forms.Label();
             this._eActualState = new System.Windows.Forms.TextBox();
-            this._chbIsVehicleAccess = new System.Windows.Forms.CheckBox();
             this._bApply = new System.Windows.Forms.Button();
             this._tcDoorsAutomat = new System.Windows.Forms.TabControl();
             this._tpDoorsTiming = new System.Windows.Forms.TabPage();
@@ -138,14 +137,6 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputDoorAjar = new System.Windows.Forms.GroupBox();
             this._lOutput1 = new System.Windows.Forms.Label();
             this._cbOutputDoorAjar = new System.Windows.Forms.ComboBox();
-            this._tpCar = new System.Windows.Forms.TabPage();
-            this._dgCarDoorEnvironments = new Contal.Cgp.Components.CgpDataGridView();
-            this._tcCarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._tcAccessTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._tcSymbolColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this._bRemoveCarDoorEnvironment = new System.Windows.Forms.Button();
-            this._bEditCarDoorEnvironment = new System.Windows.Forms.Button();
-            this._bAddCarDoorEnvironment = new System.Windows.Forms.Button();
             this._tpUserFolders = new System.Windows.Forms.TabPage();
             this._bRefresh = new System.Windows.Forms.Button();
             this._lbUserFolders = new Contal.IwQuick.UI.ImageListBox();
@@ -178,7 +169,6 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputSabotage.SuspendLayout();
             this._gbOutputIntrusion.SuspendLayout();
             this._gbOutputDoorAjar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments.DataGrid)).BeginInit();
             this._tpUserFolders.SuspendLayout();
             this._tpDescription.SuspendLayout();
             this.SuspendLayout();
@@ -363,7 +353,6 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack.Controls.Add(this._eResultAccessGranted);
             this._panelBack.Controls.Add(this._lActualState);
             this._panelBack.Controls.Add(this._eActualState);
-            this._panelBack.Controls.Add(this._chbIsVehicleAccess);
             this._panelBack.Controls.Add(this._bAccessGranted);
             this._panelBack.Controls.Add(this._bApply);
             this._panelBack.Controls.Add(this._bCancel);
@@ -397,21 +386,6 @@ namespace Contal.Cgp.NCAS.Client
             this._eActualState.ReadOnly = true;
             this._eActualState.Size = new System.Drawing.Size(458, 20);
             this._eActualState.TabIndex = 1;
-            //
-            // _chbIsVehicleAccess
-            //
-            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-            this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(15, 64);
-            this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
-            this._chbIsVehicleAccess.Size = new System.Drawing.Size(112, 17);
-            this._chbIsVehicleAccess.TabIndex = 6;
-            this._chbIsVehicleAccess.Text = "Vehicle access";
-            this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
-            this._chbIsVehicleAccess.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this._chbIsVehicleAccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._chbIsVehicleAccess.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
             // 
             // _bApply
             // 
@@ -433,7 +407,6 @@ namespace Contal.Cgp.NCAS.Client
             this._tcDoorsAutomat.Controls.Add(this._tpApas);
             this._tcDoorsAutomat.Controls.Add(this._tpAlarmSettings);
             this._tcDoorsAutomat.Controls.Add(this._tpSpecialOutputs);
-            this._tcDoorsAutomat.Controls.Add(this._tpCar);
             this._tcDoorsAutomat.Controls.Add(this._tpUserFolders);
             this._tcDoorsAutomat.Controls.Add(this._tpReferencedBy);
             this._tcDoorsAutomat.Controls.Add(this._tpDescription);
@@ -1686,112 +1659,6 @@ namespace Contal.Cgp.NCAS.Client
             this._cbOutputDoorAjar.TabIndex = 3;
             this._cbOutputDoorAjar.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             this._cbOutputDoorAjar.DropDown += new System.EventHandler(this.OutputsDropDown);
-            //
-            // _tpCar
-            //
-            this._tpCar.BackColor = System.Drawing.Color.Transparent;
-            this._tpCar.Controls.Add(this._dgCarDoorEnvironments);
-            this._tpCar.Controls.Add(this._bRemoveCarDoorEnvironment);
-            this._tpCar.Controls.Add(this._bEditCarDoorEnvironment);
-            this._tpCar.Controls.Add(this._bAddCarDoorEnvironment);
-            this._tpCar.Location = new System.Drawing.Point(4, 22);
-            this._tpCar.Name = "_tpCar";
-            this._tpCar.Size = new System.Drawing.Size(849, 396);
-            this._tpCar.TabIndex = 12;
-            this._tpCar.Text = "Car";
-            this._tpCar.UseVisualStyleBackColor = true;
-            this._tpCar.Enter += new System.EventHandler(this._tpCar_Enter);
-            //
-            // _dgCarDoorEnvironments
-            //
-            this._dgCarDoorEnvironments.AllwaysRefreshOrder = false;
-            this._dgCarDoorEnvironments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._dgCarDoorEnvironments.CopyOnRightClick = true;
-            this._dgCarDoorEnvironments.DataGrid.AllowUserToAddRows = false;
-            this._dgCarDoorEnvironments.DataGrid.AllowUserToDeleteRows = false;
-            this._dgCarDoorEnvironments.DataGrid.AllowUserToResizeRows = false;
-            this._dgCarDoorEnvironments.DataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this._dgCarDoorEnvironments.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dgCarDoorEnvironments.DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._tcSymbolColumn,
-            this._tcCarColumn,
-            this._tcAccessTypeColumn});
-            this._dgCarDoorEnvironments.DataGrid.MultiSelect = false;
-            this._dgCarDoorEnvironments.DataGrid.Name = "_dgvData";
-            this._dgCarDoorEnvironments.DataGrid.ReadOnly = true;
-            this._dgCarDoorEnvironments.DataGrid.RowHeadersVisible = false;
-            this._dgCarDoorEnvironments.DataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this._dgCarDoorEnvironments.DataGrid.RowTemplate.Height = 24;
-            this._dgCarDoorEnvironments.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._dgCarDoorEnvironments.DataGrid.TabIndex = 0;
-            this._dgCarDoorEnvironments.DataGrid.TabStop = false;
-            this._dgCarDoorEnvironments.DataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgCarDoorEnvironments_CellDoubleClick);
-            this._dgCarDoorEnvironments.LocalizationHelper = null;
-            this._dgCarDoorEnvironments.Location = new System.Drawing.Point(3, 3);
-
-            this._dgCarDoorEnvironments.Name = "_dgCarDoorEnvironments";
-
-            this._dgCarDoorEnvironments.Size = new System.Drawing.Size(843, 351);
-            this._dgCarDoorEnvironments.TabIndex = 2;
-            this._dgCarDoorEnvironments.TabStop = false;
-            //
-            // _tcCarColumn
-            //
-            this._tcCarColumn.DataPropertyName = "CarName";
-            this._tcCarColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_tpCar");
-            this._tcCarColumn.Name = "CarName";
-            this._tcCarColumn.ReadOnly = true;
-            //
-            // _tcAccessTypeColumn
-            //
-            this._tcAccessTypeColumn.DataPropertyName = "AccessType";
-            this._tcAccessTypeColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_AccessType");
-            this._tcAccessTypeColumn.Name = "AccessType";
-            this._tcAccessTypeColumn.ReadOnly = true;
-            //
-            // _tcSymbolColumn
-            //
-            this._tcSymbolColumn.DataPropertyName = "Symbol";
-            this._tcSymbolColumn.HeaderText = GetString("NCASDoorEnvironmentEditForm_Symbol");
-            this._tcSymbolColumn.Name = "Symbol";
-            this._tcSymbolColumn.ReadOnly = true;
-            this._tcSymbolColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._tcSymbolColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            //
-            // _bRemoveCarDoorEnvironment
-            //
-            this._bRemoveCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bRemoveCarDoorEnvironment.Location = new System.Drawing.Point(227, 360);
-            this._bRemoveCarDoorEnvironment.Name = "_bRemoveCarDoorEnvironment";
-            this._bRemoveCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
-            this._bRemoveCarDoorEnvironment.TabIndex = 3;
-            this._bRemoveCarDoorEnvironment.Text = "Delete";
-            this._bRemoveCarDoorEnvironment.UseVisualStyleBackColor = true;
-            this._bRemoveCarDoorEnvironment.Click += new System.EventHandler(this._bRemoveCarDoorEnvironment_Click);
-            //
-            // _bEditCarDoorEnvironment
-            //
-            this._bEditCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bEditCarDoorEnvironment.Location = new System.Drawing.Point(115, 360);
-            this._bEditCarDoorEnvironment.Name = "_bEditCarDoorEnvironment";
-            this._bEditCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
-            this._bEditCarDoorEnvironment.TabIndex = 2;
-            this._bEditCarDoorEnvironment.Text = "Edit";
-            this._bEditCarDoorEnvironment.UseVisualStyleBackColor = true;
-            this._bEditCarDoorEnvironment.Click += new System.EventHandler(this._bEditCarDoorEnvironment_Click);
-            //
-            // _bAddCarDoorEnvironment
-            //
-            this._bAddCarDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._bAddCarDoorEnvironment.Location = new System.Drawing.Point(3, 360);
-            this._bAddCarDoorEnvironment.Name = "_bAddCarDoorEnvironment";
-            this._bAddCarDoorEnvironment.Size = new System.Drawing.Size(106, 32);
-            this._bAddCarDoorEnvironment.TabIndex = 1;
-            this._bAddCarDoorEnvironment.Text = "Add";
-            this._bAddCarDoorEnvironment.UseVisualStyleBackColor = true;
-            this._bAddCarDoorEnvironment.Click += new System.EventHandler(this._bAddCarDoorEnvironment_Click);
             // 
             // _tpUserFolders
             // 
@@ -1916,7 +1783,6 @@ namespace Contal.Cgp.NCAS.Client
             this._gbOutputIntrusion.PerformLayout();
             this._gbOutputDoorAjar.ResumeLayout(false);
             this._gbOutputDoorAjar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dgCarDoorEnvironments.DataGrid)).EndInit();
             this._tpUserFolders.ResumeLayout(false);
             this._tpDescription.ResumeLayout(false);
             this._tpDescription.PerformLayout();
@@ -1936,7 +1802,6 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.TextBox _eResultAccessGranted;
         private System.Windows.Forms.Label _lActualState;
         private System.Windows.Forms.TextBox _eActualState;
-        private System.Windows.Forms.CheckBox _chbIsVehicleAccess;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify1;
         private System.Windows.Forms.ToolStripMenuItem _tsiRemove1;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify2;
@@ -2035,14 +1900,6 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.GroupBox _gbOutputDoorAjar;
         private System.Windows.Forms.Label _lOutput1;
         private System.Windows.Forms.ComboBox _cbOutputDoorAjar;
-        private System.Windows.Forms.TabPage _tpCar;
-        private System.Windows.Forms.Button _bRemoveCarDoorEnvironment;
-        private System.Windows.Forms.Button _bEditCarDoorEnvironment;
-        private System.Windows.Forms.Button _bAddCarDoorEnvironment;
-        private Contal.Cgp.Components.CgpDataGridView _dgCarDoorEnvironments;
-        private System.Windows.Forms.DataGridViewImageColumn _tcSymbolColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _tcCarColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _tcAccessTypeColumn;
         private System.Windows.Forms.TabPage _tpUserFolders;
         private System.Windows.Forms.Button _bRefresh;
         private Contal.IwQuick.UI.ImageListBox _lbUserFolders;
