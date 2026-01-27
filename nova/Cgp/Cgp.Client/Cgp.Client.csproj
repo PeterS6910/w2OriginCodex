@@ -618,6 +618,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CarEditForm.resx">
       <DependentUpon>CarEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CarsForm.resx">
       <DependentUpon>CarsForm.cs</DependentUpon>

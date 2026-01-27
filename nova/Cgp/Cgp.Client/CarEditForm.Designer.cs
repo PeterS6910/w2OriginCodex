@@ -12,12 +12,10 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TabControl _tcCar;
         private System.Windows.Forms.TabPage _tpInformation;
         private System.Windows.Forms.TabPage _tpCards;
-        private System.Windows.Forms.ListView _lvAssignedCards;
-        private System.Windows.Forms.ListView _lvAvailableCards;
-        private System.Windows.Forms.Button _bAssignCard;
-        private System.Windows.Forms.Button _bUnassignCard;
-        private System.Windows.Forms.Label _lAssignedCards;
-        private System.Windows.Forms.Label _lAvailableCards;
+        private System.Windows.Forms.TextBox _eFilterCards;
+        private Contal.IwQuick.UI.ImageListBox _ilbCards;
+        private System.Windows.Forms.Button _bDeleteCard;
+        private System.Windows.Forms.Button _bAddCard;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -47,12 +45,10 @@ namespace Contal.Cgp.Client
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._tpCards = new System.Windows.Forms.TabPage();
-            this._lAvailableCards = new System.Windows.Forms.Label();
-            this._lAssignedCards = new System.Windows.Forms.Label();
-            this._bUnassignCard = new System.Windows.Forms.Button();
-            this._bAssignCard = new System.Windows.Forms.Button();
-            this._lvAvailableCards = new System.Windows.Forms.ListView();
-            this._lvAssignedCards = new System.Windows.Forms.ListView();
+            this._bAddCard = new System.Windows.Forms.Button();
+            this._bDeleteCard = new System.Windows.Forms.Button();
+            this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
+            this._eFilterCards = new System.Windows.Forms.TextBox();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
@@ -195,56 +191,55 @@ namespace Contal.Cgp.Client
             // 
             // _tpCards
             // 
-            this._tpCards.Controls.Add(this._lAvailableCards);
-            this._tpCards.Controls.Add(this._lAssignedCards);
-            this._tpCards.Controls.Add(this._bUnassignCard);
-            this._tpCards.Controls.Add(this._bAssignCard);
-            this._tpCards.Controls.Add(this._lvAvailableCards);
-            this._tpCards.Controls.Add(this._lvAssignedCards);
+            this._tpCards.Controls.Add(this._bAddCard);
+            this._tpCards.Controls.Add(this._bDeleteCard);
+            this._tpCards.Controls.Add(this._ilbCards);
+            this._tpCards.Controls.Add(this._eFilterCards);
             resources.ApplyResources(this._tpCards, "_tpCards");
             this._tpCards.Name = "_tpCards";
+            this._tpCards.Enter += new System.EventHandler(this._tpCards_Enter);
             // 
-            // _lAvailableCards
+            // _bAddCard
             // 
-            resources.ApplyResources(this._lAvailableCards, "_lAvailableCards");
-            this._lAvailableCards.Name = "_lAvailableCards";
-            this._lAvailableCards.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._bAddCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this._bAddCard, "_bAddCard");
+            this._bAddCard.Name = "_bAddCard";
+            this._bAddCard.UseVisualStyleBackColor = true;
+            this._bAddCard.Click += new System.EventHandler(this._bAddCard_Click);
             // 
-            // _lAssignedCards
+            // _bDeleteCard
             // 
-            resources.ApplyResources(this._lAssignedCards, "_lAssignedCards");
-            this._lAssignedCards.Name = "_lAssignedCards";
-            this._lAssignedCards.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._bDeleteCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this._bDeleteCard, "_bDeleteCard");
+            this._bDeleteCard.Name = "_bDeleteCard";
+            this._bDeleteCard.UseVisualStyleBackColor = true;
+            this._bDeleteCard.Click += new System.EventHandler(this._bDeleteCard_Click);
             // 
-            // _bUnassignCard
+            // _ilbCards
             // 
-            resources.ApplyResources(this._bUnassignCard, "_bUnassignCard");
-            this._bUnassignCard.Name = "_bUnassignCard";
-            this._bUnassignCard.UseVisualStyleBackColor = true;
-            this._bUnassignCard.Click += new System.EventHandler(this._bUnassignCard_Click);
+            this._ilbCards.AllowDrop = true;
+            this._ilbCards.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._ilbCards.BackColor = System.Drawing.SystemColors.Info;
+            resources.ApplyResources(this._ilbCards, "_ilbCards");
+            this._ilbCards.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this._ilbCards.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this._ilbCards.FormattingEnabled = true;
+            this._ilbCards.ImageList = null;
+            this._ilbCards.ItemHeight = 18;
+            this._ilbCards.Name = "_ilbCards";
+            this._ilbCards.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this._ilbCards.TabStop = false;
+            this._ilbCards.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this._ilbCards_MouseDoubleClick);
             // 
-            // _bAssignCard
+            // _eFilterCards
             // 
-            resources.ApplyResources(this._bAssignCard, "_bAssignCard");
-            this._bAssignCard.Name = "_bAssignCard";
-            this._bAssignCard.UseVisualStyleBackColor = true;
-            this._bAssignCard.Click += new System.EventHandler(this._bAssignCard_Click);
-            // 
-            // _lvAvailableCards
-            // 
-            this._lvAvailableCards.HideSelection = false;
-            resources.ApplyResources(this._lvAvailableCards, "_lvAvailableCards");
-            this._lvAvailableCards.Name = "_lvAvailableCards";
-            this._lvAvailableCards.UseCompatibleStateImageBehavior = false;
-            this._lvAvailableCards.View = System.Windows.Forms.View.List;
-            // 
-            // _lvAssignedCards
-            // 
-            this._lvAssignedCards.HideSelection = false;
-            resources.ApplyResources(this._lvAssignedCards, "_lvAssignedCards");
-            this._lvAssignedCards.Name = "_lvAssignedCards";
-            this._lvAssignedCards.UseCompatibleStateImageBehavior = false;
-            this._lvAssignedCards.View = System.Windows.Forms.View.List;
+            this._eFilterCards.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this._eFilterCards, "_eFilterCards");
+            this._eFilterCards.Name = "_eFilterCards";
+            this._eFilterCards.KeyUp += new System.Windows.Forms.KeyEventHandler(this._eFilterCards_KeyUp);
             // 
             // CarEditForm
             // 

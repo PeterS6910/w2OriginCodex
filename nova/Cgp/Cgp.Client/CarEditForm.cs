@@ -5,6 +5,7 @@ using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
+using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -24,6 +25,7 @@ namespace Contal.Cgp.Client
         {
             InitializeComponent();
             _editingObject = car;
+            _ilbCards.ImageList = ObjectImageList.Singleton.ClientObjectImages;
             SetReferenceEditColors();
             _tcCar.SelectedIndexChanged += _tcCar_SelectedIndexChanged;
             _tcCar_SelectedIndexChanged(null, null);
@@ -117,8 +119,8 @@ namespace Contal.Cgp.Client
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
             _eDescription.Text = string.Empty;
-            _lvAssignedCards.Items.Clear();
-            _lvAvailableCards.Items.Clear();
+            _ilbCards.Items.Clear();
+            _eFilterCards.Text = string.Empty;
         }
 
         protected override void SetValuesEdit()
@@ -128,7 +130,7 @@ namespace Contal.Cgp.Client
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
             _eDescription.Text = _editingObject.Description;
-            LoadCards();
+            LoadCards(_eFilterCards.Text);
         }
 
         protected override void EditEnd()
@@ -150,10 +152,9 @@ namespace Contal.Cgp.Client
         }
 
 
-        private void LoadCards()
+        private void LoadCards(string filter)
         {
-            _lvAssignedCards.Items.Clear();
-            _lvAvailableCards.Items.Clear();
+            _ilbCards.Items.Clear();
             if (_editingObject.IdCar == Guid.Empty)
                 return;
             Exception error;
@@ -165,49 +166,16 @@ namespace Contal.Cgp.Client
                 return;
             }
 
-            ICollection<Card> allCardsCollection = provider.Cards.List(out error);
-            var activeCards = new List<Card>();
-            if (allCardsCollection != null)
-            {
-                foreach (var card in allCardsCollection)
-                {
-                    if (card.State == (byte)CardState.Active || card.State == (byte)CardState.HybridActive)
-                    {
-                        if (card.GuidPerson == Guid.Empty)
-                            continue;
-
-                        activeCards.Add(card);
-                    }
-                }
-            }
             IList<Card> assigned = provider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
-            var assignedSet = new HashSet<Guid>();
             if (assigned != null)
             {
                 foreach (var card in assigned)
                 {
-                    assignedSet.Add(card.IdCard);
-                    string cardText = card.FullCardNumber.ToString();
-                    if (card.Person != null && card.GuidPerson != Guid.Empty)
+                    string cardText = BuildCardDescription(card);
+                    if (string.IsNullOrEmpty(filter) || cardText.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
-                        var person = provider.Persons.GetObjectById(card.GuidPerson);
-                        cardText += " - " + person.FirstName + " " + person.Surname;
+                        _ilbCards.Items.Add(new ImageListBoxItem(card, card.GetSubTypeImageString("State")));
                     }
-
-                    _lvAssignedCards.Items.Add(new ListViewItem(cardText) { Tag = card });
-                }
-            }
-            foreach (var card in activeCards)
-            {
-                if (!assignedSet.Contains(card.IdCard))
-                {
-                    string cardText = card.FullCardNumber.ToString();
-                    if (card.Person != null && card.GuidPerson != Guid.Empty)
-                    {
-                        var person = provider.Persons.GetObjectById(card.GuidPerson);
-                        cardText += " - " + person.FirstName + " " + person.Surname;
-                    }
-                    _lvAvailableCards.Items.Add(new ListViewItem(cardText) { Tag = card });
                 }
             }
         }
@@ -233,51 +201,170 @@ namespace Contal.Cgp.Client
             return cardText;
         }
 
-        private void _bAssignCard_Click(object sender, EventArgs e)
+        private void _bAddCard_Click(object sender, EventArgs e)
         {
-
-            if (_lvAssignedCards.SelectedItems.Count == 0)
-                return;
-            foreach (ListViewItem item in _lvAssignedCards.SelectedItems)
+            if (AddCards())
             {
-                var card = item.Tag as Card;
-                if (card != null)
+                LoadCards(_eFilterCards.Text);
+            }
+        }
+
+        private bool AddCards()
+        {
+            if (_editingObject.IdCar == Guid.Empty)
+            {
+                Ok_Click(false);
+                return false;
+            }
+
+            var provider = GetCarProvider(out var providerError);
+            if (provider == null)
+            {
+                if (providerError != null)
+                    MessageBox.Show(providerError.Message);
+                return false;
+            }
+
+            IList<IModifyObject> listCards = new List<IModifyObject>();
+            IList<Card> availableCards = GetAvailableCards(provider, out var error);
+            if (error != null)
+            {
+                MessageBox.Show(error.Message);
+                return false;
+            }
+
+            if (availableCards != null)
+            {
+                foreach (var card in availableCards)
                 {
-                    var provider = GetCarProvider(out var providerError);
-                    if (provider == null)
+                    if (card is IModifyObject modifyObject)
+                        listCards.Add(modifyObject);
+                }
+            }
+
+            ListboxFormAdd formAdd = new ListboxFormAdd(listCards, GetString("CardsFormCardsForm"), true);
+            ListOfObjects outCards;
+            formAdd.ShowDialogMultiSelect(out outCards);
+            if (outCards != null)
+            {
+                IList<Card> selectedCards = provider.Cards.GetCardsByListGuids(CalGuidFromListObj(outCards));
+                if (selectedCards != null)
+                {
+                    foreach (var card in selectedCards)
                     {
-                        if (providerError != null)
-                            MessageBox.Show(providerError.Message);
-                        return;
+                        provider.CarCards.AssignCardToCar(_editingObject.IdCar, card.IdCard);
                     }
 
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private IList<Card> GetAvailableCards(ICgpServerRemotingProvider provider, out Exception error)
+        {
+            error = null;
+            ICollection<Card> allCardsCollection = provider.Cards.List(out error);
+            if (error != null)
+                return null;
+
+            IList<Card> assignedCards = provider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
+            if (error != null)
+                return null;
+
+            var assignedSet = new HashSet<Guid>();
+            if (assignedCards != null)
+            {
+                foreach (var card in assignedCards)
+                {
+                    assignedSet.Add(card.IdCard);
+                }
+            }
+
+            var activeCards = new List<Card>();
+            if (allCardsCollection != null)
+            {
+                foreach (var card in allCardsCollection)
+                {
+                    if (card.State != (byte)CardState.Active && card.State != (byte)CardState.HybridActive)
+                        continue;
+
+                    if (card.GuidPerson == Guid.Empty)
+                        continue;
+
+                    if (assignedSet.Contains(card.IdCard))
+                        continue;
+
+                    activeCards.Add(card);
+                }
+            }
+            return activeCards;
+        }
+
+        private IList<object> CalGuidFromListObj(ListOfObjects cards)
+        {
+            IList<object> listGuids = new List<object>();
+            foreach (object cardLo in cards)
+            {
+                listGuids.Add((cardLo as IModifyObject).GetId);
+            }
+            return listGuids;
+        }
+
+        private void _bDeleteCard_Click(object sender, EventArgs e)
+        {
+            ListBox.SelectedObjectCollection selectedItems = _ilbCards.SelectedItems;
+            if (selectedItems == null || selectedItems.Count == 0)
+                return;
+
+            var provider = GetCarProvider(out var providerError);
+            if (provider == null)
+            {
+                if (providerError != null)
+                    MessageBox.Show(providerError.Message);
+                return;
+            }
+
+            foreach (object obj in selectedItems)
+            {
+                var card = (obj as ImageListBoxItem)?.MyObject as Card;
+                if (card != null)
+                {
                     provider.CarCards.UnassignCardFromCar(_editingObject.IdCar, card.IdCard);
                 }
             }
-            LoadCards();
+
+            LoadCards(_eFilterCards.Text);
         }
 
-        private void _bUnassignCard_Click(object sender, EventArgs e)
+        private void _eFilterCards_KeyUp(object sender, KeyEventArgs e)
         {
-            if (_lvAvailableCards.SelectedItems.Count == 0)
-                return;
-            foreach (ListViewItem item in _lvAvailableCards.SelectedItems)
-            {
-                var card = item.Tag as Card;
-                if (card != null)
-                {
-                    var provider = GetCarProvider(out var providerError);
-                    if (provider == null)
-                    {
-                        if (providerError != null)
-                            MessageBox.Show(providerError.Message);
-                        return;
-                    }
+            LoadCards(_eFilterCards.Text);
+        }
 
-                    provider.CarCards.AssignCardToCar(_editingObject.IdCar, card.IdCard);
-                }
+        private void _tpCards_Enter(object sender, EventArgs e)
+        {
+            LoadCards(_eFilterCards.Text);
+        }
+
+        private void _ilbCards_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (_ilbCards.SelectedItemObject != null)
+            {
+                CardsForm.Singleton.OpenEditForm(_ilbCards.SelectedItemObject as Card, DoAfterCardEdited);
             }
-            LoadCards();
+        }
+
+        private void DoAfterCardEdited(object card)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<object>(DoAfterCardEdited), card);
+            }
+            else
+            {
+                LoadCards(_eFilterCards.Text);
+            }
         }
 
         private void _bCancel_Click(object sender, EventArgs e)

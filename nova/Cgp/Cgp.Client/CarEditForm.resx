@@ -701,6 +701,96 @@
   </data>
     <data name="&gt;&gt;_tcCar.ZOrder" xml:space="preserve">
     <value>0</value>
+    </data>
+    <data name="_eFilterCards.Location" type="System.Drawing.Point, System.Drawing">
+      <value>5, 5</value>
+    </data>
+    <data name="_eFilterCards.Size" type="System.Drawing.Size, System.Drawing">
+      <value>576, 20</value>
+    </data>
+    <data name="_eFilterCards.TabIndex" type="System.Int32, mscorlib">
+      <value>0</value>
+    </data>
+    <data name="&gt;&gt;_eFilterCards.Name" xml:space="preserve">
+    <value>_eFilterCards</value>
+  </data>
+    <data name="&gt;&gt;_eFilterCards.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+    <data name="&gt;&gt;_eFilterCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+    <data name="&gt;&gt;_eFilterCards.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+    <data name="_ilbCards.Location" type="System.Drawing.Point, System.Drawing">
+      <value>6, 30</value>
+    </data>
+    <data name="_ilbCards.Size" type="System.Drawing.Size, System.Drawing">
+      <value>576, 232</value>
+    </data>
+    <data name="_ilbCards.TabIndex" type="System.Int32, mscorlib">
+      <value>1</value>
+    </data>
+    <data name="&gt;&gt;_ilbCards.Name" xml:space="preserve">
+    <value>_ilbCards</value>
+  </data>
+    <data name="&gt;&gt;_ilbCards.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.ImageListBox, IwQuickUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+    <data name="&gt;&gt;_ilbCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+    <data name="&gt;&gt;_ilbCards.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+    <data name="_bDeleteCard.Location" type="System.Drawing.Point, System.Drawing">
+      <value>426, 270</value>
+    </data>
+    <data name="_bDeleteCard.Size" type="System.Drawing.Size, System.Drawing">
+      <value>75, 23</value>
+    </data>
+    <data name="_bDeleteCard.TabIndex" type="System.Int32, mscorlib">
+      <value>2</value>
+    </data>
+    <data name="_bDeleteCard.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+    <data name="&gt;&gt;_bDeleteCard.Name" xml:space="preserve">
+    <value>_bDeleteCard</value>
+  </data>
+    <data name="&gt;&gt;_bDeleteCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+    <data name="&gt;&gt;_bDeleteCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+    <data name="&gt;&gt;_bDeleteCard.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+    <data name="_bAddCard.Location" type="System.Drawing.Point, System.Drawing">
+      <value>507, 270</value>
+    </data>
+    <data name="_bAddCard.Size" type="System.Drawing.Size, System.Drawing">
+      <value>75, 23</value>
+    </data>
+    <data name="_bAddCard.TabIndex" type="System.Int32, mscorlib">
+      <value>3</value>
+    </data>
+    <data name="_bAddCard.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+    <data name="&gt;&gt;_bAddCard.Name" xml:space="preserve">
+    <value>_bAddCard</value>
+  </data>
+    <data name="&gt;&gt;_bAddCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+    <data name="&gt;&gt;_bAddCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+    <data name="&gt;&gt;_bAddCard.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
     <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
         <value>True</value>
