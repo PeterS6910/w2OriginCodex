@@ -12,10 +12,12 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TabControl _tcCar;
         private System.Windows.Forms.TabPage _tpInformation;
         private System.Windows.Forms.TabPage _tpCards;
+        private System.Windows.Forms.TabPage _tpAccessControlList;
         private System.Windows.Forms.TextBox _eFilterCards;
         private Contal.IwQuick.UI.ImageListBox _ilbCards;
         private System.Windows.Forms.Button _bDeleteCard;
         private System.Windows.Forms.Button _bAddCard;
+        private Contal.Cgp.Components.CgpDataGridView _cdgvAclCars;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -28,6 +30,8 @@ namespace Contal.Cgp.Client
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CarEditForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this._eLp = new System.Windows.Forms.TextBox();
             this._eBrand = new System.Windows.Forms.TextBox();
             this._eDescription = new System.Windows.Forms.TextBox();
@@ -49,9 +53,13 @@ namespace Contal.Cgp.Client
             this._bDeleteCard = new System.Windows.Forms.Button();
             this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
             this._eFilterCards = new System.Windows.Forms.TextBox();
+            this._tpAccessControlList = new System.Windows.Forms.TabPage();
+            this._cdgvAclCars = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
+            this._tpAccessControlList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // _eLp
@@ -93,6 +101,7 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this._tcCar, "_tcCar");
             this._tcCar.Controls.Add(this._tpInformation);
             this._tcCar.Controls.Add(this._tpCards);
+            this._tcCar.Controls.Add(this._tpAccessControlList);
             this._tcCar.Name = "_tcCar";
             this._tcCar.SelectedIndex = 0;
             this._tcCar.TabStop = false;
@@ -241,6 +250,35 @@ namespace Contal.Cgp.Client
             this._eFilterCards.Name = "_eFilterCards";
             this._eFilterCards.KeyUp += new System.Windows.Forms.KeyEventHandler(this._eFilterCards_KeyUp);
             // 
+            // _tpAccessControlList
+            // 
+            this._tpAccessControlList.Controls.Add(this._cdgvAclCars);
+            resources.ApplyResources(this._tpAccessControlList, "_tpAccessControlList");
+            this._tpAccessControlList.Name = "_tpAccessControlList";
+            this._tpAccessControlList.Enter += new System.EventHandler(this._tpAccessControlList_Enter);
+            // 
+            // _cdgvAclCars
+            // 
+            this._cdgvAclCars.AllwaysRefreshOrder = false;
+            this._cdgvAclCars.CgpDataGridEvents = null;
+            this._cdgvAclCars.CopyOnRightClick = true;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._cdgvAclCars.DataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this._cdgvAclCars.DataGrid.ColumnHeadersHeight = 34;
+            this._cdgvAclCars.DataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._cdgvAclCars.DataGrid.Location = new System.Drawing.Point(0, 0);
+            this._cdgvAclCars.DataGrid.Name = "_dgvAclCars";
+            this._cdgvAclCars.DataGrid.RowHeadersWidth = 62;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this._cdgvAclCars.DataGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this._cdgvAclCars.DataGrid.TabIndex = 0;
+            this._cdgvAclCars.DefaultSortColumnName = null;
+            this._cdgvAclCars.DefaultSortDirection = System.ComponentModel.ListSortDirection.Ascending;
+            this._cdgvAclCars.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._cdgvAclCars.LocalizationHelper = null;
+            resources.ApplyResources(this._cdgvAclCars, "_cdgvAclCars");
+            this._cdgvAclCars.Name = "_cdgvAclCars";
+            // 
             // CarEditForm
             // 
             this.AcceptButton = this._bOk;
@@ -255,6 +293,8 @@ namespace Contal.Cgp.Client
             this._tpInformation.PerformLayout();
             this._tpCards.ResumeLayout(false);
             this._tpCards.PerformLayout();
+            this._tpAccessControlList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }

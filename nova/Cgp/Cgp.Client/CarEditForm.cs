@@ -5,6 +5,7 @@ using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.Server.Beans;
+using Contal.IwQuick;
 using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace Contal.Cgp.Client
         ACgpEditForm<Car>
 #endif
     {
+        private BindingSource _aclCarsBindingSource;
         public CarEditForm(Car car, ShowOptionsEditForm showOption)
             : base(car, showOption)
         {
@@ -347,6 +349,11 @@ namespace Contal.Cgp.Client
             LoadCards(_eFilterCards.Text);
         }
 
+        private void _tpAccessControlList_Enter(object sender, EventArgs e)
+        {
+            LoadAclCars();
+        }
+
         private void _ilbCards_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (_ilbCards.SelectedItemObject != null)
@@ -375,6 +382,58 @@ namespace Contal.Cgp.Client
         private void _bOk_Click(object sender, EventArgs e)
         {
             Ok_Click();
+        }
+
+        private void LoadAclCars()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return;
+
+            if (_editingObject.IdCar == Guid.Empty)
+            {
+                _aclCarsBindingSource = null;
+                _cdgvAclCars.DataGrid.DataSource = null;
+                return;
+            }
+
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            Exception error;
+            var aclCars = ncasProvider.ACLCars.GetAclCarsByCar(_editingObject.IdCar, out error);
+            if (error != null)
+            {
+                if (error is AccessDeniedException)
+                {
+                    Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTableAccessDenied"));
+                }
+                else
+                {
+                    Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
+                }
+
+                _aclCarsBindingSource = null;
+                _cdgvAclCars.DataGrid.DataSource = null;
+                return;
+            }
+
+            _aclCarsBindingSource = new BindingSource
+            {
+                DataSource = aclCars
+            };
+
+            _cdgvAclCars.ModifyGridView(
+                _aclCarsBindingSource,
+                ACLCar.COLUMN_ACCESS_CONTROL_LIST,
+                ACLCar.COLUMN_DATE_FROM,
+                ACLCar.COLUMN_DATE_TO);
+            _cdgvAclCars.DataGrid.Columns[ACLCar.COLUMN_DATE_FROM].DefaultCellStyle.Format =
+                "MM-dd-yyyy HH:mm:ss";
+            _cdgvAclCars.DataGrid.Columns[ACLCar.COLUMN_DATE_FROM].AutoSizeMode =
+                DataGridViewAutoSizeColumnMode.DisplayedCells;
+            _cdgvAclCars.DataGrid.Columns[ACLCar.COLUMN_DATE_TO].DefaultCellStyle.Format =
+                "MM-dd-yyyy HH:mm:ss";
         }
 
         private ICgpServerRemotingProvider GetCarProvider(out Exception error)

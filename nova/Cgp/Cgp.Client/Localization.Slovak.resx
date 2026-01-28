@@ -1164,6 +1164,9 @@
   <data name="CarEditForm_tpCards" xml:space="preserve">
     <value>Karty</value>
   </data>
+  <data name="CarEditForm_tpAccessControlList" xml:space="preserve">
+    <value>Prístupové práva</value>
+  </data>
   <data name="CarEditForm_tpInformation" xml:space="preserve">
     <value>Informácie</value>
   </data>

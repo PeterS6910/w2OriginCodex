@@ -1852,6 +1852,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prístupové práva.
+        /// </summary>
+        internal static string CarEditForm_tpAccessControlList {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpAccessControlList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Karty.
         /// </summary>
         internal static string CarEditForm_tpCards {

@@ -4750,6 +4750,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Behörigheter.
+        /// </summary>
+        internal static string CarEditForm_tpAccessControlList {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpAccessControlList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kort.
         /// </summary>
         internal static string CarEditForm_tpCards {
