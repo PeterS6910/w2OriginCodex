@@ -173,35 +173,36 @@ namespace Contal.Cgp.Client
             {
                 foreach (var card in assigned)
                 {
-                    string cardText = BuildCardDescription(card);
+                    string cardText = BuildCardDescription(card, provider);
                     if (string.IsNullOrEmpty(filter) || cardText.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
-                        _ilbCards.Items.Add(new ImageListBoxItem(card, card.GetSubTypeImageString("State")));
+                        _ilbCards.Items.Add(new ImageListBoxItem(new CardDisplayItem(card, cardText), card.GetSubTypeImageString("State")));
                     }
                 }
             }
         }
 
-        private string BuildCardDescription(Card card)
+        private string BuildCardDescription(Card card, ICgpServerRemotingProvider provider)
         {
-            string cardText = card.FullCardNumber.ToString();
-
-            if (card.GuidPerson != Guid.Empty)
+            string cardText = card.ToString();
+            string personName = GetPersonDisplayName(provider, card.GuidPerson);
+            if (!string.IsNullOrWhiteSpace(personName))
             {
-                var provider = GetCarProvider(out var error);
-                if (provider == null)
-                {
-                    if (error != null)
-                        MessageBox.Show(error.Message);
-                    return cardText;
-                }
-
-                Person person = provider.Persons.GetObjectById(card.GuidPerson);
-                cardText += " - " + person?.FirstName + " " + person?.Surname;
+                cardText = $"{cardText}-{personName}";
             }
 
             return cardText;
         }
+
+        private string GetPersonDisplayName(ICgpServerRemotingProvider provider, Guid personId)
+        {
+            if (personId == Guid.Empty || provider == null)
+                return string.Empty;
+
+            Person person = provider.Persons.GetObjectById(personId);
+            return person == null ? string.Empty : person.ToString();
+        }
+
 
         private void _bAddCard_Click(object sender, EventArgs e)
         {
@@ -277,7 +278,30 @@ namespace Contal.Cgp.Client
                 return false;
             }
 
-            ListboxFormAdd formAdd = new ListboxFormAdd(listCards, GetString("CardsFormCardsForm"), true);
+            IList<object> cardIds = GetCardIdsFromModifyObjects(listCards);
+            IList<Card> availableCards = provider.Cards.GetCardsByListGuids(cardIds);
+            var cardLookup = new Dictionary<Guid, Card>();
+            if (availableCards != null)
+            {
+                foreach (var card in availableCards)
+                {
+                    cardLookup[card.IdCard] = card;
+                }
+            }
+
+            List<IModifyObject> displayCards = new List<IModifyObject>();
+            foreach (var modifyObject in listCards)
+            {
+                string displayName = modifyObject.FullName;
+                if (cardLookup.TryGetValue(modifyObject.GetId, out var card))
+                {
+                    displayName = BuildCardDescription(card, provider);
+                }
+
+                displayCards.Add(new CardModifyDisplayObject(modifyObject, displayName));
+            }
+
+            ListboxFormAdd formAdd = new ListboxFormAdd(displayCards, GetString("CardsFormCardsForm"), true);
             ListOfObjects outCards;
             formAdd.ShowDialogMultiSelect(out outCards);
             if (outCards != null)
@@ -306,6 +330,17 @@ namespace Contal.Cgp.Client
             return listGuids;
         }
 
+        private IList<object> GetCardIdsFromModifyObjects(IEnumerable<IModifyObject> cards)
+        {
+            IList<object> listGuids = new List<object>();
+            foreach (var card in cards)
+            {
+                listGuids.Add(card.GetId);
+            }
+
+            return listGuids;
+        }
+
         private void _bDeleteCard_Click(object sender, EventArgs e)
         {
             ListBox.SelectedObjectCollection selectedItems = _ilbCards.SelectedItems;
@@ -322,7 +357,7 @@ namespace Contal.Cgp.Client
 
             foreach (object obj in selectedItems)
             {
-                var card = (obj as ImageListBoxItem)?.MyObject as Card;
+                var card = GetCardFromListItem(obj as ImageListBoxItem);
                 if (card != null)
                 {
                     provider.CarCards.UnassignCardFromCar(_editingObject.IdCar, card.IdCard);
@@ -349,10 +384,9 @@ namespace Contal.Cgp.Client
 
         private void _ilbCards_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (_ilbCards.SelectedItemObject != null)
-            {
-                CardsForm.Singleton.OpenEditForm(_ilbCards.SelectedItemObject as Card, DoAfterCardEdited);
-            }
+            var card = GetCardFromSelectedItem();
+            if (card != null)
+                CardsForm.Singleton.OpenEditForm(card, DoAfterCardEdited);
         }
 
         private void DoAfterCardEdited(object card)
@@ -365,6 +399,74 @@ namespace Contal.Cgp.Client
             {
                 LoadCards(_eFilterCards.Text);
             }
+        }
+
+        private Card GetCardFromSelectedItem()
+        {
+            return GetCardFromListItem(_ilbCards.SelectedItem as ImageListBoxItem);
+        }
+
+        private Card GetCardFromListItem(ImageListBoxItem item)
+        {
+            if (item == null)
+                return null;
+
+            if (item.MyObject is CardDisplayItem cardDisplayItem)
+                return cardDisplayItem.Card;
+
+            return item.MyObject as Card;
+        }
+
+        private sealed class CardDisplayItem
+        {
+            public CardDisplayItem(Card card, string displayText)
+            {
+                Card = card;
+                DisplayText = displayText;
+            }
+
+            public Card Card { get; }
+            public string DisplayText { get; }
+
+            public override string ToString()
+            {
+                return DisplayText;
+            }
+        }
+
+        private sealed class CardModifyDisplayObject : IModifyObject
+        {
+            private readonly IModifyObject _inner;
+
+            public CardModifyDisplayObject(IModifyObject inner, string fullName)
+            {
+                _inner = inner;
+                FullName = fullName;
+            }
+
+            public string FullName { get; set; }
+
+            public bool Contains(string expression)
+            {
+                if (string.IsNullOrEmpty(expression))
+                    return true;
+
+                if (_inner.Contains(expression))
+                    return true;
+
+                return AOrmObject.RemoveDiacritism(FullName)
+                    .ToLower()
+                    .Contains(AOrmObject.RemoveDiacritism(expression).ToLower());
+            }
+
+            public ObjectType GetOrmObjectType => _inner.GetOrmObjectType;
+
+            public string GetObjectSubType(byte option)
+            {
+                return _inner.GetObjectSubType(option);
+            }
+
+            public Guid GetId => _inner.GetId;
         }
 
         private void _bCancel_Click(object sender, EventArgs e)
