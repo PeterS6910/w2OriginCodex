@@ -66,10 +66,10 @@ namespace Contal.Cgp.NCAS.Server.DB
             }
         }
 
-        public ICollection<ACLCar> GetAclCarsByCar(Guid idCar, out Exception error)
+        public IList<ACLCar> GetAclCarsByCar(Guid idCar, out Exception error)
         {
             error = null;
-            ICollection<ACLCar> resultAclCar = new List<ACLCar>();
+            IList<ACLCar> resultAclCar = new List<ACLCar>();
 
             try
             {

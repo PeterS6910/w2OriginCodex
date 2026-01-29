@@ -211,6 +211,47 @@ namespace Contal.Cgp.Client
             }
         }
 
+        private void _bCreateCard_Click(object sender, EventArgs e)
+        {
+            if (_editingObject.IdCar == Guid.Empty)
+            {
+                Ok_Click(false);
+            }
+
+            if (_editingObject.IdCar != Guid.Empty)
+            {
+                Card card = new Card();
+                CardsForm.Singleton.OpenInsertFromEdit(ref card, DoAfterCreateCard);
+            }
+        }
+
+        private void DoAfterCreateCard(object card)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<object>(DoAfterCreateCard), card);
+            }
+            else
+            {
+                var createdCard = card as Card;
+                if (createdCard != null && _editingObject.IdCar != Guid.Empty)
+                {
+                    var provider = GetCarProvider(out var providerError);
+                    if (provider == null)
+                    {
+                        if (providerError != null)
+                            MessageBox.Show(providerError.Message);
+                    }
+                    else
+                    {
+                        provider.CarCards.AssignCardToCar(_editingObject.IdCar, createdCard.IdCard);
+                    }
+                }
+
+                LoadCards(_eFilterCards.Text);
+            }
+        }
+
         private bool AddCards()
         {
             if (_editingObject.IdCar == Guid.Empty)
@@ -401,7 +442,18 @@ namespace Contal.Cgp.Client
                 return;
 
             Exception error;
-            var aclCars = ncasProvider.ACLCars.GetAclCarsByCar(_editingObject.IdCar, out error);
+            IList<ACLCar> aclCars = null;
+            try
+            {
+                aclCars = ncasProvider.ACLCars.GetAclCarsByCar(_editingObject.IdCar, out error);
+            }
+            catch (MissingMethodException)
+            {
+                _aclCarsBindingSource = null;
+                _cdgvAclCars.DataGrid.DataSource = null;
+                Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
+                return;
+            }
             if (error != null)
             {
                 if (error is AccessDeniedException)

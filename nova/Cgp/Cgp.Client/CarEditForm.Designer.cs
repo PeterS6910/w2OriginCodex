@@ -17,6 +17,7 @@ namespace Contal.Cgp.Client
         private Contal.IwQuick.UI.ImageListBox _ilbCards;
         private System.Windows.Forms.Button _bDeleteCard;
         private System.Windows.Forms.Button _bAddCard;
+        private System.Windows.Forms.Button _bCreateCard;
         private Contal.Cgp.Components.CgpDataGridView _cdgvAclCars;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -51,6 +52,7 @@ namespace Contal.Cgp.Client
             this._tpCards = new System.Windows.Forms.TabPage();
             this._bAddCard = new System.Windows.Forms.Button();
             this._bDeleteCard = new System.Windows.Forms.Button();
+            this._bCreateCard = new System.Windows.Forms.Button();
             this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
             this._eFilterCards = new System.Windows.Forms.TextBox();
             this._tpAccessControlList = new System.Windows.Forms.TabPage();
@@ -201,6 +203,7 @@ namespace Contal.Cgp.Client
             // _tpCards
             // 
             this._tpCards.Controls.Add(this._bAddCard);
+            this._tpCards.Controls.Add(this._bCreateCard);
             this._tpCards.Controls.Add(this._bDeleteCard);
             this._tpCards.Controls.Add(this._ilbCards);
             this._tpCards.Controls.Add(this._eFilterCards);
@@ -215,6 +218,14 @@ namespace Contal.Cgp.Client
             this._bAddCard.Name = "_bAddCard";
             this._bAddCard.UseVisualStyleBackColor = true;
             this._bAddCard.Click += new System.EventHandler(this._bAddCard_Click);
+            // 
+            // _bCreateCard
+            // 
+            this._bCreateCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this._bCreateCard, "_bCreateCard");
+            this._bCreateCard.Name = "_bCreateCard";
+            this._bCreateCard.UseVisualStyleBackColor = true;
+            this._bCreateCard.Click += new System.EventHandler(this._bCreateCard_Click);
             // 
             // _bDeleteCard
             // 

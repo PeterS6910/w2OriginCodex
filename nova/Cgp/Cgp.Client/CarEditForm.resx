@@ -796,7 +796,7 @@
     <value>1</value>
   </data>
   <data name="_bDeleteCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>426, 270</value>
+    <value>345, 270</value>
   </data>
   <data name="_bDeleteCard.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -819,6 +819,30 @@
   <data name="&gt;&gt;_bDeleteCard.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="_bCreateCard.Location" type="System.Drawing.Point, System.Drawing">
+    <value>426, 270</value>
+  </data>
+  <data name="_bCreateCard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="_bCreateCard.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_bCreateCard.Text" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Name" xml:space="preserve">
+    <value>_bCreateCard</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="_bAddCard.Location" type="System.Drawing.Point, System.Drawing">
     <value>507, 270</value>
   </data>
@@ -826,7 +850,7 @@
     <value>75, 23</value>
   </data>
   <data name="_bAddCard.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="_bAddCard.Text" xml:space="preserve">
     <value>Add</value>
@@ -841,7 +865,7 @@
     <value>_tpCards</value>
   </data>
   <data name="&gt;&gt;_bAddCard.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
