@@ -756,6 +756,15 @@
   <data name="CarEditForm_bDeleteDoorEnvironment" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="CarEditForm_bCreateCard" xml:space="preserve">
+    <value>Skapa</value>
+  </data>
+  <data name="CarEditForm_bAddCard" xml:space="preserve">
+    <value>Lägg till</value>
+  </data>
+  <data name="CarEditForm_bDeleteCard" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
   <data name="CarEditFormEditText" xml:space="preserve">
     <value>Editing car</value>
   </data>

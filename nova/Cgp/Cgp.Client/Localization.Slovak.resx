@@ -1203,6 +1203,15 @@
   <data name="CarEditForm_bDeleteDoorEnvironment" xml:space="preserve">
     <value>Zmazať</value>
   </data>
+  <data name="CarEditForm_bCreateCard" xml:space="preserve">
+    <value>Vytvoriť</value>
+  </data>
+  <data name="CarEditForm_bAddCard" xml:space="preserve">
+    <value>Pridať</value>
+  </data>
+  <data name="CarEditForm_bDeleteCard" xml:space="preserve">
+    <value>Zmazať</value>
+  </data>
   <data name="CarEditFormEditText" xml:space="preserve">
     <value>Editing car</value>
   </data>

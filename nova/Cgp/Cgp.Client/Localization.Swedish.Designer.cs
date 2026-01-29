@@ -4678,6 +4678,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lägg till.
+        /// </summary>
+        internal static string CarEditForm_bAddCard {
+            get {
+                return ResourceManager.GetString("CarEditForm_bAddCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string CarEditForm_bAddDoorEnvironment {
@@ -4687,11 +4696,29 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skapa.
+        /// </summary>
+        internal static string CarEditForm_bCreateCard {
+            get {
+                return ResourceManager.GetString("CarEditForm_bCreateCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         internal static string CarEditForm_bCreateDoorEnvironment {
             get {
                 return ResourceManager.GetString("CarEditForm_bCreateDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ta bort.
+        /// </summary>
+        internal static string CarEditForm_bDeleteCard {
+            get {
+                return ResourceManager.GetString("CarEditForm_bDeleteCard", resourceCulture);
             }
         }
         
