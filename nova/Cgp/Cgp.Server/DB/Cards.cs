@@ -738,6 +738,40 @@ namespace Contal.Cgp.Server.DB
             return listCardModifyObj;
         }
 
+        public IList<IModifyObject> ModifyObjectsFormCarAddCard(Guid idCar, out Exception error)
+        {
+            error = null;
+            var listCardModifyObj = new List<IModifyObject>();
+            try
+            {
+                IList<Card> listCard = CarCards.Singleton.GetAvailableCards(idCar, out error);
+                if (error != null)
+                    return listCardModifyObj;
+
+                if (listCard != null)
+                {
+                    foreach (var card in listCard)
+                    {
+                        if (!(StructuredSubSites.Singleton.HasAccessUpdate(card)
+                              || HasAccessViewForObject(card)))
+                        {
+                            continue;
+                        }
+
+                        listCardModifyObj.Add(new CardModifyObj(card));
+                    }
+
+                    listCardModifyObj = listCardModifyObj.OrderBy(card => card.ToString()).ToList();
+                }
+            }
+            catch (Exception exError)
+            {
+                error = exError;
+            }
+
+            return listCardModifyObj;
+        }
+
         public bool SetCardsToPerson(IList<Guid> listIdCards, Guid idPerson)
         {
             try

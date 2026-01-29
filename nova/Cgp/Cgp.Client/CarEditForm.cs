@@ -252,6 +252,7 @@ namespace Contal.Cgp.Client
             }
         }
 
+
         private bool AddCards()
         {
             if (_editingObject.IdCar == Guid.Empty)
@@ -269,20 +270,11 @@ namespace Contal.Cgp.Client
             }
 
             IList<IModifyObject> listCards = new List<IModifyObject>();
-            IList<Card> availableCards = GetAvailableCards(provider, out var error);
+            listCards = provider.Cards.ModifyObjectsFormCarAddCard(_editingObject.IdCar, out var error);
             if (error != null)
             {
                 MessageBox.Show(error.Message);
                 return false;
-            }
-
-            if (availableCards != null)
-            {
-                foreach (var card in availableCards)
-                {
-                    if (card is IModifyObject modifyObject)
-                        listCards.Add(modifyObject);
-                }
             }
 
             ListboxFormAdd formAdd = new ListboxFormAdd(listCards, GetString("CardsFormCardsForm"), true);
@@ -302,46 +294,6 @@ namespace Contal.Cgp.Client
                 return true;
             }
             return false;
-        }
-
-        private IList<Card> GetAvailableCards(ICgpServerRemotingProvider provider, out Exception error)
-        {
-            error = null;
-            ICollection<Card> allCardsCollection = provider.Cards.List(out error);
-            if (error != null)
-                return null;
-
-            IList<Card> assignedCards = provider.CarCards.GetCardsForCar(_editingObject.IdCar, out error);
-            if (error != null)
-                return null;
-
-            var assignedSet = new HashSet<Guid>();
-            if (assignedCards != null)
-            {
-                foreach (var card in assignedCards)
-                {
-                    assignedSet.Add(card.IdCard);
-                }
-            }
-
-            var activeCards = new List<Card>();
-            if (allCardsCollection != null)
-            {
-                foreach (var card in allCardsCollection)
-                {
-                    if (card.State != (byte)CardState.Active && card.State != (byte)CardState.HybridActive)
-                        continue;
-
-                    if (card.GuidPerson == Guid.Empty)
-                        continue;
-
-                    if (assignedSet.Contains(card.IdCard))
-                        continue;
-
-                    activeCards.Add(card);
-                }
-            }
-            return activeCards;
         }
 
         private IList<object> CalGuidFromListObj(ListOfObjects cards)

@@ -16,6 +16,7 @@ namespace Contal.Cgp.RemotingCommon
         IList<IModifyObject> ListModifyObjects(Guid[] except, bool allowRelatedCards, out Exception error);
         IList<IModifyObject> ModifyObjectsSelectByCriteria(IList<FilterSettings> filterSettings, out Exception error);
         IList<IModifyObject> ModifyObjectsFormPersonAddCard(Guid idPerson, out Exception error);
+        IList<IModifyObject> ModifyObjectsFormCarAddCard(Guid idCar, out Exception error);
         IList<Card> GetCardsByListGuids(IList<object> idCards);
         bool ImportCards(Guid formIdentification, List<ImportCardData> importCardsData, CSVImportType importType, Guid guidCardSystem, out List<CSVImportCard> csvImportCards, out bool licenceRestriction, out int importedCardsCount);
         Card GetCardByFullNumber(string cardNumber);
