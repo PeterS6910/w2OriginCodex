@@ -19,6 +19,16 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Button _bAddCard;
         private System.Windows.Forms.Button _bCreateCard;
         private Contal.Cgp.Components.CgpDataGridView _cdgvAclCars;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmAccessControlList;
+        private System.Windows.Forms.ToolStripMenuItem _tsiAclModify;
+        private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateFrom;
+        private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateTo;
+        private System.Windows.Forms.Label _lAclAccessControlList;
+        private System.Windows.Forms.Label _lAclDateFrom;
+        private System.Windows.Forms.Label _lAclDateTo;
+        private System.Windows.Forms.Button _bAclCreate;
+        private System.Windows.Forms.Button _bAclUpdate;
+        private System.Windows.Forms.Button _bAclCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -56,6 +66,16 @@ namespace Contal.Cgp.Client
             this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
             this._eFilterCards = new System.Windows.Forms.TextBox();
             this._tpAccessControlList = new System.Windows.Forms.TabPage();
+            this._bAclCancel = new System.Windows.Forms.Button();
+            this._bAclUpdate = new System.Windows.Forms.Button();
+            this._bAclCreate = new System.Windows.Forms.Button();
+            this._lAclDateTo = new System.Windows.Forms.Label();
+            this._lAclDateFrom = new System.Windows.Forms.Label();
+            this._lAclAccessControlList = new System.Windows.Forms.Label();
+            this._tbdpAclDateTo = new Contal.IwQuick.UI.TextBoxDatePicker();
+            this._tbdpAclDateFrom = new Contal.IwQuick.UI.TextBoxDatePicker();
+            this._tbmAccessControlList = new Contal.IwQuick.UI.TextBoxMenu();
+            this._tsiAclModify = new System.Windows.Forms.ToolStripMenuItem();
             this._cdgvAclCars = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
@@ -262,15 +282,184 @@ namespace Contal.Cgp.Client
             this._eFilterCards.KeyUp += new System.Windows.Forms.KeyEventHandler(this._eFilterCards_KeyUp);
             // 
             // _tpAccessControlList
-            // 
+            //
+            this._tpAccessControlList.Controls.Add(this._bAclCancel);
+            this._tpAccessControlList.Controls.Add(this._bAclUpdate);
+            this._tpAccessControlList.Controls.Add(this._bAclCreate);
+            this._tpAccessControlList.Controls.Add(this._lAclDateTo);
+            this._tpAccessControlList.Controls.Add(this._lAclDateFrom);
+            this._tpAccessControlList.Controls.Add(this._lAclAccessControlList);
+            this._tpAccessControlList.Controls.Add(this._tbdpAclDateTo);
+            this._tpAccessControlList.Controls.Add(this._tbdpAclDateFrom);
+            this._tpAccessControlList.Controls.Add(this._tbmAccessControlList);
             this._tpAccessControlList.Controls.Add(this._cdgvAclCars);
             resources.ApplyResources(this._tpAccessControlList, "_tpAccessControlList");
             this._tpAccessControlList.Name = "_tpAccessControlList";
             this._tpAccessControlList.Enter += new System.EventHandler(this._tpAccessControlList_Enter);
             // 
+            // _bAclCancel
+            // 
+            resources.ApplyResources(this._bAclCancel, "_bAclCancel");
+            this._bAclCancel.Name = "_bAclCancel";
+            this._bAclCancel.UseVisualStyleBackColor = true;
+            this._bAclCancel.Click += new System.EventHandler(this._bAclCancel_Click);
+            // 
+            // _bAclUpdate
+            // 
+            resources.ApplyResources(this._bAclUpdate, "_bAclUpdate");
+            this._bAclUpdate.Name = "_bAclUpdate";
+            this._bAclUpdate.UseVisualStyleBackColor = true;
+            this._bAclUpdate.Click += new System.EventHandler(this._bAclUpdate_Click);
+            // 
+            // _bAclCreate
+            // 
+            resources.ApplyResources(this._bAclCreate, "_bAclCreate");
+            this._bAclCreate.Name = "_bAclCreate";
+            this._bAclCreate.UseVisualStyleBackColor = true;
+            this._bAclCreate.Click += new System.EventHandler(this._bAclCreate_Click);
+            // 
+            // _lAclDateTo
+            // 
+            resources.ApplyResources(this._lAclDateTo, "_lAclDateTo");
+            this._lAclDateTo.Name = "_lAclDateTo";
+            // 
+            // _lAclDateFrom
+            // 
+            resources.ApplyResources(this._lAclDateFrom, "_lAclDateFrom");
+            this._lAclDateFrom.Name = "_lAclDateFrom";
+            // 
+            // _lAclAccessControlList
+            // 
+            resources.ApplyResources(this._lAclAccessControlList, "_lAclAccessControlList");
+            this._lAclAccessControlList.Name = "_lAclAccessControlList";
+            // 
+            // _tbdpAclDateTo
+            // 
+            this._tbdpAclDateTo.addActualTime = false;
+            resources.ApplyResources(this._tbdpAclDateTo, "_tbdpAclDateTo");
+            this._tbdpAclDateTo.BackColor = System.Drawing.Color.Transparent;
+            this._tbdpAclDateTo.ButtonClearDateImage = null;
+            this._tbdpAclDateTo.ButtonClearDateText = "";
+            this._tbdpAclDateTo.ButtonClearDateWidth = 23;
+            this._tbdpAclDateTo.ButtonDateImage = null;
+            this._tbdpAclDateTo.ButtonDateText = "";
+            this._tbdpAclDateTo.ButtonDateWidth = 23;
+            this._tbdpAclDateTo.CustomFormat = "d. M. yyyy HH:mm:ss";
+            this._tbdpAclDateTo.DateFormName = "Calendar";
+            this._tbdpAclDateTo.LocalizationHelper = null;
+            this._tbdpAclDateTo.Name = "_tbdpAclDateTo";
+            this._tbdpAclDateTo.ReadOnly = false;
+            this._tbdpAclDateTo.SelectTime = Contal.IwQuick.UI.SelectedTimeOfDay.EndOfDay;
+            this._tbdpAclDateTo.ValidateAfter = 2D;
+            this._tbdpAclDateTo.ValidationEnabled = false;
+            this._tbdpAclDateTo.ValidationError = "";
+            this._tbdpAclDateTo.Value = null;
+            // 
+            // _tbdpAclDateFrom
+            // 
+            this._tbdpAclDateFrom.addActualTime = false;
+            resources.ApplyResources(this._tbdpAclDateFrom, "_tbdpAclDateFrom");
+            this._tbdpAclDateFrom.BackColor = System.Drawing.Color.Transparent;
+            this._tbdpAclDateFrom.ButtonClearDateImage = null;
+            this._tbdpAclDateFrom.ButtonClearDateText = "";
+            this._tbdpAclDateFrom.ButtonClearDateWidth = 23;
+            this._tbdpAclDateFrom.ButtonDateImage = null;
+            this._tbdpAclDateFrom.ButtonDateText = "";
+            this._tbdpAclDateFrom.ButtonDateWidth = 23;
+            this._tbdpAclDateFrom.CustomFormat = "d. M. yyyy HH:mm:ss";
+            this._tbdpAclDateFrom.DateFormName = "Calendar";
+            this._tbdpAclDateFrom.LocalizationHelper = null;
+            this._tbdpAclDateFrom.Name = "_tbdpAclDateFrom";
+            this._tbdpAclDateFrom.ReadOnly = false;
+            this._tbdpAclDateFrom.SelectTime = Contal.IwQuick.UI.SelectedTimeOfDay.StartOfDay;
+            this._tbdpAclDateFrom.ValidateAfter = 2D;
+            this._tbdpAclDateFrom.ValidationEnabled = false;
+            this._tbdpAclDateFrom.ValidationError = "";
+            this._tbdpAclDateFrom.Value = null;
+            // 
+            // _tbmAccessControlList
+            // 
+            this._tbmAccessControlList.AllowDrop = true;
+            this._tbmAccessControlList.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // 
+            // 
+            this._tbmAccessControlList.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessControlList.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessControlList.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._tbmAccessControlList.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.Button.Image")));
+            this._tbmAccessControlList.Button.Location = new System.Drawing.Point(136, 0);
+            this._tbmAccessControlList.Button.Name = "_bMenu";
+            this._tbmAccessControlList.Button.Size = new System.Drawing.Size(20, 20);
+            this._tbmAccessControlList.Button.TabIndex = 3;
+            this._tbmAccessControlList.Button.UseVisualStyleBackColor = false;
+            this._tbmAccessControlList.ButtonBaseColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessControlList.ButtonDefaultBehaviour = true;
+            this._tbmAccessControlList.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this._tbmAccessControlList.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.ButtonImage")));
+            // 
+            // 
+            // 
+            this._tbmAccessControlList.ButtonPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsiAclModify});
+            this._tbmAccessControlList.ButtonPopupMenu.Name = "";
+            this._tbmAccessControlList.ButtonPopupMenu.Size = new System.Drawing.Size(113, 26);
+            this._tbmAccessControlList.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmAccessControlList.ButtonShowImage = true;
+            this._tbmAccessControlList.ButtonSizeHeight = 20;
+            this._tbmAccessControlList.ButtonSizeWidth = 20;
+            this._tbmAccessControlList.ButtonText = "";
+            this._tbmAccessControlList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessControlList.HoverTime = 600;
+            // 
+            // 
+            // 
+            this._tbmAccessControlList.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessControlList.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessControlList.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._tbmAccessControlList.ImageTextBox.ContextMenuStrip = this._tbmAccessControlList.ButtonPopupMenu;
+            this._tbmAccessControlList.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessControlList.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.ImageTextBox.Image")));
+            this._tbmAccessControlList.ImageTextBox.Location = new System.Drawing.Point(0, 0);
+            this._tbmAccessControlList.ImageTextBox.Name = "_textBox";
+            this._tbmAccessControlList.ImageTextBox.NoTextNoImage = true;
+            this._tbmAccessControlList.ImageTextBox.ReadOnly = true;
+            this._tbmAccessControlList.ImageTextBox.Size = new System.Drawing.Size(136, 20);
+            this._tbmAccessControlList.ImageTextBox.TabIndex = 0;
+            // 
+            // 
+            // 
+            this._tbmAccessControlList.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessControlList.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessControlList.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._tbmAccessControlList.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessControlList.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
+            this._tbmAccessControlList.ImageTextBox.TextBox.Name = "_tbTextBox";
+            this._tbmAccessControlList.ImageTextBox.TextBox.ReadOnly = true;
+            this._tbmAccessControlList.ImageTextBox.TextBox.Size = new System.Drawing.Size(134, 13);
+            this._tbmAccessControlList.ImageTextBox.TextBox.TabIndex = 2;
+            this._tbmAccessControlList.ImageTextBox.UseImage = true;
+            this._tbmAccessControlList.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmAccessControlList_DoubleClick);
+            resources.ApplyResources(this._tbmAccessControlList, "_tbmAccessControlList");
+            this._tbmAccessControlList.MaximumSize = new System.Drawing.Size(1200, 55);
+            this._tbmAccessControlList.MinimumSize = new System.Drawing.Size(30, 22);
+            this._tbmAccessControlList.Name = "_tbmAccessControlList";
+            this._tbmAccessControlList.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.TextImage")));
+            this._tbmAccessControlList.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmAccessControlList_ButtonPopupMenuItemClick);
+            // 
+            // _tsiAclModify
+            // 
+            this._tsiAclModify.Name = "_tsiAclModify";
+            resources.ApplyResources(this._tsiAclModify, "_tsiAclModify");
+            // 
             // _cdgvAclCars
             // 
             this._cdgvAclCars.AllwaysRefreshOrder = false;
+            this._cdgvAclCars.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                | System.Windows.Forms.AnchorStyles.Left)
+                | System.Windows.Forms.AnchorStyles.Right)));
             this._cdgvAclCars.CgpDataGridEvents = null;
             this._cdgvAclCars.CopyOnRightClick = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -285,7 +474,6 @@ namespace Contal.Cgp.Client
             this._cdgvAclCars.DataGrid.TabIndex = 0;
             this._cdgvAclCars.DefaultSortColumnName = null;
             this._cdgvAclCars.DefaultSortDirection = System.ComponentModel.ListSortDirection.Ascending;
-            this._cdgvAclCars.Dock = System.Windows.Forms.DockStyle.Fill;
             this._cdgvAclCars.LocalizationHelper = null;
             resources.ApplyResources(this._cdgvAclCars, "_cdgvAclCars");
             this._cdgvAclCars.Name = "_cdgvAclCars";

@@ -8449,6 +8449,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date from must be earlier than date to..
+        /// </summary>
+        internal static string ErrorACLDateRange {
+            get {
+                return ResourceManager.GetString("ErrorACLDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add card failed.
         /// </summary>
         internal static string ErrorAddCard {
@@ -8958,6 +8967,15 @@ namespace Contal.Cgp.Client {
         internal static string ErrorEnterSearchSring {
             get {
                 return ResourceManager.GetString("ErrorEnterSearchSring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select an access control list..
+        /// </summary>
+        internal static string ErrorEntryAccessControlList {
+            get {
+                return ResourceManager.GetString("ErrorEntryAccessControlList", resourceCulture);
             }
         }
         
@@ -17246,6 +17264,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign access control list to car?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Editing object was changed by another user. Would you like to load object&apos;s latest data? All unsaved changes will be lost..
         /// </summary>
         internal static string QuestionLoadActualData {
@@ -17530,6 +17557,15 @@ namespace Contal.Cgp.Client {
         internal static string QuestionUnselectAllSubSites {
             get {
                 return ResourceManager.GetString("QuestionUnselectAllSubSites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update access control list assignment for this car?.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         

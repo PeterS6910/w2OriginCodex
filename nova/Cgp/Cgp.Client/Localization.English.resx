@@ -1743,6 +1743,9 @@
   <data name="ErrorEntryCalendarYear" xml:space="preserve">
     <value>Please, insert the year.</value>
   </data>
+  <data name="ErrorEntryAccessControlList" xml:space="preserve">
+    <value>Please select an access control list.</value>
+  </data>
   <data name="ErrorInsertDayType" xml:space="preserve">
     <value>Insert the day type failed.</value>
   </data>
@@ -1829,6 +1832,12 @@
   </data>
   <data name="QuestionLoadActualData" xml:space="preserve">
     <value>Editing object was changed by another user. Would you like to load object's latest data? All unsaved changes will be lost.</value>
+  </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Assign access control list to car?</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
+    <value>Update access control list assignment for this car?</value>
   </data>
   <data name="ErrorDuplicatedCalendarSettingPair" xml:space="preserve">
     <value>The pair calendar and date settings already exists.</value>
@@ -1943,6 +1952,9 @@
   </data>
   <data name="ErrorEntryPersonalKey" xml:space="preserve">
     <value>Personal ID must be entry</value>
+  </data>
+  <data name="ErrorACLDateRange" xml:space="preserve">
+    <value>Date from must be earlier than date to.</value>
   </data>
   <data name="ErrorUsedPersonalKey" xml:space="preserve">
     <value>Personal ID is already added to the another person</value>

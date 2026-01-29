@@ -681,17 +681,236 @@
   <data name="&gt;&gt;_tpCards.ZOrder" xml:space="preserve">
     <value>1</value>
      </data>
+  <data name="_bAclCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 50</value>
+  </data>
+  <data name="_bAclCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 23</value>
+  </data>
+  <data name="_bAclCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="_bAclCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;_bAclCancel.Name" xml:space="preserve">
+    <value>_bAclCancel</value>
+  </data>
+  <data name="&gt;&gt;_bAclCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bAclCancel.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_bAclCancel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_bAclUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>470, 50</value>
+  </data>
+  <data name="_bAclUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 23</value>
+  </data>
+  <data name="_bAclUpdate.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="_bAclUpdate.Text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="&gt;&gt;_bAclUpdate.Name" xml:space="preserve">
+    <value>_bAclUpdate</value>
+  </data>
+  <data name="&gt;&gt;_bAclUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bAclUpdate.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_bAclUpdate.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_bAclCreate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>470, 50</value>
+  </data>
+  <data name="_bAclCreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 23</value>
+  </data>
+  <data name="_bAclCreate.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_bAclCreate.Text" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="&gt;&gt;_bAclCreate.Name" xml:space="preserve">
+    <value>_bAclCreate</value>
+  </data>
+  <data name="&gt;&gt;_bAclCreate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bAclCreate.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_bAclCreate.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_lAclDateTo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 8</value>
+  </data>
+  <data name="_lAclDateTo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="_lAclDateTo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_lAclDateTo.Text" xml:space="preserve">
+    <value>Date to</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateTo.Name" xml:space="preserve">
+    <value>_lAclDateTo</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateTo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateTo.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateTo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="_lAclDateFrom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 8</value>
+  </data>
+  <data name="_lAclDateFrom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="_lAclDateFrom.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="_lAclDateFrom.Text" xml:space="preserve">
+    <value>Date from</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateFrom.Name" xml:space="preserve">
+    <value>_lAclDateFrom</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateFrom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateFrom.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_lAclDateFrom.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="_lAclAccessControlList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 8</value>
+  </data>
+  <data name="_lAclAccessControlList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 13</value>
+  </data>
+  <data name="_lAclAccessControlList.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="_lAclAccessControlList.Text" xml:space="preserve">
+    <value>Access control list</value>
+  </data>
+  <data name="&gt;&gt;_lAclAccessControlList.Name" xml:space="preserve">
+    <value>_lAclAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_lAclAccessControlList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_lAclAccessControlList.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_lAclAccessControlList.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="_tbdpAclDateTo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 24</value>
+  </data>
+  <data name="_tbdpAclDateTo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 22</value>
+  </data>
+  <data name="_tbdpAclDateTo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateTo.Name" xml:space="preserve">
+    <value>_tbdpAclDateTo</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateTo.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateTo.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateTo.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="_tbdpAclDateFrom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 24</value>
+  </data>
+  <data name="_tbdpAclDateFrom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 22</value>
+  </data>
+  <data name="_tbdpAclDateFrom.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateFrom.Name" xml:space="preserve">
+    <value>_tbdpAclDateFrom</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateFrom.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateFrom.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_tbdpAclDateFrom.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="_tbmAccessControlList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 24</value>
+  </data>
+  <data name="_tbmAccessControlList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 22</value>
+  </data>
+  <data name="_tbmAccessControlList.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_tbmAccessControlList.Name" xml:space="preserve">
+    <value>_tbmAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_tbmAccessControlList.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.TextBoxMenu, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_tbmAccessControlList.Parent" xml:space="preserve">
+    <value>_tpAccessControlList</value>
+  </data>
+  <data name="&gt;&gt;_tbmAccessControlList.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="_tsiAclModify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 22</value>
+  </data>
+  <data name="_tsiAclModify.Text" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclModify.Name" xml:space="preserve">
+    <value>_tsiAclModify</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclModify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_cdgvAclCars.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>6, 80</value>
   </data>
   <data name="_cdgvAclCars.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 8, 6, 8</value>
   </data>
   <data name="_cdgvAclCars.Size" type="System.Drawing.Size, System.Drawing">
-    <value>588, 336</value>
+    <value>576, 250</value>
   </data>
   <data name="_cdgvAclCars.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;_cdgvAclCars.Name" xml:space="preserve">
     <value>_cdgvAclCars</value>
@@ -703,7 +922,7 @@
     <value>_tpAccessControlList</value>
   </data>
   <data name="&gt;&gt;_cdgvAclCars.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>9</value>
   </data>
   <data name="_tpAccessControlList.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 29</value>

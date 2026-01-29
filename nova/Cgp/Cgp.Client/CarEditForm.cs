@@ -1,17 +1,24 @@
+using Cgp.Components;
 using Contal.Cgp.BaseLib;
+using Contal.Cgp.Components;
 using Contal.Cgp.Globals;
-using Contal.Cgp.RemotingCommon;
 using Contal.Cgp.NCAS.RemotingCommon;
 using Contal.Cgp.NCAS.Server;
 using Contal.Cgp.NCAS.Server.Beans;
+using Contal.Cgp.RemotingCommon;
 using Contal.Cgp.Server.Beans;
 using Contal.IwQuick;
+using Contal.IwQuick.Sys;
+using Contal.IwQuick.Threads;
+using Contal.IwQuick.UI;
 using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Drawing;
-using Contal.IwQuick.Sys;
+using System.Linq;
+using System.Windows.Forms;
+using SqlDeleteReferenceConstraintException = Contal.IwQuick.SqlDeleteReferenceConstraintException;
+using SqlUniqueException = Contal.IwQuick.SqlUniqueException;
 
 namespace Contal.Cgp.Client
 {
@@ -19,19 +26,35 @@ namespace Contal.Cgp.Client
 #if DESIGNER
         Form
 #else
-        ACgpEditForm<Car>
+                ACgpEditForm<Car>, ICgpDataGridView
 #endif
     {
         private BindingSource _aclCarsBindingSource;
+        private ListOfObjects _actAccessControlLists;
+        private ACLCar _editingAclCar;
         public CarEditForm(Car car, ShowOptionsEditForm showOption)
             : base(car, showOption)
         {
             InitializeComponent();
+            _tbdpAclDateFrom.LocalizationHelper = LocalizationHelper;
+            _tbdpAclDateTo.LocalizationHelper = LocalizationHelper;
             _editingObject = car;
             _ilbCards.ImageList = ObjectImageList.Singleton.ClientObjectImages;
+            _cdgvAclCars.LocalizationHelper = LocalizationHelper;
+            _cdgvAclCars.CgpDataGridEvents = this;
+            _cdgvAclCars.ImageList = ObjectImageList.Singleton.GetAllObjectImages();
+            _cdgvAclCars.EnabledInsertButton = false;
+            _cdgvAclCars.DataGrid.AllowUserToAddRows = false;
+            _cdgvAclCars.DataGrid.AllowUserToDeleteRows = false;
+            _cdgvAclCars.DataGrid.AllowUserToResizeRows = false;
+            _cdgvAclCars.DataGrid.MultiSelect = true;
+            _cdgvAclCars.DataGrid.ReadOnly = true;
+            _cdgvAclCars.DataGrid.RowHeadersVisible = false;
+            _cdgvAclCars.DataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             SetReferenceEditColors();
             _tcCar.SelectedIndexChanged += _tcCar_SelectedIndexChanged;
             _tcCar_SelectedIndexChanged(null, null);
+            ResetAclValues();
         }
 
 
@@ -124,6 +147,7 @@ namespace Contal.Cgp.Client
             _eDescription.Text = string.Empty;
             _ilbCards.Items.Clear();
             _eFilterCards.Text = string.Empty;
+            ResetAclValues();
         }
 
         protected override void SetValuesEdit()
@@ -134,6 +158,7 @@ namespace Contal.Cgp.Client
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
             _eDescription.Text = _editingObject.Description;
             LoadCards(_eFilterCards.Text);
+            ResetAclValues();
         }
 
         protected override void EditEnd()
@@ -424,6 +449,19 @@ namespace Contal.Cgp.Client
             LoadAclCars();
         }
 
+        private void _tbmAccessControlList_DoubleClick(object sender, EventArgs e)
+        {
+            ModifyAccessControlList();
+        }
+
+        private void _tbmAccessControlList_ButtonPopupMenuItemClick(ToolStripItem item, int index)
+        {
+            if (item.Name == "_tsiAclModify")
+            {
+                ModifyAccessControlList();
+            }
+        }
+
         private void _ilbCards_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var card = GetCardFromSelectedItem();
@@ -589,6 +627,370 @@ namespace Contal.Cgp.Client
                 "MM-dd-yyyy HH:mm:ss";
         }
 
+        private void ModifyAccessControlList()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return;
+
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            try
+            {
+                var listAccessControlList = new List<AOrmObject>();
+                Exception error;
+                var listAccessControlListFromDatabase = ncasProvider.AccessControlLists.List(out error);
+                if (error != null)
+                {
+                    Dialog.Error(error.Message);
+                    return;
+                }
+
+                foreach (var accessControlList in listAccessControlListFromDatabase)
+                {
+                    listAccessControlList.Add(accessControlList);
+                }
+
+                var formAdd = new ListboxFormAdd(listAccessControlList, GetString("AccessGroup_AccessControlLists"));
+                if (_bAclCreate.Visible)
+                {
+                    ListOfObjects outAccessControlLists;
+                    formAdd.ShowDialogMultiSelect(out outAccessControlLists);
+                    if (outAccessControlLists != null)
+                    {
+                        _actAccessControlLists = outAccessControlLists;
+                        RefreshAccessControlList();
+                    }
+                }
+                else
+                {
+                    object outAccessControlList;
+                    formAdd.ShowDialog(out outAccessControlList);
+                    if (outAccessControlList is AccessControlList)
+                    {
+                        var outAccessControlLists = new ListOfObjects();
+                        outAccessControlLists.Objects.Add(outAccessControlList);
+                        _actAccessControlLists = outAccessControlLists;
+                        RefreshAccessControlList();
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void RefreshAccessControlList()
+        {
+            if (_actAccessControlLists != null && _actAccessControlLists.Count > 0)
+            {
+                _tbmAccessControlList.Text = _actAccessControlLists.ToString();
+                _tbmAccessControlList.TextImage = GetAccessControlListImage();
+            }
+            else
+            {
+                _tbmAccessControlList.Text = string.Empty;
+                _tbmAccessControlList.TextImage = null;
+            }
+        }
+
+        private Image GetAccessControlListImage()
+        {
+            var images = ObjectImageList.Singleton.GetAllObjectImages();
+            var key = ObjectType.AccessControlList.ToString();
+            return images.Images.ContainsKey(key) ? images.Images[key] : null;
+        }
+
+        private bool ControlAclValues()
+        {
+            if (_actAccessControlLists == null || _actAccessControlLists.Count == 0)
+            {
+                ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmAccessControlList.ImageTextBox,
+                    GetString("ErrorEntryAccessControlList"), ControlNotificationSettings.Default);
+                return false;
+            }
+
+            if ((_tbdpAclDateTo.Value != null && _tbdpAclDateFrom.Value != null) && _tbdpAclDateFrom.Value > _tbdpAclDateTo.Value)
+            {
+                ControlNotification.Singleton.Error(NotificationPriority.JustOne,
+                    _tbdpAclDateTo.TextBox, GetString("ErrorACLDateRange"), ControlNotificationSettings.Default);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void _bAclCreate_Click(object sender, EventArgs e)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            if (_editingObject.IdCar == Guid.Empty)
+            {
+                Ok_Click(false);
+            }
+
+            if (_editingObject.IdCar == Guid.Empty)
+                return;
+
+            if (!ControlAclValues())
+                return;
+
+            if (!GetAclValues(out var aclCars))
+                return;
+
+            if (!Dialog.Question(GetString("QuestionInsertACLCar")))
+                return;
+
+            CreateAclCars(aclCars);
+        }
+
+        private void _bAclUpdate_Click(object sender, EventArgs e)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            if (_editingAclCar == null)
+                return;
+
+            if (!GetAclValues(_editingAclCar))
+                return;
+
+            if (!Dialog.Question(GetString("QuestionUpdateACLCar")))
+                return;
+
+            UpdateAclCar();
+        }
+
+        private void _bAclCancel_Click(object sender, EventArgs e)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            _editingAclCar = null;
+            _bAclUpdate.Visible = false;
+            _bAclCancel.Visible = false;
+            _bAclCreate.Visible = true;
+            ResetAclValues();
+        }
+
+        private void CreateAclCars(IList<ACLCar> aclCars)
+        {
+            SafeThread<IList<ACLCar>>.StartThread(DoCreateAclCars, aclCars);
+        }
+
+        private void DoCreateAclCars(IList<ACLCar> aclCars)
+        {
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            if (aclCars != null && aclCars.Count > 0)
+            {
+                foreach (var aclCar in aclCars)
+                {
+                    Exception error;
+                    var insertAclCar = aclCar;
+                    ncasProvider.ACLCars.Insert(ref insertAclCar, out error);
+                    if (error != null)
+                    {
+                        if (error is AccessDeniedException)
+                        {
+                            Dialog.Error(GetString("ErrorInsertAccessDenied"));
+                        }
+                        else if (error is SqlUniqueException)
+                        {
+                            Dialog.Error(GetString("ErrorInsertFailed"));
+                        }
+                        else
+                        {
+                            Dialog.Error(GetString("ErrorInsertFailed"));
+                        }
+
+                        LoadAclCars();
+                        return;
+                    }
+                }
+
+                ResetAclValues();
+                LoadAclCars();
+            }
+        }
+
+        private void UpdateAclCar()
+        {
+            SafeThread.StartThread(DoUpdateAclCar);
+        }
+
+        private void DoUpdateAclCar()
+        {
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            Exception error;
+            ncasProvider.ACLCars.Update(_editingAclCar, out error);
+            if (error != null)
+            {
+                if (error is AccessDeniedException)
+                {
+                    Dialog.Error(GetString("ErrorEditAccessDenied"));
+                }
+                else if (error is IncoherentDataException)
+                {
+                    if (Dialog.WarningQuestion(GetString("QuestionLoadActualData")))
+                    {
+                        _editingAclCar = ncasProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
+                        SetAclValues();
+                    }
+                    else
+                    {
+                        _editingAclCar = ncasProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
+                    }
+                }
+                else
+                {
+                    Dialog.Error(GetString("ErrorEditFailed") + ": " + error.Message);
+                }
+
+                return;
+            }
+
+            ncasProvider.ACLCars.EditEnd(_editingAclCar);
+            _bAclCancel_Click(null, null);
+            ResetAclValues();
+            LoadAclCars();
+        }
+
+        private void DeleteAclCars(ICollection<ACLCar> aclCars)
+        {
+            SafeThread<ACLCar>.StartThread(DoDeleteAclCars, aclCars);
+        }
+
+        private void DoDeleteAclCars(ICollection<ACLCar> aclCars)
+        {
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            if (aclCars != null)
+            {
+                foreach (var aclCar in aclCars)
+                {
+                    if (_editingAclCar != null && aclCar.Compare(_editingAclCar))
+                    {
+                        Dialog.Error(GetString("ErrorDeleteEditing"));
+                        continue;
+                    }
+
+                    Exception error;
+                    ncasProvider.ACLCars.Delete(aclCar, out error);
+                    if (error != null)
+                    {
+                        if (error is SqlDeleteReferenceConstraintException)
+                            Dialog.Error(GetString("ErrorDeleteRowInRelationship"));
+                        else
+                            Dialog.Error(GetString("ErrorDeleteFailed"));
+                    }
+                    else
+                    {
+                        LoadAclCars();
+                    }
+                }
+            }
+        }
+
+        private void SetAclValues()
+        {
+            if (_editingAclCar == null)
+                return;
+
+            _actAccessControlLists = new ListOfObjects();
+            _actAccessControlLists.Objects.Add(_editingAclCar.AccessControlList);
+
+            RefreshAccessControlList();
+            _tbdpAclDateFrom.Value = _editingAclCar.DateFrom;
+            _tbdpAclDateTo.Value = _editingAclCar.DateTo;
+        }
+
+        private void ResetAclValues()
+        {
+            _actAccessControlLists = null;
+            RefreshAccessControlList();
+            _tbdpAclDateFrom.Value = DateTime.Now.Date;
+            _tbdpAclDateTo.Value = null;
+            _bAclUpdate.Visible = false;
+            _bAclCancel.Visible = false;
+            _bAclCreate.Visible = true;
+        }
+
+        private bool GetAclValues(ACLCar aclCar)
+        {
+            if (!ControlAclValues())
+                return false;
+
+            if (_actAccessControlLists.Objects.Count == 0)
+                return false;
+
+            try
+            {
+                GetAclValues(aclCar, _actAccessControlLists.Objects[0] as AccessControlList);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool GetAclValues(out IList<ACLCar> aclCars)
+        {
+            aclCars = null;
+
+            if (!ControlAclValues())
+                return false;
+
+            try
+            {
+                aclCars = new List<ACLCar>();
+                foreach (var obj in _actAccessControlLists.Objects)
+                {
+                    var aclCar = new ACLCar();
+                    GetAclValues(aclCar, obj as AccessControlList);
+                    aclCars.Add(aclCar);
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void GetAclValues(ACLCar aclCar, AccessControlList accessControlList)
+        {
+            aclCar.AccessControlList = accessControlList;
+            aclCar.Car = _editingObject;
+            aclCar.DateFrom = GetDateFromPicker(_tbdpAclDateFrom);
+            aclCar.DateTo = GetDateFromPicker(_tbdpAclDateTo);
+        }
+
+        private static DateTime? GetDateFromPicker(TextBoxDatePicker picker)
+        {
+            if (picker.Text != string.Empty)
+            {
+                DateTime dateTime;
+                if (DateTime.TryParse(picker.Text, out dateTime))
+                {
+                    return dateTime;
+                }
+            }
+
+            return null;
+        }
+
         private ICgpServerRemotingProvider GetCarProvider(out Exception error)
         {
             error = null;
@@ -603,6 +1005,106 @@ namespace Contal.Cgp.Client
             }
 
             return provider;
+        }
+
+        public void EditClick()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            if (_aclCarsBindingSource == null || _aclCarsBindingSource.Count == 0)
+                return;
+
+            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            if (ncasProvider == null)
+                return;
+
+            _editingAclCar = _aclCarsBindingSource[_aclCarsBindingSource.Position] as ACLCar;
+            if (_editingAclCar == null)
+                return;
+
+            Exception error;
+            _editingAclCar = ncasProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
+            if (_editingAclCar == null)
+                return;
+
+            SetAclValues();
+            _bAclCreate.Visible = false;
+            _bAclUpdate.Visible = true;
+            _bAclCancel.Visible = true;
+        }
+
+        public void EditClick(ICollection<int> indexes)
+        {
+        }
+
+        public void DeleteClick()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            if (_aclCarsBindingSource == null || _aclCarsBindingSource.Count == 0)
+                return;
+
+            var aclCars = new LinkedList<ACLCar>();
+            foreach (var selectedRow in _cdgvAclCars.DataGrid.SelectedRows)
+            {
+                aclCars.AddLast(_aclCarsBindingSource[((DataGridViewRow)selectedRow).Index] as ACLCar);
+            }
+
+            DeleteAclCars(aclCars);
+        }
+
+        public void DeleteClick(ICollection<int> indexes)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false))
+                return;
+
+            if (_aclCarsBindingSource == null || _aclCarsBindingSource.Count == 0)
+                return;
+
+            var items =
+                indexes.Select(index => (IShortObject)new AccessControlListShort(((ACLCar)_aclCarsBindingSource.List[index]).AccessControlList))
+                    .ToList();
+
+            var dialog = new DeleteDataGridItemsDialog(
+                ObjectImageList.Singleton.GetAllObjectImages(),
+                items,
+                CgpClient.Singleton.LocalizationHelper)
+            {
+                SelectItem = items.FirstOrDefault(item => item.Id.Equals((((ACLCar)_aclCarsBindingSource.Current).AccessControlList.IdAccessControlList)))
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var aclCars = new LinkedList<ACLCar>();
+
+                if (dialog.DeleteAll)
+                {
+                    foreach (var index in indexes)
+                    {
+                        if (_aclCarsBindingSource.Count > index)
+                            aclCars.AddLast(_aclCarsBindingSource[index] as ACLCar);
+                    }
+                }
+                else
+                {
+                    foreach (var item in dialog.SelectedItems)
+                    {
+                        var aclCar =
+                            _aclCarsBindingSource.List.Cast<ACLCar>()
+                                .FirstOrDefault(car => car.AccessControlList.IdAccessControlList.Equals(item.Id));
+
+                        aclCars.AddLast(aclCar);
+                    }
+                }
+
+                DeleteAclCars(aclCars);
+            }
+        }
+
+        public void InsertClick()
+        {
         }
     }
 }
