@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using Contal.IwQuick.Sys;
 
 namespace Contal.Cgp.Client
 {
@@ -221,7 +222,12 @@ namespace Contal.Cgp.Client
 
             if (_editingObject.IdCar != Guid.Empty)
             {
+                var person = SelectPersonForNewCard();
+                if (person == null)
+                    return;
+
                 Card card = new Card();
+                card.Person = person;
                 CardsForm.Singleton.OpenInsertFromEdit(ref card, DoAfterCreateCard);
             }
         }
@@ -253,6 +259,42 @@ namespace Contal.Cgp.Client
             }
         }
 
+        private Person SelectPersonForNewCard()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return null;
+
+            try
+            {
+                Exception error;
+                IList<IModifyObject> listPersons =
+                    CgpClient.Singleton.MainServerProvider.Persons.ListModifyObjects(out error);
+
+                if (error != null)
+                {
+                    MessageBox.Show(error.Message);
+                    return null;
+                }
+
+                if (listPersons == null || listPersons.Count == 0)
+                    return null;
+
+                ListboxFormAdd formAdd = new ListboxFormAdd(listPersons, GetString("PersonsFormPersonsForm"));
+                IModifyObject outModObj;
+                formAdd.ShowDialog(out outModObj);
+
+                if (outModObj == null)
+                    return null;
+
+                return CgpClient.Singleton.MainServerProvider.Persons.GetObjectById(outModObj.GetId);
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+                MessageBox.Show(error.Message);
+                return null;
+            }
+        }
 
         private bool AddCards()
         {
@@ -467,6 +509,11 @@ namespace Contal.Cgp.Client
             }
 
             public Guid GetId => _inner.GetId;
+
+            public override string ToString()
+            {
+                return FullName;
+            }
         }
 
         private void _bCancel_Click(object sender, EventArgs e)
