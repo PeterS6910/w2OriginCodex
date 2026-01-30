@@ -122,7 +122,7 @@
     <value>258, 12</value>
   </data>
   <data name="_eLp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 26</value>
+    <value>260, 22</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="_eLp.TabIndex" type="System.Int32, mscorlib">
@@ -138,13 +138,13 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;_eLp.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="_eBrand.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 55</value>
   </data>
   <data name="_eBrand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 26</value>
+    <value>260, 22</value>
   </data>
   <data name="_eBrand.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -159,13 +159,13 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;_eBrand.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="_eDescription.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 292</value>
   </data>
   <data name="_eDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 26</value>
+    <value>260, 22</value>
   </data>
   <data name="_eDescription.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -180,13 +180,13 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;_eDescription.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="_eUtcDateStateLastChange.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 242</value>
   </data>
   <data name="_eUtcDateStateLastChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 26</value>
+    <value>260, 22</value>
   </data>
   <data name="_eUtcDateStateLastChange.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -201,7 +201,7 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;_eUtcDateStateLastChange.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="_bOk.Location" type="System.Drawing.Point, System.Drawing">
     <value>444, 386</value>
@@ -255,27 +255,6 @@
   <data name="_tcCar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="_dpValidityDateTo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="_dpValidityDateTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>258, 147</value>
-  </data>
-  <data name="_dpValidityDateTo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="_dpValidityDateTo.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1500, 90</value>
-  </data>
-  <data name="_dpValidityDateTo.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>180, 33</value>
-  </data>
-  <data name="_dpValidityDateTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 33</value>
-  </data>
-  <data name="_dpValidityDateTo.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
   <data name="&gt;&gt;_dpValidityDateTo.Name" xml:space="preserve">
     <value>_dpValidityDateTo</value>
   </data>
@@ -287,27 +266,6 @@
   </data>
   <data name="&gt;&gt;_dpValidityDateTo.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="_dpValidityDateFrom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="_dpValidityDateFrom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 91</value>
-  </data>
-  <data name="_dpValidityDateFrom.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="_dpValidityDateFrom.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1500, 90</value>
-  </data>
-  <data name="_dpValidityDateFrom.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>180, 33</value>
-  </data>
-  <data name="_dpValidityDateFrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 33</value>
-  </data>
-  <data name="_dpValidityDateFrom.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
   </data>
   <data name="&gt;&gt;_dpValidityDateFrom.Name" xml:space="preserve">
     <value>_dpValidityDateFrom</value>
@@ -321,21 +279,6 @@
   <data name="&gt;&gt;_dpValidityDateFrom.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 283</value>
-  </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
-  </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Description</value>
-  </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
   </data>
@@ -347,21 +290,6 @@
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 242</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Version</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -375,21 +303,6 @@
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 147</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 20</value>
-  </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Validate Date To</value>
-  </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
   </data>
@@ -400,22 +313,7 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 104</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 20</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Validate Date From</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -427,22 +325,7 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 61</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Brand</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -454,22 +337,7 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 15</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 20</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>ŠPZ - LP</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -481,16 +349,16 @@
     <value>_tpInformation</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="_tpInformation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 29</value>
+    <value>4, 25</value>
   </data>
   <data name="_tpInformation.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="_tpInformation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>588, 336</value>
+    <value>588, 340</value>
   </data>
   <data name="_tpInformation.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -510,158 +378,74 @@
   <data name="&gt;&gt;_tpInformation.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="_lAvailableCards.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;_bAddCard.Name" xml:space="preserve">
+    <value>_bAddCard</value>
   </data>
-  <data name="_lAvailableCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 9</value>
-  </data>
-  <data name="_lAvailableCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 20</value>
-  </data>
-  <data name="_lAvailableCards.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="_lAvailableCards.Text" xml:space="preserve">
-    <value>Available</value>
-  </data>
-  <data name="&gt;&gt;_lAvailableCards.Name" xml:space="preserve">
-    <value>_lAvailableCards</value>
-  </data>
-  <data name="&gt;&gt;_lAvailableCards.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_lAvailableCards.Parent" xml:space="preserve">
-    <value>_tpCards</value>
-  </data>
-  <data name="&gt;&gt;_lAvailableCards.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="_lAssignedCards.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="_lAssignedCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
-  </data>
-  <data name="_lAssignedCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 20</value>
-  </data>
-  <data name="_lAssignedCards.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="_lAssignedCards.Text" xml:space="preserve">
-    <value>Assigned</value>
-  </data>
-  <data name="&gt;&gt;_lAssignedCards.Name" xml:space="preserve">
-    <value>_lAssignedCards</value>
-  </data>
-  <data name="&gt;&gt;_lAssignedCards.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_lAssignedCards.Parent" xml:space="preserve">
-    <value>_tpCards</value>
-  </data>
-  <data name="&gt;&gt;_lAssignedCards.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="_bUnassignCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 94</value>
-  </data>
-  <data name="_bUnassignCard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 30</value>
-  </data>
-  <data name="_bUnassignCard.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="_bUnassignCard.Text" xml:space="preserve">
-    <value>&lt;&lt;</value>
-  </data>
-  <data name="&gt;&gt;_bUnassignCard.Name" xml:space="preserve">
-    <value>_bUnassignCard</value>
-  </data>
-  <data name="&gt;&gt;_bUnassignCard.Type" xml:space="preserve">
+  <data name="&gt;&gt;_bAddCard.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;_bUnassignCard.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_bAddCard.Parent" xml:space="preserve">
     <value>_tpCards</value>
   </data>
-  <data name="&gt;&gt;_bUnassignCard.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="_bAssignCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 194</value>
-  </data>
-  <data name="_bAssignCard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 30</value>
-  </data>
-  <data name="_bAssignCard.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="_bAssignCard.Text" xml:space="preserve">
-    <value>&gt;&gt;</value>
-  </data>
-  <data name="&gt;&gt;_bAssignCard.Name" xml:space="preserve">
-    <value>_bAssignCard</value>
-  </data>
-  <data name="&gt;&gt;_bAssignCard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_bAssignCard.Parent" xml:space="preserve">
-    <value>_tpCards</value>
-  </data>
-  <data name="&gt;&gt;_bAssignCard.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="_lvAvailableCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 40</value>
-  </data>
-  <data name="_lvAvailableCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 249</value>
-  </data>
-  <data name="_lvAvailableCards.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;_lvAvailableCards.Name" xml:space="preserve">
-    <value>_lvAvailableCards</value>
-  </data>
-  <data name="&gt;&gt;_lvAvailableCards.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_lvAvailableCards.Parent" xml:space="preserve">
-    <value>_tpCards</value>
-  </data>
-  <data name="&gt;&gt;_lvAvailableCards.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="_lvAssignedCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
-  </data>
-  <data name="_lvAssignedCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 249</value>
-  </data>
-  <data name="_lvAssignedCards.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;_bAddCard.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;_lvAssignedCards.Name" xml:space="preserve">
-    <value>_lvAssignedCards</value>
+  <data name="&gt;&gt;_bCreateCard.Name" xml:space="preserve">
+    <value>_bCreateCard</value>
   </data>
-  <data name="&gt;&gt;_lvAssignedCards.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;_bCreateCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;_lvAssignedCards.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_bCreateCard.Parent" xml:space="preserve">
     <value>_tpCards</value>
   </data>
-  <data name="&gt;&gt;_lvAssignedCards.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;_bCreateCard.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Name" xml:space="preserve">
+    <value>_bDeleteCard</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Name" xml:space="preserve">
+    <value>_ilbCards</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.ImageListBox, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Name" xml:space="preserve">
+    <value>_eFilterCards</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="_tpCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 29</value>
+    <value>4, 25</value>
   </data>
   <data name="_tpCards.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="_tpCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>588, 336</value>
+    <value>588, 340</value>
   </data>
   <data name="_tpCards.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -680,7 +464,7 @@
   </data>
   <data name="&gt;&gt;_tpCards.ZOrder" xml:space="preserve">
     <value>1</value>
-     </data>
+  </data>
   <data name="_bAclCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>358, 65</value>
   </data>
@@ -754,10 +538,10 @@
     <value>2</value>
   </data>
   <data name="_lAclDateTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>370, 8</value>
+    <value>389, 8</value>
   </data>
   <data name="_lAclDateTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 13</value>
+    <value>63, 21</value>
   </data>
   <data name="_lAclDateTo.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -781,7 +565,7 @@
     <value>214, 8</value>
   </data>
   <data name="_lAclDateFrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+    <value>75, 21</value>
   </data>
   <data name="_lAclDateFrom.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -805,7 +589,7 @@
     <value>6, 8</value>
   </data>
   <data name="_lAclAccessControlList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 13</value>
+    <value>150, 21</value>
   </data>
   <data name="_lAclAccessControlList.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -826,10 +610,16 @@
     <value>5</value>
   </data>
   <data name="_tbdpAclDateTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>370, 32</value>
+    <value>389, 32</value>
+  </data>
+  <data name="_tbdpAclDateTo.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 60</value>
+  </data>
+  <data name="_tbdpAclDateTo.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>56, 22</value>
   </data>
   <data name="_tbdpAclDateTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="_tbdpAclDateTo.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -838,7 +628,7 @@
     <value>_tbdpAclDateTo</value>
   </data>
   <data name="&gt;&gt;_tbdpAclDateTo.Type" xml:space="preserve">
-    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;_tbdpAclDateTo.Parent" xml:space="preserve">
     <value>_tpAccessControlList</value>
@@ -848,6 +638,12 @@
   </data>
   <data name="_tbdpAclDateFrom.Location" type="System.Drawing.Point, System.Drawing">
     <value>214, 32</value>
+  </data>
+  <data name="_tbdpAclDateFrom.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 60</value>
+  </data>
+  <data name="_tbdpAclDateFrom.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>56, 22</value>
   </data>
   <data name="_tbdpAclDateFrom.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
@@ -859,7 +655,7 @@
     <value>_tbdpAclDateFrom</value>
   </data>
   <data name="&gt;&gt;_tbdpAclDateFrom.Type" xml:space="preserve">
-    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;_tbdpAclDateFrom.Parent" xml:space="preserve">
     <value>_tpAccessControlList</value>
@@ -867,8 +663,71 @@
   <data name="&gt;&gt;_tbdpAclDateFrom.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="_tbmAccessControlList.Button.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="_tbmAccessControlList.Button.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Popup</value>
+  </data>
+  <data name="_tbmAccessControlList.Button.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+      iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+      wgAADsIBFShKgAAAAi5JREFUOE9joDmQ9qx2Ug6pV4FySQfOlQtagno27JQOrJeBCuEBxmlcisH1eprJ
+      vV76WdPDdHOmhXp2rFuXv+3a/6D+LetE7UskoCoxgXJYq6Np8fytdq0bXrtO3f/Tb9GpPxFrL/1J2Xnz
+      b/HRJ/9L997+59+zcTmPfZoIVAsCyPnXW+kXzn9o3Ljhv/XEff/dF57+H7D+2v/gnff/hx189j/26Iv/
+      mUef/s/fdeOve+uaBQwWhUJQrWDArJE6eb5G6fL/uvXr/5v37/1vMvPYf8355/8rr7z5X2nLk//K25/9
+      V1l797/esqv/7abs/yod2R4M1cvAwGuaLayWNfOMUtGy/xrVa/8rNG39L96577/EtFP/pZdc+y+7/sF/
+      uU2P/susuPVfefqJP0rFC6YwWCXxQrUzMPDYF4moZc06J5u/5L94/tL/whXr/ku07fovP/Hwf+WZJ/+p
+      Lbr4T275jf8q887+VataPo9fP14AqhUKVDzYVdOmbxTLWvhfIGPBf6mSFX9US5ccVcmbU6+UMS1eo3rF
+      Bo2ZJ/6rV69aCbIMqgsVaCT2F0hkzvsvBDRAKX3GcRmnQmmoFINWzowW7Yql24RdSqWgQphANaheSTFj
+      9nWxzAX/FRMnzocKgwG/a7GTqEeJMpSLG2glT0qXy5r/WyFlyhYGhlA2qDDxQN6+nkMrfXq/VuaMm+Lu
+      5QpQYdKAVmg9j3ZcTxXQv85QITKAFtD5yPGMFzAwAAAl+OLFSnG8YQAAAABJRU5ErkJggg==
+    </value>
+  </data>
+  <data name="_tbmAccessControlList.Button.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 0</value>
+  </data>
+  <data name="_tbmAccessControlList.Button.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="_tbmAccessControlList.Button.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_tbmAccessControlList.ButtonPopupMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 28</value>
+  </data>
+  <data name="_tbmAccessControlList.ImageTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="_tbmAccessControlList.ImageTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_tbmAccessControlList.ImageTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 20</value>
+  </data>
+  <data name="_tbmAccessControlList.ImageTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="resource.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="resource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 2</value>
+  </data>
+  <data name="resource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 15</value>
+  </data>
+  <data name="resource.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
   <data name="_tbmAccessControlList.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 32</value>
+  </data>
+  <data name="_tbmAccessControlList.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1200, 55</value>
+  </data>
+  <data name="_tbmAccessControlList.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>30, 22</value>
   </data>
   <data name="_tbmAccessControlList.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 22</value>
@@ -880,7 +739,7 @@
     <value>_tbmAccessControlList</value>
   </data>
   <data name="&gt;&gt;_tbmAccessControlList.Type" xml:space="preserve">
-    <value>Contal.IwQuick.UI.TextBoxMenu, IwQuick.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Contal.IwQuick.UI.TextBoxMenu, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;_tbmAccessControlList.Parent" xml:space="preserve">
     <value>_tpAccessControlList</value>
@@ -888,26 +747,35 @@
   <data name="&gt;&gt;_tbmAccessControlList.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="_tsiAclModify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 22</value>
+  <data name="_cdgvAclCars.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="_tsiAclModify.Text" xml:space="preserve">
-    <value>Modify</value>
+  <data name="resource.ColumnHeadersHeight" type="System.Int32, mscorlib">
+    <value>34</value>
   </data>
-  <data name="&gt;&gt;_tsiAclModify.Name" xml:space="preserve">
-    <value>_tsiAclModify</value>
+  <data name="resource.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="&gt;&gt;_tsiAclModify.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="resource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="resource.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>62</value>
+  </data>
+  <data name="resource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>576, 232</value>
+  </data>
+  <data name="resource.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="_cdgvAclCars.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 86</value>
+    <value>6, 108</value>
   </data>
   <data name="_cdgvAclCars.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 8, 6, 8</value>
   </data>
   <data name="_cdgvAclCars.Size" type="System.Drawing.Size, System.Drawing">
-    <value>576, 250</value>
+    <value>576, 232</value>
   </data>
   <data name="_cdgvAclCars.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -925,13 +793,13 @@
     <value>9</value>
   </data>
   <data name="_tpAccessControlList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 29</value>
+    <value>4, 25</value>
   </data>
   <data name="_tpAccessControlList.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="_tpAccessControlList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>588, 336</value>
+    <value>588, 340</value>
   </data>
   <data name="_tpAccessControlList.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -971,99 +839,240 @@
   </data>
   <data name="&gt;&gt;_tcCar.ZOrder" xml:space="preserve">
     <value>0</value>
-      </data>
-  <data name="_eFilterCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
   </data>
-  <data name="_eFilterCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>576, 20</value>
+  <data name="_dpValidityDateTo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
-  <data name="_eFilterCards.TabIndex" type="System.Int32, mscorlib">
+  <data name="_dpValidityDateTo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 147</value>
+  </data>
+  <data name="_dpValidityDateTo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="_dpValidityDateTo.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1500, 90</value>
+  </data>
+  <data name="_dpValidityDateTo.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>56, 22</value>
+  </data>
+  <data name="_dpValidityDateTo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>321, 33</value>
+  </data>
+  <data name="_dpValidityDateTo.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateTo.Name" xml:space="preserve">
+    <value>_dpValidityDateTo</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateTo.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateTo.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateTo.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;_eFilterCards.Name" xml:space="preserve">
-    <value>_eFilterCards</value>
+  <data name="_dpValidityDateFrom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
-  <data name="&gt;&gt;_eFilterCards.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="_dpValidityDateFrom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 91</value>
   </data>
-  <data name="&gt;&gt;_eFilterCards.Parent" xml:space="preserve">
-    <value>_tpCards</value>
+  <data name="_dpValidityDateFrom.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
-  <data name="&gt;&gt;_eFilterCards.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="_dpValidityDateFrom.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1500, 90</value>
   </data>
-  <data name="_ilbCards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 30</value>
+  <data name="_dpValidityDateFrom.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>56, 22</value>
   </data>
-  <data name="_ilbCards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>576, 232</value>
+  <data name="_dpValidityDateFrom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>321, 33</value>
   </data>
-  <data name="_ilbCards.TabIndex" type="System.Int32, mscorlib">
+  <data name="_dpValidityDateFrom.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateFrom.Name" xml:space="preserve">
+    <value>_dpValidityDateFrom</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateFrom.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.TextBoxDatePicker, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateFrom.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;_dpValidityDateFrom.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;_ilbCards.Name" xml:space="preserve">
-    <value>_ilbCards</value>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;_ilbCards.Type" xml:space="preserve">
-    <value>Contal.IwQuick.UI.ImageListBox, IwQuickUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 283</value>
   </data>
-  <data name="&gt;&gt;_ilbCards.Parent" xml:space="preserve">
-    <value>_tpCards</value>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 16</value>
   </data>
-  <data name="&gt;&gt;_ilbCards.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
   </data>
-  <data name="_bDeleteCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>507, 261</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="_bDeleteCard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 32</value>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
   </data>
-  <data name="_bDeleteCard.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_bDeleteCard.Text" xml:space="preserve">
-    <value>Delete</value>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
   </data>
-  <data name="&gt;&gt;_bDeleteCard.Name" xml:space="preserve">
-    <value>_bDeleteCard</value>
-  </data>
-  <data name="&gt;&gt;_bDeleteCard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;_bDeleteCard.Parent" xml:space="preserve">
-    <value>_tpCards</value>
-  </data>
-  <data name="&gt;&gt;_bDeleteCard.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="_bCreateCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>345, 261</value>
-  </data>
-  <data name="_bCreateCard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 32</value>
-  </data>
-  <data name="_bCreateCard.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="_bCreateCard.Text" xml:space="preserve">
-    <value>Create</value>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;_bCreateCard.Name" xml:space="preserve">
-    <value>_bCreateCard</value>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 242</value>
   </data>
-  <data name="&gt;&gt;_bCreateCard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 16</value>
   </data>
-  <data name="&gt;&gt;_bCreateCard.Parent" xml:space="preserve">
-    <value>_tpCards</value>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
   </data>
-  <data name="&gt;&gt;_bCreateCard.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 147</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 16</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Validate Date To</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 104</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 16</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Validate Date From</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 61</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 16</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 15</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 16</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ŠPZ - LP</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>_tpInformation</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="_bAddCard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="_bAddCard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>426, 261</value>
+    <value>426, 265</value>
   </data>
   <data name="_bAddCard.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 32</value>
@@ -1084,13 +1093,133 @@
     <value>_tpCards</value>
   </data>
   <data name="&gt;&gt;_bAddCard.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_bCreateCard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="_bCreateCard.Location" type="System.Drawing.Point, System.Drawing">
+    <value>345, 265</value>
+  </data>
+  <data name="_bCreateCard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 32</value>
+  </data>
+  <data name="_bCreateCard.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_bCreateCard.Text" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Name" xml:space="preserve">
+    <value>_bCreateCard</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_bCreateCard.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_bDeleteCard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="_bDeleteCard.Location" type="System.Drawing.Point, System.Drawing">
+    <value>507, 265</value>
+  </data>
+  <data name="_bDeleteCard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 32</value>
+  </data>
+  <data name="_bDeleteCard.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="_bDeleteCard.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Name" xml:space="preserve">
+    <value>_bDeleteCard</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_bDeleteCard.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_ilbCards.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="_ilbCards.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="_ilbCards.ItemHeight" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="_ilbCards.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 30</value>
+  </data>
+  <data name="_ilbCards.Size" type="System.Drawing.Size, System.Drawing">
+    <value>576, 220</value>
+  </data>
+  <data name="_ilbCards.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Name" xml:space="preserve">
+    <value>_ilbCards</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Type" xml:space="preserve">
+    <value>Contal.IwQuick.UI.ImageListBox, IwQuick.PC45, Version=2.9.8319.14640, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_ilbCards.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="_eFilterCards.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="_eFilterCards.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="_eFilterCards.Size" type="System.Drawing.Size, System.Drawing">
+    <value>576, 22</value>
+  </data>
+  <data name="_eFilterCards.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Name" xml:space="preserve">
+    <value>_eFilterCards</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.Parent" xml:space="preserve">
+    <value>_tpCards</value>
+  </data>
+  <data name="&gt;&gt;_eFilterCards.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="_tsiAclModify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 24</value>
+  </data>
+  <data name="_tsiAclModify.Text" xml:space="preserve">
+    <value>Modify</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>620, 426</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclModify.Name" xml:space="preserve">
+    <value>_tsiAclModify</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclModify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>CarEditForm</value>
