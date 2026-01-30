@@ -565,7 +565,7 @@
     <value>214, 8</value>
   </data>
   <data name="_lAclDateFrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 21</value>
+    <value>90, 21</value>
   </data>
   <data name="_lAclDateFrom.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -694,7 +694,7 @@
     <value>3</value>
   </data>
   <data name="_tbmAccessControlList.ButtonPopupMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 28</value>
+    <value>126, 52</value>
   </data>
   <data name="_tbmAccessControlList.ImageTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1208,6 +1208,18 @@
   </data>
   <data name="_tsiAclModify.Text" xml:space="preserve">
     <value>Modify</value>
+  </data>
+  <data name="_tsiAclCreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 24</value>
+  </data>
+  <data name="_tsiAclCreate.Text" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclCreate.Name" xml:space="preserve">
+    <value>_tsiAclCreate</value>
+  </data>
+  <data name="&gt;&gt;_tsiAclCreate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

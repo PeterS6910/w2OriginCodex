@@ -460,6 +460,10 @@ namespace Contal.Cgp.Client
             {
                 ModifyAccessControlList();
             }
+            else if (item.Name == "_tsiAclCreate")
+            {
+                CreateAccessControlList();
+            }
         }
 
         private void _ilbCards_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -682,6 +686,63 @@ namespace Contal.Cgp.Client
             }
             catch
             {
+            }
+        }
+
+        private void CreateAccessControlList()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return;
+
+            try
+            {
+                var formType = Type.GetType("Contal.Cgp.NCAS.Client.NCASAccessControlListsForm, Cgp.NCAS.Client");
+                if (formType == null)
+                {
+                    Dialog.Error(GetString("ErrorInsertFailed"));
+                    return;
+                }
+
+                var singletonProperty = formType.GetProperty("Singleton", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                var formInstance = singletonProperty?.GetValue(null, null);
+                if (formInstance == null)
+                {
+                    Dialog.Error(GetString("ErrorInsertFailed"));
+                    return;
+                }
+
+                var accessControlList = new AccessControlList();
+                var openMethod = formType.GetMethod("OpenInsertFromEdit", new[]
+                {
+                    typeof(AccessControlList).MakeByRefType(),
+                    typeof(Action<object>)
+                });
+
+                if (openMethod == null)
+                {
+                    Dialog.Error(GetString("ErrorInsertFailed"));
+                    return;
+                }
+
+                openMethod.Invoke(formInstance, new object[] { accessControlList, new Action<object>(DoAfterAccessControlListCreated) });
+            }
+            catch (Exception ex)
+            {
+                HandledExceptionAdapter.Examine(ex);
+            }
+        }
+
+        private void DoAfterAccessControlListCreated(object newAccessControlList)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<object>(DoAfterAccessControlListCreated), newAccessControlList);
+            }
+            else if (newAccessControlList is AccessControlList)
+            {
+                _actAccessControlLists = new ListOfObjects();
+                _actAccessControlLists.Objects.Add(newAccessControlList as AccessControlList);
+                RefreshAccessControlList();
             }
         }
 

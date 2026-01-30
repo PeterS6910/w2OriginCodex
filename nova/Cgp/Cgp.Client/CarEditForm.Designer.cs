@@ -21,6 +21,7 @@ namespace Contal.Cgp.Client
         private Contal.Cgp.Components.CgpDataGridView _cdgvAclCars;
         private Contal.IwQuick.UI.TextBoxMenu _tbmAccessControlList;
         private System.Windows.Forms.ToolStripMenuItem _tsiAclModify;
+        private System.Windows.Forms.ToolStripMenuItem _tsiAclCreate;
         private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateFrom;
         private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateTo;
         private System.Windows.Forms.Label _lAclAccessControlList;
@@ -76,6 +77,7 @@ namespace Contal.Cgp.Client
             this._tbdpAclDateFrom = new Contal.IwQuick.UI.TextBoxDatePicker();
             this._tbmAccessControlList = new Contal.IwQuick.UI.TextBoxMenu();
             this._tsiAclModify = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiAclCreate = new System.Windows.Forms.ToolStripMenuItem();
             this._cdgvAclCars = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
@@ -393,7 +395,8 @@ namespace Contal.Cgp.Client
             // 
             // 
             this._tbmAccessControlList.ButtonPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._tsiAclModify});
+            this._tsiAclModify,
+            this._tsiAclCreate});
             this._tbmAccessControlList.ButtonPopupMenu.Name = "";
             this._tbmAccessControlList.ButtonPopupMenu.Size = ((System.Drawing.Size)(resources.GetObject("_tbmAccessControlList.ButtonPopupMenu.Size")));
             this._tbmAccessControlList.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
@@ -439,6 +442,11 @@ namespace Contal.Cgp.Client
             // 
             this._tsiAclModify.Name = "_tsiAclModify";
             resources.ApplyResources(this._tsiAclModify, "_tsiAclModify");
+            // 
+            // _tsiAclCreate
+            // 
+            this._tsiAclCreate.Name = "_tsiAclCreate";
+            resources.ApplyResources(this._tsiAclCreate, "_tsiAclCreate");
             // 
             // _cdgvAclCars
             // 
