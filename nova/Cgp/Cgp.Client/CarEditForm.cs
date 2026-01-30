@@ -577,13 +577,16 @@ namespace Contal.Cgp.Client
 
             if (_editingObject.IdCar == Guid.Empty)
             {
-                ClearAclCarsGrid();
+                UpdateAclCarsGrid(new List<ACLCar>());
                 return;
             }
 
             var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
             if (ncasProvider == null)
+            {
+                UpdateAclCarsGrid(new List<ACLCar>());
                 return;
+            }
 
             Exception error;
             IList<ACLCar> aclCars = null;
@@ -593,8 +596,8 @@ namespace Contal.Cgp.Client
             }
             catch (MissingMethodException)
             {
-                ClearAclCarsGrid();
                 Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
+                UpdateAclCarsGrid(new List<ACLCar>());
                 return;
             }
             if (error != null)
@@ -608,11 +611,26 @@ namespace Contal.Cgp.Client
                     Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
                 }
 
-                ClearAclCarsGrid();
+                UpdateAclCarsGrid(new List<ACLCar>());
                 return;
             }
 
-            ClearAclCarsGrid();
+            UpdateAclCarsGrid(aclCars ?? new List<ACLCar>());
+        }
+
+        private void ClearAclCarsGrid()
+        {
+            UpdateAclCarsGrid(new List<ACLCar>());
+        }
+
+        private void UpdateAclCarsGrid(IList<ACLCar> aclCars)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IList<ACLCar>>(UpdateAclCarsGrid), aclCars);
+                return;
+            }
+
             _aclCarsBindingSource = new BindingSource
             {
                 DataSource = aclCars
@@ -629,12 +647,6 @@ namespace Contal.Cgp.Client
                 DataGridViewAutoSizeColumnMode.DisplayedCells;
             _cdgvAclCars.DataGrid.Columns[ACLCar.COLUMN_DATE_TO].DefaultCellStyle.Format =
                 "MM-dd-yyyy HH:mm:ss";
-        }
-
-        private void ClearAclCarsGrid()
-        {
-            _aclCarsBindingSource = null;
-            _cdgvAclCars.RemoveDataSource();
         }
 
         private void ModifyAccessControlList()
