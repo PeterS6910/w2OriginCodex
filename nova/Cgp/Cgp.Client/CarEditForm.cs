@@ -177,6 +177,8 @@ namespace Contal.Cgp.Client
         {
             foreach (TabPage page in _tcCar.TabPages)
                 page.BackColor = SystemColors.Control;
+            if (_tcCar.SelectedTab == _tpAccessControlList)
+                LoadAclCars();
         }
 
 
