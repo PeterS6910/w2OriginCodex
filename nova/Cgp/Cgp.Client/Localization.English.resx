@@ -627,9 +627,6 @@
   <data name="ColumnSecurityLevel" xml:space="preserve">
     <value>Security level</value>
   </data>
-  <data name="ColumnSymbol" xml:space="preserve">
-    <value>Symbol</value>
-  </data>
   <data name="ColumnIdentification" xml:space="preserve">
     <value>ID</value>
   </data>

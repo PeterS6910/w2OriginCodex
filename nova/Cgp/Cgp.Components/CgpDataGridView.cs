@@ -80,7 +80,12 @@ namespace Contal.Cgp.Components
 
                     foreach (var imageKey in value.Images.Keys)
                     {
-                        _imageList.Add(imageKey, value.Images[imageKey]);
+                        if (string.IsNullOrEmpty(imageKey))
+                        {
+                            continue;
+                        }
+
+                        _imageList[imageKey] = value.Images[imageKey];
                     }
                 }
             }

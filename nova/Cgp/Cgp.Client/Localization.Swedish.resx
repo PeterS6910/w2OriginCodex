@@ -1494,6 +1494,12 @@
   <data name="QuestionLoadActualData" xml:space="preserve">
     <value>Redigering av objektet ändrades av en annan användare. Vill du öppna senaste data från objektet? All osparad data kommer att förloras.</value>
   </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Tilldela åtkomstkontrollista till bilen?</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
+    <value>Uppdatera åtkomstkontrollistans tilldelning för den här bilen?</value>
+  </data>
   <data name="PersonEditForm_lEmail" xml:space="preserve">
     <value>E-post</value>
   </data>
@@ -1877,9 +1883,6 @@
   </data>
   <data name="ColumnSecurityLevel" xml:space="preserve">
     <value>Säkerhetsnivå</value>
-  </data>
-  <data name="ColumnSymbol" xml:space="preserve">
-    <value>Symbol</value>
   </data>
   <data name="PresentationGroupEditForm_lGroupName" xml:space="preserve">
     <value>Gruppnamn</value>
@@ -2610,6 +2613,9 @@
   <data name="ErrorEntryPersonalKey" xml:space="preserve">
     <value>Personnummer måste anges</value>
   </data>
+  <data name="ErrorACLDateRange" xml:space="preserve">
+    <value>Datum från måste vara tidigare än datum till.</value>
+  </data>
   <data name="ColumnIdentification" xml:space="preserve">
     <value>Personnummer</value>
   </data>
@@ -2723,6 +2729,9 @@
   </data>
   <data name="ErrorEntryCalendarYear" xml:space="preserve">
     <value>Vänligen ange år</value>
+  </data>
+  <data name="ErrorEntryAccessControlList" xml:space="preserve">
+    <value>Välj en åtkomstkontrollista.</value>
   </data>
   <data name="ErrorInsertUnicityGroupTimeOut" xml:space="preserve">
     <value>Vänligen ange grupp timeout</value>

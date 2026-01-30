@@ -571,8 +571,7 @@ namespace Contal.Cgp.Client
 
             if (_editingObject.IdCar == Guid.Empty)
             {
-                _aclCarsBindingSource = null;
-                _cdgvAclCars.DataGrid.DataSource = null;
+                ClearAclCarsGrid();
                 return;
             }
 
@@ -588,8 +587,7 @@ namespace Contal.Cgp.Client
             }
             catch (MissingMethodException)
             {
-                _aclCarsBindingSource = null;
-                _cdgvAclCars.DataGrid.DataSource = null;
+                ClearAclCarsGrid();
                 Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
                 return;
             }
@@ -604,11 +602,11 @@ namespace Contal.Cgp.Client
                     Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
                 }
 
-                _aclCarsBindingSource = null;
-                _cdgvAclCars.DataGrid.DataSource = null;
+                ClearAclCarsGrid();
                 return;
             }
 
+            ClearAclCarsGrid();
             _aclCarsBindingSource = new BindingSource
             {
                 DataSource = aclCars
@@ -625,6 +623,12 @@ namespace Contal.Cgp.Client
                 DataGridViewAutoSizeColumnMode.DisplayedCells;
             _cdgvAclCars.DataGrid.Columns[ACLCar.COLUMN_DATE_TO].DefaultCellStyle.Format =
                 "MM-dd-yyyy HH:mm:ss";
+        }
+
+        private void ClearAclCarsGrid()
+        {
+            _aclCarsBindingSource = null;
+            _cdgvAclCars.RemoveDataSource();
         }
 
         private void ModifyAccessControlList()

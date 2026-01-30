@@ -5326,6 +5326,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dátum od musí byť skorší ako dátum do..
+        /// </summary>
+        internal static string ErrorACLDateRange {
+            get {
+                return ResourceManager.GetString("ErrorACLDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chyba pri pridávaní karty pre užívateľa.
         /// </summary>
         internal static string ErrorAddCard {
@@ -5763,6 +5772,15 @@ namespace Contal.Cgp.Client {
         internal static string ErrorEnterSearchSring {
             get {
                 return ResourceManager.GetString("ErrorEnterSearchSring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prosím, vyberte prístupový zoznam..
+        /// </summary>
+        internal static string ErrorEntryAccessControlList {
+            get {
+                return ResourceManager.GetString("ErrorEntryAccessControlList", resourceCulture);
             }
         }
         
@@ -12572,6 +12590,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Priradiť prístupový zoznam ku autu?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Editovaný objekt bol zmenený iným používateľom. Chcete načítať posledne uložené dáta? Neuložene zmeny budú stratené..
         /// </summary>
         internal static string QuestionLoadActualData {
@@ -12685,6 +12712,15 @@ namespace Contal.Cgp.Client {
         internal static string QuestionUnblockAlarms {
             get {
                 return ResourceManager.GetString("QuestionUnblockAlarms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aktualizovať priradenie prístupového zoznamu pre toto auto?.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         

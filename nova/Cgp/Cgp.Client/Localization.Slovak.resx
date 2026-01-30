@@ -1734,6 +1734,9 @@
   <data name="ErrorEntryCalendarYear" xml:space="preserve">
     <value>Zadajte rok.</value>
   </data>
+  <data name="ErrorEntryAccessControlList" xml:space="preserve">
+    <value>Prosím, vyberte prístupový zoznam.</value>
+  </data>
   <data name="ErrorInsertDayType" xml:space="preserve">
     <value>Vloženie typu dňa zlyhalo.</value>
   </data>
@@ -1820,6 +1823,12 @@
   </data>
   <data name="QuestionLoadActualData" xml:space="preserve">
     <value>Editovaný objekt bol zmenený iným používateľom. Chcete načítať posledne uložené dáta? Neuložene zmeny budú stratené.</value>
+  </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Priradiť prístupový zoznam ku autu?</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
+    <value>Aktualizovať priradenie prístupového zoznamu pre toto auto?</value>
   </data>
   <data name="ErrorDuplicatedCalendarSettingPair" xml:space="preserve">
     <value>Dvojica kalendár a dátumové nastavenie už existuje.</value>
@@ -1979,6 +1988,9 @@
   </data>
   <data name="ErrorEntryPersonalKey" xml:space="preserve">
     <value>Osobné ID musí byť zadané</value>
+  </data>
+  <data name="ErrorACLDateRange" xml:space="preserve">
+    <value>Dátum od musí byť skorší ako dátum do.</value>
   </data>
   <data name="ErrorUsedPersonalKey" xml:space="preserve">
     <value>Toto osobné ID je už priradené inému užívateľovi</value>

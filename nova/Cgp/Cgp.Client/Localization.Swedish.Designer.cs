@@ -8665,6 +8665,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Datum från måste vara tidigare än datum till..
+        /// </summary>
+        internal static string ErrorACLDateRange {
+            get {
+                return ResourceManager.GetString("ErrorACLDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skapa kort misslyckades.
         /// </summary>
         internal static string ErrorAddCard {
@@ -9174,6 +9183,15 @@ namespace Contal.Cgp.Client {
         internal static string ErrorEnterSearchSring {
             get {
                 return ResourceManager.GetString("ErrorEnterSearchSring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Välj en åtkomstkontrollista..
+        /// </summary>
+        internal static string ErrorEntryAccessControlList {
+            get {
+                return ResourceManager.GetString("ErrorEntryAccessControlList", resourceCulture);
             }
         }
         
@@ -17480,6 +17498,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tilldela åtkomstkontrollista till bilen?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Redigering av objektet ändrades av en annan användare. Vill du öppna senaste data från objektet? All osparad data kommer att förloras..
         /// </summary>
         internal static string QuestionLoadActualData {
@@ -17764,6 +17791,15 @@ namespace Contal.Cgp.Client {
         internal static string QuestionUnselectAllSubSites {
             get {
                 return ResourceManager.GetString("QuestionUnselectAllSubSites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uppdatera åtkomstkontrollistans tilldelning för den här bilen?.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         
