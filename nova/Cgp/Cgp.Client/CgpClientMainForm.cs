@@ -3262,6 +3262,7 @@ namespace Contal.Cgp.Client
             _leftMenuItems.Add(_cardSystemsForm, CardSystemsForm.Singleton.HasAccessView());
             _leftMenuItems.Add(_cardsForm, CardsForm.Singleton.HasAccessView());
             _leftMenuItems.Add(_cardTemplatesForm, CardTemplatesForm.Singleton.HasAccessView());
+            _leftMenuItems.Add(_carsForm, CarsForm.Singleton.HasAccessView());
             _leftMenuItems.Add(_dailyPlanForm, DailyPlansForm.Singleton.HasAccessView());
             _leftMenuItems.Add(_TimeZonesForm, TimeZonesForm.Singleton.HasAccessView());
             _leftMenuItems.Add(_dayTypeForm, DayTypesForm.Singleton.HasAccessView());

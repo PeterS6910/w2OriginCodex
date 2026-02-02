@@ -720,6 +720,9 @@
   <data name="CarEditForm_tpAccessControlList" xml:space="preserve">
     <value>Behörigheter</value>
   </data>
+  <data name="CarEditForm_tpAccessZone" xml:space="preserve">
+    <value>Personliga zoner</value>
+  </data>
   <data name="CarEditForm_tpInformation" xml:space="preserve">
     <value>Information</value>
   </data>

@@ -1167,6 +1167,9 @@
   <data name="CarEditForm_tpAccessControlList" xml:space="preserve">
     <value>Access control list</value>
   </data>
+  <data name="CarEditForm_tpAccessZone" xml:space="preserve">
+    <value>Access zone</value>
+  </data>
   <data name="CarEditForm_tpInformation" xml:space="preserve">
     <value>Information</value>
   </data>

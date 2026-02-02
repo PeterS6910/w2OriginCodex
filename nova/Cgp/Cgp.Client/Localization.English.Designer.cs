@@ -4624,6 +4624,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access zone.
+        /// </summary>
+        internal static string CarEditForm_tpAccessZone {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpAccessZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cards.
         /// </summary>
         internal static string CarEditForm_tpCards {

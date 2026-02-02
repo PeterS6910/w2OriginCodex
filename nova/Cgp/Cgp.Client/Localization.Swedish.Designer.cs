@@ -4786,6 +4786,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Personliga zoner.
+        /// </summary>
+        internal static string CarEditForm_tpAccessZone {
+            get {
+                return ResourceManager.GetString("CarEditForm_tpAccessZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kort.
         /// </summary>
         internal static string CarEditForm_tpCards {

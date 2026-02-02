@@ -1167,6 +1167,9 @@
   <data name="CarEditForm_tpAccessControlList" xml:space="preserve">
     <value>Prístupové práva</value>
   </data>
+  <data name="CarEditForm_tpAccessZone" xml:space="preserve">
+    <value>Prístupová zóna</value>
+  </data>
   <data name="CarEditForm_tpInformation" xml:space="preserve">
     <value>Informácie</value>
   </data>

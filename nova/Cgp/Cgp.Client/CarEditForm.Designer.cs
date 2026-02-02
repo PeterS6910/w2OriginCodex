@@ -13,6 +13,7 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TabPage _tpInformation;
         private System.Windows.Forms.TabPage _tpCards;
         private System.Windows.Forms.TabPage _tpAccessControlList;
+        private System.Windows.Forms.TabPage _tpAccessZone;
         private System.Windows.Forms.TextBox _eFilterCards;
         private Contal.IwQuick.UI.ImageListBox _ilbCards;
         private System.Windows.Forms.Button _bDeleteCard;
@@ -67,6 +68,7 @@ namespace Contal.Cgp.Client
             this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
             this._eFilterCards = new System.Windows.Forms.TextBox();
             this._tpAccessControlList = new System.Windows.Forms.TabPage();
+            this._tpAccessZone = new System.Windows.Forms.TabPage();
             this._bAclCancel = new System.Windows.Forms.Button();
             this._bAclUpdate = new System.Windows.Forms.Button();
             this._bAclCreate = new System.Windows.Forms.Button();
@@ -83,6 +85,7 @@ namespace Contal.Cgp.Client
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
             this._tpAccessControlList.SuspendLayout();
+            this._tpAccessZone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,6 +129,7 @@ namespace Contal.Cgp.Client
             this._tcCar.Controls.Add(this._tpInformation);
             this._tcCar.Controls.Add(this._tpCards);
             this._tcCar.Controls.Add(this._tpAccessControlList);
+            this._tcCar.Controls.Add(this._tpAccessZone);
             this._tcCar.Name = "_tcCar";
             this._tcCar.SelectedIndex = 0;
             this._tcCar.TabStop = false;
@@ -289,6 +293,11 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this._tpAccessControlList, "_tpAccessControlList");
             this._tpAccessControlList.Name = "_tpAccessControlList";
             this._tpAccessControlList.Enter += new System.EventHandler(this._tpAccessControlList_Enter);
+            // 
+            // _tpAccessZone
+            // 
+            resources.ApplyResources(this._tpAccessZone, "_tpAccessZone");
+            this._tpAccessZone.Name = "_tpAccessZone";
             // 
             // _bAclCancel
             // 
@@ -488,6 +497,7 @@ namespace Contal.Cgp.Client
             this._tpCards.ResumeLayout(false);
             this._tpCards.PerformLayout();
             this._tpAccessControlList.ResumeLayout(false);
+            this._tpAccessZone.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).EndInit();
             this.ResumeLayout(false);
 

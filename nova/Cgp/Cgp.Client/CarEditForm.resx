@@ -819,6 +819,33 @@
   <data name="&gt;&gt;_tpAccessControlList.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="_tpAccessZone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 25</value>
+  </data>
+  <data name="_tpAccessZone.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="_tpAccessZone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>588, 340</value>
+  </data>
+  <data name="_tpAccessZone.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_tpAccessZone.Text" xml:space="preserve">
+    <value>Access zone</value>
+  </data>
+  <data name="&gt;&gt;_tpAccessZone.Name" xml:space="preserve">
+    <value>_tpAccessZone</value>
+  </data>
+  <data name="&gt;&gt;_tpAccessZone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_tpAccessZone.Parent" xml:space="preserve">
+    <value>_tcCar</value>
+  </data>
+  <data name="&gt;&gt;_tpAccessZone.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="_tcCar.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
