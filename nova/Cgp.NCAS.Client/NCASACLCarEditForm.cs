@@ -409,14 +409,6 @@ namespace Contal.Cgp.NCAS.Client
                     dateTimeTo = dateTime;
             }
 
-            if ((dateTimeTo != null && aclCars != null && aclCars.EmploymentEndDate != null &&
-                dateTimeTo.Value.CompareTo(aclCars.EmploymentEndDate) > 0) ||
-                (dateTimeTo == null && aclCars != null && aclCars.EmploymentEndDate != null))
-            {
-                if (!Dialog.WarningQuestion(GetString("QuestionUpdateACLDateTo")))
-                    return;
-            }
-
             CreateAclCar(aclCars);
         }
 
@@ -757,7 +749,7 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_bindingSource != null && _bindingSource.Count > 0)
             {
-                _editingAclCar = _bindingSource[_bindingSource.Position] as ACLCar
+                _editingAclCar = _bindingSource[_bindingSource.Position] as ACLCar;
 
                 if (_editingAclCar != null)
                 {
