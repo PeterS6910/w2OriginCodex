@@ -572,6 +572,14 @@ namespace Contal.Cgp.Client
 
         private void LoadAclCars()
         {
+            SafeThread.StartThread(ShowAclCars);
+        }
+
+        private void ShowAclCars()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return;
+
             if (_editingObject.IdCar == Guid.Empty)
             {
                 UpdateAclCarsGrid(new List<ACLCar>());
