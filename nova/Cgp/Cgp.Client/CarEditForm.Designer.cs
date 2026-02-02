@@ -575,7 +575,7 @@ namespace Contal.Cgp.Client
             this._lAccessZoneTimeZone.Name = "_lAccessZoneTimeZone";
             this._lAccessZoneTimeZone.Size = new System.Drawing.Size(57, 13);
             this._lAccessZoneTimeZone.TabIndex = 9;
-            this._lAccessZoneTimeZone.Text = "Time zone"
+            this._lAccessZoneTimeZone.Text = "Time zone";
             // 
             // _bAclCancel
             // 

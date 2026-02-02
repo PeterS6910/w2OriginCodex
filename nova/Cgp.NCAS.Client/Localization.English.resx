@@ -2374,6 +2374,9 @@ Would you like to add this card reader anyway ?</value>
   <data name="QuestionInsertACLPerson" xml:space="preserve">
     <value>Insert access control list for this person ?</value>
   </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Insert access control list for this car?</value>
+  </data>
   <data name="HIDProximityFull" xml:space="preserve">
     <value>BCR HID Prox II (Full version)</value>
   </data>
@@ -2666,6 +2669,9 @@ Continue anyway?</value>
     <value>Allowed card with PIN</value>
   </data>
   <data name="QuestionUpdateACLPerson" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
     <value>Save changes</value>
   </data>
   <data name="General_bRoRefresh" xml:space="preserve">
@@ -3480,6 +3486,9 @@ Continue anyway?</value>
   </data>
   <data name="ErrorUsedAccessControlListPerson" xml:space="preserve">
     <value>This access control list is already added for person</value>
+  </data>
+  <data name="ErrorUsedAccessControlListCar" xml:space="preserve">
+    <value>This access control list is already added for car</value>
   </data>
   <data name="NCASCCUEditForm_bServerResetReceivedError" xml:space="preserve">
     <value>Reset</value>

@@ -426,9 +426,6 @@
   <data name="NCASDoorEnvironmentEditForm_tpApas" xml:space="preserve">
     <value>APAS</value>
   </data>
-  <data name="NCASDCUEditForm_tpApas" xml:space="preserve">
-    <value>APAS</value>
-  </data>
   <data name="NCASDoorEnvironmentEditForm_tpCar" xml:space="preserve">
     <value>Bil</value>
   </data>
@@ -437,6 +434,9 @@
   </data>
   <data name="NCASDoorEnvironmentEditForm_NoAvailableCars" xml:space="preserve">
     <value>Inga tillgängliga fordon att lägga till.</value>
+  </data>
+  <data name="NCASDCUEditForm_tpApas" xml:space="preserve">
+    <value>APAS</value>
   </data>
   <data name="General_bApply" xml:space="preserve">
     <value>Använd</value>
@@ -1685,6 +1685,15 @@
   </data>
   <data name="QuestionInsertACLPerson" xml:space="preserve">
     <value>Koppla behörighetszon till denna person?</value>
+  </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Koppla behörighetszon till denna bil?</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
+    <value>Spara ändringar</value>
+  </data>
+  <data name="ErrorUsedAccessControlListCar" xml:space="preserve">
+    <value>Behörighetszonen finns redan för bilen</value>
   </data>
   <data name="ErrorInsertCCU" xml:space="preserve">
     <value>Infoga CCU misslyckades</value>

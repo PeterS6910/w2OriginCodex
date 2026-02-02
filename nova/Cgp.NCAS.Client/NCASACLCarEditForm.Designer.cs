@@ -1,6 +1,6 @@
 namespace Contal.Cgp.NCAS.Client
 {
-    partial class NCASACLPersonEditForm
+    partial class NCASACLCarEditForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NCASACLPersonEditForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NCASACLCarEditForm));
             this._pBack = new System.Windows.Forms.Panel();
             this._cdgvData = new Contal.Cgp.Components.CgpDataGridView();
             this._tbmAccessControlList = new Contal.IwQuick.UI.TextBoxMenu();
@@ -71,8 +71,8 @@ namespace Contal.Cgp.NCAS.Client
             this._cdgvData.AllowDrop = true;
             this._cdgvData.AllwaysRefreshOrder = false;
             this._cdgvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cdgvData.CgpDataGridEvents = null;
             this._cdgvData.CopyOnRightClick = true;
             // 
@@ -85,24 +85,27 @@ namespace Contal.Cgp.NCAS.Client
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
             this._cdgvData.DataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this._cdgvData.DataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this._cdgvData.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this._cdgvData.DataGrid.ColumnHeadersHeight = 34;
+            this._cdgvData.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this._cdgvData.DataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._cdgvData.DataGrid.Location = new System.Drawing.Point(0, 0);
             this._cdgvData.DataGrid.MultiSelect = false;
             this._cdgvData.DataGrid.Name = "_dgvData";
             this._cdgvData.DataGrid.ReadOnly = true;
             this._cdgvData.DataGrid.RowHeadersVisible = false;
+            this._cdgvData.DataGrid.RowHeadersWidth = 51;
             this._cdgvData.DataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             this._cdgvData.DataGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this._cdgvData.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._cdgvData.DataGrid.Size = new System.Drawing.Size(594, 232);
+            this._cdgvData.DataGrid.Size = new System.Drawing.Size(594, 230);
             this._cdgvData.DataGrid.TabIndex = 0;
+            this._cdgvData.DefaultSortColumnName = null;
+            this._cdgvData.DefaultSortDirection = System.ComponentModel.ListSortDirection.Ascending;
             this._cdgvData.LocalizationHelper = null;
-            this._cdgvData.Location = new System.Drawing.Point(12, 81);
+            this._cdgvData.Location = new System.Drawing.Point(12, 85);
             this._cdgvData.Name = "_cdgvData";
-            this._cdgvData.Size = new System.Drawing.Size(594, 232);
+            this._cdgvData.Size = new System.Drawing.Size(594, 230);
             this._cdgvData.TabIndex = 11;
             // 
             // _tbmAccessControlList
@@ -114,6 +117,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._tbmAccessControlList.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmAccessControlList.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessControlList.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmAccessControlList.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmAccessControlList.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.Button.Image")));
             this._tbmAccessControlList.Button.Location = new System.Drawing.Point(136, 0);
@@ -132,23 +136,21 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiModify,
             this._tsiCreate});
             this._tbmAccessControlList.ButtonPopupMenu.Name = "";
-            this._tbmAccessControlList.ButtonPopupMenu.Size = new System.Drawing.Size(113, 48);
+            this._tbmAccessControlList.ButtonPopupMenu.Size = new System.Drawing.Size(126, 52);
             this._tbmAccessControlList.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
             this._tbmAccessControlList.ButtonShowImage = true;
             this._tbmAccessControlList.ButtonSizeHeight = 20;
             this._tbmAccessControlList.ButtonSizeWidth = 20;
             this._tbmAccessControlList.ButtonText = "";
-            this._tbmAccessControlList.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmAccessControlList.HoverTime = 600;
             // 
             // 
             // 
             this._tbmAccessControlList.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmAccessControlList.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmAccessControlList.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmAccessControlList.ImageTextBox.ContextMenuStrip = this._tbmAccessControlList.ButtonPopupMenu;
-            this._tbmAccessControlList.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmAccessControlList.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.ImageTextBox.Image")));
             this._tbmAccessControlList.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmAccessControlList.ImageTextBox.Name = "_textBox";
@@ -160,14 +162,14 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             this._tbmAccessControlList.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmAccessControlList.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmAccessControlList.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._tbmAccessControlList.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessControlList.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this._tbmAccessControlList.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmAccessControlList.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmAccessControlList.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmAccessControlList.ImageTextBox.TextBox.Size = new System.Drawing.Size(134, 13);
+            this._tbmAccessControlList.ImageTextBox.TextBox.Size = new System.Drawing.Size(134, 15);
             this._tbmAccessControlList.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmAccessControlList.ImageTextBox.UseImage = true;
             this._tbmAccessControlList.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmAccessControlList_DoubleClick);
@@ -178,20 +180,20 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmAccessControlList.Size = new System.Drawing.Size(156, 22);
             this._tbmAccessControlList.TabIndex = 1;
             this._tbmAccessControlList.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmAccessControlList.TextImage")));
-            this._tbmAccessControlList.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmAccessControlList_DragOver);
-            this._tbmAccessControlList.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmAccessControlList_DragDrop);
             this._tbmAccessControlList.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmAccessControlList_ButtonPopupMenuItemClick);
+            this._tbmAccessControlList.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmAccessControlList_DragDrop);
+            this._tbmAccessControlList.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmAccessControlList_DragOver);
             // 
             // _tsiModify
             // 
             this._tsiModify.Name = "_tsiModify";
-            this._tsiModify.Size = new System.Drawing.Size(112, 22);
+            this._tsiModify.Size = new System.Drawing.Size(125, 24);
             this._tsiModify.Text = "Modify";
             // 
             // _tsiCreate
             // 
             this._tsiCreate.Name = "_tsiCreate";
-            this._tsiCreate.Size = new System.Drawing.Size(112, 22);
+            this._tsiCreate.Size = new System.Drawing.Size(125, 24);
             this._tsiCreate.Text = "Create";
             // 
             // _tbdpDateTo
@@ -215,7 +217,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbdpDateTo.SelectTime = Contal.IwQuick.UI.SelectedTimeOfDay.EndOfDay;
             this._tbdpDateTo.Size = new System.Drawing.Size(202, 22);
             this._tbdpDateTo.TabIndex = 5;
-            this._tbdpDateTo.ValidateAfter = 2;
+            this._tbdpDateTo.ValidateAfter = 2D;
             this._tbdpDateTo.ValidationEnabled = false;
             this._tbdpDateTo.ValidationError = "";
             this._tbdpDateTo.Value = null;
@@ -241,7 +243,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbdpDateFrom.SelectTime = Contal.IwQuick.UI.SelectedTimeOfDay.StartOfDay;
             this._tbdpDateFrom.Size = new System.Drawing.Size(202, 22);
             this._tbdpDateFrom.TabIndex = 3;
-            this._tbdpDateFrom.ValidateAfter = 2;
+            this._tbdpDateFrom.ValidateAfter = 2D;
             this._tbdpDateFrom.ValidationEnabled = false;
             this._tbdpDateFrom.ValidationError = "";
             this._tbdpDateFrom.Value = null;
@@ -251,7 +253,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDateTo.AutoSize = true;
             this._lDateTo.Location = new System.Drawing.Point(399, 9);
             this._lDateTo.Name = "_lDateTo";
-            this._lDateTo.Size = new System.Drawing.Size(42, 13);
+            this._lDateTo.Size = new System.Drawing.Size(50, 16);
             this._lDateTo.TabIndex = 4;
             this._lDateTo.Text = "Date to";
             // 
@@ -259,7 +261,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._bCreate1.Location = new System.Drawing.Point(438, 53);
             this._bCreate1.Name = "_bCreate1";
-            this._bCreate1.Size = new System.Drawing.Size(166, 22);
+            this._bCreate1.Size = new System.Drawing.Size(166, 32);
             this._bCreate1.TabIndex = 6;
             this._bCreate1.Text = "Create";
             this._bCreate1.UseVisualStyleBackColor = true;
@@ -270,7 +272,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDateFrom.AutoSize = true;
             this._lDateFrom.Location = new System.Drawing.Point(191, 9);
             this._lDateFrom.Name = "_lDateFrom";
-            this._lDateFrom.Size = new System.Drawing.Size(53, 13);
+            this._lDateFrom.Size = new System.Drawing.Size(65, 16);
             this._lDateFrom.TabIndex = 2;
             this._lDateFrom.Text = "Date from";
             // 
@@ -301,22 +303,21 @@ namespace Contal.Cgp.NCAS.Client
             this._lAccessControlList.AutoSize = true;
             this._lAccessControlList.Location = new System.Drawing.Point(9, 9);
             this._lAccessControlList.Name = "_lAccessControlList";
-            this._lAccessControlList.Size = new System.Drawing.Size(92, 13);
+            this._lAccessControlList.Size = new System.Drawing.Size(114, 16);
             this._lAccessControlList.TabIndex = 0;
             this._lAccessControlList.Text = "Access control list";
             // 
-            // NCASACLPersonEditForm
+            // NCASACLCarEditForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(618, 325);
             this.Controls.Add(this._pBack);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(405, 334);
-            this.Name = "NCASACLPersonEditForm";
+            this.Name = "NCASACLCarEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "NCASACLPersonEditForm";
+            this.Text = "NCASACLCarEditForm";
             this._pBack.ResumeLayout(false);
             this._pBack.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvData.DataGrid)).EndInit();

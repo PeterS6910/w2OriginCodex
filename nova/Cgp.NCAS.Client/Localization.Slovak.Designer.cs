@@ -3931,6 +3931,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto už má pridelený tento zoznam prístupových práv.
+        /// </summary>
+        internal static string ErrorUsedAccessControlListCar {
+            get {
+                return ResourceManager.GetString("ErrorUsedAccessControlListCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Užívateľ už má pridelený tento zoznam prístupových práv.
         /// </summary>
         internal static string ErrorUsedAccessControlListPerson {
@@ -12753,6 +12762,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pridať zoznam prístupových práv pre toto auto?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pridať zoznam prístupových práv pre tohto užívateľa ?.
         /// </summary>
         internal static string QuestionInsertACLPerson {
@@ -12859,6 +12877,15 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string QuestionUnconfigureDoorEnvironment {
             get {
                 return ResourceManager.GetString("QuestionUnconfigureDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uložíť zmeny.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         

@@ -5137,6 +5137,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Behörighetszonen finns redan för bilen.
+        /// </summary>
+        internal static string ErrorUsedAccessControlListCar {
+            get {
+                return ResourceManager.GetString("ErrorUsedAccessControlListCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Behörighetszonen finns redan för personen.
         /// </summary>
         internal static string ErrorUsedAccessControlListPerson {
@@ -18499,6 +18508,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Koppla behörighetszon till denna bil?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Koppla behörighetszon till denna person?.
         /// </summary>
         internal static string QuestionInsertACLPerson {
@@ -18659,6 +18677,15 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string QuestionUnconfigureDoorEnvironment {
             get {
                 return ResourceManager.GetString("QuestionUnconfigureDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spara ändringar.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         

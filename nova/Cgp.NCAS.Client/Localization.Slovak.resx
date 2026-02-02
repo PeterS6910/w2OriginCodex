@@ -696,6 +696,15 @@
   <data name="ErrorUsedAccessControlListPerson" xml:space="preserve">
     <value>Užívateľ už má pridelený tento zoznam prístupových práv</value>
   </data>
+  <data name="ErrorUsedAccessControlListCar" xml:space="preserve">
+    <value>Auto už má pridelený tento zoznam prístupových práv</value>
+  </data>
+  <data name="QuestionInsertACLCar" xml:space="preserve">
+    <value>Pridať zoznam prístupových práv pre toto auto?</value>
+  </data>
+  <data name="QuestionUpdateACLCar" xml:space="preserve">
+    <value>Uložíť zmeny</value>
+  </data>
   <data name="General_bCancelEdit" xml:space="preserve">
     <value>Ukončiť editáciu</value>
   </data>

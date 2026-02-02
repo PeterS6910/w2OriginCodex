@@ -5101,6 +5101,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This access control list is already added for car.
+        /// </summary>
+        internal static string ErrorUsedAccessControlListCar {
+            get {
+                return ResourceManager.GetString("ErrorUsedAccessControlListCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This access control list is already added for person.
         /// </summary>
         internal static string ErrorUsedAccessControlListPerson {
@@ -18373,6 +18382,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert access control list for this car?.
+        /// </summary>
+        internal static string QuestionInsertACLCar {
+            get {
+                return ResourceManager.GetString("QuestionInsertACLCar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert access control list for this person ?.
         /// </summary>
         internal static string QuestionInsertACLPerson {
@@ -18533,6 +18551,15 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string QuestionUnconfigureDoorEnvironment {
             get {
                 return ResourceManager.GetString("QuestionUnconfigureDoorEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save changes.
+        /// </summary>
+        internal static string QuestionUpdateACLCar {
+            get {
+                return ResourceManager.GetString("QuestionUpdateACLCar", resourceCulture);
             }
         }
         

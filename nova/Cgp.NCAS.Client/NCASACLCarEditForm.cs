@@ -20,7 +20,7 @@ using SqlUniqueException = Contal.IwQuick.SqlUniqueException;
 
 namespace Contal.Cgp.NCAS.Client
 {
-    public partial class NCASACLPersonEditForm :
+    public partial class NCASACLCarEditForm :
 #if DESIGNER    
         Form
 #else
@@ -28,9 +28,9 @@ namespace Contal.Cgp.NCAS.Client
 #endif
     {
         private ListOfObjects _actAccessControlLists;
-        private readonly Person _actPerson;
+        private readonly Car _actCar;
         private BindingSource _bindingSource;
-        private ACLPerson _editingACLPerson;
+        private ACLCar _editingAclCar;
         DVoid2Void _dAfterTranslateForm;
         private readonly bool _allowEdit;
         private readonly Control _parentControl;
@@ -40,7 +40,7 @@ namespace Contal.Cgp.NCAS.Client
             get { return NCASClient.Singleton; }
         }
 
-        public NCASACLPersonEditForm(Person person, Control control, bool allowEdit)
+        public NCASACLCarEditForm(Car car, Control control, bool allowEdit)
             : base(NCASClient.LocalizationHelper, CgpClientMainForm.Singleton)
         {
             InitializeComponent();
@@ -49,7 +49,7 @@ namespace Contal.Cgp.NCAS.Client
             LocalizationHelper.TranslateForm(this);
             _pBack.Parent = control;
             _parentControl = control;
-            _actPerson = person;
+            _actCar = car;
             control.Enter += RunOnEnter;
             control.Disposed += RunOnDisposed;
             ResetValues();
@@ -90,7 +90,7 @@ namespace Contal.Cgp.NCAS.Client
             else
                 DisabledForm();
 
-            SafeThread.StartThread(ShowACLPersons);
+            SafeThread.StartThread(ShowACLCars);
         }
 
         private void DisabledForm()
@@ -120,7 +120,7 @@ namespace Contal.Cgp.NCAS.Client
             LocalizationHelper.LanguageChanged -= _dAfterTranslateForm;
         }
 
-        private void ShowACLPersons()
+        private void ShowACLCars()
         {
             if (CgpClient.Singleton.IsConnectionLost(true)) return;
 
@@ -128,7 +128,7 @@ namespace Contal.Cgp.NCAS.Client
                 return;
 
             Exception error;
-            var aclPersons = Plugin.MainServerProvider.ACLPersons.GetAclPersonsByPerson(_actPerson.IdPerson, out error);
+            var aclCars = Plugin.MainServerProvider.ACLCars.GetAclCarsByCar(_actCar.IdCar, out error);
 
             if (error != null)
             {
@@ -154,16 +154,22 @@ namespace Contal.Cgp.NCAS.Client
             _parentControl.Invoke(new DVoid2Void(
                 delegate
                 {
-                    _bindingSource = 
+                    _bindingSource =
                         new BindingSource
                         {
-                            DataSource = aclPersons
+                            DataSource = aclCars
                         };
 
-                    _cdgvData.ModifyGridView(_bindingSource, ACLPerson.COLUMNACCESSCONTROLLIST, ACLPerson.COLUMNDATEFROM, ACLPerson.COLUMNDATETO);
-                    _cdgvData.DataGrid.Columns["DateFrom"].DefaultCellStyle.Format = "MM-dd-yyyy HH:mm:ss";
-                    _cdgvData.DataGrid.Columns["DateFrom"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    _cdgvData.DataGrid.Columns["DateTo"].DefaultCellStyle.Format = "MM-dd-yyyy HH:mm:ss";
+                    _cdgvData.ModifyGridView(
+                        _bindingSource,
+                        ACLCar.COLUMN_ACCESS_CONTROL_LIST,
+                        ACLCar.COLUMN_DATE_FROM,
+                        ACLCar.COLUMN_DATE_TO);
+                    _cdgvData.DataGrid.Columns[ACLCar.COLUMN_DATE_FROM].DefaultCellStyle.Format = "MM-dd-yyyy HH:mm:ss";
+                    _cdgvData.DataGrid.Columns[ACLCar.COLUMN_DATE_FROM].AutoSizeMode =
+                        DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    _cdgvData.DataGrid.Columns[ACLCar.COLUMN_DATE_TO].DefaultCellStyle.Format =
+                        "MM-dd-yyyy HH:mm:ss";
                 }));
         }
 
@@ -299,35 +305,35 @@ namespace Contal.Cgp.NCAS.Client
             return true;
         }
 
-        private void GetValues(ACLPerson aclPerson, AccessControlList accessControlList)
+        private void GetValues(ACLCar aclCar, AccessControlList accessControlList)
         {
-            aclPerson.AccessControlList = accessControlList;
-            aclPerson.Person = _actPerson;
+            aclCar.AccessControlList = accessControlList;
+            aclCar.Car = _actCar;
 
             if (_tbdpDateFrom.Text != string.Empty)
             {
                 DateTime dateTime;
                 if (DateTime.TryParse(_tbdpDateFrom.Text, out dateTime))
                 {
-                    aclPerson.DateFrom = dateTime;
+                    aclCar.DateFrom = dateTime;
                 }
             }
             else
-                aclPerson.DateFrom = null;
+                aclCar.DateFrom = null;
 
             if (_tbdpDateTo.Text != string.Empty)
             {
                 DateTime dateTime;
                 if (DateTime.TryParse(_tbdpDateTo.Text, out dateTime))
                 {
-                    aclPerson.DateTo = dateTime;
+                    aclCar.DateTo = dateTime;
                 }
             }
             else
-                aclPerson.DateTo = null;
+                aclCar.DateTo = null;
         }
 
-        private bool GetValues(ACLPerson aclPerson)
+        private bool GetValues(ACLCar aclCar)
         {
             if (!ControlValues())
             {
@@ -341,7 +347,7 @@ namespace Contal.Cgp.NCAS.Client
 
             try
             {
-                GetValues(aclPerson, _actAccessControlLists.Objects[0] as AccessControlList);
+                GetValues(aclCar, _actAccessControlLists.Objects[0] as AccessControlList);
                 return true;
             }
             catch
@@ -350,9 +356,9 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
-        private bool GetValues(out IList<ACLPerson> aclPersons)
+        private bool GetValues(out IList<ACLCar> aclCars)
         {
-            aclPersons = null;
+            aclCars = null;
 
             if (!ControlValues())
             {
@@ -361,13 +367,13 @@ namespace Contal.Cgp.NCAS.Client
 
             try
             {
-                aclPersons = new List<ACLPerson>();
+                aclCars = new List<ACLCar>();
 
                 foreach (var obj in _actAccessControlLists.Objects)
                 {
-                    var aclPerson = new ACLPerson();
-                    GetValues(aclPerson, obj as AccessControlList);
-                    aclPersons.Add(aclPerson);
+                    var aclCar = new ACLCar();
+                    GetValues(aclCar, obj as AccessControlList);
+                    aclCars.Add(aclCar);
                 }
 
                 return true;
@@ -382,17 +388,17 @@ namespace Contal.Cgp.NCAS.Client
         {
             if (CgpClient.Singleton.IsConnectionLost(false)) return;
 
-            IList<ACLPerson> aclPersons;
+            IList<ACLCar> aclCars;
 
             if (!ControlValues())
             {
                 return;
             }
 
-            if (!GetValues(out aclPersons))
+            if (!GetValues(out aclCars))
                 return;
 
-            if (!Dialog.Question(GetString("QuestionInsertACLPerson")))
+            if (!Dialog.Question(GetString("QuestionInsertACLCar")))
                 return;
 
             DateTime? dateTimeTo = null;
@@ -403,31 +409,31 @@ namespace Contal.Cgp.NCAS.Client
                     dateTimeTo = dateTime;
             }
 
-            if ((dateTimeTo != null && _actPerson != null && _actPerson.EmploymentEndDate != null &&
-                dateTimeTo.Value.CompareTo(_actPerson.EmploymentEndDate) > 0) ||
-                (dateTimeTo == null && _actPerson != null && _actPerson.EmploymentEndDate != null))
+            if ((dateTimeTo != null && aclCars != null && aclCars.EmploymentEndDate != null &&
+                dateTimeTo.Value.CompareTo(aclCars.EmploymentEndDate) > 0) ||
+                (dateTimeTo == null && aclCars != null && aclCars.EmploymentEndDate != null))
             {
                 if (!Dialog.WarningQuestion(GetString("QuestionUpdateACLDateTo")))
                     return;
             }
 
-            CreateAclPerson(aclPersons);
+            CreateAclCar(aclCars);
         }
 
-        private void CreateAclPerson(IList<ACLPerson> aclPersons)
+        private void CreateAclCar(IList<ACLCar> aclCars)
         {
-            SafeThread<IList<ACLPerson>>.StartThread(DoCreateAclPerson, aclPersons);
+            SafeThread<IList<ACLCar>>.StartThread(DoCreateAclCar, aclCars);
         }
 
-        private void DoCreateAclPerson(IList<ACLPerson> aclPersons)
+        private void DoCreateAclCar(IList<ACLCar> aclCars)
         {
-            if (aclPersons != null && aclPersons.Count > 0)
+            if (aclCars != null && aclCars.Count > 0)
             {
-                foreach (var actAclPerson in aclPersons)
+                foreach (var actAclCar in aclCars)
                 {
                     Exception error;
-                    var aclPerson = actAclPerson;
-                    Plugin.MainServerProvider.ACLPersons.Insert(ref aclPerson, out error);
+                    var aclCar = actAclCar;
+                    Plugin.MainServerProvider.ACLCars.Insert(ref aclCar, out error);
                     if (error != null)
                     {
                         if (error is AccessDeniedException)
@@ -436,20 +442,20 @@ namespace Contal.Cgp.NCAS.Client
                         }
                         else if (error is SqlUniqueException)
                         {
-                            Dialog.Error(GetString("ErrorUsedAccessControlListPerson"));
+                            Dialog.Error(GetString("ErrorUsedAccessControlListCar"));
                         }
                         else
                         {
                             Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorInsertFailed"));
                         }
 
-                        ShowACLPersons();
+                        ShowACLCars();
                         return;
                     }
                 }
 
                 ResetValues();
-                ShowACLPersons();
+                ShowACLCars();
             }
         }
 
@@ -469,21 +475,21 @@ namespace Contal.Cgp.NCAS.Client
                 }));
         }
 
-        private void DeleteAlcPerson(ICollection<ACLPerson> aclPerson)
+        private void DeleteAclCar(ICollection<ACLCar> aclCars)
         {
-            SafeThread<ACLPerson>.StartThread(DoDeleteAlcPerson, aclPerson);
+            SafeThread<ACLCar>.StartThread(DoDeleteAclCar, aclCars);
         }
 
-        private void DoDeleteAlcPerson(ICollection<ACLPerson> aclPersons)
+        private void DoDeleteAclCar(ICollection<ACLCar> aclCars)
         {
-            if (aclPersons != null)
+            if (aclCars != null)
             {
-                foreach (var aclPerson in aclPersons)
+                foreach (var aclCar in aclCars)
                 {
-                    if (!aclPerson.Compare(_editingACLPerson))
+                    if (!aclCar.Compare(_editingAclCar))
                     {
                         Exception error;
-                        Plugin.MainServerProvider.ACLPersons.Delete(aclPerson, out error);
+                        Plugin.MainServerProvider.ACLCars.Delete(aclCar, out error);
 
                         if (error != null)
                         {
@@ -495,7 +501,7 @@ namespace Contal.Cgp.NCAS.Client
                         }
                         else
                         {
-                            ShowACLPersons();
+                            ShowACLCars();
                         }
                     }
                     else
@@ -508,10 +514,10 @@ namespace Contal.Cgp.NCAS.Client
 
         private void SetValues()
         {
-            if (_editingACLPerson != null)
+            if (_editingAclCar != null)
             {
                 _actAccessControlLists = new ListOfObjects();
-                _actAccessControlLists.Objects.Add(_editingACLPerson.AccessControlList);
+                _actAccessControlLists.Objects.Add(_editingAclCar.AccessControlList);
 
                 if (_parentControl == null)
                     return;
@@ -521,13 +527,13 @@ namespace Contal.Cgp.NCAS.Client
                     {
                         RefreshAccessControlList();
 
-                        if (_editingACLPerson.DateFrom != null)
-                            _tbdpDateFrom.Value = _editingACLPerson.DateFrom.Value;
+                        if (_editingAclCar.DateFrom != null)
+                            _tbdpDateFrom.Value = _editingAclCar.DateFrom.Value;
                         else
                             _tbdpDateFrom.Value = null;
 
-                        if (_editingACLPerson.DateTo != null)
-                            _tbdpDateTo.Value = _editingACLPerson.DateTo.Value;
+                        if (_editingAclCar.DateTo != null)
+                            _tbdpDateTo.Value = _editingAclCar.DateTo.Value;
                         else
                             _tbdpDateTo.Value = null;
                     }));
@@ -537,7 +543,7 @@ namespace Contal.Cgp.NCAS.Client
         private void _bCancelEdit_Click(object sender, EventArgs e)
         {
             if (CgpClient.Singleton.IsConnectionLost(false)) return;
-            _editingACLPerson = null;
+            _editingAclCar = null;
 
             if (_parentControl != null)
             {
@@ -556,32 +562,24 @@ namespace Contal.Cgp.NCAS.Client
         private void _bUpdate_Click(object sender, EventArgs e)
         {
             if (CgpClient.Singleton.IsConnectionLost(false)) return;
-            if (!GetValues(_editingACLPerson))
+            if (!GetValues(_editingAclCar))
                 return;
 
-            if (!Dialog.Question(GetString("QuestionUpdateACLPerson")))
+            if (!Dialog.Question(GetString("QuestionUpdateACLCar")))
                 return;
 
-            if ((_editingACLPerson.DateTo != null && _editingACLPerson.Person != null && _editingACLPerson.Person.EmploymentEndDate != null &&
-                _editingACLPerson.DateTo.Value.CompareTo(_editingACLPerson.Person.EmploymentEndDate) > 0) ||
-                (_editingACLPerson.DateTo == null && _editingACLPerson.Person != null && _editingACLPerson.Person.EmploymentEndDate != null))
-            {
-                if (!Dialog.WarningQuestion(GetString("QuestionUpdateACLDateTo")))
-                    return;
-            }
-
-            UpdateAclPerson();
+            UpdateAclCar();
         }
 
-        private void UpdateAclPerson()
+        private void UpdateAclCar()
         {
-            SafeThread.StartThread(DoUpdateAclPerson);
+            SafeThread.StartThread(DoUpdateAclCar);
         }
 
-        private void DoUpdateAclPerson()
+        private void DoUpdateAclCar()
         {
             Exception error;
-            Plugin.MainServerProvider.ACLPersons.Update(_editingACLPerson, out error);
+            Plugin.MainServerProvider.ACLCars.Update(_editingAclCar, out error);
             if (error != null)
             {
                 if (error is AccessDeniedException)
@@ -590,18 +588,18 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException)
                 {
-                    Dialog.Error(GetString("ErrorUsedAccessControlListPerson"));
+                    Dialog.Error(GetString("ErrorUsedAccessControlListCar"));
                 }
                 else if (error is IncoherentDataException)
                 {
                     if (Dialog.WarningQuestion(CgpClient.Singleton.LocalizationHelper.GetString("QuestionLoadActualData")))
                     {
-                        _editingACLPerson = Plugin.MainServerProvider.ACLPersons.GetObjectForEdit(_editingACLPerson.IdACLPerson, out error);
+                        _editingAclCar = Plugin.MainServerProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
                         SetValues();
                     }
                     else
                     {
-                        _editingACLPerson = Plugin.MainServerProvider.ACLPersons.GetObjectForEdit(_editingACLPerson.IdACLPerson, out error);
+                        _editingAclCar = Plugin.MainServerProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
                     }
                 }
                 else
@@ -614,10 +612,10 @@ namespace Contal.Cgp.NCAS.Client
                 return;
             }
 
-            Plugin.MainServerProvider.ACLPersons.EditEnd(_editingACLPerson);
+            Plugin.MainServerProvider.ACLCars.EditEnd(_editingAclCar);
             _bCancelEdit_Click(null, null);
             ResetValues();
-            ShowACLPersons();
+            ShowACLCars();
         }
 
         private void DoAfterACCreated(object newAccessControlList)
@@ -648,14 +646,14 @@ namespace Contal.Cgp.NCAS.Client
             {
                 var output = e.Data.GetFormats();
                 if (output == null) return;
-                SafeThread<object>.StartThread(AddACLPerson, e.Data.GetData(output[0]));
+                SafeThread<object>.StartThread(AddACLCar, e.Data.GetData(output[0]));
             }
             catch
             {
             }
         }
 
-        private void AddACLPerson(object newAccessControlList)
+        private void AddACLCar(object newAccessControlList)
         {
             if (CgpClient.Singleton.IsConnectionLost(false)) return;
             try
@@ -663,17 +661,17 @@ namespace Contal.Cgp.NCAS.Client
                 if (newAccessControlList.GetType() == typeof(AccessControlList))
                 {
                     var accessControlList = newAccessControlList as AccessControlList;
-                    var aclPerson = 
-                        new ACLPerson
+                    var aclCar =
+                        new ACLCar
                         {
                             AccessControlList = accessControlList,
                             DateFrom = DateTime.Now.Date,
                             DateTo = null,
-                            Person = _actPerson
+                            Car = _actCar
                         };
 
                     Exception error;
-                    Plugin.MainServerProvider.ACLPersons.Insert(ref aclPerson, out error);
+                    Plugin.MainServerProvider.ACLCars.Insert(ref aclCar, out error);
                     if (error != null)
                     {
                         if (error is AccessDeniedException)
@@ -682,7 +680,7 @@ namespace Contal.Cgp.NCAS.Client
                         }
                         else if (error is SqlUniqueException)
                         {
-                            Dialog.Error(GetString("ErrorUsedAccessControlListPerson"));
+                            Dialog.Error(GetString("ErrorUsedAccessControlListCar"));
                         }
                         else
                         {
@@ -692,7 +690,7 @@ namespace Contal.Cgp.NCAS.Client
                         return;
                     }
 
-                    ShowACLPersons();
+                    ShowACLCars();
                     Plugin.AddToRecentList(newAccessControlList);
                 }
                 else
@@ -718,33 +716,33 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
-        public static void SaveAfterInsertWithData(NCASClient ncasClient, Person person, Person clonedPerson)
+        public static void SaveAfterInsertWithData(NCASClient ncasClient, Car car, Car clonedCar)
         {
-            if (ncasClient == null || person == null || CgpClient.Singleton.IsConnectionLost(false)) return;
+            if (ncasClient == null || car == null || CgpClient.Singleton.IsConnectionLost(false)) return;
 
             IList<FilterSettings> filterSettings = new List<FilterSettings>();
-            var filterSetting = new FilterSettings(ACLPerson.COLUMNPERSON, clonedPerson, ComparerModes.EQUALL);
+            var filterSetting = new FilterSettings(ACLCar.COLUMN_CAR, clonedCar, ComparerModes.EQUALL);
             filterSettings.Add(filterSetting);
 
             Exception error;
-            var aclPersons = ncasClient.MainServerProvider.ACLPersons.SelectByCriteria(filterSettings, out error);
+            var aclCars = ncasClient.MainServerProvider.ACLCars.SelectByCriteria(filterSettings, out error);
 
-            if (aclPersons != null && aclPersons.Count > 0)
+            if (aclCars != null && aclCars.Count > 0)
             {
-                foreach (var aclPerson in aclPersons)
+                foreach (var aclCar in aclCars)
                 {
-                    if (aclPerson != null)
+                    if (aclCar != null)
                     {
-                        var newACLPerson = 
-                            new ACLPerson
+                        var newACLCar =
+                            new ACLCar
                             {
-                                Person = person,
-                                AccessControlList = aclPerson.AccessControlList,
-                                DateFrom = aclPerson.DateFrom,
-                                DateTo = aclPerson.DateTo
+                                Car = car,
+                                AccessControlList = aclCar.AccessControlList,
+                                DateFrom = aclCar.DateFrom,
+                                DateTo = aclCar.DateTo
                             };
 
-                        ncasClient.MainServerProvider.ACLPersons.Insert(ref newACLPerson, out error);
+                        ncasClient.MainServerProvider.ACLCars.Insert(ref newACLCar, out error);
                     }
                 }
             }
@@ -754,19 +752,19 @@ namespace Contal.Cgp.NCAS.Client
 
         public void EditClick()
         {
-            if (CgpClient.Singleton.IsConnectionLost(false)) 
+            if (CgpClient.Singleton.IsConnectionLost(false))
                 return;
 
             if (_bindingSource != null && _bindingSource.Count > 0)
             {
-                _editingACLPerson = _bindingSource[_bindingSource.Position] as ACLPerson;
+                _editingAclCar = _bindingSource[_bindingSource.Position] as ACLCar
 
-                if (_editingACLPerson != null)
+                if (_editingAclCar != null)
                 {
                     Exception error;
-                    _editingACLPerson = Plugin.MainServerProvider.ACLPersons.GetObjectForEdit(_editingACLPerson.IdACLPerson, out error);
+                    _editingAclCar = Plugin.MainServerProvider.ACLCars.GetObjectForEdit(_editingAclCar.IdACLCar, out error);
 
-                    if (_editingACLPerson != null)
+                    if (_editingAclCar != null)
                     {
                         SetValues();
                         _bCreate1.Visible = false;
@@ -783,19 +781,19 @@ namespace Contal.Cgp.NCAS.Client
 
         public void DeleteClick()
         {
-            if (CgpClient.Singleton.IsConnectionLost(false)) 
+            if (CgpClient.Singleton.IsConnectionLost(false))
                 return;
 
             if (_bindingSource != null && _bindingSource.Count > 0)
             {
-                var aclPersons = new LinkedList<ACLPerson>();
+                var aclCars = new LinkedList<ACLCar>();
 
                 foreach (var selectedRow in _cdgvData.DataGrid.SelectedRows)
                 {
-                    aclPersons.AddLast(_bindingSource[((DataGridViewRow)selectedRow).Index] as ACLPerson);
+                    aclCars.AddLast(_bindingSource[((DataGridViewRow)selectedRow).Index] as ACLCar);
                 }
 
-                DeleteAlcPerson(aclPersons);
+                DeleteAclCar(aclCars);
             }
         }
 
@@ -809,7 +807,7 @@ namespace Contal.Cgp.NCAS.Client
                 return;
 
             var items =
-                indexes.Select(index => (IShortObject) (new AccessControlListShort(((ACLPerson) _bindingSource.List[index]).AccessControlList)))
+                 indexes.Select(index => (IShortObject)(new AccessControlListShort(((ACLCar)_bindingSource.List[index]).AccessControlList)))
                     .ToList();
 
             var dialog = new DeleteDataGridItemsDialog(
@@ -817,34 +815,34 @@ namespace Contal.Cgp.NCAS.Client
                 items,
                 CgpClient.Singleton.LocalizationHelper)
             {
-                SelectItem = items.FirstOrDefault(item => item.Id.Equals((((ACLPerson)_bindingSource.Current).AccessControlList.IdAccessControlList)))
+                SelectItem = items.FirstOrDefault(item => item.Id.Equals((((ACLCar)_bindingSource.Current).AccessControlList.IdAccessControlList)))
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var aclPersons = new LinkedList<ACLPerson>();
+                var aclCars = new LinkedList<ACLCar>();
 
                 if (dialog.DeleteAll)
                 {
                     foreach (int index in indexes)
                     {
                         if (_bindingSource.Count > index)
-                            aclPersons.AddLast(_bindingSource[index] as ACLPerson);
+                            aclCars.AddLast(_bindingSource[index] as ACLCar);
                     }
                 }
                 else
                 {
                     foreach (var item in dialog.SelectedItems)
                     {
-                        var aclPerson =
-                            _bindingSource.List.Cast<ACLPerson>()
-                                .FirstOrDefault(person => person.AccessControlList.IdAccessControlList.Equals(item.Id));
+                        var aclCar =
+                            _bindingSource.List.Cast<ACLCar>()
+                                .FirstOrDefault(car => car.AccessControlList.IdAccessControlList.Equals(item.Id));
 
-                        aclPersons.AddLast(aclPerson);
+                        aclCars.AddLast(aclCar);
                     }
                 }
 
-                DeleteAlcPerson(aclPersons);
+                DeleteAclCar(aclCars);
             }
         }
 
