@@ -73,14 +73,10 @@ namespace Contal.Cgp.NCAS.Server.DB
 
             try
             {
-                var car = Cars.Singleton.GetById(idCar);
-                if (car != null)
-                {
-                    var aclCars = GetAssignedAclCars(car.IdCar);
+                var aclCars = GetAssignedAclCars(idCar);
 
-                    if (aclCars != null)
-                        return aclCars.OrderBy(acl => acl.ToString()).ToList();
-                }
+                if (aclCars != null)
+                    return aclCars.OrderBy(acl => acl.ToString()).ToList();
             }
             catch (Exception exError)
             {
