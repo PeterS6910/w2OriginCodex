@@ -14,6 +14,17 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TabPage _tpCards;
         private System.Windows.Forms.TabPage _tpAccessControlList;
         private System.Windows.Forms.TabPage _tpAccessZone;
+        private System.Windows.Forms.Panel _pAccessZone;
+        private Contal.Cgp.Components.CgpDataGridView _cdgvAccessZone;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmAccessZoneCardReader;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmAccessZoneTimeZone;
+        private System.Windows.Forms.Button _bAccessZoneUpdate;
+        private System.Windows.Forms.Label _lAccessZoneDescription;
+        private System.Windows.Forms.Button _bAccessZoneCancel;
+        private System.Windows.Forms.Button _bAccessZoneCreate;
+        private System.Windows.Forms.TextBox _eAccessZoneDescription;
+        private System.Windows.Forms.Label _lAccessZoneCardReader;
+        private System.Windows.Forms.Label _lAccessZoneTimeZone;
         private System.Windows.Forms.TextBox _eFilterCards;
         private Contal.IwQuick.UI.ImageListBox _ilbCards;
         private System.Windows.Forms.Button _bDeleteCard;
@@ -43,6 +54,8 @@ namespace Contal.Cgp.Client
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CarEditForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this._eLp = new System.Windows.Forms.TextBox();
@@ -69,6 +82,17 @@ namespace Contal.Cgp.Client
             this._eFilterCards = new System.Windows.Forms.TextBox();
             this._tpAccessControlList = new System.Windows.Forms.TabPage();
             this._tpAccessZone = new System.Windows.Forms.TabPage();
+            this._pAccessZone = new System.Windows.Forms.Panel();
+            this._cdgvAccessZone = new Contal.Cgp.Components.CgpDataGridView();
+            this._tbmAccessZoneCardReader = new Contal.IwQuick.UI.TextBoxMenu();
+            this._tbmAccessZoneTimeZone = new Contal.IwQuick.UI.TextBoxMenu();
+            this._bAccessZoneUpdate = new System.Windows.Forms.Button();
+            this._lAccessZoneDescription = new System.Windows.Forms.Label();
+            this._bAccessZoneCancel = new System.Windows.Forms.Button();
+            this._bAccessZoneCreate = new System.Windows.Forms.Button();
+            this._eAccessZoneDescription = new System.Windows.Forms.TextBox();
+            this._lAccessZoneCardReader = new System.Windows.Forms.Label();
+            this._lAccessZoneTimeZone = new System.Windows.Forms.Label();
             this._bAclCancel = new System.Windows.Forms.Button();
             this._bAclUpdate = new System.Windows.Forms.Button();
             this._bAclCreate = new System.Windows.Forms.Button();
@@ -86,6 +110,8 @@ namespace Contal.Cgp.Client
             this._tpCards.SuspendLayout();
             this._tpAccessControlList.SuspendLayout();
             this._tpAccessZone.SuspendLayout();
+            this._pAccessZone.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._cdgvAccessZone.DataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -297,7 +323,259 @@ namespace Contal.Cgp.Client
             // _tpAccessZone
             // 
             resources.ApplyResources(this._tpAccessZone, "_tpAccessZone");
+            this._tpAccessZone.Controls.Add(this._pAccessZone);
             this._tpAccessZone.Name = "_tpAccessZone";
+            // 
+            // _pAccessZone
+            // 
+            this._pAccessZone.Controls.Add(this._cdgvAccessZone);
+            this._pAccessZone.Controls.Add(this._tbmAccessZoneCardReader);
+            this._pAccessZone.Controls.Add(this._tbmAccessZoneTimeZone);
+            this._pAccessZone.Controls.Add(this._bAccessZoneUpdate);
+            this._pAccessZone.Controls.Add(this._lAccessZoneDescription);
+            this._pAccessZone.Controls.Add(this._bAccessZoneCancel);
+            this._pAccessZone.Controls.Add(this._bAccessZoneCreate);
+            this._pAccessZone.Controls.Add(this._eAccessZoneDescription);
+            this._pAccessZone.Controls.Add(this._lAccessZoneCardReader);
+            this._pAccessZone.Controls.Add(this._lAccessZoneTimeZone);
+            this._pAccessZone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pAccessZone.Location = new System.Drawing.Point(3, 3);
+            this._pAccessZone.Name = "_pAccessZone";
+            this._pAccessZone.Size = new System.Drawing.Size(582, 334);
+            this._pAccessZone.TabIndex = 0;
+            // 
+            // _cdgvAccessZone
+            // 
+            this._cdgvAccessZone.AllwaysRefreshOrder = false;
+            this._cdgvAccessZone.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._cdgvAccessZone.CgpDataGridEvents = null;
+            this._cdgvAccessZone.CopyOnRightClick = true;
+            // 
+            // 
+            // 
+            this._cdgvAccessZone.DataGrid.AllowUserToAddRows = false;
+            this._cdgvAccessZone.DataGrid.AllowUserToDeleteRows = false;
+            this._cdgvAccessZone.DataGrid.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._cdgvAccessZone.DataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this._cdgvAccessZone.DataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this._cdgvAccessZone.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this._cdgvAccessZone.DataGrid.ColumnHeadersHeight = 34;
+            this._cdgvAccessZone.DataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._cdgvAccessZone.DataGrid.Location = new System.Drawing.Point(0, 0);
+            this._cdgvAccessZone.DataGrid.Name = "_dgvAccessZone";
+            this._cdgvAccessZone.DataGrid.ReadOnly = true;
+            this._cdgvAccessZone.DataGrid.RowHeadersVisible = false;
+            this._cdgvAccessZone.DataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this._cdgvAccessZone.DataGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this._cdgvAccessZone.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._cdgvAccessZone.DataGrid.Size = new System.Drawing.Size(570, 220);
+            this._cdgvAccessZone.DataGrid.TabIndex = 0;
+            this._cdgvAccessZone.LocalizationHelper = null;
+            this._cdgvAccessZone.Location = new System.Drawing.Point(6, 108);
+            this._cdgvAccessZone.Name = "_cdgvAccessZone";
+            this._cdgvAccessZone.Size = new System.Drawing.Size(570, 220);
+            this._cdgvAccessZone.TabIndex = 10;
+            // 
+            // _tbmAccessZoneCardReader
+            // 
+            this._tbmAccessZoneCardReader.AllowDrop = true;
+            this._tbmAccessZoneCardReader.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneCardReader.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneCardReader.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessZoneCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._tbmAccessZoneCardReader.Button.Location = new System.Drawing.Point(190, 0);
+            this._tbmAccessZoneCardReader.Button.Name = "_bMenu";
+            this._tbmAccessZoneCardReader.Button.Size = new System.Drawing.Size(20, 20);
+            this._tbmAccessZoneCardReader.Button.TabIndex = 3;
+            this._tbmAccessZoneCardReader.Button.UseVisualStyleBackColor = false;
+            this._tbmAccessZoneCardReader.ButtonBaseColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessZoneCardReader.ButtonDefaultBehaviour = true;
+            this._tbmAccessZoneCardReader.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this._tbmAccessZoneCardReader.ButtonImage = null;
+            this._tbmAccessZoneCardReader.ButtonPopupMenu.Name = "";
+            this._tbmAccessZoneCardReader.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmAccessZoneCardReader.ButtonShowImage = true;
+            this._tbmAccessZoneCardReader.ButtonSizeHeight = 20;
+            this._tbmAccessZoneCardReader.ButtonSizeWidth = 20;
+            this._tbmAccessZoneCardReader.ButtonText = "";
+            this._tbmAccessZoneCardReader.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneCardReader.HoverTime = 600;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneCardReader.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessZoneCardReader.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._tbmAccessZoneCardReader.ImageTextBox.ContextMenuStrip = this._tbmAccessZoneCardReader.ButtonPopupMenu;
+            this._tbmAccessZoneCardReader.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneCardReader.ImageTextBox.Image = null;
+            this._tbmAccessZoneCardReader.ImageTextBox.Location = new System.Drawing.Point(0, 0);
+            this._tbmAccessZoneCardReader.ImageTextBox.Name = "_textBox";
+            this._tbmAccessZoneCardReader.ImageTextBox.NoTextNoImage = true;
+            this._tbmAccessZoneCardReader.ImageTextBox.ReadOnly = true;
+            this._tbmAccessZoneCardReader.ImageTextBox.Size = new System.Drawing.Size(190, 20);
+            this._tbmAccessZoneCardReader.ImageTextBox.TabIndex = 0;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.ReadOnly = true;
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(188, 13);
+            this._tbmAccessZoneCardReader.ImageTextBox.TextBox.TabIndex = 2;
+            this._tbmAccessZoneCardReader.ImageTextBox.UseImage = true;
+            this._tbmAccessZoneCardReader.Location = new System.Drawing.Point(6, 22);
+            this._tbmAccessZoneCardReader.MaximumSize = new System.Drawing.Size(1200, 55);
+            this._tbmAccessZoneCardReader.MinimumSize = new System.Drawing.Size(30, 22);
+            this._tbmAccessZoneCardReader.Name = "_tbmAccessZoneCardReader";
+            this._tbmAccessZoneCardReader.Size = new System.Drawing.Size(210, 22);
+            this._tbmAccessZoneCardReader.TabIndex = 1;
+            this._tbmAccessZoneCardReader.TextImage = null;
+            // 
+            // _tbmAccessZoneTimeZone
+            // 
+            this._tbmAccessZoneTimeZone.AllowDrop = true;
+            this._tbmAccessZoneTimeZone.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneTimeZone.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneTimeZone.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessZoneTimeZone.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._tbmAccessZoneTimeZone.Button.Location = new System.Drawing.Point(190, 0);
+            this._tbmAccessZoneTimeZone.Button.Name = "_bMenu";
+            this._tbmAccessZoneTimeZone.Button.Size = new System.Drawing.Size(20, 20);
+            this._tbmAccessZoneTimeZone.Button.TabIndex = 3;
+            this._tbmAccessZoneTimeZone.Button.UseVisualStyleBackColor = false;
+            this._tbmAccessZoneTimeZone.ButtonBaseColor = System.Drawing.SystemColors.Control;
+            this._tbmAccessZoneTimeZone.ButtonDefaultBehaviour = true;
+            this._tbmAccessZoneTimeZone.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this._tbmAccessZoneTimeZone.ButtonImage = null;
+            this._tbmAccessZoneTimeZone.ButtonPopupMenu.Name = "";
+            this._tbmAccessZoneTimeZone.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmAccessZoneTimeZone.ButtonShowImage = true;
+            this._tbmAccessZoneTimeZone.ButtonSizeHeight = 20;
+            this._tbmAccessZoneTimeZone.ButtonSizeWidth = 20;
+            this._tbmAccessZoneTimeZone.ButtonText = "";
+            this._tbmAccessZoneTimeZone.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneTimeZone.HoverTime = 600;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneTimeZone.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneTimeZone.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessZoneTimeZone.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._tbmAccessZoneTimeZone.ImageTextBox.ContextMenuStrip = this._tbmAccessZoneTimeZone.ButtonPopupMenu;
+            this._tbmAccessZoneTimeZone.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneTimeZone.ImageTextBox.Image = null;
+            this._tbmAccessZoneTimeZone.ImageTextBox.Location = new System.Drawing.Point(0, 0);
+            this._tbmAccessZoneTimeZone.ImageTextBox.Name = "_textBox";
+            this._tbmAccessZoneTimeZone.ImageTextBox.NoTextNoImage = true;
+            this._tbmAccessZoneTimeZone.ImageTextBox.ReadOnly = true;
+            this._tbmAccessZoneTimeZone.ImageTextBox.Size = new System.Drawing.Size(190, 20);
+            this._tbmAccessZoneTimeZone.ImageTextBox.TabIndex = 0;
+            // 
+            // 
+            // 
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.Name = "_tbTextBox";
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.ReadOnly = true;
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.Size = new System.Drawing.Size(188, 13);
+            this._tbmAccessZoneTimeZone.ImageTextBox.TextBox.TabIndex = 2;
+            this._tbmAccessZoneTimeZone.ImageTextBox.UseImage = true;
+            this._tbmAccessZoneTimeZone.Location = new System.Drawing.Point(222, 22);
+            this._tbmAccessZoneTimeZone.MaximumSize = new System.Drawing.Size(1200, 55);
+            this._tbmAccessZoneTimeZone.MinimumSize = new System.Drawing.Size(30, 22);
+            this._tbmAccessZoneTimeZone.Name = "_tbmAccessZoneTimeZone";
+            this._tbmAccessZoneTimeZone.Size = new System.Drawing.Size(210, 22);
+            this._tbmAccessZoneTimeZone.TabIndex = 2;
+            this._tbmAccessZoneTimeZone.TextImage = null;
+            // 
+            // _bAccessZoneUpdate
+            // 
+            this._bAccessZoneUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._bAccessZoneUpdate.Location = new System.Drawing.Point(414, 63);
+            this._bAccessZoneUpdate.Name = "_bAccessZoneUpdate";
+            this._bAccessZoneUpdate.Size = new System.Drawing.Size(75, 23);
+            this._bAccessZoneUpdate.TabIndex = 6;
+            this._bAccessZoneUpdate.Text = "Update";
+            this._bAccessZoneUpdate.UseVisualStyleBackColor = true;
+            // 
+            // _lAccessZoneDescription
+            // 
+            this._lAccessZoneDescription.AutoSize = true;
+            this._lAccessZoneDescription.Location = new System.Drawing.Point(6, 48);
+            this._lAccessZoneDescription.Name = "_lAccessZoneDescription";
+            this._lAccessZoneDescription.Size = new System.Drawing.Size(60, 13);
+            this._lAccessZoneDescription.TabIndex = 3;
+            this._lAccessZoneDescription.Text = "Description";
+            // 
+            // _bAccessZoneCancel
+            // 
+            this._bAccessZoneCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._bAccessZoneCancel.Location = new System.Drawing.Point(495, 63);
+            this._bAccessZoneCancel.Name = "_bAccessZoneCancel";
+            this._bAccessZoneCancel.Size = new System.Drawing.Size(75, 23);
+            this._bAccessZoneCancel.TabIndex = 7;
+            this._bAccessZoneCancel.Text = "Cancel";
+            this._bAccessZoneCancel.UseVisualStyleBackColor = true;
+            // 
+            // _bAccessZoneCreate
+            // 
+            this._bAccessZoneCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._bAccessZoneCreate.Location = new System.Drawing.Point(333, 63);
+            this._bAccessZoneCreate.Name = "_bAccessZoneCreate";
+            this._bAccessZoneCreate.Size = new System.Drawing.Size(75, 23);
+            this._bAccessZoneCreate.TabIndex = 5;
+            this._bAccessZoneCreate.Text = "Create";
+            this._bAccessZoneCreate.UseVisualStyleBackColor = true;
+            // 
+            // _eAccessZoneDescription
+            // 
+            this._eAccessZoneDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._eAccessZoneDescription.Location = new System.Drawing.Point(6, 64);
+            this._eAccessZoneDescription.Multiline = true;
+            this._eAccessZoneDescription.Name = "_eAccessZoneDescription";
+            this._eAccessZoneDescription.Size = new System.Drawing.Size(321, 36);
+            this._eAccessZoneDescription.TabIndex = 4;
+            // 
+            // _lAccessZoneCardReader
+            // 
+            this._lAccessZoneCardReader.AutoSize = true;
+            this._lAccessZoneCardReader.Location = new System.Drawing.Point(6, 6);
+            this._lAccessZoneCardReader.Name = "_lAccessZoneCardReader";
+            this._lAccessZoneCardReader.Size = new System.Drawing.Size(98, 13);
+            this._lAccessZoneCardReader.TabIndex = 8;
+            this._lAccessZoneCardReader.Text = "Card reader objects";
+            // 
+            // _lAccessZoneTimeZone
+            // 
+            this._lAccessZoneTimeZone.AutoSize = true;
+            this._lAccessZoneTimeZone.Location = new System.Drawing.Point(222, 6);
+            this._lAccessZoneTimeZone.Name = "_lAccessZoneTimeZone";
+            this._lAccessZoneTimeZone.Size = new System.Drawing.Size(57, 13);
+            this._lAccessZoneTimeZone.TabIndex = 9;
+            this._lAccessZoneTimeZone.Text = "Time zone"
             // 
             // _bAclCancel
             // 
@@ -498,6 +776,9 @@ namespace Contal.Cgp.Client
             this._tpCards.PerformLayout();
             this._tpAccessControlList.ResumeLayout(false);
             this._tpAccessZone.ResumeLayout(false);
+            this._pAccessZone.ResumeLayout(false);
+            this._pAccessZone.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._cdgvAccessZone.DataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).EndInit();
             this.ResumeLayout(false);
 
