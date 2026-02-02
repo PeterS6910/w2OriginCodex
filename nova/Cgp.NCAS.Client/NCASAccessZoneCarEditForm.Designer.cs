@@ -1,6 +1,6 @@
 namespace Contal.Cgp.NCAS.Client
 {
-    partial class NCASAccessZonePersonEditForm
+    partial class NCASAccessZoneCarEditForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NCASAccessZonePersonEditForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NCASAccessZoneCarEditForm));
             this._pBack = new System.Windows.Forms.Panel();
             this._cdgvData = new Contal.Cgp.Components.CgpDataGridView();
             this._tbmCardReader = new Contal.IwQuick.UI.TextBoxMenu();
@@ -356,15 +356,15 @@ namespace Contal.Cgp.NCAS.Client
             this._lTimeZone.TabIndex = 1;
             this._lTimeZone.Text = "Time zone";
             // 
-            // NCASAccessZonePersonEditForm
+            // NCASAccessZoneCarEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(423, 295);
             this.Controls.Add(this._pBack);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "NCASAccessZonePersonEditForm";
-            this.Text = "NCASAccessZonePersonEditForm";
+            this.Name = "NCASAccessZoneCarEditForm";
+            this.Text = "NCASAccessZoneCarEditForm";
             this._pBack.ResumeLayout(false);
             this._pBack.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvData.DataGrid)).EndInit();

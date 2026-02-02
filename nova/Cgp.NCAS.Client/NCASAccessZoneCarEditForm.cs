@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,7 +19,7 @@ using TimeZone = Contal.Cgp.Server.Beans.TimeZone;
 
 namespace Contal.Cgp.NCAS.Client
 {
-    public partial class NCASAccessZonePersonEditForm :
+    public partial class NCASAccessZoneCarEditForm :
 #if DESIGNER    
         Form
 #else
@@ -41,7 +41,7 @@ namespace Contal.Cgp.NCAS.Client
             get { return NCASClient.Singleton; }
         }
 
-        public NCASAccessZonePersonEditForm(Person person, Control control, bool allowEdit)
+        public NCASAccessZoneCarEditForm(Person person, Control control, bool allowEdit)
             : base(NCASClient.LocalizationHelper, CgpClientMainForm.Singleton)
         {
             InitializeComponent();
@@ -219,7 +219,7 @@ namespace Contal.Cgp.NCAS.Client
                     listModObj.AddRange(listMultiDoorsFromDatabase);
 
                 var listMultiDoorElementsFromDatabase =
-                    Plugin.MainServerProvider.MultiDoorElements.ListModifyObjects(out error);                    
+                    Plugin.MainServerProvider.MultiDoorElements.ListModifyObjects(out error);
 
                 if (error != null) throw error;
 
@@ -354,7 +354,7 @@ namespace Contal.Cgp.NCAS.Client
 
                         return;
                     }
-                    
+
                     _actCardReaderObjects = new ListOfObjects();
                     _actCardReaderObjects.Objects.Add(cardReader);
                     RefreshCardReaderObject();
@@ -637,8 +637,8 @@ namespace Contal.Cgp.NCAS.Client
 
                     if (cardReaderObject != null)
                     {
-                        _editAccessZone.CardReaderObjectType = (byte) cardReaderObject.GetObjectType();
-                        _editAccessZone.GuidCardReaderObject = (Guid) cardReaderObject.GetId();
+                        _editAccessZone.CardReaderObjectType = (byte)cardReaderObject.GetObjectType();
+                        _editAccessZone.GuidCardReaderObject = (Guid)cardReaderObject.GetId();
                     }
 
                     SaveAccessZoneInsert();
@@ -948,8 +948,8 @@ namespace Contal.Cgp.NCAS.Client
                     {
                         Person = _actPerson,
                         TimeZone = null,
-                        CardReaderObjectType = (byte) cardReaderObject.GetObjectType(),
-                        GuidCardReaderObject = (Guid) cardReaderObject.GetId()
+                        CardReaderObjectType = (byte)cardReaderObject.GetObjectType(),
+                        GuidCardReaderObject = (Guid)cardReaderObject.GetId()
                     };
 
                     Exception error;
@@ -1086,7 +1086,7 @@ namespace Contal.Cgp.NCAS.Client
 
         public void DeleteClick()
         {
-            if (CgpClient.Singleton.IsConnectionLost(false)) 
+            if (CgpClient.Singleton.IsConnectionLost(false))
                 return;
 
             if (_bindingSource != null && _bindingSource.Count > 0)
@@ -1184,7 +1184,7 @@ namespace Contal.Cgp.NCAS.Client
                 else
                     Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorDeleteFailed"));
             }
-            
+
             ShowPersonAccessZone();
         }
 
