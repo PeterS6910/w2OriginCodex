@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using SqlDeleteReferenceConstraintException = Contal.IwQuick.SqlDeleteReferenceConstraintException;
 using SqlUniqueException = Contal.IwQuick.SqlUniqueException;
@@ -572,21 +573,13 @@ namespace Contal.Cgp.Client
 
         private void LoadAclCars()
         {
-            SafeThread.StartThread(ShowAclCars);
-        }
-
-        private void ShowAclCars()
-        {
-            if (CgpClient.Singleton.IsConnectionLost(true))
-                return;
-
             if (_editingObject.IdCar == Guid.Empty)
             {
                 UpdateAclCarsGrid(new List<ACLCar>());
                 return;
             }
 
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
             {
                 UpdateAclCarsGrid(new List<ACLCar>());
@@ -659,7 +652,7 @@ namespace Contal.Cgp.Client
             if (CgpClient.Singleton.IsConnectionLost(true))
                 return;
 
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
                 return;
 
@@ -866,7 +859,7 @@ namespace Contal.Cgp.Client
 
         private void DoCreateAclCars(IList<ACLCar> aclCars)
         {
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
                 return;
 
@@ -909,7 +902,7 @@ namespace Contal.Cgp.Client
 
         private void DoUpdateAclCar()
         {
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
                 return;
 
@@ -954,7 +947,7 @@ namespace Contal.Cgp.Client
 
         private void DoDeleteAclCars(ICollection<ACLCar> aclCars)
         {
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
                 return;
 
@@ -1099,7 +1092,7 @@ namespace Contal.Cgp.Client
             if (_aclCarsBindingSource == null || _aclCarsBindingSource.Count == 0)
                 return;
 
-            var ncasProvider = CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
+            var ncasProvider = GetNcasProvider();
             if (ncasProvider == null)
                 return;
 
@@ -1189,6 +1182,23 @@ namespace Contal.Cgp.Client
 
         public void InsertClick()
         {
+        }
+
+        private ICgpNCASRemotingProvider GetNcasProvider()
+        {
+            var plugin = CgpClient.Singleton.PluginManager.GetLoadedPlugin("NCAS plugin");
+            if (plugin != null)
+            {
+                var providerProperty = plugin.GetType().GetProperty(
+                    "MainServerProvider",
+                    BindingFlags.Public | BindingFlags.Instance);
+
+                var provider = providerProperty?.GetValue(plugin, null) as ICgpNCASRemotingProvider;
+                if (provider != null)
+                    return provider;
+            }
+
+            return CgpClient.Singleton.MainServerProvider as ICgpNCASRemotingProvider;
         }
     }
 }
