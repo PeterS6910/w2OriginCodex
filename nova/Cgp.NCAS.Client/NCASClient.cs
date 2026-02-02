@@ -521,6 +521,21 @@ namespace Contal.Cgp.NCAS.Client
 
                     break;
 
+                case "_tpAccessControlList":
+
+                    var car = obj as Car;
+
+                    if (car == null)
+                        return false;
+
+                    pluginMainForm =
+                        new NCASACLCarEditForm(
+                            car,
+                            control,
+                            allowEdit);
+
+                    break;
+
                 case "_tpAccessZone":
 
                     person = obj as Person;
