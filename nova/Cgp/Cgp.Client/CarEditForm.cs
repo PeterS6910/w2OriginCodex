@@ -363,11 +363,13 @@ namespace Contal.Cgp.Client
             List<IModifyObject> displayCards = new List<IModifyObject>();
             foreach (var modifyObject in listCards)
             {
-                string displayName = modifyObject.FullName;
-                if (cardLookup.TryGetValue(modifyObject.GetId, out var card))
-                {
-                    displayName = BuildCardDescription(card, provider);
-                }
+                if (!cardLookup.TryGetValue(modifyObject.GetId, out var card))
+                    continue;
+
+                if (card.GuidPerson == Guid.Empty)
+                    continue;
+
+                string displayName = BuildCardDescription(card, provider);
 
                 displayCards.Add(new CardModifyDisplayObject(modifyObject, displayName));
             }
