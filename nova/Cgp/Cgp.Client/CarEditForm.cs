@@ -462,11 +462,11 @@ namespace Contal.Cgp.Client
         {
             if (item.Name == "_tsiAclModify")
             {
-                ModifyAccessControlList();
+                EditClick();
             }
             else if (item.Name == "_tsiAclCreate")
             {
-                CreateAccessControlList();
+                ModifyAccessControlList();
             }
         }
 
@@ -679,8 +679,21 @@ namespace Contal.Cgp.Client
                     return;
                 }
 
+                var existingAclIds = new HashSet<Guid>();
+                if (_bAclCreate.Visible && _aclCarsBindingSource?.List != null)
+                {
+                    foreach (var aclCar in _aclCarsBindingSource.List.Cast<ACLCar>())
+                    {
+                        var acl = aclCar?.AccessControlList;
+                        if (acl != null)
+                            existingAclIds.Add(acl.IdAccessControlList);
+                    }
+                }
+
                 foreach (var accessControlList in listAccessControlListFromDatabase)
                 {
+                    if (_bAclCreate.Visible && existingAclIds.Contains(accessControlList.IdAccessControlList))
+                        continue;
                     listAccessControlList.Add(accessControlList);
                 }
 
