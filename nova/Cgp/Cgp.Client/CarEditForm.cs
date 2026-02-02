@@ -33,6 +33,7 @@ namespace Contal.Cgp.Client
         private BindingSource _aclCarsBindingSource;
         private ListOfObjects _actAccessControlLists;
         private ACLCar _editingAclCar;
+        private bool _isLoadingAclCars;
         public CarEditForm(Car car, ShowOptionsEditForm showOption)
             : base(car, showOption)
         {
@@ -573,47 +574,58 @@ namespace Contal.Cgp.Client
 
         private void LoadAclCars()
         {
-            if (_editingObject.IdCar == Guid.Empty)
-            {
-                UpdateAclCarsGrid(new List<ACLCar>());
+            if (_isLoadingAclCars)
                 return;
-            }
 
-            var ncasProvider = GetNcasProvider();
-            if (ncasProvider == null)
-            {
-                UpdateAclCarsGrid(new List<ACLCar>());
-                return;
-            }
-
-            Exception error;
-            IList<ACLCar> aclCars = null;
+            _isLoadingAclCars = true;
             try
             {
-                aclCars = ncasProvider.ACLCars.GetAclCarsByCar(_editingObject.IdCar, out error);
-            }
-            catch (MissingMethodException)
-            {
-                Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
-                UpdateAclCarsGrid(new List<ACLCar>());
-                return;
-            }
-            if (error != null)
-            {
-                if (error is AccessDeniedException)
+                if (_editingObject.IdCar == Guid.Empty)
                 {
-                    Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTableAccessDenied"));
+                    UpdateAclCarsGrid(new List<ACLCar>());
+                    return;
                 }
-                else
+
+                var ncasProvider = GetNcasProvider();
+                if (ncasProvider == null)
+                {
+                    UpdateAclCarsGrid(new List<ACLCar>());
+                    return;
+                }
+
+                Exception error;
+                IList<ACLCar> aclCars = null;
+                try
+                {
+                    aclCars = ncasProvider.ACLCars.GetAclCarsByCar(_editingObject.IdCar, out error);
+                }
+                catch (MissingMethodException)
                 {
                     Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
+                    UpdateAclCarsGrid(new List<ACLCar>());
+                    return;
                 }
 
-                UpdateAclCarsGrid(new List<ACLCar>());
-                return;
-            }
+                if (error != null)
+                {
+                    if (error is AccessDeniedException)
+                    {
+                        Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTableAccessDenied"));
+                    }
+                    else
+                    {
+                        Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorLoadTable"));
+                    }
 
-            UpdateAclCarsGrid(aclCars ?? new List<ACLCar>());
+                    UpdateAclCarsGrid(new List<ACLCar>());
+                    return;
+                }
+                UpdateAclCarsGrid(aclCars ?? new List<ACLCar>());
+            }
+            finally
+            {
+                _isLoadingAclCars = false;
+            }
         }
 
         private void ClearAclCarsGrid()
