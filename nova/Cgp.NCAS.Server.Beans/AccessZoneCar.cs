@@ -77,4 +77,35 @@ namespace Contal.Cgp.NCAS.Server.Beans
             return ObjectType.NotSupport;
         }
     }
+
+
+    public class AccessZoneCarShort : IShortObject
+    {
+        public AccessZoneCar AccessZoneCar { get; private set; }
+
+        public AccessZoneCarShort(AccessZoneCar accessZoneCar)
+        {
+            AccessZoneCar = accessZoneCar;
+        }
+
+        public ObjectType ObjectType
+        {
+            get { return ObjectType.NotSupport; }
+        }
+
+        public string GetSubTypeImageString(object value)
+        {
+            return string.Empty;
+        }
+
+        public string Name
+        {
+            get { return AccessZoneCar.LprCamera != null ? AccessZoneCar.LprCamera.ToString() : string.Empty; }
+        }
+
+        public object Id
+        {
+            get { return AccessZoneCar.IdAccessZoneCar; }
+        }
+    }
 }

@@ -26,14 +26,14 @@ namespace Contal.Cgp.NCAS.Client
  PluginMainForm<NCASClient>, ICgpDataGridView
 #endif
     {
-        private Person _actPerson;
-        private ICollection<AccessZone> _accessZones;
+        private Car _actCar;
+        private ICollection<AccessZoneCar> _accessZoneCars;
         private BindingSource _bindingSource;
         DVoid2Void _dAfterTranslateForm;
 
-        private ListOfObjects _actCardReaderObjects;
+        private ListOfObjects _actLprCameras;
         private TimeZone _actTimeZone;
-        private AccessZone _editAccessZone;
+        private AccessZoneCar _editAccessZone;
         private bool _allowEdit;
 
         public override NCASClient Plugin
@@ -41,20 +41,15 @@ namespace Contal.Cgp.NCAS.Client
             get { return NCASClient.Singleton; }
         }
 
-        public NCASAccessZoneCarEditForm(Person person, Control control, bool allowEdit)
+        public NCASAccessZoneCarEditForm(Car car, Control control, bool allowEdit)
             : base(NCASClient.LocalizationHelper, CgpClientMainForm.Singleton)
         {
             InitializeComponent();
-#if DEBUG
-            {
-                _tbmCardReader.ButtonPopupMenu.Items.Add("_tsiCreateDebug");
-                _tbmCardReader.ButtonPopupMenu.Items[1].Name = "_tsiCreateDebug";
-            }
-#endif
+
             LocalizationHelper.TranslateForm(this);
             _dAfterTranslateForm = AfterTranslateForm;
             _pBack.Parent = control;
-            _actPerson = person;
+            _actCar = car;
             control.Enter += RunOnEnter;
             control.Disposed += RunOnDisposed;
             ButtonsCreateAccessZone();
@@ -95,7 +90,7 @@ namespace Contal.Cgp.NCAS.Client
             else
                 DisabledForm();
 
-            ShowPersonAccessZone();
+            ShowCarAccessZone();
         }
 
         void RunOnDisposed(object sender, EventArgs e)
@@ -129,18 +124,18 @@ namespace Contal.Cgp.NCAS.Client
             _bCreate0.Enabled = true;
         }
 
-        private void ShowPersonAccessZone()
+        private void ShowCarAccessZone()
         {
             if (CgpClient.Singleton.IsConnectionLost(true)) return;
 
             if (InvokeRequired)
             {
-                BeginInvoke(new DVoid2Void(ShowPersonAccessZone));
+                BeginInvoke(new DVoid2Void(ShowCarAccessZone));
             }
             else
             {
                 Exception error;
-                ICollection<AccessZone> accessZones = Plugin.MainServerProvider.AccessZones.GetAccessZonesByPerson(_actPerson.IdPerson, out error);
+                ICollection<AccessZoneCar> accessZoneCars = Plugin.MainServerProvider.AccessZoneCars.GetAccessZonesByCar(_actCar.IdCar, out error);
 
                 if (error != null)
                 {
@@ -158,20 +153,24 @@ namespace Contal.Cgp.NCAS.Client
                     return;
                 }
 
-                if (_accessZones == null)
+                if (_accessZoneCars == null)
                 {
-                    _accessZones = new List<AccessZone>();
+                    _accessZoneCars = new List<AccessZoneCar>();
                 }
                 else
                 {
-                    _accessZones.Clear();
+                    _accessZoneCars.Clear();
                 }
 
-                _accessZones = accessZones;
+                _accessZoneCars = accessZoneCars;
                 _bindingSource = new BindingSource();
-                _bindingSource.DataSource = _accessZones;
+                _bindingSource.DataSource = _accessZoneCars;
 
-                _cdgvData.ModifyGridView(_bindingSource, AccessZone.COLUMNCARDREADEROBJECT, AccessZone.COLUMNTIMEZONE, AccessZone.COLUMNDESCRIPTION);
+                _cdgvData.ModifyGridView(
+                    _bindingSource,
+                    AccessZoneCar.COLUMNLPRCAMERA,
+                    AccessZoneCar.COLUMNTIMEZONE,
+                    AccessZoneCar.COLUMNDESCRIPTION);
             }
         }
 
@@ -192,110 +191,50 @@ namespace Contal.Cgp.NCAS.Client
             Exception error = null;
             try
             {
-                List<IModifyObject> listModObj = new List<IModifyObject>();
+                List<AOrmObject> listLprCameras = new List<AOrmObject>();
 
-                IList<IModifyObject> listCardReadersFromDatabase =
-                    Plugin.MainServerProvider.CardReaders.ListModifyObjects(false, out error);
-
-                if (error != null) throw error;
-                listModObj.AddRange(listCardReadersFromDatabase);
-
-                IList<IModifyObject> listDoorEnvironments = Plugin.MainServerProvider.DoorEnvironments.ListModifyObjects(out error);
-                if (error != null) throw error;
-                listModObj.AddRange(listDoorEnvironments);
-
-                ICollection<IModifyObject> listAlarmAreasFromDatabase = Plugin.MainServerProvider.AlarmAreas.ListModifyObjects(out error);
-                if (error != null) throw error;
-                listModObj.AddRange(listAlarmAreasFromDatabase);
-
-                IList<IModifyObject> listDCUsFromDatabase = Plugin.MainServerProvider.DCUs.ListModifyObjects(out error);
-                if (error != null) throw error;
-                listModObj.AddRange(listDCUsFromDatabase);
-
-                var listMultiDoorsFromDatabase = Plugin.MainServerProvider.MultiDoors.ListModifyObjects(null, out error);
-                if (error != null) throw error;
-
-                if (listMultiDoorsFromDatabase != null)
-                    listModObj.AddRange(listMultiDoorsFromDatabase);
-
-                var listMultiDoorElementsFromDatabase =
-                    Plugin.MainServerProvider.MultiDoorElements.ListModifyObjects(out error);
+                ICollection<LprCamera> listLprCamerasFromDatabase = Plugin.MainServerProvider.LprCameras.List(out error);
 
                 if (error != null) throw error;
 
-                if (listMultiDoorElementsFromDatabase != null)
-                    listModObj.AddRange(listMultiDoorElementsFromDatabase);
+                if (listLprCamerasFromDatabase != null)
+                    listLprCameras.AddRange(listLprCamerasFromDatabase);
 
-                var listFloorsFromDatabase = Plugin.MainServerProvider.Floors.ListModifyObjects(out error);
-                if (error != null) throw error;
+                ListboxFormAdd formAdd = new ListboxFormAdd(listLprCameras, GetString("NCASLprCamerasFormNCASLprCamerasForm"));
 
-                if (listFloorsFromDatabase != null)
-                    listModObj.AddRange(listFloorsFromDatabase);
-
-                ListboxFormAdd formAdd = new ListboxFormAdd(listModObj, GetString("NCASAccessControlListEditForm_CardReaderObjects"));
-
-                ListOfObjects outCardReaderObjects = null;
+                ListOfObjects outLprCameras = null;
                 //enables to create more object at once by enabling multiselection (only in create mode!!!)
                 if (_bCreate0.Visible)
                 {
-                    formAdd.ShowDialogMultiSelect(out outCardReaderObjects);
-                    if (outCardReaderObjects != null)
+                    formAdd.ShowDialogMultiSelect(out outLprCameras);
+                    if (outLprCameras != null)
                     {
-                        _actCardReaderObjects = outCardReaderObjects;
+                        _actLprCameras = outLprCameras;
 
                     }
                 }
                 //editing the object
                 else
                 {
-                    object outCardReaderObject;
-                    formAdd.ShowDialog(out outCardReaderObject);
-                    if (outCardReaderObject != null)
+                    object outLprCamera;
+                    formAdd.ShowDialog(out outLprCamera);
+                    if (outLprCamera != null)
                     {
-                        outCardReaderObjects = new ListOfObjects();
-                        outCardReaderObjects.Objects.Add(outCardReaderObject);
+                        outLprCameras = new ListOfObjects();
+                        outLprCameras.Objects.Add(outLprCamera);
 
                     }
                 }
 
-                if (outCardReaderObjects != null)
+                if (outLprCameras != null)
                 {
-                    _actCardReaderObjects = new ListOfObjects();
-                    foreach (object selectedObject in outCardReaderObjects)
+                    _actLprCameras = new ListOfObjects();
+                    foreach (object selectedObject in outLprCameras)
                     {
-                        IModifyObject modObj = selectedObject as IModifyObject;
-                        if (modObj != null)
+                        LprCamera lprCamera = selectedObject as LprCamera;
+                        if (lprCamera != null)
                         {
-                            AOrmObject newOrmObj = null;
-                            switch (modObj.GetOrmObjectType)
-                            {
-                                case ObjectType.CardReader:
-                                    newOrmObj = Plugin.MainServerProvider.CardReaders.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.AlarmArea:
-                                    newOrmObj = Plugin.MainServerProvider.AlarmAreas.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.DoorEnvironment:
-                                    newOrmObj = Plugin.MainServerProvider.DoorEnvironments.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.DCU:
-                                    newOrmObj = Plugin.MainServerProvider.DCUs.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.MultiDoor:
-                                    newOrmObj = Plugin.MainServerProvider.MultiDoors.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.MultiDoorElement:
-                                    newOrmObj = Plugin.MainServerProvider.MultiDoorElements.GetObjectById(modObj.GetId);
-                                    break;
-                                case ObjectType.Floor:
-                                    newOrmObj = Plugin.MainServerProvider.Floors.GetObjectById(modObj.GetId);
-                                    break;
-                            }
-                            if (newOrmObj != null)
-                            {
-                                _actCardReaderObjects.Objects.Add(newOrmObj);
-                                //(this.Plugin as NCASClient).AddToRecentList(newOrmObj);
-                            }
+                            _actLprCameras.Objects.Add(lprCamera);
                         }
                     }
                     RefreshCardReaderObject();
@@ -306,18 +245,18 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
-        private void DoAfterCardReaderCreated(object newCardReader)
+        private void DoAfterCardReaderCreated(object newLprCamera)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action<object>(DoAfterCardReaderCreated), newCardReader);
+                BeginInvoke(new Action<object>(DoAfterCardReaderCreated), newLprCamera);
             }
             else
             {
-                if (newCardReader is CardReader)
+                if (newLprCamera is LprCamera)
                 {
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(newCardReader as CardReader);
+                    _actLprCameras = new ListOfObjects();
+                    _actLprCameras.Objects.Add(newLprCamera as LprCamera);
                     RefreshCardReaderObject();
                 }
             }
@@ -325,10 +264,10 @@ namespace Contal.Cgp.NCAS.Client
 
         private void RefreshCardReaderObject()
         {
-            if (_actCardReaderObjects != null)
+            if (_actLprCameras != null)
             {
-                _tbmCardReader.Text = _actCardReaderObjects.ToString();
-                _tbmCardReader.TextImage = Plugin.GetImageForListOfObject(_actCardReaderObjects);
+                _tbmCardReader.Text = _actLprCameras.ToString();
+                _tbmCardReader.TextImage = Plugin.GetImageForListOfObject(_actLprCameras);
             }
             else
             {
@@ -340,79 +279,18 @@ namespace Contal.Cgp.NCAS.Client
         {
             try
             {
-                if (newCardReaderObject is CardReader)
+                if (newCardReaderObject is LprCamera)
                 {
-                    CardReader cardReader = newCardReaderObject as CardReader;
+                    var lprCamera = newCardReaderObject as LprCamera;
+                    _actLprCameras = new ListOfObjects();
+                    _actLprCameras.Objects.Add(lprCamera);
+                    RefreshCardReaderObject();
+                    Plugin.AddToRecentList(newCardReaderObject);
+                    return;
+                }
 
-                    if (Plugin.MainServerProvider.MultiDoors.IsCardReaderUsedInMultiDoor(cardReader.IdCardReader))
-                    {
-                        ControlNotification.Singleton.Error(
-                            NotificationPriority.JustOne,
-                            _tbmCardReader.ImageTextBox,
-                            GetString("ErrorCanNotBeUsedCardReaderAssignedToMultiDoor"),
-                            ControlNotificationSettings.Default);
-
-                        return;
-                    }
-
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(cardReader);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is DoorEnvironment)
-                {
-                    DoorEnvironment doorEnvironment = newCardReaderObject as DoorEnvironment;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(doorEnvironment);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is AlarmArea)
-                {
-                    AlarmArea alarmArea = newCardReaderObject as AlarmArea;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(alarmArea);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is DCU)
-                {
-                    DCU dcu = newCardReaderObject as DCU;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(dcu);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is MultiDoor)
-                {
-                    var multiDoor = newCardReaderObject as MultiDoor;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(multiDoor);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is MultiDoorElement)
-                {
-                    var multiDoorElement = newCardReaderObject as MultiDoorElement;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(multiDoorElement);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else if (newCardReaderObject is Floor)
-                {
-                    var floor = newCardReaderObject as Floor;
-                    _actCardReaderObjects = new ListOfObjects();
-                    _actCardReaderObjects.Objects.Add(floor);
-                    RefreshCardReaderObject();
-                    Plugin.AddToRecentList(newCardReaderObject);
-                }
-                else
-                {
-                    ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
-                       CgpClient.Singleton.LocalizationHelper.GetString("ErrorWrongObjectType"), ControlNotificationSettings.Default);
-                }
+                ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
+   CgpClient.Singleton.LocalizationHelper.GetString("ErrorWrongObjectType"), ControlNotificationSettings.Default);
             }
             catch
             { }
@@ -438,35 +316,11 @@ namespace Contal.Cgp.NCAS.Client
 
         private void _tbmCardReader_DoubleClick(object sender, EventArgs e)
         {
-            if (_actCardReaderObjects != null && _actCardReaderObjects.Count == 1)
+            if (_actLprCameras != null && _actLprCameras.Count == 1)
             {
-                if (_actCardReaderObjects[0] is CardReader)
+                if (_actLprCameras[0] is LprCamera)
                 {
-                    NCASCardReadersForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as CardReader);
-                }
-                else if (_actCardReaderObjects[0] is DoorEnvironment)
-                {
-                    NCASDoorEnvironmentsForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as DoorEnvironment);
-                }
-                else if (_actCardReaderObjects[0] is AlarmArea)
-                {
-                    NCASAlarmAreasForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as AlarmArea);
-                }
-                else if (_actCardReaderObjects[0] is DCU)
-                {
-                    NCASDCUsForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as DCU);
-                }
-                else if (_actCardReaderObjects[0] is MultiDoor)
-                {
-                    NCASMultiDoorsForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as MultiDoor);
-                }
-                else if (_actCardReaderObjects[0] is MultiDoorElement)
-                {
-                    NCASMultiDoorElementsForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as MultiDoorElement);
-                }
-                else if (_actCardReaderObjects[0] is Floor)
-                {
-                    NCASFloorsForm.Singleton.OpenEditForm(_actCardReaderObjects[0] as Floor);
+                    NCASLprCamerasForm.Singleton.OpenEditForm(_actLprCameras[0] as LprCamera);
                 }
             }
         }
@@ -620,30 +474,30 @@ namespace Contal.Cgp.NCAS.Client
 
         private void CreateNewAccessZone()
         {
-            if (_actCardReaderObjects != null)
+            if (_actLprCameras != null)
             {
-                foreach (var selectedCardReaderObject in _actCardReaderObjects)
+                foreach (var selectedLprCamera in _actLprCameras)
                 {
                     if (!ControlValues()) return;
-                    _editAccessZone = new AccessZone
+                    _editAccessZone = new AccessZoneCar
                     {
-                        Person = _actPerson,
+                        Car = _actCar,
+                        GuidCar = _actCar.IdCar,
                         TimeZone = _actTimeZone,
-                        Description = _eDescription.Text
+                        Description = _eDescription.Text,
+                        GuidTimeZone = _actTimeZone?.IdTimeZone ?? Guid.Empty
                     };
 
-                    var cardReaderObject = selectedCardReaderObject as AOrmObject;
-                    _editAccessZone.CardReaderObject = cardReaderObject;
-
-                    if (cardReaderObject != null)
+                    var lprCamera = selectedLprCamera as LprCamera;
+                    _editAccessZone.LprCamera = lprCamera;
+                    if (lprCamera != null)
                     {
-                        _editAccessZone.CardReaderObjectType = (byte)cardReaderObject.GetObjectType();
-                        _editAccessZone.GuidCardReaderObject = (Guid)cardReaderObject.GetId();
+                        _editAccessZone.GuidLprCamera = lprCamera.IdLprCamera;
                     }
 
                     SaveAccessZoneInsert();
                 }
-                ShowPersonAccessZone();
+                ShowCarAccessZone();
                 ClearEdits();
             }
             else
@@ -656,69 +510,34 @@ namespace Contal.Cgp.NCAS.Client
 
         private void UpdateAccessZone()
         {
-            if (!ControlValues() || _actCardReaderObjects.Objects.Count < 1) return;
-            _editAccessZone.Person = _actPerson;
+            if (!ControlValues() || _actLprCameras.Objects.Count < 1) return;
+            _editAccessZone.Car = _actCar;
+            _editAccessZone.GuidCar = _actCar.IdCar;
 
-            object cardReaderObject = _actCardReaderObjects.Objects[0];
-            if (cardReaderObject is CardReader)
+            object lprCameraObject = _actLprCameras.Objects[0];
+            if (lprCameraObject is LprCamera)
             {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.CardReader;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as CardReader).IdCardReader;
-            }
-            else if (cardReaderObject is DoorEnvironment)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.DoorEnvironment;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as DoorEnvironment).IdDoorEnvironment;
-            }
-            else if (cardReaderObject is AlarmArea)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.AlarmArea;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as AlarmArea).IdAlarmArea;
-            }
-            else if (cardReaderObject is DCU)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.DCU;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as DCU).IdDCU;
-            }
-            else if (cardReaderObject is MultiDoor)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.MultiDoor;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as MultiDoor).IdMultiDoor;
-            }
-            else if (cardReaderObject is MultiDoorElement)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.MultiDoorElement;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as MultiDoorElement).IdMultiDoorElement;
-            }
-            else if (cardReaderObject is Floor)
-            {
-                _editAccessZone.CardReaderObject = cardReaderObject as AOrmObject;
-                _editAccessZone.CardReaderObjectType = (byte)ObjectType.Floor;
-                _editAccessZone.GuidCardReaderObject = (cardReaderObject as Floor).IdFloor;
+                _editAccessZone.LprCamera = lprCameraObject as LprCamera;
+                _editAccessZone.GuidLprCamera = (lprCameraObject as LprCamera).IdLprCamera;
             }
 
             _editAccessZone.TimeZone = _actTimeZone;
+            _editAccessZone.GuidTimeZone = _actTimeZone?.IdTimeZone ?? Guid.Empty;
             _editAccessZone.Description = _eDescription.Text;
 
             if (!SaveAccessZoneEdit())
                 Dialog.Error("Failed");
 
-            ShowPersonAccessZone();
+            ShowCarAccessZone();
             ClearEdits();
         }
 
         private void EditAccessZone()
         {
             if (CgpClient.Singleton.IsConnectionLost(false)) return;
-            AccessZone accessZone = _bindingSource[_bindingSource.Position] as AccessZone;
+            AccessZoneCar accessZone = _bindingSource[_bindingSource.Position] as AccessZoneCar;
             Exception error;
-            _editAccessZone = Plugin.MainServerProvider.AccessZones.GetObjectForEdit(accessZone.IdAccessZone, out error);
+            _editAccessZone = Plugin.MainServerProvider.AccessZoneCars.GetObjectForEdit(accessZone.IdAccessZoneCar, out error);
             if (_editAccessZone != null)
             {
                 ButtonsEditAccessZone();
@@ -730,34 +549,10 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     _actTimeZone = null;
                 }
-                _actCardReaderObjects = new ListOfObjects();
-                if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.CardReader)
+                _actLprCameras = new ListOfObjects();
+                if (_editAccessZone.LprCamera != null)
                 {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.CardReaders.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.AlarmArea)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.AlarmAreas.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.DoorEnvironment)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.DoorEnvironments.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.DCU)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.DCUs.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.MultiDoor)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.MultiDoors.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.MultiDoorElement)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.MultiDoorElements.GetObjectById(_editAccessZone.GuidCardReaderObject));
-                }
-                else if (_editAccessZone.CardReaderObjectType == (byte)ObjectType.Floor)
-                {
-                    _actCardReaderObjects.Objects.Add(Plugin.MainServerProvider.Floors.GetObjectById(_editAccessZone.GuidCardReaderObject));
+                    _actLprCameras.Objects.Add(Plugin.MainServerProvider.LprCameras.GetObjectById(_editAccessZone.GuidLprCamera));
                 }
                 _eDescription.Text = _editAccessZone.Description;
                 RefreshCardReaderObject();
@@ -769,7 +564,7 @@ namespace Contal.Cgp.NCAS.Client
         private void ClearEdits()
         {
             _actTimeZone = null;
-            _actCardReaderObjects = null;
+            _actLprCameras = null;
             _tbmCardReader.Text = string.Empty;
             _tbmTimeZone.Text = string.Empty;
             _eDescription.Text = string.Empty;
@@ -779,7 +574,7 @@ namespace Contal.Cgp.NCAS.Client
         private bool SaveAccessZoneInsert()
         {
             Exception error;
-            bool retValue = Plugin.MainServerProvider.AccessZones.Insert(ref _editAccessZone, out error);
+            bool retValue = Plugin.MainServerProvider.AccessZoneCars.Insert(ref _editAccessZone, out error);
             if (!retValue && error != null)
             {
                 if (error is SqlUniqueException)
@@ -794,7 +589,7 @@ namespace Contal.Cgp.NCAS.Client
         private bool SaveAccessZoneEdit()
         {
             Exception error;
-            bool retValue = Plugin.MainServerProvider.AccessZones.Update(_editAccessZone, out error);
+            bool retValue = Plugin.MainServerProvider.AccessZoneCars.Update(_editAccessZone, out error);
             if (!retValue && error != null)
             {
                 if (error is SqlUniqueException)
@@ -808,90 +603,14 @@ namespace Contal.Cgp.NCAS.Client
 
         private bool ControlValues()
         {
-            if (_actCardReaderObjects == null)
+            if (_actLprCameras == null)
             {
                 ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
                 GetString("ErrorEntryCardReader"), ControlNotificationSettings.Default);
                 _tbmCardReader.ImageTextBox.Focus();
                 return false;
             }
-
-            foreach (object obj in _actCardReaderObjects.Objects)
-            {
-                if (obj is DoorEnvironment)
-                {
-                    if (!DoorEnvironmentHasCR(obj as DoorEnvironment))
-                    {
-                        ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
-                            GetString("ErrorDoorEnvironmentHasNotCardReaders"), ControlNotificationSettings.Default);
-                        return false;
-                    }
-                }
-                else if (obj is AlarmArea)
-                {
-                    if (!AlarmAreaHasCR(obj as AlarmArea))
-                    {
-                        ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
-                            GetString("ErrorAlarmAreaHasNotCardReaders"), ControlNotificationSettings.Default);
-                        return false;
-                    }
-                }
-                else if (obj is DCU)
-                {
-                    if (!DCUHasCR(obj as DCU))
-                    {
-                        ControlNotification.Singleton.Error(NotificationPriority.JustOne, _tbmCardReader.ImageTextBox,
-                            GetString("ErrorDCUHasNotCardReaders"), ControlNotificationSettings.Default);
-                        return false;
-                    }
-                }
-            }
             return true;
-        }
-
-        private bool DoorEnvironmentHasCR(DoorEnvironment de)
-        {
-            if (CgpClient.Singleton.IsConnectionLost(false)) return false;
-            DoorEnvironment doorEnvironment = Plugin.MainServerProvider.DoorEnvironments.GetObjectById(de.IdDoorEnvironment);
-
-            if (doorEnvironment != null)
-            {
-                if (doorEnvironment.CardReaderInternal != null || doorEnvironment.CardReaderExternal != null)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool AlarmAreaHasCR(AlarmArea aa)
-        {
-            if (CgpClient.Singleton.IsConnectionLost(false)) return false;
-            AlarmArea alarmArea = Plugin.MainServerProvider.AlarmAreas.GetObjectById(aa.IdAlarmArea);
-
-            if (alarmArea != null)
-            {
-                if (alarmArea.AACardReaders != null && alarmArea.AACardReaders.Count > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool DCUHasCR(DCU dcu)
-        {
-            if (CgpClient.Singleton.IsConnectionLost(false)) return false;
-            DCU conrolrdDcu = Plugin.MainServerProvider.DCUs.GetObjectById(dcu.IdDCU);
-
-            if (conrolrdDcu != null)
-            {
-                if (conrolrdDcu.CardReaders != null && conrolrdDcu.CardReaders.Count > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         private void ButtonsCreateAccessZone()
@@ -932,28 +651,20 @@ namespace Contal.Cgp.NCAS.Client
         {
             try
             {
-                if (newCardReaderObject is CardReader ||
-                    newCardReaderObject is AlarmArea ||
-                    newCardReaderObject is DoorEnvironment ||
-                    newCardReaderObject is DCU ||
-                    newCardReaderObject is MultiDoor ||
-                    newCardReaderObject is MultiDoorElement ||
-                    newCardReaderObject is Floor
-                    )
+                if (newCardReaderObject is LprCamera)
                 {
-                    AOrmObject cardReaderObject = newCardReaderObject as AOrmObject;
-
-                    if (!ControlAddedAccessZoneCRO(cardReaderObject)) return;
-                    var accessZone = new AccessZone
+                    var lprCamera = newCardReaderObject as LprCamera;
+                    var accessZone = new AccessZoneCar
                     {
-                        Person = _actPerson,
+                        Car = _actCar,
+                        GuidCar = _actCar.IdCar,
                         TimeZone = null,
-                        CardReaderObjectType = (byte)cardReaderObject.GetObjectType(),
-                        GuidCardReaderObject = (Guid)cardReaderObject.GetId()
+                        LprCamera = lprCamera,
+                        GuidLprCamera = lprCamera?.IdLprCamera ?? Guid.Empty
                     };
 
                     Exception error;
-                    bool retValue = Plugin.MainServerProvider.AccessZones.Insert(ref accessZone, out error);
+                    bool retValue = Plugin.MainServerProvider.AccessZoneCars.Insert(ref accessZone, out error);
                     if (!retValue && error != null)
                     {
                         if (error is SqlUniqueException)
@@ -967,7 +678,7 @@ namespace Contal.Cgp.NCAS.Client
                         return;
                     }
                     //EditTextChanger(null, null);
-                    ShowPersonAccessZone();
+                    ShowCarAccessZone();
                     Plugin.AddToRecentList(newCardReaderObject);
                 }
                 else
@@ -978,36 +689,6 @@ namespace Contal.Cgp.NCAS.Client
             }
             catch
             { }
-        }
-
-        private bool ControlAddedAccessZoneCRO(AOrmObject crObj)
-        {
-            switch (crObj.GetObjectType())
-            {
-                case ObjectType.DoorEnvironment:
-                    if (!DoorEnvironmentHasCR(crObj as DoorEnvironment))
-                    {
-                        Dialog.Error(GetString("ErrorDoorEnvironmentHasNotCardReaders"));
-                        return false;
-                    }
-                    break;
-                case ObjectType.AlarmArea:
-                    if (!AlarmAreaHasCR(crObj as AlarmArea))
-                    {
-                        Dialog.Error(GetString("ErrorAlarmAreaHasNotCardReaders"));
-                        return false;
-                    }
-                    break;
-                case ObjectType.DCU:
-                    if (!DCUHasCR(crObj as DCU))
-                    {
-                        Dialog.Error(GetString("ErrorDCUHasNotCardReaders"));
-                        return false;
-                    }
-                    break;
-            }
-
-            return true;
         }
 
         private void _tbmTimeZone_ButtonPopupMenuItemClick(ToolStripItem item, int index)
@@ -1037,39 +718,35 @@ namespace Contal.Cgp.NCAS.Client
             {
                 ModifyCardReader();
             }
-            else if (item.Name == "_tsiCreateDebug")
-            {
-                CardReader cardReader = new CardReader();
-                cardReader.EnableParentInFullName = Plugin.MainServerProvider.GetEnableParentInFullName();
-                NCASCardReadersForm.Singleton.OpenInsertFromEdit(ref cardReader, DoAfterCardReaderCreated);
-            }
         }
 
-        public static void SaveAfterInsertWithData(NCASClient ncasClient, Person person, Person clonedPerson)
+        public static void SaveAfterInsertWithData(NCASClient ncasClient, Car car, Car clonedCar)
         {
-            if (ncasClient == null || person == null || CgpClient.Singleton.IsConnectionLost(false)) return;
+            if (ncasClient == null || car == null || CgpClient.Singleton.IsConnectionLost(false)) return;
 
             IList<FilterSettings> filterSettings = new List<FilterSettings>();
-            FilterSettings filterSetting = new FilterSettings(ACLPerson.COLUMNPERSON, clonedPerson, ComparerModes.EQUALL);
+            FilterSettings filterSetting = new FilterSettings(AccessZoneCar.COLUMNCAR, clonedCar, ComparerModes.EQUALL);
             filterSettings.Add(filterSetting);
 
             Exception error;
-            ICollection<AccessZone> accessZones = ncasClient.MainServerProvider.AccessZones.SelectByCriteria(filterSettings, out error);
+            ICollection<AccessZoneCar> accessZoneCars = ncasClient.MainServerProvider.AccessZoneCars.SelectByCriteria(filterSettings, out error);
 
-            if (accessZones != null && accessZones.Count > 0)
+            if (accessZoneCars != null && accessZoneCars.Count > 0)
             {
-                foreach (AccessZone accessZone in accessZones)
+                foreach (AccessZoneCar accessZone in accessZoneCars)
                 {
                     if (accessZone != null)
                     {
-                        AccessZone newAccessZone = new AccessZone();
-                        newAccessZone.Person = person;
-                        newAccessZone.GuidCardReaderObject = accessZone.GuidCardReaderObject;
-                        newAccessZone.CardReaderObjectType = accessZone.CardReaderObjectType;
+                        AccessZoneCar newAccessZone = new AccessZoneCar();
+                        newAccessZone.Car = car;
+                        newAccessZone.GuidCar = car.IdCar;
+                        newAccessZone.LprCamera = accessZone.LprCamera;
+                        newAccessZone.GuidLprCamera = accessZone.GuidLprCamera;
                         newAccessZone.TimeZone = accessZone.TimeZone;
+                        newAccessZone.GuidTimeZone = accessZone.GuidTimeZone;
                         newAccessZone.Description = accessZone.Description;
 
-                        ncasClient.MainServerProvider.AccessZones.Insert(ref newAccessZone, out error);
+                        ncasClient.MainServerProvider.AccessZoneCars.Insert(ref newAccessZone, out error);
                     }
                 }
             }
@@ -1091,14 +768,14 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_bindingSource != null && _bindingSource.Count > 0)
             {
-                var accessZone = _bindingSource[_bindingSource.Position] as AccessZone;
+                var accessZone = _bindingSource[_bindingSource.Position] as AccessZoneCar;
 
                 if (accessZone != null)
                 {
                     if (Dialog.Question(CgpClient.Singleton.LocalizationHelper.GetString("QuestionDeleteConfirm")))
                     {
                         Exception error;
-                        Plugin.MainServerProvider.AccessZones.Delete(accessZone, out error);
+                        Plugin.MainServerProvider.AccessZoneCars.Delete(accessZone, out error);
 
                         if (error != null)
                         {
@@ -1109,7 +786,7 @@ namespace Contal.Cgp.NCAS.Client
                         }
                         else
                         {
-                            ShowPersonAccessZone();
+                            ShowCarAccessZone();
                         }
                     }
                 }
@@ -1126,7 +803,7 @@ namespace Contal.Cgp.NCAS.Client
                 return;
 
             var items =
-                indexes.Select(index => (IShortObject)(new AccessZoneShort((AccessZone)_bindingSource.List[index])))
+                indexes.Select(index => (IShortObject)(new AccessZoneCarShort((AccessZoneCar)_bindingSource.List[index])))
                     .ToList();
 
             var dialog = new DeleteDataGridItemsDialog(
@@ -1134,19 +811,19 @@ namespace Contal.Cgp.NCAS.Client
                 items,
                 CgpClient.Singleton.LocalizationHelper)
             {
-                SelectItem = items.FirstOrDefault(item => item.Id.Equals((((AccessZone)_bindingSource.Current).IdAccessZone)))
+                SelectItem = items.FirstOrDefault(item => item.Id.Equals((((AccessZoneCar)_bindingSource.Current).IdAccessZoneCar)))
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var accessZones = new LinkedList<AccessZone>();
+                var accessZones = new LinkedList<AccessZoneCar>();
 
                 if (dialog.DeleteAll)
                 {
                     foreach (int index in indexes)
                     {
                         if (_bindingSource.Count > index)
-                            accessZones.AddLast(_bindingSource[index] as AccessZone);
+                            accessZones.AddLast(_bindingSource[index] as AccessZoneCar);
                     }
                 }
                 else
@@ -1154,8 +831,8 @@ namespace Contal.Cgp.NCAS.Client
                     foreach (var item in dialog.SelectedItems)
                     {
                         var accessZone =
-                            _bindingSource.List.Cast<AccessZone>()
-                                .FirstOrDefault(az => az.IdAccessZone.Equals(item.Id));
+                            _bindingSource.List.Cast<AccessZoneCar>()
+                                .FirstOrDefault(az => az.IdAccessZoneCar.Equals(item.Id));
 
                         accessZones.AddLast(accessZone);
                     }
@@ -1165,7 +842,7 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
-        private void DeleteAccessZones(IEnumerable<AccessZone> accessZones)
+        private void DeleteAccessZones(IEnumerable<AccessZoneCar> accessZones)
         {
             if (accessZones == null)
                 return;
@@ -1174,7 +851,7 @@ namespace Contal.Cgp.NCAS.Client
 
             foreach (var accessZone in accessZones)
             {
-                Plugin.MainServerProvider.AccessZones.Delete(accessZone, out error);
+                Plugin.MainServerProvider.AccessZoneCars.Delete(accessZone, out error);
             }
 
             if (error != null)
@@ -1185,7 +862,7 @@ namespace Contal.Cgp.NCAS.Client
                     Dialog.Error(CgpClient.Singleton.LocalizationHelper.GetString("ErrorDeleteFailed"));
             }
 
-            ShowPersonAccessZone();
+            ShowCarAccessZone();
         }
 
         public void InsertClick()
