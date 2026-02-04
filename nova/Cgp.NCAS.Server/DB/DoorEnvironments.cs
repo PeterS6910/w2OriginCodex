@@ -176,6 +176,8 @@ namespace Contal.Cgp.NCAS.Server.DB
                 newDoorEnvironment,
                 oldDoorEnvironmentBeforeUpdate);
 
+            SyncLprCamerasParent(newDoorEnvironment);
+
             var oldOutputs = new LinkedList<Output>(GetUsedOutputs(oldDoorEnvironmentBeforeUpdate));
 
             var newOutputsIds = new HashSet<Guid>(GetUsedOutputs(newDoorEnvironment)
@@ -252,6 +254,53 @@ namespace Contal.Cgp.NCAS.Server.DB
                 NCASServer.Singleton.PresentationGroupChanged(AlarmType.DoorEnvironment_Sabotage,
                     ObjectType.DoorEnvironment, newDoorEnvironment.IdDoorEnvironment);
             }
+        }
+
+        public override void AfterInsert(DoorEnvironment doorEnvironment)
+        {
+            if (doorEnvironment == null)
+                return;
+
+            base.AfterInsert(doorEnvironment);
+            SyncLprCamerasParent(doorEnvironment);
+        }
+
+        private void SyncLprCamerasParent(DoorEnvironment doorEnvironment)
+        {
+            if (doorEnvironment == null)
+                return;
+
+            UpdateLprCameraParent(doorEnvironment, doorEnvironment.LprCameraInternal);
+            UpdateLprCameraParent(doorEnvironment, doorEnvironment.LprCameraExternal);
+        }
+
+        private void UpdateLprCameraParent(DoorEnvironment doorEnvironment, LprCamera camera)
+        {
+            if (camera == null)
+                return;
+
+            var cameraForUpdate = LprCameras.Singleton.GetObjectForEdit(camera.IdLprCamera);
+            if (cameraForUpdate == null)
+                return;
+
+            if (doorEnvironment.DCU != null)
+            {
+                cameraForUpdate.DCU = doorEnvironment.DCU;
+                cameraForUpdate.CCU = null;
+            }
+            else if (doorEnvironment.CCU != null)
+            {
+                cameraForUpdate.CCU = doorEnvironment.CCU;
+                cameraForUpdate.DCU = null;
+            }
+            else
+            {
+                cameraForUpdate.CCU = null;
+                cameraForUpdate.DCU = null;
+            }
+
+            LprCameras.Singleton.Update(cameraForUpdate);
+            LprCameras.Singleton.EditEnd(cameraForUpdate);
         }
 
         private void ResetOutput(Output output)
