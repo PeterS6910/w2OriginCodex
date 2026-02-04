@@ -37,6 +37,10 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiRemove2 = new System.Windows.Forms.ToolStripMenuItem();
             this._tsiModify1 = new System.Windows.Forms.ToolStripMenuItem();
             this._tsiRemove1 = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiModifyLprInternal = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiRemoveLprInternal = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiModifyLprExternal = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiRemoveLprExternal = new System.Windows.Forms.ToolStripMenuItem();
             this._eResultAccessGranted = new System.Windows.Forms.TextBox();
             this._bAccessGranted = new System.Windows.Forms.Button();
             this._tsiModify8 = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,13 +86,17 @@ namespace Contal.Cgp.NCAS.Client
             this._tpApas = new System.Windows.Forms.TabPage();
             this._bUnconfigureDoorEnvironment = new System.Windows.Forms.Button();
             this._gbCardReaders = new System.Windows.Forms.GroupBox();
+            this._tbmExternalLprCamera = new Contal.IwQuick.UI.TextBoxMenu();
+            this._tbmInternalLprCamera = new Contal.IwQuick.UI.TextBoxMenu();
             this._tbmExternalCardReader = new Contal.IwQuick.UI.TextBoxMenu();
             this._tbmInternalCardReader = new Contal.IwQuick.UI.TextBoxMenu();
             this._chbPushButtonInternalBalanced = new System.Windows.Forms.CheckBox();
             this._chbPushButtonInternalInverted = new System.Windows.Forms.CheckBox();
             this._chbPushButtonExternalBalanced = new System.Windows.Forms.CheckBox();
             this._chbPushButtonExternalInverted = new System.Windows.Forms.CheckBox();
+            this._lExternalLprCamera = new System.Windows.Forms.Label();
             this._lExternalCardReader = new System.Windows.Forms.Label();
+            this._lInternalLprCamera = new System.Windows.Forms.Label();
             this._lInternalCardReader = new System.Windows.Forms.Label();
             this._gbActuators = new System.Windows.Forms.GroupBox();
             this._eExtraElectricStrikeOppositeImpulseDelay = new System.Windows.Forms.NumericUpDown();
@@ -237,6 +245,30 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiRemove1.Name = "_tsiRemove1";
             this._tsiRemove1.Size = new System.Drawing.Size(117, 22);
             this._tsiRemove1.Text = "Remove";
+            // 
+            // _tsiModifyLprInternal
+            // 
+            this._tsiModifyLprInternal.Name = "_tsiModifyLprInternal";
+            this._tsiModifyLprInternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiModifyLprInternal.Text = "Modify";
+            // 
+            // _tsiRemoveLprInternal
+            // 
+            this._tsiRemoveLprInternal.Name = "_tsiRemoveLprInternal";
+            this._tsiRemoveLprInternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemoveLprInternal.Text = "Remove";
+            // 
+            // _tsiModifyLprExternal
+            // 
+            this._tsiModifyLprExternal.Name = "_tsiModifyLprExternal";
+            this._tsiModifyLprExternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiModifyLprExternal.Text = "Modify";
+            // 
+            // _tsiRemoveLprExternal
+            // 
+            this._tsiRemoveLprExternal.Name = "_tsiRemoveLprExternal";
+            this._tsiRemoveLprExternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemoveLprExternal.Text = "Remove";
             // 
             // _eResultAccessGranted
             // 
@@ -731,13 +763,17 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._gbCardReaders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this._gbCardReaders.Controls.Add(this._tbmExternalLprCamera);
+            this._gbCardReaders.Controls.Add(this._tbmInternalLprCamera);
             this._gbCardReaders.Controls.Add(this._tbmExternalCardReader);
             this._gbCardReaders.Controls.Add(this._tbmInternalCardReader);
             this._gbCardReaders.Controls.Add(this._chbPushButtonInternalBalanced);
             this._gbCardReaders.Controls.Add(this._chbPushButtonInternalInverted);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalBalanced);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalInverted);
+            this._gbCardReaders.Controls.Add(this._lExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._lExternalCardReader);
+            this._gbCardReaders.Controls.Add(this._lInternalLprCamera);
             this._gbCardReaders.Controls.Add(this._lInternalCardReader);
             this._gbCardReaders.Location = new System.Drawing.Point(7, 302);
             this._gbCardReaders.Name = "_gbCardReaders";
@@ -745,6 +781,154 @@ namespace Contal.Cgp.NCAS.Client
             this._gbCardReaders.TabIndex = 2;
             this._gbCardReaders.TabStop = false;
             this._gbCardReaders.Text = "Card readers";
+            // 
+            // _tbmExternalLprCamera
+            // 
+            this._tbmExternalLprCamera.AllowDrop = true;
+            this._tbmExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmExternalLprCamera.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // 
+            // 
+            this._tbmExternalLprCamera.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmExternalLprCamera.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmExternalLprCamera.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._tbmExternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
+            this._tbmExternalLprCamera.Button.Location = new System.Drawing.Point(204, 0);
+            this._tbmExternalLprCamera.Button.Name = "_bMenu";
+            this._tbmExternalLprCamera.Button.Size = new System.Drawing.Size(20, 20);
+            this._tbmExternalLprCamera.Button.TabIndex = 3;
+            this._tbmExternalLprCamera.Button.UseVisualStyleBackColor = false;
+            this._tbmExternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
+            this._tbmExternalLprCamera.ButtonDefaultBehaviour = true;
+            this._tbmExternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this._tbmExternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ButtonImage")));
+            // 
+            // 
+            // 
+            this._tbmExternalLprCamera.ButtonPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsiModifyLprExternal,
+            this._tsiRemoveLprExternal});
+            this._tbmExternalLprCamera.ButtonPopupMenu.Name = "";
+            this._tbmExternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmExternalLprCamera.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmExternalLprCamera.ButtonShowImage = true;
+            this._tbmExternalLprCamera.ButtonSizeHeight = 20;
+            this._tbmExternalLprCamera.ButtonSizeWidth = 20;
+            this._tbmExternalLprCamera.ButtonText = "";
+            this._tbmExternalLprCamera.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmExternalLprCamera.HoverTime = 500;
+            // 
+            // 
+            // 
+            this._tbmExternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmExternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmExternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._tbmExternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmExternalLprCamera.ButtonPopupMenu;
+            this._tbmExternalLprCamera.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmExternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ImageTextBox.Image")));
+            this._tbmExternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
+            this._tbmExternalLprCamera.ImageTextBox.Name = "_textBox";
+            this._tbmExternalLprCamera.ImageTextBox.NoTextNoImage = true;
+            this._tbmExternalLprCamera.ImageTextBox.ReadOnly = true;
+            this._tbmExternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(204, 20);
+            this._tbmExternalLprCamera.ImageTextBox.TabIndex = 0;
+            // 
+            // 
+            // 
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Name = "_tbTextBox";
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.ReadOnly = true;
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(202, 13);
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
+            this._tbmExternalLprCamera.ImageTextBox.UseImage = true;
+            this._tbmExternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmExternalLprCamera_DoubleClick);
+            this._tbmExternalLprCamera.Location = new System.Drawing.Point(606, 66);
+            this._tbmExternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
+            this._tbmExternalLprCamera.MinimumSize = new System.Drawing.Size(30, 22);
+            this._tbmExternalLprCamera.Name = "_tbmExternalLprCamera";
+            this._tbmExternalLprCamera.Size = new System.Drawing.Size(224, 22);
+            this._tbmExternalLprCamera.TabIndex = 9;
+            this._tbmExternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
+            this._tbmExternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmExternalLprCamera_ButtonPopupMenuItemClick);
+            // 
+            // _tbmInternalLprCamera
+            // 
+            this._tbmInternalLprCamera.AllowDrop = true;
+            this._tbmInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmInternalLprCamera.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // 
+            // 
+            this._tbmInternalLprCamera.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmInternalLprCamera.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmInternalLprCamera.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._tbmInternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
+            this._tbmInternalLprCamera.Button.Location = new System.Drawing.Point(204, 0);
+            this._tbmInternalLprCamera.Button.Name = "_bMenu";
+            this._tbmInternalLprCamera.Button.Size = new System.Drawing.Size(20, 20);
+            this._tbmInternalLprCamera.Button.TabIndex = 3;
+            this._tbmInternalLprCamera.Button.UseVisualStyleBackColor = false;
+            this._tbmInternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
+            this._tbmInternalLprCamera.ButtonDefaultBehaviour = true;
+            this._tbmInternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this._tbmInternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ButtonImage")));
+            // 
+            // 
+            // 
+            this._tbmInternalLprCamera.ButtonPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsiModifyLprInternal,
+            this._tsiRemoveLprInternal});
+            this._tbmInternalLprCamera.ButtonPopupMenu.Name = "";
+            this._tbmInternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmInternalLprCamera.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmInternalLprCamera.ButtonShowImage = true;
+            this._tbmInternalLprCamera.ButtonSizeHeight = 20;
+            this._tbmInternalLprCamera.ButtonSizeWidth = 20;
+            this._tbmInternalLprCamera.ButtonText = "";
+            this._tbmInternalLprCamera.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmInternalLprCamera.HoverTime = 500;
+            // 
+            // 
+            // 
+            this._tbmInternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmInternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmInternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._tbmInternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmInternalLprCamera.ButtonPopupMenu;
+            this._tbmInternalLprCamera.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmInternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ImageTextBox.Image")));
+            this._tbmInternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
+            this._tbmInternalLprCamera.ImageTextBox.Name = "_textBox";
+            this._tbmInternalLprCamera.ImageTextBox.NoTextNoImage = true;
+            this._tbmInternalLprCamera.ImageTextBox.ReadOnly = true;
+            this._tbmInternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(204, 20);
+            this._tbmInternalLprCamera.ImageTextBox.TabIndex = 0;
+            // 
+            // 
+            // 
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Name = "_tbTextBox";
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.ReadOnly = true;
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(202, 13);
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
+            this._tbmInternalLprCamera.ImageTextBox.UseImage = true;
+            this._tbmInternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmInternalLprCamera_DoubleClick);
+            this._tbmInternalLprCamera.Location = new System.Drawing.Point(606, 17);
+            this._tbmInternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
+            this._tbmInternalLprCamera.MinimumSize = new System.Drawing.Size(30, 22);
+            this._tbmInternalLprCamera.Name = "_tbmInternalLprCamera";
+            this._tbmInternalLprCamera.Size = new System.Drawing.Size(224, 22);
+            this._tbmInternalLprCamera.TabIndex = 8;
+            this._tbmInternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
+            this._tbmInternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmInternalLprCamera_ButtonPopupMenuItemClick);
             // 
             // _tbmExternalCardReader
             // 
@@ -950,6 +1134,16 @@ namespace Contal.Cgp.NCAS.Client
             this._chbPushButtonExternalInverted.UseVisualStyleBackColor = true;
             this._chbPushButtonExternalInverted.CheckedChanged += new System.EventHandler(this.EditTextChanger);
             // 
+            // _lExternalLprCamera
+            // 
+            this._lExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._lExternalLprCamera.AutoSize = true;
+            this._lExternalLprCamera.Location = new System.Drawing.Point(523, 72);
+            this._lExternalLprCamera.Name = "_lExternalLprCamera";
+            this._lExternalLprCamera.Size = new System.Drawing.Size(65, 13);
+            this._lExternalLprCamera.TabIndex = 10;
+            this._lExternalLprCamera.Text = "LPR camera";
+            // 
             // _lExternalCardReader
             // 
             this._lExternalCardReader.AutoSize = true;
@@ -958,6 +1152,16 @@ namespace Contal.Cgp.NCAS.Client
             this._lExternalCardReader.Size = new System.Drawing.Size(45, 13);
             this._lExternalCardReader.TabIndex = 4;
             this._lExternalCardReader.Text = "External";
+            // 
+            // _lInternalLprCamera
+            // 
+            this._lInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._lInternalLprCamera.AutoSize = true;
+            this._lInternalLprCamera.Location = new System.Drawing.Point(523, 22);
+            this._lInternalLprCamera.Name = "_lInternalLprCamera";
+            this._lInternalLprCamera.Size = new System.Drawing.Size(65, 13);
+            this._lInternalLprCamera.TabIndex = 6;
+            this._lInternalLprCamera.Text = "LPR camera";
             // 
             // _lInternalCardReader
             // 
@@ -1806,6 +2010,10 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.ToolStripMenuItem _tsiRemove1;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify2;
         private System.Windows.Forms.ToolStripMenuItem _tsiRemove2;
+        private System.Windows.Forms.ToolStripMenuItem _tsiModifyLprInternal;
+        private System.Windows.Forms.ToolStripMenuItem _tsiRemoveLprInternal;
+        private System.Windows.Forms.ToolStripMenuItem _tsiModifyLprExternal;
+        private System.Windows.Forms.ToolStripMenuItem _tsiRemoveLprExternal;
         private System.Windows.Forms.ToolStripMenuItem _tsiModify3;
         private System.Windows.Forms.ToolStripMenuItem _tsiRemove3;
         private System.Windows.Forms.ToolStripMenuItem _tsiCreate3;
@@ -1845,13 +2053,17 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.TabPage _tpApas;
         private System.Windows.Forms.Button _bUnconfigureDoorEnvironment;
         private System.Windows.Forms.GroupBox _gbCardReaders;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmExternalLprCamera;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmInternalLprCamera;
         private Contal.IwQuick.UI.TextBoxMenu _tbmExternalCardReader;
         private Contal.IwQuick.UI.TextBoxMenu _tbmInternalCardReader;
         private System.Windows.Forms.CheckBox _chbPushButtonInternalBalanced;
         private System.Windows.Forms.CheckBox _chbPushButtonInternalInverted;
         private System.Windows.Forms.CheckBox _chbPushButtonExternalBalanced;
         private System.Windows.Forms.CheckBox _chbPushButtonExternalInverted;
+        private System.Windows.Forms.Label _lExternalLprCamera;
         private System.Windows.Forms.Label _lExternalCardReader;
+        private System.Windows.Forms.Label _lInternalLprCamera;
         private System.Windows.Forms.Label _lInternalCardReader;
         private System.Windows.Forms.GroupBox _gbActuators;
         private System.Windows.Forms.NumericUpDown _eExtraElectricStrikeOppositeImpulseDelay;

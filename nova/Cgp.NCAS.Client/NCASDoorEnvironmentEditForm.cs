@@ -40,6 +40,8 @@ namespace Contal.Cgp.NCAS.Client
 
         private AOrmObject _crInternal;
         private AOrmObject _crExternal;
+        private LprCamera _lprCameraInternal;
+        private LprCamera _lprCameraExternal;
 
         private readonly ControlAlarmTypeSettings _catsDsmIntrusion;
         private readonly ControlModifyAlarmArcs _cmaaDsmIntrusion;
@@ -733,6 +735,11 @@ namespace Contal.Cgp.NCAS.Client
                     _chbPushButtonExternalBalanced.Checked = input.InputType == (byte)InputType.BSI;
                 }
             }
+
+            _lprCameraInternal = null;
+            _lprCameraExternal = null;
+            RefreshInternalLprCamera();
+            RefreshExternalLprCamera();
 
             if (_editingObject.Description != null)
                 _eDescription.Text = _editingObject.Description;
@@ -2276,6 +2283,8 @@ namespace Contal.Cgp.NCAS.Client
 
                 _tbmInternalCardReader.Enabled = false;
                 _tbmExternalCardReader.Enabled = false;
+                _tbmInternalLprCamera.Enabled = false;
+                _tbmExternalLprCamera.Enabled = false;
                 return;
             }
 
@@ -2285,6 +2294,8 @@ namespace Contal.Cgp.NCAS.Client
 
             _tbmInternalCardReader.Enabled = true;
             _tbmExternalCardReader.Enabled = true;
+            _tbmInternalLprCamera.Enabled = true;
+            _tbmExternalLprCamera.Enabled = true;
 
             switch ((_cbDoorEnvironment.SelectedItem as ItemDoorEnvironmentType).DoorEnvironmentType)
             {
@@ -2813,6 +2824,46 @@ namespace Contal.Cgp.NCAS.Client
             }
         }
 
+        private void RefreshInternalLprCamera()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new DVoid2Void(RefreshInternalLprCamera));
+            }
+            else
+            {
+                if (_lprCameraInternal != null)
+                {
+                    _tbmInternalLprCamera.Text = _lprCameraInternal.ToString();
+                    _tbmInternalLprCamera.TextImage = Plugin.GetImageForAOrmObject(_lprCameraInternal);
+                }
+                else
+                {
+                    _tbmInternalLprCamera.Text = string.Empty;
+                }
+            }
+        }
+
+        private void RefreshExternalLprCamera()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new DVoid2Void(RefreshExternalLprCamera));
+            }
+            else
+            {
+                if (_lprCameraExternal != null)
+                {
+                    _tbmExternalLprCamera.Text = _lprCameraExternal.ToString();
+                    _tbmExternalLprCamera.TextImage = Plugin.GetImageForAOrmObject(_lprCameraExternal);
+                }
+                else
+                {
+                    _tbmExternalLprCamera.Text = string.Empty;
+                }
+            }
+        }
+
         private void AddCardReaders(List<AOrmObject> listObjects, AOrmObject anotherCardReader)
         {
             var cardReaders = Plugin.MainServerProvider.DoorEnvironments.GetCardReadersNotInDoorEnvironments(_editingObject.IdDoorEnvironment).OrderBy(cardReader => cardReader.Name).ToList();
@@ -2824,6 +2875,26 @@ namespace Contal.Cgp.NCAS.Client
                     if (!cardReader.Compare(anotherCardReader))
                         listObjects.Add(cardReader);
                 }
+            }
+        }
+
+        private void AddLprCameras(List<AOrmObject> listObjects, LprCamera anotherCamera)
+        {
+            Exception error;
+            var lprCameras = Plugin.MainServerProvider.LprCameras.List(out error);
+            if (error != null || lprCameras == null)
+            {
+                return;
+            }
+
+            foreach (var camera in lprCameras.OrderBy(lprCamera => lprCamera.Name))
+            {
+                if (anotherCamera != null && anotherCamera.Compare(camera))
+                {
+                    continue;
+                }
+
+                listObjects.Add(camera);
             }
         }
 
@@ -2841,6 +2912,42 @@ namespace Contal.Cgp.NCAS.Client
                         listObjects.Add(input);
                     }
                 }
+            }
+        }
+
+        private void ModifyLprCameraInternal()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false)) return;
+            var listObjects = new List<AOrmObject>();
+
+            AddLprCameras(listObjects, _lprCameraExternal);
+
+            var formModify = new ListboxFormAdd(listObjects, GetString("NCASLprCamerasFormNCASLprCamerasForm"));
+            object outObject;
+            formModify.ShowDialog(out outObject);
+            if (outObject is LprCamera lprCamera)
+            {
+                _lprCameraInternal = lprCamera;
+                Plugin.AddToRecentList(lprCamera);
+                RefreshInternalLprCamera();
+            }
+        }
+
+        private void ModifyLprCameraExternal()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(false)) return;
+            var listObjects = new List<AOrmObject>();
+
+            AddLprCameras(listObjects, _lprCameraInternal);
+
+            var formModify = new ListboxFormAdd(listObjects, GetString("NCASLprCamerasFormNCASLprCamerasForm"));
+            object outObject;
+            formModify.ShowDialog(out outObject);
+            if (outObject is LprCamera lprCamera)
+            {
+                _lprCameraExternal = lprCamera;
+                Plugin.AddToRecentList(lprCamera);
+                RefreshExternalLprCamera();
             }
         }
 
@@ -2863,6 +2970,22 @@ namespace Contal.Cgp.NCAS.Client
                     Plugin.AddToRecentList(_crInternal);
                     RefreshInternalCardReader();
                 }
+            }
+        }
+
+        private void _tbmInternalLprCamera_DoubleClick(object sender, EventArgs e)
+        {
+            if (_lprCameraInternal != null)
+            {
+                NCASLprCamerasForm.Singleton.OpenEditForm(_lprCameraInternal);
+            }
+        }
+
+        private void _tbmExternalLprCamera_DoubleClick(object sender, EventArgs e)
+        {
+            if (_lprCameraExternal != null)
+            {
+                NCASLprCamerasForm.Singleton.OpenEditForm(_lprCameraExternal);
             }
         }
 
@@ -3119,6 +3242,32 @@ namespace Contal.Cgp.NCAS.Client
             {
                 _crExternal = null;
                 RefreshExternalCardReader();
+            }
+        }
+
+        private void _tbmInternalLprCamera_ButtonPopupMenuItemClick(ToolStripItem item, int index)
+        {
+            if (item.Name == "_tsiModifyLprInternal")
+            {
+                ModifyLprCameraInternal();
+            }
+            else if (item.Name == "_tsiRemoveLprInternal")
+            {
+                _lprCameraInternal = null;
+                RefreshInternalLprCamera();
+            }
+        }
+
+        private void _tbmExternalLprCamera_ButtonPopupMenuItemClick(ToolStripItem item, int index)
+        {
+            if (item.Name == "_tsiModifyLprExternal")
+            {
+                ModifyLprCameraExternal();
+            }
+            else if (item.Name == "_tsiRemoveLprExternal")
+            {
+                _lprCameraExternal = null;
+                RefreshExternalLprCamera();
             }
         }
 
