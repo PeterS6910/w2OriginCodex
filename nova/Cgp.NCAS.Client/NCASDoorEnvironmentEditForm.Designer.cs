@@ -845,6 +845,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmExternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalLprCamera.ImageTextBox.UseImage = true;
+            this._tbmExternalLprCamera.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
             this._tbmExternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmExternalLprCamera_DoubleClick);
             this._tbmExternalLprCamera.Location = new System.Drawing.Point(595, 66);
             this._tbmExternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
@@ -918,6 +919,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmInternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmInternalLprCamera.ImageTextBox.UseImage = true;
+            this._tbmInternalLprCamera.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
             this._tbmInternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmInternalLprCamera_DoubleClick);
             this._tbmInternalLprCamera.Location = new System.Drawing.Point(595, 17);
             this._tbmInternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
