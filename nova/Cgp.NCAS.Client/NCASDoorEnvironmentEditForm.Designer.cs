@@ -978,7 +978,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmExternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmExternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(297, 20);
+            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(215, 20);
             this._tbmExternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
@@ -1000,7 +1000,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.MaximumSize = new System.Drawing.Size(1200, 55);
             this._tbmExternalCardReader.MinimumSize = new System.Drawing.Size(30, 22);
             this._tbmExternalCardReader.Name = "_tbmExternalCardReader";
-            this._tbmExternalCardReader.Size = new System.Drawing.Size(354, 22);
+            this._tbmExternalCardReader.Size = new System.Drawing.Size(235, 22);
             this._tbmExternalCardReader.TabIndex = 5;
             this._tbmExternalCardReader.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.TextImage")));
             this._tbmExternalCardReader.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmExternalCardReader_ButtonPopupMenuItemClick);
@@ -1057,7 +1057,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmInternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmInternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(296, 20);
+            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(215, 20);
             this._tbmInternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
@@ -1079,7 +1079,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.MaximumSize = new System.Drawing.Size(1200, 55);
             this._tbmInternalCardReader.MinimumSize = new System.Drawing.Size(30, 22);
             this._tbmInternalCardReader.Name = "_tbmInternalCardReader";
-            this._tbmInternalCardReader.Size = new System.Drawing.Size(353, 22);
+            this._tbmInternalCardReader.Size = new System.Drawing.Size(235, 22);
             this._tbmInternalCardReader.TabIndex = 1;
             this._tbmInternalCardReader.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
             this._tbmInternalCardReader.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmInternalCardReader_ButtonPopupMenuItemClick);
