@@ -18,8 +18,6 @@
     <property name="LastLicensePlate" not-null="false"/>
     <property name="HealthState" not-null="false"/>
     <property name="EnableParentInFullName" not-null="false"/>
-    <property name="GuidCCU" not-null="false"/>
-    <property name="GuidDCU" not-null="false"/>
 
     <many-to-one name="CCU" column="CCU" class="Contal.Cgp.NCAS.Server.Beans.CCU, Cgp.NCAS.Server.Beans" not-null="false"/>
     <many-to-one name="DCU" column="DCU" class="Contal.Cgp.NCAS.Server.Beans.DCU, Cgp.NCAS.Server.Beans" not-null="false"/>

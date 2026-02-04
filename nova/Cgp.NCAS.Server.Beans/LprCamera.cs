@@ -29,9 +29,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNLASTLICENSEPLATE = "LastLicensePlate";
         public const string COLUMNHEALTHSTATE = "HealthState";
         public const string COLUMNCCU = "CCU";
-        public const string COLUMNGUIDCCU = "GuidCCU";
         public const string COLUMNDCU = "DCU";
-        public const string COLUMNGUIDDCU = "GuidDCU";
         public const string COLUMNDESCRIPTION = "Description";
         public const string COLUMNLOCALALARMINSTRUCTION = "LocalAlarmInstruction";
         public const string COLUMNOBJECTTYPE = "ObjectType";
@@ -79,25 +77,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
         public virtual CCU CCU { get; set; }
 
-        private Guid _guidCCU = Guid.Empty;
-
-        [LwSerialize]
-        public virtual Guid GuidCCU
-        {
-            get { return _guidCCU; }
-            set { _guidCCU = value; }
-        }
-
         public virtual DCU DCU { get; set; }
-
-        private Guid _guidDCU = Guid.Empty;
-
-        [LwSerialize]
-        public virtual Guid GuidDCU
-        {
-            get { return _guidDCU; }
-            set { _guidDCU = value; }
-        }
 
         public virtual string Description { get; set; }
 
@@ -150,20 +130,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
         public virtual void PrepareToSend()
         {
-            if (CCU != null)
-            {
-                GuidCCU = CCU.IdCCU;
-            }
-            else if (DCU != null && DCU.CCU != null)
-            {
-                GuidCCU = DCU.CCU.IdCCU;
-            }
-            else
-            {
-                GuidCCU = Guid.Empty;
-            }
 
-            GuidDCU = DCU != null ? DCU.IdDCU : Guid.Empty;
         }
 
         public virtual string GetLocalAlarmInstruction()
@@ -240,8 +207,6 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMN_LOCATION = "Location";
         public const string COLUMN_DESCRIPTION = "Description";
         public const string COLUMN_SYMBOL = "Symbol";
-        public const string COLUMN_GUID_CCU = "GuidCCU";
-        public const string COLUMN_GUID_DCU = "GuidDCU";
         public const string COLUMN_IP_ADDRESS = "IpAddress";
         public const string COLUMN_MAC_ADDRESS = "MacAddress";
         public const string COLUMN_PORT = "Port";
@@ -266,10 +231,6 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public string LastLicensePlate { get; set; }
         [LwSerialize]
         public string Location { get; set; }
-        [LwSerialize]
-        public Guid? GuidCCU { get; set; }
-        [LwSerialize]
-        public Guid? GuidDCU { get; set; }
         [LwSerialize]
         public string Description { get; set; }
         [LwSerialize]
@@ -332,8 +293,6 @@ namespace Contal.Cgp.NCAS.Server.Beans
                 Name = camera.Name,
                 FullName = camera.ToString(),
                 Description = camera.Description,
-                GuidCCU = camera.GuidCCU,
-                GuidDCU = camera.GuidDCU,
                 Location = camera.DCU != null
                     ? camera.DCU.ToString()
                     : camera.CCU != null
@@ -442,34 +401,6 @@ namespace Contal.Cgp.NCAS.Server.Beans
                 var property = type.GetProperty("Location");
                 if (property != null)
                     result.Location = property.GetValue(value, null) as string;
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                var property = type.GetProperty("GuidCCU");
-                if (property != null)
-                {
-                    var guid = property.GetValue(value, null);
-                    if (guid is Guid)
-                        result.GuidCCU = (Guid)guid;
-                }
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                var property = type.GetProperty("GuidDCU");
-                if (property != null)
-                {
-                    var guid = property.GetValue(value, null);
-                    if (guid is Guid)
-                        result.GuidDCU = (Guid)guid;
-                }
             }
             catch
             {
