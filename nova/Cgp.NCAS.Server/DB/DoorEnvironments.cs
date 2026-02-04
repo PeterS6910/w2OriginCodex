@@ -354,6 +354,22 @@ namespace Contal.Cgp.NCAS.Server.DB
             LprCameras.Singleton.EditEnd(cameraForUpdate);
         }
 
+        private void ClearLprCameraParent(LprCamera camera)
+        {
+            if (camera == null)
+                return;
+
+            var cameraForUpdate = LprCameras.Singleton.GetObjectForEdit(camera.IdLprCamera);
+            if (cameraForUpdate == null)
+                return;
+
+            cameraForUpdate.CCU = null;
+            cameraForUpdate.DCU = null;
+
+            LprCameras.Singleton.Update(cameraForUpdate);
+            LprCameras.Singleton.EditEnd(cameraForUpdate);
+        }
+
         private void ResetOutput(Output output)
         {
             if (!NeedToResetOutput(output))
