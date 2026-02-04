@@ -78,7 +78,7 @@ namespace Contal.Cgp.NCAS.Client
             if (!_controlsInitialized || _eventsRegistered)
                 return;
 
-            _eName.TextChanged += EditTextChanger;            
+            _eName.TextChanged += EditTextChanger;
             _eIpAddress.TextChanged += EditTextChanger;
             _ePort.TextChanged += EditTextChanger;
             _ePortSsl.TextChanged += EditTextChanger;
@@ -174,7 +174,7 @@ namespace Contal.Cgp.NCAS.Client
                 _eDescription.Text = _editingObject.Description ?? string.Empty;
                 _eLocalAlarmInstruction.Text = _editingObject.LocalAlarmInstruction ?? string.Empty;
                 _cbCommunicationScope.SelectedItem = _editingObject.CommunicationScope;
-                SelectCcu(_editingObject.GuidCCU);
+                SelectCcu(_editingObject.CCU?.IdCCU ?? Guid.Empty);
                 _chkLocked.Checked = _editingObject.Locked;
                 _eLockingClientIp.Text = _editingObject.LockingClientIp ?? string.Empty;
                 _chkIsOnline.Checked = _editingObject.IsOnline;
@@ -358,7 +358,6 @@ namespace Contal.Cgp.NCAS.Client
             _editingObject.IsOnline = _chkIsOnline.Checked;
 
             var selectedCcuId = GetSelectedCcuId();
-            _editingObject.GuidCCU = selectedCcuId;
             if (selectedCcuId == Guid.Empty)
             {
                 _editingObject.CCU = null;
