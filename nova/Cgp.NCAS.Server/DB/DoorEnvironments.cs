@@ -177,6 +177,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                 oldDoorEnvironmentBeforeUpdate);
 
             SyncLprCamerasParent(newDoorEnvironment);
+            ClearRemovedLprCamerasParent(newDoorEnvironment, oldDoorEnvironmentBeforeUpdate);
 
             var oldOutputs = new LinkedList<Output>(GetUsedOutputs(oldDoorEnvironmentBeforeUpdate));
 
@@ -272,6 +273,56 @@ namespace Contal.Cgp.NCAS.Server.DB
 
             UpdateLprCameraParent(doorEnvironment, doorEnvironment.LprCameraInternal);
             UpdateLprCameraParent(doorEnvironment, doorEnvironment.LprCameraExternal);
+        }
+
+        private void ClearRemovedLprCamerasParent(
+           DoorEnvironment newDoorEnvironment,
+           DoorEnvironment oldDoorEnvironmentBeforeUpdate)
+        {
+            if (newDoorEnvironment == null || oldDoorEnvironmentBeforeUpdate == null)
+                return;
+
+            ClearRemovedLprCameraParent(newDoorEnvironment, oldDoorEnvironmentBeforeUpdate.LprCameraInternal);
+            ClearRemovedLprCameraParent(newDoorEnvironment, oldDoorEnvironmentBeforeUpdate.LprCameraExternal);
+        }
+
+        private void ClearRemovedLprCameraParent(DoorEnvironment newDoorEnvironment, LprCamera oldCamera)
+        {
+            if (newDoorEnvironment == null || oldCamera == null)
+                return;
+
+            if (UsesLprCamera(newDoorEnvironment, oldCamera.IdLprCamera))
+                return;
+
+            if (IsLprCameraReferenced(oldCamera.IdLprCamera))
+                return;
+
+            ClearLprCameraParent(oldCamera);
+        }
+
+        private static bool UsesLprCamera(DoorEnvironment doorEnvironment, Guid cameraId)
+        {
+            if (doorEnvironment == null || cameraId == Guid.Empty)
+                return false;
+
+            return (doorEnvironment.LprCameraInternal != null
+                    && doorEnvironment.LprCameraInternal.IdLprCamera == cameraId)
+                || (doorEnvironment.LprCameraExternal != null
+                    && doorEnvironment.LprCameraExternal.IdLprCamera == cameraId);
+        }
+
+        private bool IsLprCameraReferenced(Guid cameraId)
+        {
+            if (cameraId == Guid.Empty)
+                return false;
+
+            return SelectLinq<DoorEnvironment>(
+                doorEnvironment =>
+                    (doorEnvironment.LprCameraInternal != null
+                     && doorEnvironment.LprCameraInternal.IdLprCamera == cameraId)
+                    || (doorEnvironment.LprCameraExternal != null
+                        && doorEnvironment.LprCameraExternal.IdLprCamera == cameraId))
+                .Any();
         }
 
         private void UpdateLprCameraParent(DoorEnvironment doorEnvironment, LprCamera camera)
