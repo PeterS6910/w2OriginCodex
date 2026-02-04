@@ -184,7 +184,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bCancel
             // 
             this._bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bCancel.Location = new System.Drawing.Point(797, 557);
+            this._bCancel.Location = new System.Drawing.Point(797, 594);
             this._bCancel.Name = "_bCancel";
             this._bCancel.Size = new System.Drawing.Size(75, 32);
             this._bCancel.TabIndex = 21;
@@ -195,7 +195,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bOk
             // 
             this._bOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bOk.Location = new System.Drawing.Point(716, 557);
+            this._bOk.Location = new System.Drawing.Point(716, 594);
             this._bOk.Name = "_bOk";
             this._bOk.Size = new System.Drawing.Size(75, 32);
             this._bOk.TabIndex = 20;
@@ -396,7 +396,7 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack.Location = new System.Drawing.Point(0, 0);
             this._panelBack.MinimumSize = new System.Drawing.Size(740, 587);
             this._panelBack.Name = "_panelBack";
-            this._panelBack.Size = new System.Drawing.Size(884, 587);
+            this._panelBack.Size = new System.Drawing.Size(884, 626);
             this._panelBack.TabIndex = 0;
             // 
             // _lActualState
@@ -422,7 +422,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bApply
             // 
             this._bApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bApply.Location = new System.Drawing.Point(635, 557);
+            this._bApply.Location = new System.Drawing.Point(635, 594);
             this._bApply.Name = "_bApply";
             this._bApply.Size = new System.Drawing.Size(75, 32);
             this._bApply.TabIndex = 19;
@@ -446,7 +446,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tcDoorsAutomat.Multiline = true;
             this._tcDoorsAutomat.Name = "_tcDoorsAutomat";
             this._tcDoorsAutomat.SelectedIndex = 0;
-            this._tcDoorsAutomat.Size = new System.Drawing.Size(857, 422);
+            this._tcDoorsAutomat.Size = new System.Drawing.Size(857, 461);
             this._tcDoorsAutomat.TabIndex = 2;
             this._tcDoorsAutomat.TabStop = false;
             // 
@@ -743,7 +743,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpApas.Location = new System.Drawing.Point(4, 25);
             this._tpApas.Name = "_tpApas";
             this._tpApas.Padding = new System.Windows.Forms.Padding(3);
-            this._tpApas.Size = new System.Drawing.Size(849, 393);
+            this._tpApas.Size = new System.Drawing.Size(849, 432);
             this._tpApas.TabIndex = 5;
             this._tpApas.Text = "APAS";
             this._tpApas.UseVisualStyleBackColor = true;
@@ -751,7 +751,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bUnconfigureDoorEnvironment
             // 
             this._bUnconfigureDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 400);
+            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 439);
             this._bUnconfigureDoorEnvironment.Name = "_bUnconfigureDoorEnvironment";
             this._bUnconfigureDoorEnvironment.Size = new System.Drawing.Size(195, 23);
             this._bUnconfigureDoorEnvironment.TabIndex = 3;
@@ -821,6 +821,8 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
+            this._tbmExternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmExternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmExternalLprCamera.ButtonPopupMenu;
@@ -844,7 +846,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalLprCamera.ImageTextBox.UseImage = true;
             this._tbmExternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmExternalLprCamera_DoubleClick);
-            this._tbmExternalLprCamera.Location = new System.Drawing.Point(591, 66);
+            this._tbmExternalLprCamera.Location = new System.Drawing.Point(595, 66);
             this._tbmExternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
             this._tbmExternalLprCamera.MinimumSize = new System.Drawing.Size(30, 22);
             this._tbmExternalLprCamera.Name = "_tbmExternalLprCamera";
@@ -892,6 +894,8 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
+            this._tbmInternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmInternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmInternalLprCamera.ButtonPopupMenu;
@@ -938,7 +942,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmExternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.Button.Image")));
-            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(268, 0);
+            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(297, 0);
             this._tbmExternalCardReader.Button.Name = "_bMenu";
             this._tbmExternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmExternalCardReader.Button.TabIndex = 3;
@@ -974,7 +978,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmExternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmExternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(268, 20);
+            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(297, 20);
             this._tbmExternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
@@ -987,7 +991,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmExternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmExternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(266, 15);
+            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(295, 15);
             this._tbmExternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalCardReader.ImageTextBox.UseImage = true;
             this._tbmExternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1017,7 +1021,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmInternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
-            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(267, 0);
+            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(296, 0);
             this._tbmInternalCardReader.Button.Name = "_bMenu";
             this._tbmInternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmInternalCardReader.Button.TabIndex = 3;
@@ -1053,7 +1057,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmInternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmInternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(267, 20);
+            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(296, 20);
             this._tbmInternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
@@ -1066,7 +1070,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmInternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmInternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(265, 15);
+            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(294, 15);
             this._tbmInternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmInternalCardReader.ImageTextBox.UseImage = true;
             this._tbmInternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1936,7 +1940,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(884, 587);
+            this.ClientSize = new System.Drawing.Size(884, 626);
             this.Controls.Add(this._panelBack);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(900, 626);
