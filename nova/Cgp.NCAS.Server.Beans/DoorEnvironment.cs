@@ -28,7 +28,6 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNGUIDCCU = "GuidCCU";
         public const string COLUMNDCU = "DCU";
         public const string COLUMNGUIDDCU = "GuidDCU";
-        public const string COLUMNISVEHICLEACCESS = "IsVehicleAccess";
 
         public const string COLUMNDOORTIMEUNLOCK = "DoorTimeUnlock";
         public const string COLUMNDOORTIMEOPEN = "DoorTimeOpen";
@@ -119,6 +118,10 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNGUIDCARDREADEREXTERNAL = "GuidCardReaderExternal";
         public const string COLUMNPUSHBUTTONEXTERNAL = "PushButtonExternal";
         public const string COLUMNGUIDPUSHBUTTONEXTERNAL = "GuidPushButtonExternal";
+        public const string COLUMNLPRCAMERAINTERNAL = "LprCameraInternal";
+        public const string COLUMNGUIDLPRCAMERAINTERNAL = "GuidLprCameraInternal";
+        public const string COLUMNLPRCAMERAEXTERNAL = "LprCameraExternal";
+        public const string COLUMNGUIDLPRCAMERAEXTERNAL = "GuidLprCameraExternal";
 
         public const string COLUMNCONFIGURED = "Configured";
         public const string COLUMNDESCRIPTION = "Description";
@@ -306,6 +309,16 @@ namespace Contal.Cgp.NCAS.Server.Beans
         private Guid _guidPushButtonExternal = Guid.Empty;
         [LwSerializeAttribute()]
         public virtual Guid GuidPushButtonExternal { get { return _guidPushButtonExternal; } set { _guidPushButtonExternal = value; } }
+
+        public virtual LprCamera LprCameraInternal { get; set; }
+        private Guid _guidLprCameraInternal = Guid.Empty;
+        [LwSerializeAttribute()]
+        public virtual Guid GuidLprCameraInternal { get { return _guidLprCameraInternal; } set { _guidLprCameraInternal = value; } }
+
+        public virtual LprCamera LprCameraExternal { get; set; }
+        private Guid _guidLprCameraExternal = Guid.Empty;
+        [LwSerializeAttribute()]
+        public virtual Guid GuidLprCameraExternal { get { return _guidLprCameraExternal; } set { _guidLprCameraExternal = value; } }
         public virtual string Description { get; set; }
         public virtual byte ObjectType { get; set; }
         public virtual Guid CkUnique { get; set; }
@@ -343,7 +356,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
                     SensorsOpenMaxDoors != null || ActuatorsElectricStrike != null || ActuatorsExtraElectricStrike != null ||
                     ActuatorsElectricStrikeOpposite != null || ActuatorsExtraElectricStrikeOpposite != null ||
                     ActuatorsBypassAlarm != null || CardReaderExternal != null || CardReaderInternal != null ||
-                    PushButtonExternal != null || PushButtonInternal != null;
+                    PushButtonExternal != null || PushButtonInternal != null ||
+                    LprCameraInternal != null || LprCameraExternal != null;
             }
         }
 
@@ -472,6 +486,16 @@ namespace Contal.Cgp.NCAS.Server.Beans
                 GuidPushButtonExternal = PushButtonExternal.IdInput;
             else
                 GuidPushButtonExternal = Guid.Empty;
+
+            if (LprCameraInternal != null)
+                GuidLprCameraInternal = LprCameraInternal.IdLprCamera;
+            else
+                GuidLprCameraInternal = Guid.Empty;
+
+            if (LprCameraExternal != null)
+                GuidLprCameraExternal = LprCameraExternal.IdLprCamera;
+            else
+                GuidLprCameraExternal = Guid.Empty;
 
             AlarmTypeAndIdAlarmArcs = DoorEnvironmentAlarmArcs == null || DoorEnvironmentAlarmArcs.Count == 0
                 ? null

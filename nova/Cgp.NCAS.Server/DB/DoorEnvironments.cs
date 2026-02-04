@@ -20,7 +20,7 @@ using NHibernate.Hql.Ast.ANTLR.Tree;
 namespace Contal.Cgp.NCAS.Server.DB
 {
     public sealed class DoorEnvironments :
-        ANcasBaseOrmTableWithAlarmInstruction<DoorEnvironments, DoorEnvironment>, 
+        ANcasBaseOrmTableWithAlarmInstruction<DoorEnvironments, DoorEnvironment>,
         IDoorEnvironments
     {
         private DoorEnvironments()
@@ -49,6 +49,8 @@ namespace Contal.Cgp.NCAS.Server.DB
             yield return doorEnvironment.SensorsOpenMaxDoors;
             yield return doorEnvironment.PushButtonInternal;
             yield return doorEnvironment.PushButtonExternal;
+            yield return doorEnvironment.LprCameraInternal;
+            yield return doorEnvironment.LprCameraExternal;
 
             yield return doorEnvironment.ActuatorsElectricStrike;
             yield return doorEnvironment.ActuatorsElectricStrikeOpposite;
@@ -146,8 +148,8 @@ namespace Contal.Cgp.NCAS.Server.DB
         {
             return (output.SettingsDelayToOn != 0
                     || output.SettingsDelayToOff != 0
-                    || output.OutputType != (byte) OutputType.Level
-                    || output.ControlType != (byte) OutputControl.unblocked
+                    || output.OutputType != (byte)OutputType.Level
+                    || output.ControlType != (byte)OutputControl.unblocked
                     || output.SettingsPulseLength != 0
                     || output.SettingsPulseDelay != 0
                     || output.SettingsForcedToOff);
@@ -193,8 +195,8 @@ namespace Contal.Cgp.NCAS.Server.DB
             {
                 SetDelayToOnOffForInput(
                     newDoorEnvironment.SensorsOpenDoors,
-                    0,  //newDoorEnvironment.DoorDelayBeforeBreakIn,
-                    0); //newDoorEnvironment.DoorDelayBeforeClose);
+                    0,
+                    0);
             }
 
             if (oldDoorEnvironmentBeforeUpdate.SensorsOpenDoors != null
@@ -366,6 +368,12 @@ namespace Contal.Cgp.NCAS.Server.DB
 
             if (obj.PushButtonExternal != null)
                 obj.PushButtonExternal = Inputs.Singleton.GetById(obj.PushButtonExternal.IdInput);
+
+            if (obj.LprCameraInternal != null)
+                obj.LprCameraInternal = LprCameras.Singleton.GetById(obj.LprCameraInternal.IdLprCamera);
+
+            if (obj.LprCameraExternal != null)
+                obj.LprCameraExternal = LprCameras.Singleton.GetById(obj.LprCameraExternal.IdLprCamera);
 
             if (obj.DoorEnvironmentAlarmArcs != null)
             {
@@ -554,7 +562,7 @@ namespace Contal.Cgp.NCAS.Server.DB
             var doorEnvironments = SelectLinq<DoorEnvironment>(doorEnvironment => doorEnvironment.ActuatorsElectricStrike == output
                 || doorEnvironment.ActuatorsElectricStrikeOpposite == output || doorEnvironment.ActuatorsExtraElectricStrike == output ||
                 doorEnvironment.ActuatorsExtraElectricStrikeOpposite == output || doorEnvironment.ActuatorsBypassAlarm == output);
-            
+
             if (doorEnvironments != null && doorEnvironments.Count > 0)
                 return true;
 
@@ -622,7 +630,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                 || doorEnvironment.ActuatorsElectricStrikeOpposite == output || doorEnvironment.ActuatorsExtraElectricStrike == output
                 || doorEnvironment.ActuatorsBypassAlarm == output || doorEnvironment.IntrusionOutput == output || doorEnvironment.DoorAjarOutput == output
                 || doorEnvironment.SabotageOutput == output || doorEnvironment.ActuatorsExtraElectricStrikeOpposite == output);
-            
+
             if (doorEnvironments != null && doorEnvironments.Count > 0)
                 return true;
 
@@ -646,7 +654,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                     {
                         if (input.BlockingType == (byte)BlockingType.BlockedByObject)
                             return false;
-                        
+
                         if (doorEnvironment.CCU != null && input.CCU != null)
                             return input.CCU.IdCCU == doorEnvironment.CCU.IdCCU;
 
@@ -742,11 +750,11 @@ namespace Contal.Cgp.NCAS.Server.DB
             }
             else
             {
-                IList<Output> availableOutputs = 
+                IList<Output> availableOutputs =
                     Outputs.Singleton.FilterOutputsFromActivators(
-                        true, 
-                        Guid.Empty, 
-                        false, 
+                        true,
+                        Guid.Empty,
+                        false,
                         Guid.Empty);
 
                 if (availableOutputs != null && availableOutputs.Count > 0)
@@ -925,6 +933,9 @@ namespace Contal.Cgp.NCAS.Server.DB
                     doorEnvironment.PushButtonExternal = null;
                     doorEnvironment.PushButtonInternal = null;
 
+                    doorEnvironment.LprCameraInternal = null;
+                    doorEnvironment.LprCameraExternal = null;
+
                     return Singleton.Update(doorEnvironment);
                 }
             }
@@ -1078,9 +1089,9 @@ namespace Contal.Cgp.NCAS.Server.DB
 
             if (!string.IsNullOrEmpty(name))
             {
-                linqResult = 
+                linqResult =
                     SelectLinq<DoorEnvironment>(
-                        doorEnvironment => 
+                        doorEnvironment =>
                             doorEnvironment.Name.IndexOf(name) >= 0 ||
                             doorEnvironment.Description.IndexOf(name) >= 0);
             }
@@ -1090,8 +1101,8 @@ namespace Contal.Cgp.NCAS.Server.DB
 
         public override ICollection<AOrmObject> ParametricSearch(string name)
         {
-            ICollection<DoorEnvironment> linqResult = 
-                    string.IsNullOrEmpty(name) 
+            ICollection<DoorEnvironment> linqResult =
+                    string.IsNullOrEmpty(name)
                         ? List()
                         : SelectLinq<DoorEnvironment>(doorEnvironment => doorEnvironment.Name.IndexOf(name) >= 0);
 
@@ -1146,7 +1157,7 @@ namespace Contal.Cgp.NCAS.Server.DB
             {
                 return doorEnvironment.CCU.IdCCU;
             }
-            
+
             if (doorEnvironment.DCU != null && doorEnvironment.DCU.CCU != null)
             {
                 return doorEnvironment.DCU.CCU.IdCCU;
@@ -1215,7 +1226,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                       doorEnvironment.SensorsOpenDoors.IdInput == input.IdInput) ||
                      (doorEnvironment.SensorsOpenMaxDoors != null &&
                       doorEnvironment.SensorsOpenMaxDoors.IdInput == input.IdInput)));
-            
+
             if (doorEnvironments != null && doorEnvironments.Count > 0)
                 return true;
 
@@ -1261,7 +1272,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                       doorEnvironment.CardReaderExternal.IdCardReader == idCardReader) ||
                      (doorEnvironment.CardReaderInternal != null &&
                       doorEnvironment.CardReaderInternal.IdCardReader == idCardReader)));
-            
+
             if (doorEnvironments != null && doorEnvironments.Count > 0)
                 return true;
 
@@ -1300,7 +1311,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                       doorEnvironment.ActuatorsBypassAlarm.IdOutput == output.IdOutput) ||
                      (doorEnvironment.ActuatorsExtraElectricStrikeOpposite != null &&
                       doorEnvironment.ActuatorsExtraElectricStrikeOpposite.IdOutput == output.IdOutput)));
-            
+
             if (doorEnvironments != null && doorEnvironments.Count > 0)
                 return true;
 
@@ -1321,7 +1332,7 @@ namespace Contal.Cgp.NCAS.Server.DB
                 var filterSetting = new FilterSettings(DoorEnvironment.COLUMNCARDREADEREXTERNAL, cardReader, ComparerModes.EQUALL);
                 filterCR.Add(filterSetting);
 
-                var resultList = 
+                var resultList =
                     Singleton.SelectByCriteria(filterCR, out error);
 
                 if (resultList != null && resultList.Count > 0)

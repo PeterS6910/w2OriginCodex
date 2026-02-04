@@ -59,7 +59,7 @@ namespace Contal.Cgp.DBSCreator
                 Execute(
                     _creatorProperties.Assemblies, false);
 
-            bool resultExternDatabase = 
+            bool resultExternDatabase =
                 Execute(
                     _creatorProperties.AssembliesEventlogDatabase, true);
 
@@ -153,18 +153,18 @@ namespace Contal.Cgp.DBSCreator
         public delegate bool VersionUpdateDelegate(out Exception error);
 
         public bool DoConvertToVersion(
-            double version, 
-            double routineVersion, 
-            VersionUpdateDelegate routine, 
-            bool failureRecoverable, 
+            double version,
+            double routineVersion,
+            VersionUpdateDelegate routine,
+            bool failureRecoverable,
             string conversionTypeString,
             Action<string> saveVersionToDatabase)
         {
             if (version >= routineVersion)
-               return true;
+                return true;
 
             string routineVersionString = routineVersion.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                
+
             WriteLogToEdit(
                 string.Format(
                     "{0} {1}",
@@ -894,6 +894,17 @@ namespace Contal.Cgp.DBSCreator
                 return false;
             }
 
+            if (!DoConvertToVersion(
+                version,
+                2.24,
+                ConversionCgpNCASServerBeans2_24,
+                false,
+                conversionTypeString,
+                saveVersionToDabase))
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -907,8 +918,8 @@ namespace Contal.Cgp.DBSCreator
             try
             {
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        "drop table systemversion", 
-                        false, 
+                        "drop table systemversion",
+                        false,
                         out error))
                     return false;
 
@@ -1438,8 +1449,8 @@ namespace Contal.Cgp.DBSCreator
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
                         string.Format(
                             "UPDATE StructuredSubSiteObject set IsReference = 1 where ObjectType = {0} or ObjectType = {1}",
-                            (byte) ObjectType.Login,
-                            (byte) ObjectType.LoginGroup),
+                            (byte)ObjectType.Login,
+                            (byte)ObjectType.LoginGroup),
                         false,
                         out error))
                 {
@@ -1449,7 +1460,7 @@ namespace Contal.Cgp.DBSCreator
                 var loginsInStructuredSiteFromDatabase = _databaseCommandExecutor.RunSqlQuery(
                     string.Format(
                         "Select ObjectId from StructuredSubSiteObject where ObjectType = {0}",
-                        (byte) ObjectType.Login),
+                        (byte)ObjectType.Login),
                     false,
                     out error);
 
@@ -1477,7 +1488,7 @@ namespace Contal.Cgp.DBSCreator
                         if (!_databaseCommandExecutor.RunSqlNonQuery(
                             string.Format(
                                 "Insert into StructuredSubSiteObject (StructuredSubSite, ObjectType, ObjectId, IsReference) values (NULL, {0}, '{1}', 1);",
-                                (byte) ObjectType.Login,
+                                (byte)ObjectType.Login,
                                 loginFromDatabase[0].ToString()),
                             false,
                             out error))
@@ -1490,7 +1501,7 @@ namespace Contal.Cgp.DBSCreator
                 var loginGroupsInStructuredSiteFromDatabase = _databaseCommandExecutor.RunSqlQuery(
                     string.Format(
                         "Select ObjectId from StructuredSubSiteObject where ObjectType = {0}",
-                        (byte) ObjectType.LoginGroup),
+                        (byte)ObjectType.LoginGroup),
                     false,
                     out error);
 
@@ -1518,7 +1529,7 @@ namespace Contal.Cgp.DBSCreator
                         if (!_databaseCommandExecutor.RunSqlNonQuery(
                             string.Format(
                                 "Insert into StructuredSubSiteObject (StructuredSubSite, ObjectType, ObjectId, IsReference) values (NULL, {0}, '{1}', 1);",
-                                (byte) ObjectType.LoginGroup,
+                                (byte)ObjectType.LoginGroup,
                                 loginGroupFromDatabase[0].ToString()),
                             false,
                             out error))
@@ -1863,6 +1874,7 @@ namespace Contal.Cgp.DBSCreator
             {
                 return false;
             }
+
             return true;
         }
         private bool ConversionCgpNCASServerBeans1_1(out Exception error)
@@ -1871,7 +1883,7 @@ namespace Contal.Cgp.DBSCreator
             {
                 error = null;
 
-                bool indexExists = 
+                bool indexExists =
                     _databaseCommandExecutor.RowExists(
                         "select name from sys.indexes where name = 'DCU_CCULogicalAddress'",
                         false);
@@ -1888,10 +1900,10 @@ namespace Contal.Cgp.DBSCreator
                         "select name from sys.indexes where name = 'CardReader_DCUCCUPortAddress'",
                         false);
 
-                return 
+                return
                     indexExists ||
-                    _databaseCommandExecutor.RunSqlNonQuery("ALTER TABLE CardReader ADD CONSTRAINT CardReader_DCUCCUPortAddress UNIQUE (DCU, CCU, Port, Address)", 
-                        false, 
+                    _databaseCommandExecutor.RunSqlNonQuery("ALTER TABLE CardReader ADD CONSTRAINT CardReader_DCUCCUPortAddress UNIQUE (DCU, CCU, Port, Address)",
+                        false,
                         out error);
             }
             catch (Exception exception)
@@ -1907,12 +1919,12 @@ namespace Contal.Cgp.DBSCreator
             {
                 return
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "update CCU set MaxNodeLookupSequence = 31", 
-                        false, 
+                        "update CCU set MaxNodeLookupSequence = 31",
+                        false,
                         out error) &&
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "update CentralNameRegister set Name = REVERSE(SUBSTRING(REVERSE(Name), 1, CHARINDEX('/', REVERSE(Name)) - 1)) where ObjectType = 25 AND CHARINDEX('/', Name) > 0", 
-                        false, 
+                        "update CentralNameRegister set Name = REVERSE(SUBSTRING(REVERSE(Name), 1, CHARINDEX('/', REVERSE(Name)) - 1)) where ObjectType = 25 AND CHARINDEX('/', Name) > 0",
+                        false,
                         out error);
             }
             catch (Exception excetpion)
@@ -1933,13 +1945,13 @@ namespace Contal.Cgp.DBSCreator
 
                 return
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "update AACardReader set AAUnconditionalSet=ACK", 
-                        false, 
+                        "update AACardReader set AAUnconditionalSet=ACK",
+                        false,
                         out error) &&
                     _databaseCommandExecutor.SqlDropColumn(
-                        "AACardReader", 
-                        "ACK", 
-                        false, 
+                        "AACardReader",
+                        "ACK",
+                        false,
                         out error);
             }
             catch (Exception exception)
@@ -1968,12 +1980,12 @@ namespace Contal.Cgp.DBSCreator
             {
                 return
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "UPDATE DCU set InputsCount=4 where InputsCount is null or InputsCount=0", 
-                        false, 
+                        "UPDATE DCU set InputsCount=4 where InputsCount is null or InputsCount=0",
+                        false,
                         out error) &&
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "UPDATE DCU set OutputsCount=4 where OutputsCount is null or OutputsCount=0", 
-                        false, 
+                        "UPDATE DCU set OutputsCount=4 where OutputsCount is null or OutputsCount=0",
+                        false,
                         out error);
             }
             catch (Exception exception)
@@ -1989,8 +2001,8 @@ namespace Contal.Cgp.DBSCreator
             {
                 return
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        "UPDATE AAInput set BlockTemporarilyUntil = 0 where NoCriticalInput = 0", 
-                        false, 
+                        "UPDATE AAInput set BlockTemporarilyUntil = 0 where NoCriticalInput = 0",
+                        false,
                         out error);
             }
             catch (Exception exception)
@@ -2006,14 +2018,14 @@ namespace Contal.Cgp.DBSCreator
             {
                 return
                     _databaseCommandExecutor.SqlDropColumn(
-                        "CardReader", 
-                        "EventlogDuringBlockAlarmAccessPermitted", 
-                        false, 
+                        "CardReader",
+                        "EventlogDuringBlockAlarmAccessPermitted",
+                        false,
                         out error) &&
                     _databaseCommandExecutor.SqlDropColumn(
-                        "DevicesAlarmSetting", 
-                        "EventlogDuringBlockAlarmCrAccessPermitted", 
-                        false, 
+                        "DevicesAlarmSetting",
+                        "EventlogDuringBlockAlarmCrAccessPermitted",
+                        false,
                         out error);
             }
             catch (Exception exception)
@@ -2186,7 +2198,7 @@ namespace Contal.Cgp.DBSCreator
             foreach (var ccu in ccus)
             {
                 Guid guidCcu = (Guid)ccu[0];
-                
+
                 byte[] rawData = new byte[24];
                 Array.Copy(guidCcu.ToByteArray(), 0, rawData, 2, 16);
                 rawData[1] = (byte)random.Next(255);
@@ -2254,7 +2266,7 @@ namespace Contal.Cgp.DBSCreator
 
             foreach (var login in logins)
             {
-                var idLogin = (Guid) login[0];
+                var idLogin = (Guid)login[0];
 
                 if (_databaseCommandExecutor.RunSqlNonQueryWithParameters(
                     "INSERT INTO AccessControl ([IdAccessControl], [Source], [Access], [Login], [LoginGroup]) " +
@@ -2273,7 +2285,7 @@ namespace Contal.Cgp.DBSCreator
 
             foreach (var login in logins)
             {
-                var idLogin = (Guid) login[0];
+                var idLogin = (Guid)login[0];
 
                 if (_databaseCommandExecutor.RunSqlNonQueryWithParameters(
                     "INSERT INTO AccessControl ([IdAccessControl], [Source], [Access], [Login], [LoginGroup]) " +
@@ -2453,9 +2465,9 @@ namespace Contal.Cgp.DBSCreator
             }
 
             if (!_databaseCommandExecutor.SqlDropColumn(
-                "AlarmArea", 
-                "AlarmAreaAlarmArcsOverwrited", 
-                false, 
+                "AlarmArea",
+                "AlarmAreaAlarmArcsOverwrited",
+                false,
                 out error))
             {
                 return false;
@@ -2519,9 +2531,9 @@ namespace Contal.Cgp.DBSCreator
             if (error != null)
                 return false;
 
-            var idLoginsWithAccessInDe = new HashSet<Guid>(loginsWithAccessInDe.Select(row => (Guid) row[0]));
+            var idLoginsWithAccessInDe = new HashSet<Guid>(loginsWithAccessInDe.Select(row => (Guid)row[0]));
 
-            foreach (var idLogin in loginsWithAccessInDcu.Select(row => (Guid) row[0]))
+            foreach (var idLogin in loginsWithAccessInDcu.Select(row => (Guid)row[0]))
             {
                 if (!idLoginsWithAccessInDe.Contains(idLogin))
                 {
@@ -2615,8 +2627,8 @@ namespace Contal.Cgp.DBSCreator
 
             foreach (var implicitAaCardReader in implicitAaCardReaders)
             {
-                var idAlarmArea = (Guid) implicitAaCardReader[0];
-                var idCardReader = (Guid) implicitAaCardReader[1];
+                var idAlarmArea = (Guid)implicitAaCardReader[0];
+                var idCardReader = (Guid)implicitAaCardReader[1];
 
                 var implicitAlarmAreas = _databaseCommandExecutor.RunSqlQuery(
                     string.Format(
@@ -2631,11 +2643,11 @@ namespace Contal.Cgp.DBSCreator
 
                 if (implicitAlarmArea != null)
                 {
-                    var lockSecurityLevel = (byte?) implicitAlarmArea[0];
+                    var lockSecurityLevel = (byte?)implicitAlarmArea[0];
                     var unlockSecurityLevel = (byte?)implicitAlarmArea[1];
-                    var ginLength = (byte?) implicitAlarmArea[3];
+                    var ginLength = (byte?)implicitAlarmArea[3];
                     var gin = ginLength.HasValue && ginLength > 0
-                        ? (string) implicitAlarmArea[2]
+                        ? (string)implicitAlarmArea[2]
                         : string.Empty;
 
                     var cardReaders = _databaseCommandExecutor.RunSqlQuery(
@@ -2652,12 +2664,12 @@ namespace Contal.Cgp.DBSCreator
 
                     if (cardReader != null)
                     {
-                        var slForEnterToMenu = (byte?) cardReader[0];
+                        var slForEnterToMenu = (byte?)cardReader[0];
 
                         if (lockSecurityLevel == 2 || unlockSecurityLevel == 2)
                             slForEnterToMenu = slForEnterToMenu.HasValue
-                                ? (byte) 2
-                                : (byte) 3;
+                                ? (byte)2
+                                : (byte)3;
 
                         if (!_databaseCommandExecutor.RunSqlNonQuery(
                             string.Format(
@@ -2885,8 +2897,8 @@ namespace Contal.Cgp.DBSCreator
         {
             //set ccus FullTextSearchString
             var centralRegisterTable = _databaseCommandExecutor.RunSqlQuery(
-                "SELECT Id, Name FROM CentralNameRegister WHERE ObjectType = 21", 
-                false, 
+                "SELECT Id, Name FROM CentralNameRegister WHERE ObjectType = 21",
+                false,
                 out error);
 
             if (error != null)
@@ -2896,8 +2908,8 @@ namespace Contal.Cgp.DBSCreator
             {
                 foreach (object[] row in centralRegisterTable)
                 {
-                    var idCcu = (Guid) row[0];
-                    var nameCcu = (string) row[1];
+                    var idCcu = (Guid)row[0];
+                    var nameCcu = (string)row[1];
 
                     var ccuTable = _databaseCommandExecutor.RunSqlQuery(
                         string.Format("SELECT IndexCCU FROM CCU WHERE IdCCU = '{0}'", idCcu),
@@ -2957,7 +2969,7 @@ namespace Contal.Cgp.DBSCreator
 
                     if (alarmAreasTable.Count > 0)
                     {
-                        var indexAlarmArea = (int) alarmAreasTable[0][0];
+                        var indexAlarmArea = (int)alarmAreasTable[0][0];
 
                         string fullTextSearchString = string.Format("{0}\t{1}\t{2}",
                             nameAlarmArea,
@@ -3006,7 +3018,7 @@ namespace Contal.Cgp.DBSCreator
                     if (inputsTable.Count == 0)
                         continue;
 
-                    var nickName = (string) inputsTable[0][0];
+                    var nickName = (string)inputsTable[0][0];
 
                     var alarmAreaInputsTable = _databaseCommandExecutor.RunSqlQuery(
                         string.Format("SELECT Id, AlarmArea FROM AAInput WHERE Input = '{0}'", idInput),
@@ -3023,8 +3035,8 @@ namespace Contal.Cgp.DBSCreator
 
                     foreach (object[] aaInputRecord in alarmAreaInputsTable)
                     {
-                        var indexAAInput = (int) aaInputRecord[0];
-                        var alarmAreaId = (Guid) aaInputRecord[1];
+                        var indexAAInput = (int)aaInputRecord[0];
+                        var alarmAreaId = (Guid)aaInputRecord[1];
 
                         var alarmAreasTable = _databaseCommandExecutor.RunSqlQuery(
                             string.Format("SELECT Id FROM AlarmArea WHERE IdAlarmArea = '{0}'", alarmAreaId),
@@ -3036,7 +3048,7 @@ namespace Contal.Cgp.DBSCreator
 
                         if (alarmAreasTable.Count > 0)
                         {
-                            var indexAlarmArea = (int) alarmAreasTable[0][0];
+                            var indexAlarmArea = (int)alarmAreasTable[0][0];
 
                             if (inputIndexes.Length == 0)
                             {
@@ -3140,7 +3152,7 @@ namespace Contal.Cgp.DBSCreator
             if (error != null)
                 return false;
 
-            var inputsIds = inputsIdsTable.Select(obj => (Guid) obj[0]);
+            var inputsIds = inputsIdsTable.Select(obj => (Guid)obj[0]);
 
             inputsIdsTable = _databaseCommandExecutor.RunSqlQuery(
                 "SELECT ObjForForcedTimeBuyingId FROM AlarmArea WHERE ObjForForcedTimeBuyingId is not NULL AND ObjForForcedTimeBuyingType LIKE '%Beans.Input%'",
@@ -3150,7 +3162,7 @@ namespace Contal.Cgp.DBSCreator
             if (error != null)
                 return false;
 
-            inputsIds = inputsIds.Concat(inputsIdsTable.Select(obj => (Guid) obj[0]));
+            inputsIds = inputsIds.Concat(inputsIdsTable.Select(obj => (Guid)obj[0]));
 
             var inputIdsString = new StringBuilder();
 
@@ -3405,6 +3417,68 @@ namespace Contal.Cgp.DBSCreator
             return true;
         }
 
+        private bool ConversionCgpNCASServerBeans2_24(out Exception error)
+        {
+            if (!_databaseCommandExecutor.ColumnExists(
+                "DoorEnvironment",
+                "LprCameraInternal",
+                false))
+            {
+                if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE DoorEnvironment ADD LprCameraInternal uniqueidentifier NULL",
+                    false,
+                    out error))
+                {
+                    return false;
+                }
+            }
+
+            if (!_databaseCommandExecutor.ColumnExists(
+                "DoorEnvironment",
+                "LprCameraExternal",
+                false))
+            {
+                if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE DoorEnvironment ADD LprCameraExternal uniqueidentifier NULL",
+                    false,
+                    out error))
+                {
+                    return false;
+                }
+            }
+
+            if (!_databaseCommandExecutor.ColumnExists(
+                "LprCamera",
+                "DCU",
+                false))
+            {
+                if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE LprCamera ADD DCU uniqueidentifier NULL",
+                    false,
+                    out error))
+                {
+                    return false;
+                }
+            }
+
+            if (!_databaseCommandExecutor.ColumnExists(
+                "LprCamera",
+                "GuidDCU",
+                false))
+            {
+                if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    "ALTER TABLE LprCamera ADD GuidDCU uniqueidentifier NULL",
+                    false,
+                    out error))
+                {
+                    return false;
+                }
+            }
+
+            error = null;
+            return true;
+        }
+
         private bool DeleteConstraints(string tableName, string columnName, out Exception error, string constraintType)
         {
             try
@@ -3416,12 +3490,12 @@ namespace Contal.Cgp.DBSCreator
 
                 if (!string.IsNullOrEmpty(columnName))
                     condition.AppendFormat(
-                        " AND COLUMN_NAME = '{0}'", 
+                        " AND COLUMN_NAME = '{0}'",
                         columnName);
 
                 if (!string.IsNullOrEmpty(constraintType))
                     condition.AppendFormat(
-                        " AND CONSTRAINT_TYPE='{0}'", 
+                        " AND CONSTRAINT_TYPE='{0}'",
                         constraintType);
 
                 var loginConstraint = _databaseCommandExecutor.RunSqlQuery(string.Format(
@@ -3461,8 +3535,8 @@ namespace Contal.Cgp.DBSCreator
             try
             {
                 if (!_databaseCommandExecutor.ColumnExists(
-                    "Eventlog", 
-                    "Date", 
+                    "Eventlog",
+                    "Date",
                     /*_creatorProperties.EnableExternDatabase*/ true))
                 {
                     error = new Exception("Column [Date] does not exist in the table [Eventlog]");
@@ -3474,8 +3548,8 @@ namespace Contal.Cgp.DBSCreator
                 string command = "Drop index IndexEventlogDateTime on [Eventlog]";
 
                 _databaseCommandExecutor.RunSqlNonQuery(
-                    command, 
-                    /*_creatorProperties.EnableExternDatabase*/ true, 
+                    command,
+                    /*_creatorProperties.EnableExternDatabase*/ true,
                     out notFatalError);
 
                 command = "Alter table [Eventlog] drop column [EventlogDateTime]";
@@ -3487,56 +3561,56 @@ namespace Contal.Cgp.DBSCreator
 
                 command = "Alter table [Eventlog] add [EventlogDateTime] DateTime2(3) null";
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error))
                     return false;
 
                 command = "Create index IndexEventlogDateTime on [Eventlog] ([EventlogDateTime])";
 
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error))
                     return false;
 
                 command = "UPDATE [Eventlog] set [EventlogDateTime] = [Date]";
 
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error))
                     return false;
 
                 command = "UPDATE [Eventlog] set [EventlogDateTime] = DATEADD(MILLISECOND, [Miliseconds], [EventlogDateTime])";
 
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error))
                     return false;
 
                 command = "Drop index IndexEventlogDate on [Eventlog]";
 
                 _databaseCommandExecutor.RunSqlNonQuery(
-                    command, 
-                    /*_creatorProperties.EnableExternDatabase*/ true, 
+                    command,
+                    /*_creatorProperties.EnableExternDatabase*/ true,
                     out notFatalError);
 
                 command = "Alter table [Eventlog] drop column [Date]";
 
                 if (!_databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error))
                     return false;
 
                 command = "UPDATE [Eventlog] set [Miliseconds] = -1";
 
-                return 
+                return
                     _databaseCommandExecutor.RunSqlNonQuery(
-                        command, 
-                        /*_creatorProperties.EnableExternDatabase*/ true, 
+                        command,
+                        /*_creatorProperties.EnableExternDatabase*/ true,
                         out error);
             }
             catch (Exception exception)
@@ -3657,7 +3731,7 @@ namespace Contal.Cgp.DBSCreator
                 return false;
             }
 
-            var dbFiles = 
+            var dbFiles =
                 _databaseCommandExecutor.RunSqlQuery(
                     "select name, type, size, max_size, growth, is_percent_growth from sys.database_files",
                     isExtern,
@@ -3701,7 +3775,7 @@ namespace Contal.Cgp.DBSCreator
                 var growth = (int)currentDbFileParams[4];
                 var isPercentGrowth = (bool)currentDbFileParams[5];
 
-                bool fileParametersChanged = 
+                bool fileParametersChanged =
                     currentFileParams.AppendToUpdateCommandText(
                         updateCommand,
                         (string)currentDbFileParams[0],

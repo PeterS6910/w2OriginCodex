@@ -30,6 +30,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNHEALTHSTATE = "HealthState";
         public const string COLUMNCCU = "CCU";
         public const string COLUMNGUIDCCU = "GuidCCU";
+        public const string COLUMNDCU = "DCU";
+        public const string COLUMNGUIDDCU = "GuidDCU";
         public const string COLUMNDESCRIPTION = "Description";
         public const string COLUMNLOCALALARMINSTRUCTION = "LocalAlarmInstruction";
         public const string COLUMNOBJECTTYPE = "ObjectType";
@@ -86,6 +88,17 @@ namespace Contal.Cgp.NCAS.Server.Beans
             set { _guidCCU = value; }
         }
 
+        public virtual DCU DCU { get; set; }
+
+        private Guid _guidDCU = Guid.Empty;
+
+        [LwSerialize]
+        public virtual Guid GuidDCU
+        {
+            get { return _guidDCU; }
+            set { _guidDCU = value; }
+        }
+
         public virtual string Description { get; set; }
 
         public virtual bool EnableParentInFullName { get; set; }
@@ -137,7 +150,20 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
         public virtual void PrepareToSend()
         {
-            GuidCCU = CCU != null ? CCU.IdCCU : Guid.Empty;
+            if (CCU != null)
+            {
+                GuidCCU = CCU.IdCCU;
+            }
+            else if (DCU != null && DCU.CCU != null)
+            {
+                GuidCCU = DCU.CCU.IdCCU;
+            }
+            else
+            {
+                GuidCCU = Guid.Empty;
+            }
+
+            GuidDCU = DCU != null ? DCU.IdDCU : Guid.Empty;
         }
 
         public virtual string GetLocalAlarmInstruction()
@@ -169,7 +195,11 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
             if (EnableParentInFullName)
             {
-                if (CCU != null)
+                if (DCU != null)
+                {
+                    result += DCU + StringConstants.SLASHWITHSPACES;
+                }
+                else if (CCU != null)
                 {
                     result += CCU + StringConstants.SLASHWITHSPACES;
                 }
@@ -211,6 +241,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMN_DESCRIPTION = "Description";
         public const string COLUMN_SYMBOL = "Symbol";
         public const string COLUMN_GUID_CCU = "GuidCCU";
+        public const string COLUMN_GUID_DCU = "GuidDCU";
         public const string COLUMN_IP_ADDRESS = "IpAddress";
         public const string COLUMN_MAC_ADDRESS = "MacAddress";
         public const string COLUMN_PORT = "Port";
@@ -237,6 +268,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public string Location { get; set; }
         [LwSerialize]
         public Guid? GuidCCU { get; set; }
+        [LwSerialize]
+        public Guid? GuidDCU { get; set; }
         [LwSerialize]
         public string Description { get; set; }
         [LwSerialize]
@@ -300,7 +333,12 @@ namespace Contal.Cgp.NCAS.Server.Beans
                 FullName = camera.ToString(),
                 Description = camera.Description,
                 GuidCCU = camera.GuidCCU,
-                Location = camera.CCU != null ? camera.CCU.ToString() : null,
+                GuidDCU = camera.GuidDCU,
+                Location = camera.DCU != null
+                    ? camera.DCU.ToString()
+                    : camera.CCU != null
+                        ? camera.CCU.ToString()
+                        : null,
                 LastLicensePlate = camera.LastLicensePlate,
                 OnlineState = camera.IsOnline ? OnlineState.Online : OnlineState.Offline,
                 IpAddress = camera.IpAddress,
@@ -417,6 +455,20 @@ namespace Contal.Cgp.NCAS.Server.Beans
                     var guid = property.GetValue(value, null);
                     if (guid is Guid)
                         result.GuidCCU = (Guid)guid;
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var property = type.GetProperty("GuidDCU");
+                if (property != null)
+                {
+                    var guid = property.GetValue(value, null);
+                    if (guid is Guid)
+                        result.GuidDCU = (Guid)guid;
                 }
             }
             catch

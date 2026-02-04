@@ -29,7 +29,12 @@ namespace Contal.Cgp.NCAS.Server.DB
         {
             var camera = ormObject as LprCamera;
 
-            return camera != null ? camera.CCU : null;
+            if (camera == null)
+                return null;
+
+            return camera.DCU != null
+                ? (AOrmObject)camera.DCU
+                : camera.CCU;
         }
 
         protected override IModifyObject CreateModifyObject(LprCamera ormbObject)
@@ -39,6 +44,9 @@ namespace Contal.Cgp.NCAS.Server.DB
 
         protected override IEnumerable<AOrmObject> GetDirectReferencesInternal(LprCamera camera)
         {
+            if (camera != null && camera.DCU != null)
+                yield return camera.DCU;
+
             if (camera != null && camera.CCU != null)
                 yield return camera.CCU;
         }
@@ -99,12 +107,18 @@ namespace Contal.Cgp.NCAS.Server.DB
 
         protected override void LoadObjectsInRelationship(LprCamera obj)
         {
+            if (obj != null && obj.DCU != null)
+                obj.DCU = DCUs.Singleton.GetById(obj.DCU.IdDCU);
+
             if (obj != null && obj.CCU != null)
                 obj.CCU = CCUs.Singleton.GetById(obj.CCU.IdCCU);
         }
 
         protected override void LoadObjectsInRelationshipGetById(LprCamera obj)
         {
+            if (obj != null && obj.DCU != null)
+                obj.DCU = DCUs.Singleton.GetById(obj.DCU.IdDCU);
+
             if (obj != null && obj.CCU != null)
                 obj.CCU = CCUs.Singleton.GetById(obj.CCU.IdCCU);
         }

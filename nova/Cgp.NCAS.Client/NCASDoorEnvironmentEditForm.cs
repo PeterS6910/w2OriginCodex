@@ -736,8 +736,8 @@ namespace Contal.Cgp.NCAS.Client
                 }
             }
 
-            _lprCameraInternal = null;
-            _lprCameraExternal = null;
+            _lprCameraInternal = _editingObject.LprCameraInternal;
+            _lprCameraExternal = _editingObject.LprCameraExternal;
             RefreshInternalLprCamera();
             RefreshExternalLprCamera();
 
@@ -1277,6 +1277,9 @@ namespace Contal.Cgp.NCAS.Client
                     _editingObject.CardReaderExternal = null;
                     _editingObject.PushButtonExternal = null;
                 }
+
+                _editingObject.LprCameraInternal = _lprCameraInternal;
+                _editingObject.LprCameraExternal = _lprCameraExternal;
 
                 //Door ajar
                 _editingObject.DoorAjarAlarmOn = _catsDsmDoorAjar.AlarmEnabledCheckState;
