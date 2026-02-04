@@ -206,10 +206,10 @@ namespace Contal.Cgp.NCAS.Client
             // _eName
             // 
             this._eName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._eName.Location = new System.Drawing.Point(169, 12);
             this._eName.Name = "_eName";
-            this._eName.Size = new System.Drawing.Size(458, 20);
+            this._eName.Size = new System.Drawing.Size(458, 22);
             this._eName.TabIndex = 0;
             this._eName.TextChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
             // 
@@ -218,66 +218,66 @@ namespace Contal.Cgp.NCAS.Client
             this._lName.AutoSize = true;
             this._lName.Location = new System.Drawing.Point(12, 15);
             this._lName.Name = "_lName";
-            this._lName.Size = new System.Drawing.Size(35, 13);
+            this._lName.Size = new System.Drawing.Size(44, 16);
             this._lName.TabIndex = 0;
             this._lName.Text = "Name";
             // 
             // _tsiModify2
             // 
             this._tsiModify2.Name = "_tsiModify2";
-            this._tsiModify2.Size = new System.Drawing.Size(117, 22);
+            this._tsiModify2.Size = new System.Drawing.Size(132, 24);
             this._tsiModify2.Text = "Modify";
             // 
             // _tsiRemove2
             // 
             this._tsiRemove2.Name = "_tsiRemove2";
-            this._tsiRemove2.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemove2.Size = new System.Drawing.Size(132, 24);
             this._tsiRemove2.Text = "Remove";
             // 
             // _tsiModify1
             // 
             this._tsiModify1.Name = "_tsiModify1";
-            this._tsiModify1.Size = new System.Drawing.Size(117, 22);
+            this._tsiModify1.Size = new System.Drawing.Size(132, 24);
             this._tsiModify1.Text = "Modify";
             // 
             // _tsiRemove1
             // 
             this._tsiRemove1.Name = "_tsiRemove1";
-            this._tsiRemove1.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemove1.Size = new System.Drawing.Size(132, 24);
             this._tsiRemove1.Text = "Remove";
             // 
             // _tsiModifyLprInternal
             // 
             this._tsiModifyLprInternal.Name = "_tsiModifyLprInternal";
-            this._tsiModifyLprInternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiModifyLprInternal.Size = new System.Drawing.Size(132, 24);
             this._tsiModifyLprInternal.Text = "Modify";
             // 
             // _tsiRemoveLprInternal
             // 
             this._tsiRemoveLprInternal.Name = "_tsiRemoveLprInternal";
-            this._tsiRemoveLprInternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemoveLprInternal.Size = new System.Drawing.Size(132, 24);
             this._tsiRemoveLprInternal.Text = "Remove";
             // 
             // _tsiModifyLprExternal
             // 
             this._tsiModifyLprExternal.Name = "_tsiModifyLprExternal";
-            this._tsiModifyLprExternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiModifyLprExternal.Size = new System.Drawing.Size(132, 24);
             this._tsiModifyLprExternal.Text = "Modify";
             // 
             // _tsiRemoveLprExternal
             // 
             this._tsiRemoveLprExternal.Name = "_tsiRemoveLprExternal";
-            this._tsiRemoveLprExternal.Size = new System.Drawing.Size(117, 22);
+            this._tsiRemoveLprExternal.Size = new System.Drawing.Size(132, 24);
             this._tsiRemoveLprExternal.Text = "Remove";
             // 
             // _eResultAccessGranted
             // 
             this._eResultAccessGranted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._eResultAccessGranted.Location = new System.Drawing.Point(169, 94);
             this._eResultAccessGranted.Name = "_eResultAccessGranted";
             this._eResultAccessGranted.ReadOnly = true;
-            this._eResultAccessGranted.Size = new System.Drawing.Size(458, 20);
+            this._eResultAccessGranted.Size = new System.Drawing.Size(458, 22);
             this._eResultAccessGranted.TabIndex = 3;
             // 
             // _bAccessGranted
@@ -404,19 +404,19 @@ namespace Contal.Cgp.NCAS.Client
             this._lActualState.AutoSize = true;
             this._lActualState.Location = new System.Drawing.Point(12, 41);
             this._lActualState.Name = "_lActualState";
-            this._lActualState.Size = new System.Drawing.Size(63, 13);
+            this._lActualState.Size = new System.Drawing.Size(76, 16);
             this._lActualState.TabIndex = 2;
             this._lActualState.Text = "Actual state";
             // 
             // _eActualState
             // 
             this._eActualState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._eActualState.BackColor = System.Drawing.SystemColors.Window;
             this._eActualState.Location = new System.Drawing.Point(169, 38);
             this._eActualState.Name = "_eActualState";
             this._eActualState.ReadOnly = true;
-            this._eActualState.Size = new System.Drawing.Size(458, 20);
+            this._eActualState.Size = new System.Drawing.Size(458, 22);
             this._eActualState.TabIndex = 1;
             // 
             // _bApply
@@ -433,8 +433,8 @@ namespace Contal.Cgp.NCAS.Client
             // _tcDoorsAutomat
             // 
             this._tcDoorsAutomat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tcDoorsAutomat.Controls.Add(this._tpDoorsTiming);
             this._tcDoorsAutomat.Controls.Add(this._tpApas);
             this._tcDoorsAutomat.Controls.Add(this._tpAlarmSettings);
@@ -455,10 +455,10 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDoorsTiming.BackColor = System.Drawing.Color.Transparent;
             this._tpDoorsTiming.Controls.Add(this._gbDoorsDelays);
             this._tpDoorsTiming.Controls.Add(this._gbDoorsTimes);
-            this._tpDoorsTiming.Location = new System.Drawing.Point(4, 22);
+            this._tpDoorsTiming.Location = new System.Drawing.Point(4, 25);
             this._tpDoorsTiming.Name = "_tpDoorsTiming";
             this._tpDoorsTiming.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 396);
+            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 393);
             this._tpDoorsTiming.TabIndex = 3;
             this._tpDoorsTiming.Text = "Doors Timing";
             this._tpDoorsTiming.UseVisualStyleBackColor = true;
@@ -486,7 +486,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDelayBeforeLock.AutoSize = true;
             this._lDelayBeforeLock.Location = new System.Drawing.Point(6, 47);
             this._lDelayBeforeLock.Name = "_lDelayBeforeLock";
-            this._lDelayBeforeLock.Size = new System.Drawing.Size(83, 13);
+            this._lDelayBeforeLock.Size = new System.Drawing.Size(104, 16);
             this._lDelayBeforeLock.TabIndex = 2;
             this._lDelayBeforeLock.Text = "Before lock (ms)";
             // 
@@ -504,7 +504,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eDelayBeforeLock.Name = "_eDelayBeforeLock";
-            this._eDelayBeforeLock.Size = new System.Drawing.Size(120, 20);
+            this._eDelayBeforeLock.Size = new System.Drawing.Size(120, 22);
             this._eDelayBeforeLock.TabIndex = 8;
             this._eDelayBeforeLock.ValueChanged += new System.EventHandler(this.EditTextChanger);
             // 
@@ -512,9 +512,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._chbNotInvokeIntrusionAlarm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._chbNotInvokeIntrusionAlarm.AutoSize = true;
-            this._chbNotInvokeIntrusionAlarm.Location = new System.Drawing.Point(18, 123);
+            this._chbNotInvokeIntrusionAlarm.Location = new System.Drawing.Point(-26, 123);
             this._chbNotInvokeIntrusionAlarm.Name = "_chbNotInvokeIntrusionAlarm";
-            this._chbNotInvokeIntrusionAlarm.Size = new System.Drawing.Size(194, 17);
+            this._chbNotInvokeIntrusionAlarm.Size = new System.Drawing.Size(238, 20);
             this._chbNotInvokeIntrusionAlarm.TabIndex = 11;
             this._chbNotInvokeIntrusionAlarm.Text = "Treat \"before intrusion\" as filtertime ";
             this._chbNotInvokeIntrusionAlarm.UseVisualStyleBackColor = true;
@@ -525,7 +525,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDelayBeforeBreakIn.AutoSize = true;
             this._lDelayBeforeBreakIn.Location = new System.Drawing.Point(6, 99);
             this._lDelayBeforeBreakIn.Name = "_lDelayBeforeBreakIn";
-            this._lDelayBeforeBreakIn.Size = new System.Drawing.Size(102, 13);
+            this._lDelayBeforeBreakIn.Size = new System.Drawing.Size(128, 16);
             this._lDelayBeforeBreakIn.TabIndex = 6;
             this._lDelayBeforeBreakIn.Text = "Before intrusion (ms)";
             // 
@@ -534,7 +534,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDelayBeforeClose.AutoSize = true;
             this._lDelayBeforeClose.Location = new System.Drawing.Point(6, 73);
             this._lDelayBeforeClose.Name = "_lDelayBeforeClose";
-            this._lDelayBeforeClose.Size = new System.Drawing.Size(88, 13);
+            this._lDelayBeforeClose.Size = new System.Drawing.Size(112, 16);
             this._lDelayBeforeClose.TabIndex = 4;
             this._lDelayBeforeClose.Text = "Before close (ms)";
             // 
@@ -543,7 +543,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lDelayBeforeUnlock.AutoSize = true;
             this._lDelayBeforeUnlock.Location = new System.Drawing.Point(6, 21);
             this._lDelayBeforeUnlock.Name = "_lDelayBeforeUnlock";
-            this._lDelayBeforeUnlock.Size = new System.Drawing.Size(95, 13);
+            this._lDelayBeforeUnlock.Size = new System.Drawing.Size(118, 16);
             this._lDelayBeforeUnlock.TabIndex = 0;
             this._lDelayBeforeUnlock.Text = "Before unlock (ms)";
             // 
@@ -561,7 +561,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eDelayBeforeBreakIn.Name = "_eDelayBeforeBreakIn";
-            this._eDelayBeforeBreakIn.Size = new System.Drawing.Size(120, 20);
+            this._eDelayBeforeBreakIn.Size = new System.Drawing.Size(120, 22);
             this._eDelayBeforeBreakIn.TabIndex = 10;
             this._eDelayBeforeBreakIn.ValueChanged += new System.EventHandler(this.EditTextChanger);
             // 
@@ -579,7 +579,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eDelayBeforeClose.Name = "_eDelayBeforeClose";
-            this._eDelayBeforeClose.Size = new System.Drawing.Size(120, 20);
+            this._eDelayBeforeClose.Size = new System.Drawing.Size(120, 22);
             this._eDelayBeforeClose.TabIndex = 9;
             this._eDelayBeforeClose.Value = new decimal(new int[] {
             1000,
@@ -602,7 +602,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eDelayBeforeUnlock.Name = "_eDelayBeforeUnlock";
-            this._eDelayBeforeUnlock.Size = new System.Drawing.Size(120, 20);
+            this._eDelayBeforeUnlock.Size = new System.Drawing.Size(120, 22);
             this._eDelayBeforeUnlock.TabIndex = 7;
             this._eDelayBeforeUnlock.Value = new decimal(new int[] {
             200,
@@ -633,7 +633,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lTimePreAlarm.AutoSize = true;
             this._lTimePreAlarm.Location = new System.Drawing.Point(6, 73);
             this._lTimePreAlarm.Name = "_lTimePreAlarm";
-            this._lTimePreAlarm.Size = new System.Drawing.Size(66, 13);
+            this._lTimePreAlarm.Size = new System.Drawing.Size(85, 16);
             this._lTimePreAlarm.TabIndex = 4;
             this._lTimePreAlarm.Text = "Pre-Alarm (s)";
             // 
@@ -646,7 +646,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eTimePreAlarm.Name = "_eTimePreAlarm";
-            this._eTimePreAlarm.Size = new System.Drawing.Size(120, 20);
+            this._eTimePreAlarm.Size = new System.Drawing.Size(120, 22);
             this._eTimePreAlarm.TabIndex = 5;
             this._eTimePreAlarm.Value = new decimal(new int[] {
             15,
@@ -660,7 +660,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lTimeSirenAjar.AutoSize = true;
             this._lTimeSirenAjar.Location = new System.Drawing.Point(6, 99);
             this._lTimeSirenAjar.Name = "_lTimeSirenAjar";
-            this._lTimeSirenAjar.Size = new System.Drawing.Size(103, 13);
+            this._lTimeSirenAjar.Size = new System.Drawing.Size(132, 16);
             this._lTimeSirenAjar.TabIndex = 6;
             this._lTimeSirenAjar.Text = "Door alarm delay  (s)";
             this._lTimeSirenAjar.Visible = false;
@@ -670,7 +670,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lTimeOpen.AutoSize = true;
             this._lTimeOpen.Location = new System.Drawing.Point(6, 47);
             this._lTimeOpen.Name = "_lTimeOpen";
-            this._lTimeOpen.Size = new System.Drawing.Size(47, 13);
+            this._lTimeOpen.Size = new System.Drawing.Size(58, 16);
             this._lTimeOpen.TabIndex = 2;
             this._lTimeOpen.Text = "Open (s)";
             // 
@@ -683,7 +683,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eTimeSirenAjar.Name = "_eTimeSirenAjar";
-            this._eTimeSirenAjar.Size = new System.Drawing.Size(120, 20);
+            this._eTimeSirenAjar.Size = new System.Drawing.Size(120, 22);
             this._eTimeSirenAjar.TabIndex = 6;
             this._eTimeSirenAjar.Visible = false;
             this._eTimeSirenAjar.ValueChanged += new System.EventHandler(this.EditTextChanger);
@@ -697,7 +697,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eTimeOpen.Name = "_eTimeOpen";
-            this._eTimeOpen.Size = new System.Drawing.Size(120, 20);
+            this._eTimeOpen.Size = new System.Drawing.Size(120, 22);
             this._eTimeOpen.TabIndex = 4;
             this._eTimeOpen.Value = new decimal(new int[] {
             30,
@@ -715,7 +715,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eTimeUnlock.Name = "_eTimeUnlock";
-            this._eTimeUnlock.Size = new System.Drawing.Size(120, 20);
+            this._eTimeUnlock.Size = new System.Drawing.Size(120, 22);
             this._eTimeUnlock.TabIndex = 3;
             this._eTimeUnlock.Value = new decimal(new int[] {
             5,
@@ -729,7 +729,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lTimeUnlock.AutoSize = true;
             this._lTimeUnlock.Location = new System.Drawing.Point(6, 21);
             this._lTimeUnlock.Name = "_lTimeUnlock";
-            this._lTimeUnlock.Size = new System.Drawing.Size(55, 13);
+            this._lTimeUnlock.Size = new System.Drawing.Size(67, 16);
             this._lTimeUnlock.TabIndex = 0;
             this._lTimeUnlock.Text = "Unlock (s)";
             // 
@@ -740,10 +740,10 @@ namespace Contal.Cgp.NCAS.Client
             this._tpApas.Controls.Add(this._gbCardReaders);
             this._tpApas.Controls.Add(this._gbActuators);
             this._tpApas.Controls.Add(this._gbSensors);
-            this._tpApas.Location = new System.Drawing.Point(4, 22);
+            this._tpApas.Location = new System.Drawing.Point(4, 25);
             this._tpApas.Name = "_tpApas";
             this._tpApas.Padding = new System.Windows.Forms.Padding(3);
-            this._tpApas.Size = new System.Drawing.Size(849, 396);
+            this._tpApas.Size = new System.Drawing.Size(849, 393);
             this._tpApas.TabIndex = 5;
             this._tpApas.Text = "APAS";
             this._tpApas.UseVisualStyleBackColor = true;
@@ -751,7 +751,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bUnconfigureDoorEnvironment
             // 
             this._bUnconfigureDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 403);
+            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 400);
             this._bUnconfigureDoorEnvironment.Name = "_bUnconfigureDoorEnvironment";
             this._bUnconfigureDoorEnvironment.Size = new System.Drawing.Size(195, 23);
             this._bUnconfigureDoorEnvironment.TabIndex = 3;
@@ -762,7 +762,7 @@ namespace Contal.Cgp.NCAS.Client
             // _gbCardReaders
             // 
             this._gbCardReaders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbCardReaders.Controls.Add(this._tbmExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._tbmInternalLprCamera);
             this._gbCardReaders.Controls.Add(this._tbmExternalCardReader);
@@ -785,16 +785,17 @@ namespace Contal.Cgp.NCAS.Client
             // _tbmExternalLprCamera
             // 
             this._tbmExternalLprCamera.AllowDrop = true;
-            this._tbmExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._tbmExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalLprCamera.BackColor = System.Drawing.SystemColors.Control;
             // 
             // 
             // 
             this._tbmExternalLprCamera.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalLprCamera.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmExternalLprCamera.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalLprCamera.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._tbmExternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
-            this._tbmExternalLprCamera.Button.Location = new System.Drawing.Point(333, 0);
+            this._tbmExternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.Button.Image")));
+            this._tbmExternalLprCamera.Button.Location = new System.Drawing.Point(215, 0);
             this._tbmExternalLprCamera.Button.Name = "_bMenu";
             this._tbmExternalLprCamera.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmExternalLprCamera.Button.TabIndex = 3;
@@ -802,7 +803,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
             this._tbmExternalLprCamera.ButtonDefaultBehaviour = true;
             this._tbmExternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this._tbmExternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ButtonImage")));
+            this._tbmExternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.ButtonImage")));
             // 
             // 
             // 
@@ -810,65 +811,62 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiModifyLprExternal,
             this._tsiRemoveLprExternal});
             this._tbmExternalLprCamera.ButtonPopupMenu.Name = "";
-            this._tbmExternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmExternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(133, 52);
             this._tbmExternalLprCamera.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
             this._tbmExternalLprCamera.ButtonShowImage = true;
             this._tbmExternalLprCamera.ButtonSizeHeight = 20;
             this._tbmExternalLprCamera.ButtonSizeWidth = 20;
             this._tbmExternalLprCamera.ButtonText = "";
-            this._tbmExternalLprCamera.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalLprCamera.HoverTime = 500;
             // 
             // 
             // 
-            this._tbmExternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._tbmExternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmExternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmExternalLprCamera.ButtonPopupMenu;
-            this._tbmExternalLprCamera.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._tbmExternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ImageTextBox.Image")));
+            this._tbmExternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.ImageTextBox.Image")));
             this._tbmExternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmExternalLprCamera.ImageTextBox.Name = "_textBox";
             this._tbmExternalLprCamera.ImageTextBox.NoTextNoImage = true;
             this._tbmExternalLprCamera.ImageTextBox.ReadOnly = true;
-            this._tbmExternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(333, 20);
+            this._tbmExternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(215, 20);
             this._tbmExternalLprCamera.ImageTextBox.TabIndex = 0;
             // 
             // 
             // 
-            this._tbmExternalLprCamera.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._tbmExternalLprCamera.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalLprCamera.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._tbmExternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this._tbmExternalLprCamera.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmExternalLprCamera.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmExternalLprCamera.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmExternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(331, 13);
+            this._tbmExternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmExternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalLprCamera.ImageTextBox.UseImage = true;
             this._tbmExternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmExternalLprCamera_DoubleClick);
-            this._tbmExternalLprCamera.Location = new System.Drawing.Point(477, 66);
+            this._tbmExternalLprCamera.Location = new System.Drawing.Point(591, 66);
             this._tbmExternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
             this._tbmExternalLprCamera.MinimumSize = new System.Drawing.Size(30, 22);
             this._tbmExternalLprCamera.Name = "_tbmExternalLprCamera";
-            this._tbmExternalLprCamera.Size = new System.Drawing.Size(353, 22);
+            this._tbmExternalLprCamera.Size = new System.Drawing.Size(235, 22);
             this._tbmExternalLprCamera.TabIndex = 9;
-            this._tbmExternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
+            this._tbmExternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.TextImage")));
             this._tbmExternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmExternalLprCamera_ButtonPopupMenuItemClick);
             // 
             // _tbmInternalLprCamera
             // 
             this._tbmInternalLprCamera.AllowDrop = true;
-            this._tbmInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._tbmInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalLprCamera.BackColor = System.Drawing.SystemColors.Control;
             // 
             // 
             // 
             this._tbmInternalLprCamera.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalLprCamera.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmInternalLprCamera.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalLprCamera.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._tbmInternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
-            this._tbmInternalLprCamera.Button.Location = new System.Drawing.Point(333, 0);
+            this._tbmInternalLprCamera.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.Button.Image")));
+            this._tbmInternalLprCamera.Button.Location = new System.Drawing.Point(215, 0);
             this._tbmInternalLprCamera.Button.Name = "_bMenu";
             this._tbmInternalLprCamera.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmInternalLprCamera.Button.TabIndex = 3;
@@ -876,7 +874,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
             this._tbmInternalLprCamera.ButtonDefaultBehaviour = true;
             this._tbmInternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this._tbmInternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ButtonImage")));
+            this._tbmInternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.ButtonImage")));
             // 
             // 
             // 
@@ -884,66 +882,63 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiModifyLprInternal,
             this._tsiRemoveLprInternal});
             this._tbmInternalLprCamera.ButtonPopupMenu.Name = "";
-            this._tbmInternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmInternalLprCamera.ButtonPopupMenu.Size = new System.Drawing.Size(133, 52);
             this._tbmInternalLprCamera.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
             this._tbmInternalLprCamera.ButtonShowImage = true;
             this._tbmInternalLprCamera.ButtonSizeHeight = 20;
             this._tbmInternalLprCamera.ButtonSizeWidth = 20;
             this._tbmInternalLprCamera.ButtonText = "";
-            this._tbmInternalLprCamera.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalLprCamera.HoverTime = 500;
             // 
             // 
             // 
-            this._tbmInternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._tbmInternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmInternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmInternalLprCamera.ButtonPopupMenu;
-            this._tbmInternalLprCamera.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._tbmInternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ImageTextBox.Image")));
+            this._tbmInternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.ImageTextBox.Image")));
             this._tbmInternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmInternalLprCamera.ImageTextBox.Name = "_textBox";
             this._tbmInternalLprCamera.ImageTextBox.NoTextNoImage = true;
             this._tbmInternalLprCamera.ImageTextBox.ReadOnly = true;
-            this._tbmInternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(333, 20);
+            this._tbmInternalLprCamera.ImageTextBox.Size = new System.Drawing.Size(215, 20);
             this._tbmInternalLprCamera.ImageTextBox.TabIndex = 0;
             // 
             // 
             // 
-            this._tbmInternalLprCamera.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._tbmInternalLprCamera.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalLprCamera.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._tbmInternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this._tbmInternalLprCamera.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmInternalLprCamera.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmInternalLprCamera.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmInternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(331, 13);
+            this._tbmInternalLprCamera.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmInternalLprCamera.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmInternalLprCamera.ImageTextBox.UseImage = true;
             this._tbmInternalLprCamera.ImageTextBox.DoubleClick += new System.EventHandler(this._tbmInternalLprCamera_DoubleClick);
-            this._tbmInternalLprCamera.Location = new System.Drawing.Point(477, 17);
+            this._tbmInternalLprCamera.Location = new System.Drawing.Point(595, 17);
             this._tbmInternalLprCamera.MaximumSize = new System.Drawing.Size(1200, 55);
             this._tbmInternalLprCamera.MinimumSize = new System.Drawing.Size(30, 22);
             this._tbmInternalLprCamera.Name = "_tbmInternalLprCamera";
-            this._tbmInternalLprCamera.Size = new System.Drawing.Size(2, 22);
+            this._tbmInternalLprCamera.Size = new System.Drawing.Size(235, 22);
             this._tbmInternalLprCamera.TabIndex = 8;
-            this._tbmInternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
+            this._tbmInternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.TextImage")));
             this._tbmInternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmInternalLprCamera_ButtonPopupMenuItemClick);
             // 
             // _tbmExternalCardReader
             // 
             this._tbmExternalCardReader.AllowDrop = true;
             this._tbmExternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.BackColor = System.Drawing.SystemColors.Control;
             // 
             // 
             // 
             this._tbmExternalCardReader.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmExternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmExternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.Button.Image")));
-            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(334, 0);
+            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(268, 0);
             this._tbmExternalCardReader.Button.Name = "_bMenu";
             this._tbmExternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmExternalCardReader.Button.TabIndex = 3;
@@ -959,42 +954,40 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiModify2,
             this._tsiRemove2});
             this._tbmExternalCardReader.ButtonPopupMenu.Name = "";
-            this._tbmExternalCardReader.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmExternalCardReader.ButtonPopupMenu.Size = new System.Drawing.Size(133, 52);
             this._tbmExternalCardReader.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
             this._tbmExternalCardReader.ButtonShowImage = true;
             this._tbmExternalCardReader.ButtonSizeHeight = 20;
             this._tbmExternalCardReader.ButtonSizeWidth = 20;
             this._tbmExternalCardReader.ButtonText = "";
-            this._tbmExternalCardReader.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalCardReader.HoverTime = 500;
             // 
             // 
             // 
             this._tbmExternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalCardReader.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmExternalCardReader.ImageTextBox.ContextMenuStrip = this._tbmExternalCardReader.ButtonPopupMenu;
-            this._tbmExternalCardReader.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalCardReader.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.ImageTextBox.Image")));
             this._tbmExternalCardReader.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmExternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmExternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmExternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(334, 20);
+            this._tbmExternalCardReader.ImageTextBox.Size = new System.Drawing.Size(268, 20);
             this._tbmExternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
             // 
             this._tbmExternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalCardReader.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._tbmExternalCardReader.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmExternalCardReader.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this._tbmExternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmExternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmExternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(332, 13);
+            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(266, 15);
             this._tbmExternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalCardReader.ImageTextBox.UseImage = true;
             this._tbmExternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1006,24 +999,25 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.Size = new System.Drawing.Size(354, 22);
             this._tbmExternalCardReader.TabIndex = 5;
             this._tbmExternalCardReader.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.TextImage")));
-            this._tbmExternalCardReader.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmExternalCardReader_DragOver);
-            this._tbmExternalCardReader.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmExternalCardReader_DragDrop);
             this._tbmExternalCardReader.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmExternalCardReader_ButtonPopupMenuItemClick);
+            this._tbmExternalCardReader.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmExternalCardReader_DragDrop);
+            this._tbmExternalCardReader.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmExternalCardReader_DragOver);
             // 
             // _tbmInternalCardReader
             // 
             this._tbmInternalCardReader.AllowDrop = true;
             this._tbmInternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.BackColor = System.Drawing.SystemColors.Control;
             // 
             // 
             // 
             this._tbmInternalCardReader.Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.Button.BackColor = System.Drawing.SystemColors.Control;
+            this._tbmInternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmInternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
-            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(333, 0);
+            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(267, 0);
             this._tbmInternalCardReader.Button.Name = "_bMenu";
             this._tbmInternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmInternalCardReader.Button.TabIndex = 3;
@@ -1039,42 +1033,40 @@ namespace Contal.Cgp.NCAS.Client
             this._tsiModify1,
             this._tsiRemove1});
             this._tbmInternalCardReader.ButtonPopupMenu.Name = "";
-            this._tbmInternalCardReader.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmInternalCardReader.ButtonPopupMenu.Size = new System.Drawing.Size(133, 52);
             this._tbmInternalCardReader.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
             this._tbmInternalCardReader.ButtonShowImage = true;
             this._tbmInternalCardReader.ButtonSizeHeight = 20;
             this._tbmInternalCardReader.ButtonSizeWidth = 20;
             this._tbmInternalCardReader.ButtonText = "";
-            this._tbmInternalCardReader.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalCardReader.HoverTime = 500;
             // 
             // 
             // 
             this._tbmInternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalCardReader.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmInternalCardReader.ImageTextBox.ContextMenuStrip = this._tbmInternalCardReader.ButtonPopupMenu;
-            this._tbmInternalCardReader.ImageTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalCardReader.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.ImageTextBox.Image")));
             this._tbmInternalCardReader.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmInternalCardReader.ImageTextBox.Name = "_textBox";
             this._tbmInternalCardReader.ImageTextBox.NoTextNoImage = true;
             this._tbmInternalCardReader.ImageTextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(333, 20);
+            this._tbmInternalCardReader.ImageTextBox.Size = new System.Drawing.Size(267, 20);
             this._tbmInternalCardReader.ImageTextBox.TabIndex = 0;
             // 
             // 
             // 
             this._tbmInternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalCardReader.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._tbmInternalCardReader.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._tbmInternalCardReader.ImageTextBox.TextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this._tbmInternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmInternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmInternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(331, 13);
+            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(265, 15);
             this._tbmInternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmInternalCardReader.ImageTextBox.UseImage = true;
             this._tbmInternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1086,9 +1078,9 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.Size = new System.Drawing.Size(353, 22);
             this._tbmInternalCardReader.TabIndex = 1;
             this._tbmInternalCardReader.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.TextImage")));
-            this._tbmInternalCardReader.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmInternalCardReader_DragOver);
-            this._tbmInternalCardReader.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmInternalCardReader_DragDrop);
             this._tbmInternalCardReader.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmInternalCardReader_ButtonPopupMenuItemClick);
+            this._tbmInternalCardReader.DragDrop += new System.Windows.Forms.DragEventHandler(this._tbmInternalCardReader_DragDrop);
+            this._tbmInternalCardReader.DragOver += new System.Windows.Forms.DragEventHandler(this._tbmInternalCardReader_DragOver);
             // 
             // _chbPushButtonInternalBalanced
             // 
@@ -1138,9 +1130,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._lExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._lExternalLprCamera.AutoSize = true;
-            this._lExternalLprCamera.Location = new System.Drawing.Point(523, 72);
+            this._lExternalLprCamera.Location = new System.Drawing.Point(485, 72);
             this._lExternalLprCamera.Name = "_lExternalLprCamera";
-            this._lExternalLprCamera.Size = new System.Drawing.Size(65, 13);
+            this._lExternalLprCamera.Size = new System.Drawing.Size(82, 16);
             this._lExternalLprCamera.TabIndex = 10;
             this._lExternalLprCamera.Text = "LPR camera";
             // 
@@ -1149,7 +1141,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lExternalCardReader.AutoSize = true;
             this._lExternalCardReader.Location = new System.Drawing.Point(6, 72);
             this._lExternalCardReader.Name = "_lExternalCardReader";
-            this._lExternalCardReader.Size = new System.Drawing.Size(45, 13);
+            this._lExternalCardReader.Size = new System.Drawing.Size(55, 16);
             this._lExternalCardReader.TabIndex = 4;
             this._lExternalCardReader.Text = "External";
             // 
@@ -1157,9 +1149,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._lInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._lInternalLprCamera.AutoSize = true;
-            this._lInternalLprCamera.Location = new System.Drawing.Point(523, 22);
+            this._lInternalLprCamera.Location = new System.Drawing.Point(485, 22);
             this._lInternalLprCamera.Name = "_lInternalLprCamera";
-            this._lInternalLprCamera.Size = new System.Drawing.Size(65, 13);
+            this._lInternalLprCamera.Size = new System.Drawing.Size(82, 16);
             this._lInternalLprCamera.TabIndex = 6;
             this._lInternalLprCamera.Text = "LPR camera";
             // 
@@ -1168,14 +1160,14 @@ namespace Contal.Cgp.NCAS.Client
             this._lInternalCardReader.AutoSize = true;
             this._lInternalCardReader.Location = new System.Drawing.Point(6, 22);
             this._lInternalCardReader.Name = "_lInternalCardReader";
-            this._lInternalCardReader.Size = new System.Drawing.Size(42, 13);
+            this._lInternalCardReader.Size = new System.Drawing.Size(50, 16);
             this._lInternalCardReader.TabIndex = 0;
             this._lInternalCardReader.Text = "Internal";
             // 
             // _gbActuators
             // 
             this._gbActuators.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbActuators.Controls.Add(this._eExtraElectricStrikeOppositeImpulseDelay);
             this._gbActuators.Controls.Add(this._chbExtraElectricStrikeOppositeImpulse);
             this._gbActuators.Controls.Add(this._lExtraElectricStrikeOpposite);
@@ -1219,7 +1211,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eExtraElectricStrikeOppositeImpulseDelay.Name = "_eExtraElectricStrikeOppositeImpulseDelay";
-            this._eExtraElectricStrikeOppositeImpulseDelay.Size = new System.Drawing.Size(74, 20);
+            this._eExtraElectricStrikeOppositeImpulseDelay.Size = new System.Drawing.Size(74, 22);
             this._eExtraElectricStrikeOppositeImpulseDelay.TabIndex = 17;
             this._eExtraElectricStrikeOppositeImpulseDelay.Value = new decimal(new int[] {
             1000,
@@ -1244,37 +1236,37 @@ namespace Contal.Cgp.NCAS.Client
             this._lExtraElectricStrikeOpposite.AutoSize = true;
             this._lExtraElectricStrikeOpposite.Location = new System.Drawing.Point(6, 122);
             this._lExtraElectricStrikeOpposite.Name = "_lExtraElectricStrikeOpposite";
-            this._lExtraElectricStrikeOpposite.Size = new System.Drawing.Size(139, 13);
+            this._lExtraElectricStrikeOpposite.Size = new System.Drawing.Size(174, 16);
             this._lExtraElectricStrikeOpposite.TabIndex = 14;
             this._lExtraElectricStrikeOpposite.Text = "Extra electric strike opposite";
             // 
             // _cbExtraElectricStrikeOpposite
             // 
             this._cbExtraElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbExtraElectricStrikeOpposite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbExtraElectricStrikeOpposite.FormattingEnabled = true;
             this._cbExtraElectricStrikeOpposite.Location = new System.Drawing.Point(163, 121);
             this._cbExtraElectricStrikeOpposite.Name = "_cbExtraElectricStrikeOpposite";
-            this._cbExtraElectricStrikeOpposite.Size = new System.Drawing.Size(432, 21);
+            this._cbExtraElectricStrikeOpposite.Size = new System.Drawing.Size(432, 24);
             this._cbExtraElectricStrikeOpposite.TabIndex = 15;
-            this._cbExtraElectricStrikeOpposite.EnabledChanged += new System.EventHandler(this._cbExtraElectricStrikeOpposite_EnabledChanged);
-            this._cbExtraElectricStrikeOpposite.SelectedIndexChanged += new System.EventHandler(this._cbExtraElectricStrikeOpposite_SelectedIndexChanged);
             this._cbExtraElectricStrikeOpposite.DropDown += new System.EventHandler(this.ActuatorsDropDown);
+            this._cbExtraElectricStrikeOpposite.SelectedIndexChanged += new System.EventHandler(this._cbExtraElectricStrikeOpposite_SelectedIndexChanged);
+            this._cbExtraElectricStrikeOpposite.EnabledChanged += new System.EventHandler(this._cbExtraElectricStrikeOpposite_EnabledChanged);
             // 
             // _lDoorEnvironment
             // 
             this._lDoorEnvironment.AutoSize = true;
             this._lDoorEnvironment.Location = new System.Drawing.Point(6, 21);
             this._lDoorEnvironment.Name = "_lDoorEnvironment";
-            this._lDoorEnvironment.Size = new System.Drawing.Size(91, 13);
+            this._lDoorEnvironment.Size = new System.Drawing.Size(113, 16);
             this._lDoorEnvironment.TabIndex = 0;
             this._lDoorEnvironment.Text = "Door environment";
             // 
             // _cbDoorEnvironment
             // 
             this._cbDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbDoorEnvironment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbDoorEnvironment.FormattingEnabled = true;
             this._cbDoorEnvironment.Items.AddRange(new object[] {
@@ -1282,7 +1274,7 @@ namespace Contal.Cgp.NCAS.Client
             "Rotatory / Two Directional"});
             this._cbDoorEnvironment.Location = new System.Drawing.Point(163, 18);
             this._cbDoorEnvironment.Name = "_cbDoorEnvironment";
-            this._cbDoorEnvironment.Size = new System.Drawing.Size(432, 21);
+            this._cbDoorEnvironment.Size = new System.Drawing.Size(432, 24);
             this._cbDoorEnvironment.TabIndex = 1;
             this._cbDoorEnvironment.SelectedIndexChanged += new System.EventHandler(this._cbDoorEnvironment_SelectedIndexChanged);
             // 
@@ -1302,7 +1294,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eElectricStrikeOppositeImpulseDelay.Name = "_eElectricStrikeOppositeImpulseDelay";
-            this._eElectricStrikeOppositeImpulseDelay.Size = new System.Drawing.Size(74, 20);
+            this._eElectricStrikeOppositeImpulseDelay.Size = new System.Drawing.Size(74, 22);
             this._eElectricStrikeOppositeImpulseDelay.TabIndex = 9;
             this._eElectricStrikeOppositeImpulseDelay.Value = new decimal(new int[] {
             1000,
@@ -1327,23 +1319,23 @@ namespace Contal.Cgp.NCAS.Client
             this._lElectricStrikeOpposite.AutoSize = true;
             this._lElectricStrikeOpposite.Location = new System.Drawing.Point(6, 72);
             this._lElectricStrikeOpposite.Name = "_lElectricStrikeOpposite";
-            this._lElectricStrikeOpposite.Size = new System.Drawing.Size(113, 13);
+            this._lElectricStrikeOpposite.Size = new System.Drawing.Size(142, 16);
             this._lElectricStrikeOpposite.TabIndex = 6;
             this._lElectricStrikeOpposite.Text = "Electric strike opposite";
             // 
             // _cbElectricStrikeOpposite
             // 
             this._cbElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbElectricStrikeOpposite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbElectricStrikeOpposite.FormattingEnabled = true;
             this._cbElectricStrikeOpposite.Location = new System.Drawing.Point(163, 70);
             this._cbElectricStrikeOpposite.Name = "_cbElectricStrikeOpposite";
-            this._cbElectricStrikeOpposite.Size = new System.Drawing.Size(432, 21);
+            this._cbElectricStrikeOpposite.Size = new System.Drawing.Size(432, 24);
             this._cbElectricStrikeOpposite.TabIndex = 7;
-            this._cbElectricStrikeOpposite.EnabledChanged += new System.EventHandler(this._cbElectricStrikeOpposite_EnabledChanged);
-            this._cbElectricStrikeOpposite.SelectedIndexChanged += new System.EventHandler(this._cbElectricStrikeOpposite_SelectedIndexChanged);
             this._cbElectricStrikeOpposite.DropDown += new System.EventHandler(this.ActuatorsDropDown);
+            this._cbElectricStrikeOpposite.SelectedIndexChanged += new System.EventHandler(this._cbElectricStrikeOpposite_SelectedIndexChanged);
+            this._cbElectricStrikeOpposite.EnabledChanged += new System.EventHandler(this._cbElectricStrikeOpposite_EnabledChanged);
             // 
             // _eExtraElectricStrikeImpulseDelay
             // 
@@ -1361,7 +1353,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eExtraElectricStrikeImpulseDelay.Name = "_eExtraElectricStrikeImpulseDelay";
-            this._eExtraElectricStrikeImpulseDelay.Size = new System.Drawing.Size(74, 20);
+            this._eExtraElectricStrikeImpulseDelay.Size = new System.Drawing.Size(74, 22);
             this._eExtraElectricStrikeImpulseDelay.TabIndex = 13;
             this._eExtraElectricStrikeImpulseDelay.Value = new decimal(new int[] {
             1000,
@@ -1386,7 +1378,7 @@ namespace Contal.Cgp.NCAS.Client
             0,
             0});
             this._eElectricStrikeImpulseDelay.Name = "_eElectricStrikeImpulseDelay";
-            this._eElectricStrikeImpulseDelay.Size = new System.Drawing.Size(74, 20);
+            this._eElectricStrikeImpulseDelay.Size = new System.Drawing.Size(74, 22);
             this._eElectricStrikeImpulseDelay.TabIndex = 5;
             this._eElectricStrikeImpulseDelay.Value = new decimal(new int[] {
             1000,
@@ -1424,7 +1416,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lBypassAlarm.AutoSize = true;
             this._lBypassAlarm.Location = new System.Drawing.Point(7, 149);
             this._lBypassAlarm.Name = "_lBypassAlarm";
-            this._lBypassAlarm.Size = new System.Drawing.Size(69, 13);
+            this._lBypassAlarm.Size = new System.Drawing.Size(90, 16);
             this._lBypassAlarm.TabIndex = 18;
             this._lBypassAlarm.Text = "Bypass alarm";
             // 
@@ -1433,7 +1425,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lExtraElectricStrike.AutoSize = true;
             this._lExtraElectricStrike.Location = new System.Drawing.Point(6, 96);
             this._lExtraElectricStrike.Name = "_lExtraElectricStrike";
-            this._lExtraElectricStrike.Size = new System.Drawing.Size(96, 13);
+            this._lExtraElectricStrike.Size = new System.Drawing.Size(118, 16);
             this._lExtraElectricStrike.TabIndex = 10;
             this._lExtraElectricStrike.Text = "Extra electric strike";
             // 
@@ -1442,53 +1434,53 @@ namespace Contal.Cgp.NCAS.Client
             this._lElectricStrike.AutoSize = true;
             this._lElectricStrike.Location = new System.Drawing.Point(6, 46);
             this._lElectricStrike.Name = "_lElectricStrike";
-            this._lElectricStrike.Size = new System.Drawing.Size(70, 13);
+            this._lElectricStrike.Size = new System.Drawing.Size(86, 16);
             this._lElectricStrike.TabIndex = 2;
             this._lElectricStrike.Text = "Electric strike";
             // 
             // _cbBypassAlarm
             // 
             this._cbBypassAlarm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbBypassAlarm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbBypassAlarm.FormattingEnabled = true;
             this._cbBypassAlarm.Location = new System.Drawing.Point(163, 146);
             this._cbBypassAlarm.Name = "_cbBypassAlarm";
-            this._cbBypassAlarm.Size = new System.Drawing.Size(432, 21);
+            this._cbBypassAlarm.Size = new System.Drawing.Size(432, 24);
             this._cbBypassAlarm.TabIndex = 19;
-            this._cbBypassAlarm.SelectedIndexChanged += new System.EventHandler(this._cbBypassAlarm_SelectedIndexChanged);
             this._cbBypassAlarm.DropDown += new System.EventHandler(this.ActuatorsDropDown);
+            this._cbBypassAlarm.SelectedIndexChanged += new System.EventHandler(this._cbBypassAlarm_SelectedIndexChanged);
             // 
             // _cbExtraElectricStrike
             // 
             this._cbExtraElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbExtraElectricStrike.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbExtraElectricStrike.FormattingEnabled = true;
             this._cbExtraElectricStrike.Location = new System.Drawing.Point(163, 95);
             this._cbExtraElectricStrike.Name = "_cbExtraElectricStrike";
-            this._cbExtraElectricStrike.Size = new System.Drawing.Size(432, 21);
+            this._cbExtraElectricStrike.Size = new System.Drawing.Size(432, 24);
             this._cbExtraElectricStrike.TabIndex = 11;
-            this._cbExtraElectricStrike.SelectedIndexChanged += new System.EventHandler(this._cbExtraElectricStrike_SelectedIndexChanged);
             this._cbExtraElectricStrike.DropDown += new System.EventHandler(this.ActuatorsDropDown);
+            this._cbExtraElectricStrike.SelectedIndexChanged += new System.EventHandler(this._cbExtraElectricStrike_SelectedIndexChanged);
             // 
             // _cbElectricStrike
             // 
             this._cbElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbElectricStrike.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbElectricStrike.FormattingEnabled = true;
             this._cbElectricStrike.Location = new System.Drawing.Point(163, 44);
             this._cbElectricStrike.Name = "_cbElectricStrike";
-            this._cbElectricStrike.Size = new System.Drawing.Size(432, 21);
+            this._cbElectricStrike.Size = new System.Drawing.Size(432, 24);
             this._cbElectricStrike.TabIndex = 3;
-            this._cbElectricStrike.SelectedIndexChanged += new System.EventHandler(this._cbElectricStrike_SelectedIndexChanged);
             this._cbElectricStrike.DropDown += new System.EventHandler(this.ActuatorsDropDown);
+            this._cbElectricStrike.SelectedIndexChanged += new System.EventHandler(this._cbElectricStrike_SelectedIndexChanged);
             // 
             // _gbSensors
             // 
             this._gbSensors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbSensors.Controls.Add(this._chbOpenMaxDoorBalanced);
             this._gbSensors.Controls.Add(this._chbOpenDoorBalanced);
             this._gbSensors.Controls.Add(this._chbOpenMaxDoorInverted);
@@ -1573,7 +1565,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lOpenDoorMax.AutoSize = true;
             this._lOpenDoorMax.Location = new System.Drawing.Point(6, 76);
             this._lOpenDoorMax.Name = "_lOpenDoorMax";
-            this._lOpenDoorMax.Size = new System.Drawing.Size(67, 13);
+            this._lOpenDoorMax.Size = new System.Drawing.Size(82, 16);
             this._lOpenDoorMax.TabIndex = 8;
             this._lOpenDoorMax.Text = "Open to max";
             // 
@@ -1582,36 +1574,36 @@ namespace Contal.Cgp.NCAS.Client
             this._lOpenDoor.AutoSize = true;
             this._lOpenDoor.Location = new System.Drawing.Point(6, 49);
             this._lOpenDoor.Name = "_lOpenDoor";
-            this._lOpenDoor.Size = new System.Drawing.Size(57, 13);
+            this._lOpenDoor.Size = new System.Drawing.Size(71, 16);
             this._lOpenDoor.TabIndex = 4;
             this._lOpenDoor.Text = "Open door";
             // 
             // _cbOpenMax
             // 
             this._cbOpenMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOpenMax.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOpenMax.FormattingEnabled = true;
             this._cbOpenMax.Location = new System.Drawing.Point(163, 73);
             this._cbOpenMax.Name = "_cbOpenMax";
-            this._cbOpenMax.Size = new System.Drawing.Size(432, 21);
+            this._cbOpenMax.Size = new System.Drawing.Size(432, 24);
             this._cbOpenMax.TabIndex = 9;
-            this._cbOpenMax.EnabledChanged += new System.EventHandler(this._cbOpenMax_EnabledChanged);
-            this._cbOpenMax.SelectedIndexChanged += new System.EventHandler(this._cbOpenMax_SelectedIndexChanged);
             this._cbOpenMax.DropDown += new System.EventHandler(this.SensorsDropDown);
+            this._cbOpenMax.SelectedIndexChanged += new System.EventHandler(this._cbOpenMax_SelectedIndexChanged);
+            this._cbOpenMax.EnabledChanged += new System.EventHandler(this._cbOpenMax_EnabledChanged);
             // 
             // _cbOpenDoor
             // 
             this._cbOpenDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOpenDoor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOpenDoor.FormattingEnabled = true;
             this._cbOpenDoor.Location = new System.Drawing.Point(163, 46);
             this._cbOpenDoor.Name = "_cbOpenDoor";
-            this._cbOpenDoor.Size = new System.Drawing.Size(432, 21);
+            this._cbOpenDoor.Size = new System.Drawing.Size(432, 24);
             this._cbOpenDoor.TabIndex = 5;
-            this._cbOpenDoor.SelectedIndexChanged += new System.EventHandler(this._cbOpenDoor_SelectedIndexChanged);
             this._cbOpenDoor.DropDown += new System.EventHandler(this.SensorsDropDown);
+            this._cbOpenDoor.SelectedIndexChanged += new System.EventHandler(this._cbOpenDoor_SelectedIndexChanged);
             // 
             // _chbLockDoorInverted
             // 
@@ -1628,23 +1620,23 @@ namespace Contal.Cgp.NCAS.Client
             // _cbLockDoor
             // 
             this._cbLockDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbLockDoor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbLockDoor.FormattingEnabled = true;
             this._cbLockDoor.Location = new System.Drawing.Point(163, 19);
             this._cbLockDoor.Name = "_cbLockDoor";
-            this._cbLockDoor.Size = new System.Drawing.Size(432, 21);
+            this._cbLockDoor.Size = new System.Drawing.Size(432, 24);
             this._cbLockDoor.TabIndex = 1;
-            this._cbLockDoor.EnabledChanged += new System.EventHandler(this._cbLockDoor_EnabledChanged);
-            this._cbLockDoor.SelectedIndexChanged += new System.EventHandler(this._cbLockDoor_SelectedIndexChanged);
             this._cbLockDoor.DropDown += new System.EventHandler(this.SensorsDropDown);
+            this._cbLockDoor.SelectedIndexChanged += new System.EventHandler(this._cbLockDoor_SelectedIndexChanged);
+            this._cbLockDoor.EnabledChanged += new System.EventHandler(this._cbLockDoor_EnabledChanged);
             // 
             // _lLockDoor
             // 
             this._lLockDoor.AutoSize = true;
             this._lLockDoor.Location = new System.Drawing.Point(6, 22);
             this._lLockDoor.Name = "_lLockDoor";
-            this._lLockDoor.Size = new System.Drawing.Size(55, 13);
+            this._lLockDoor.Size = new System.Drawing.Size(67, 16);
             this._lLockDoor.TabIndex = 0;
             this._lLockDoor.Text = "Lock door";
             // 
@@ -1653,10 +1645,10 @@ namespace Contal.Cgp.NCAS.Client
             this._tpAlarmSettings.BackColor = System.Drawing.Color.Transparent;
             this._tpAlarmSettings.Controls.Add(this._accordionAlarmSettings);
             this._tpAlarmSettings.Controls.Add(this._cbOpenAllAlarmSettings);
-            this._tpAlarmSettings.Location = new System.Drawing.Point(4, 22);
+            this._tpAlarmSettings.Location = new System.Drawing.Point(4, 25);
             this._tpAlarmSettings.Name = "_tpAlarmSettings";
             this._tpAlarmSettings.Padding = new System.Windows.Forms.Padding(3);
-            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 396);
+            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 393);
             this._tpAlarmSettings.TabIndex = 7;
             this._tpAlarmSettings.Text = "Alarm settings";
             this._tpAlarmSettings.UseVisualStyleBackColor = true;
@@ -1666,8 +1658,8 @@ namespace Contal.Cgp.NCAS.Client
             this._accordionAlarmSettings.AddResizeBars = true;
             this._accordionAlarmSettings.AllowMouseResize = true;
             this._accordionAlarmSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._accordionAlarmSettings.AnimateCloseEffect = Contal.IwQuick.PlatformPC.UI.Accordion.AnimateWindowFlags.Hide;
             this._accordionAlarmSettings.AnimateCloseMillis = 150;
             this._accordionAlarmSettings.AnimateOpenEffect = Contal.IwQuick.PlatformPC.UI.Accordion.AnimateWindowFlags.Show;
@@ -1699,12 +1691,12 @@ namespace Contal.Cgp.NCAS.Client
             this._accordionAlarmSettings.OpenOnAdd = false;
             this._accordionAlarmSettings.OpenOneOnly = false;
             this._accordionAlarmSettings.ResizeBarFactory = null;
-            this._accordionAlarmSettings.ResizeBarsAlign = 0.5;
+            this._accordionAlarmSettings.ResizeBarsAlign = 0.5D;
             this._accordionAlarmSettings.ResizeBarsArrowKeyDelta = 10;
             this._accordionAlarmSettings.ResizeBarsFadeInMillis = 800;
             this._accordionAlarmSettings.ResizeBarsFadeOutMillis = 800;
             this._accordionAlarmSettings.ResizeBarsFadeProximity = 24;
-            this._accordionAlarmSettings.ResizeBarsFill = 1;
+            this._accordionAlarmSettings.ResizeBarsFill = 1D;
             this._accordionAlarmSettings.ResizeBarsKeepFocusAfterMouseDrag = false;
             this._accordionAlarmSettings.ResizeBarsKeepFocusIfControlOutOfView = true;
             this._accordionAlarmSettings.ResizeBarsKeepFocusOnClick = true;
@@ -1719,7 +1711,7 @@ namespace Contal.Cgp.NCAS.Client
             this._accordionAlarmSettings.ShowToolMenuOnHoverWhenClosed = false;
             this._accordionAlarmSettings.ShowToolMenuOnRightClick = true;
             this._accordionAlarmSettings.ShowToolMenuRequiresPositiveFillWeight = false;
-            this._accordionAlarmSettings.Size = new System.Drawing.Size(843, 400);
+            this._accordionAlarmSettings.Size = new System.Drawing.Size(843, 397);
             this._accordionAlarmSettings.TabIndex = 7;
             this._accordionAlarmSettings.UpArrow = null;
             // 
@@ -1742,10 +1734,10 @@ namespace Contal.Cgp.NCAS.Client
             this._tpSpecialOutputs.Controls.Add(this._gbOutputSabotage);
             this._tpSpecialOutputs.Controls.Add(this._gbOutputIntrusion);
             this._tpSpecialOutputs.Controls.Add(this._gbOutputDoorAjar);
-            this._tpSpecialOutputs.Location = new System.Drawing.Point(4, 22);
+            this._tpSpecialOutputs.Location = new System.Drawing.Point(4, 25);
             this._tpSpecialOutputs.Name = "_tpSpecialOutputs";
             this._tpSpecialOutputs.Padding = new System.Windows.Forms.Padding(3);
-            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 396);
+            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 393);
             this._tpSpecialOutputs.TabIndex = 8;
             this._tpSpecialOutputs.Text = "Special outputs";
             this._tpSpecialOutputs.UseVisualStyleBackColor = true;
@@ -1753,7 +1745,7 @@ namespace Contal.Cgp.NCAS.Client
             // _gbOutputSabotage
             // 
             this._gbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputSabotage.Controls.Add(this._lOutput3);
             this._gbOutputSabotage.Controls.Add(this._cbOutputSabotage);
             this._gbOutputSabotage.Location = new System.Drawing.Point(6, 118);
@@ -1768,14 +1760,14 @@ namespace Contal.Cgp.NCAS.Client
             this._lOutput3.AutoSize = true;
             this._lOutput3.Location = new System.Drawing.Point(6, 23);
             this._lOutput3.Name = "_lOutput3";
-            this._lOutput3.Size = new System.Drawing.Size(39, 13);
+            this._lOutput3.Size = new System.Drawing.Size(45, 16);
             this._lOutput3.TabIndex = 0;
             this._lOutput3.Text = "Output";
             // 
             // _cbOutputSabotage
             // 
             this._cbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputSabotage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputSabotage.FormattingEnabled = true;
             this._cbOutputSabotage.Items.AddRange(new object[] {
@@ -1783,15 +1775,15 @@ namespace Contal.Cgp.NCAS.Client
             "Rotatory / Two Directional"});
             this._cbOutputSabotage.Location = new System.Drawing.Point(103, 20);
             this._cbOutputSabotage.Name = "_cbOutputSabotage";
-            this._cbOutputSabotage.Size = new System.Drawing.Size(728, 21);
+            this._cbOutputSabotage.Size = new System.Drawing.Size(728, 24);
             this._cbOutputSabotage.TabIndex = 5;
-            this._cbOutputSabotage.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             this._cbOutputSabotage.DropDown += new System.EventHandler(this.OutputsDropDown);
+            this._cbOutputSabotage.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _gbOutputIntrusion
             // 
             this._gbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputIntrusion.Controls.Add(this._lOutput2);
             this._gbOutputIntrusion.Controls.Add(this._cbOutputIntrusion);
             this._gbOutputIntrusion.Location = new System.Drawing.Point(6, 62);
@@ -1806,14 +1798,14 @@ namespace Contal.Cgp.NCAS.Client
             this._lOutput2.AutoSize = true;
             this._lOutput2.Location = new System.Drawing.Point(6, 22);
             this._lOutput2.Name = "_lOutput2";
-            this._lOutput2.Size = new System.Drawing.Size(39, 13);
+            this._lOutput2.Size = new System.Drawing.Size(45, 16);
             this._lOutput2.TabIndex = 0;
             this._lOutput2.Text = "Output";
             // 
             // _cbOutputIntrusion
             // 
             this._cbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputIntrusion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputIntrusion.FormattingEnabled = true;
             this._cbOutputIntrusion.Items.AddRange(new object[] {
@@ -1821,15 +1813,15 @@ namespace Contal.Cgp.NCAS.Client
             "Rotatory / Two Directional"});
             this._cbOutputIntrusion.Location = new System.Drawing.Point(103, 19);
             this._cbOutputIntrusion.Name = "_cbOutputIntrusion";
-            this._cbOutputIntrusion.Size = new System.Drawing.Size(728, 21);
+            this._cbOutputIntrusion.Size = new System.Drawing.Size(728, 24);
             this._cbOutputIntrusion.TabIndex = 4;
-            this._cbOutputIntrusion.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             this._cbOutputIntrusion.DropDown += new System.EventHandler(this.OutputsDropDown);
+            this._cbOutputIntrusion.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _gbOutputDoorAjar
             // 
             this._gbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputDoorAjar.Controls.Add(this._lOutput1);
             this._gbOutputDoorAjar.Controls.Add(this._cbOutputDoorAjar);
             this._gbOutputDoorAjar.Location = new System.Drawing.Point(6, 6);
@@ -1844,14 +1836,14 @@ namespace Contal.Cgp.NCAS.Client
             this._lOutput1.AutoSize = true;
             this._lOutput1.Location = new System.Drawing.Point(6, 22);
             this._lOutput1.Name = "_lOutput1";
-            this._lOutput1.Size = new System.Drawing.Size(39, 13);
+            this._lOutput1.Size = new System.Drawing.Size(45, 16);
             this._lOutput1.TabIndex = 0;
             this._lOutput1.Text = "Output";
             // 
             // _cbOutputDoorAjar
             // 
             this._cbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputDoorAjar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputDoorAjar.FormattingEnabled = true;
             this._cbOutputDoorAjar.Items.AddRange(new object[] {
@@ -1859,19 +1851,19 @@ namespace Contal.Cgp.NCAS.Client
             "Rotatory / Two Directional"});
             this._cbOutputDoorAjar.Location = new System.Drawing.Point(103, 19);
             this._cbOutputDoorAjar.Name = "_cbOutputDoorAjar";
-            this._cbOutputDoorAjar.Size = new System.Drawing.Size(728, 21);
+            this._cbOutputDoorAjar.Size = new System.Drawing.Size(728, 24);
             this._cbOutputDoorAjar.TabIndex = 3;
-            this._cbOutputDoorAjar.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             this._cbOutputDoorAjar.DropDown += new System.EventHandler(this.OutputsDropDown);
+            this._cbOutputDoorAjar.SelectedIndexChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _tpUserFolders
             // 
             this._tpUserFolders.BackColor = System.Drawing.Color.Transparent;
             this._tpUserFolders.Controls.Add(this._bRefresh);
             this._tpUserFolders.Controls.Add(this._lbUserFolders);
-            this._tpUserFolders.Location = new System.Drawing.Point(4, 22);
+            this._tpUserFolders.Location = new System.Drawing.Point(4, 25);
             this._tpUserFolders.Name = "_tpUserFolders";
-            this._tpUserFolders.Size = new System.Drawing.Size(849, 396);
+            this._tpUserFolders.Size = new System.Drawing.Size(849, 393);
             this._tpUserFolders.TabIndex = 11;
             this._tpUserFolders.Text = "User folders";
             this._tpUserFolders.UseVisualStyleBackColor = true;
@@ -1880,7 +1872,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bRefresh
             // 
             this._bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bRefresh.Location = new System.Drawing.Point(771, 400);
+            this._bRefresh.Location = new System.Drawing.Point(771, 397);
             this._bRefresh.Name = "_bRefresh";
             this._bRefresh.Size = new System.Drawing.Size(75, 23);
             this._bRefresh.TabIndex = 3;
@@ -1890,10 +1882,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _lbUserFolders
             // 
-            this._lbUserFolders.AllowDrop = false;
             this._lbUserFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._lbUserFolders.BackColor = System.Drawing.SystemColors.Info;
             this._lbUserFolders.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this._lbUserFolders.FormattingEnabled = true;
@@ -1901,7 +1892,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lbUserFolders.Location = new System.Drawing.Point(3, 3);
             this._lbUserFolders.Name = "_lbUserFolders";
             this._lbUserFolders.SelectedItemObject = null;
-            this._lbUserFolders.Size = new System.Drawing.Size(843, 381);
+            this._lbUserFolders.Size = new System.Drawing.Size(843, 368);
             this._lbUserFolders.TabIndex = 0;
             this._lbUserFolders.TabStop = false;
             this._lbUserFolders.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this._lbUserFolders_MouseDoubleClick);
@@ -1909,10 +1900,10 @@ namespace Contal.Cgp.NCAS.Client
             // _tpReferencedBy
             // 
             this._tpReferencedBy.BackColor = System.Drawing.Color.Transparent;
-            this._tpReferencedBy.Location = new System.Drawing.Point(4, 22);
+            this._tpReferencedBy.Location = new System.Drawing.Point(4, 25);
             this._tpReferencedBy.Name = "_tpReferencedBy";
             this._tpReferencedBy.Padding = new System.Windows.Forms.Padding(3);
-            this._tpReferencedBy.Size = new System.Drawing.Size(849, 396);
+            this._tpReferencedBy.Size = new System.Drawing.Size(849, 393);
             this._tpReferencedBy.TabIndex = 10;
             this._tpReferencedBy.Text = "Referenced by";
             this._tpReferencedBy.UseVisualStyleBackColor = true;
@@ -1921,10 +1912,10 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._tpDescription.BackColor = System.Drawing.Color.Transparent;
             this._tpDescription.Controls.Add(this._eDescription);
-            this._tpDescription.Location = new System.Drawing.Point(4, 22);
+            this._tpDescription.Location = new System.Drawing.Point(4, 25);
             this._tpDescription.Name = "_tpDescription";
             this._tpDescription.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDescription.Size = new System.Drawing.Size(849, 396);
+            this._tpDescription.Size = new System.Drawing.Size(849, 393);
             this._tpDescription.TabIndex = 9;
             this._tpDescription.Text = "Description";
             this._tpDescription.UseVisualStyleBackColor = true;
@@ -1936,14 +1927,13 @@ namespace Contal.Cgp.NCAS.Client
             this._eDescription.Multiline = true;
             this._eDescription.Name = "_eDescription";
             this._eDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._eDescription.Size = new System.Drawing.Size(843, 426);
+            this._eDescription.Size = new System.Drawing.Size(843, 387);
             this._eDescription.TabIndex = 3;
             this._eDescription.TabStop = false;
             this._eDescription.TextChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
             // 
             // NCASDoorEnvironmentEditForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(884, 587);
