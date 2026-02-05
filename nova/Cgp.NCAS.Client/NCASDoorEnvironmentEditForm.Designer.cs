@@ -94,6 +94,7 @@ namespace Contal.Cgp.NCAS.Client
             this._chbPushButtonInternalInverted = new System.Windows.Forms.CheckBox();
             this._chbPushButtonExternalBalanced = new System.Windows.Forms.CheckBox();
             this._chbPushButtonExternalInverted = new System.Windows.Forms.CheckBox();
+            this._chbIsVehicleAccess = new System.Windows.Forms.CheckBox();
             this._lExternalLprCamera = new System.Windows.Forms.Label();
             this._lExternalCardReader = new System.Windows.Forms.Label();
             this._lInternalLprCamera = new System.Windows.Forms.Label();
@@ -771,6 +772,7 @@ namespace Contal.Cgp.NCAS.Client
             this._gbCardReaders.Controls.Add(this._chbPushButtonInternalInverted);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalBalanced);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalInverted);
+            this._gbCardReaders.Controls.Add(this._chbIsVehicleAccess);
             this._gbCardReaders.Controls.Add(this._lExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._lExternalCardReader);
             this._gbCardReaders.Controls.Add(this._lInternalLprCamera);
@@ -1131,6 +1133,18 @@ namespace Contal.Cgp.NCAS.Client
             this._chbPushButtonExternalInverted.Text = "Inverted";
             this._chbPushButtonExternalInverted.UseVisualStyleBackColor = true;
             this._chbPushButtonExternalInverted.CheckedChanged += new System.EventHandler(this.EditTextChanger);
+            // 
+            // _chbIsVehicleAccess
+            // 
+            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._chbIsVehicleAccess.AutoSize = true;
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(595, 94);
+            this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
+            this._chbIsVehicleAccess.Size = new System.Drawing.Size(107, 20);
+            this._chbIsVehicleAccess.TabIndex = 11;
+            this._chbIsVehicleAccess.Text = "Vehicle access";
+            this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
+            this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this._chbIsVehicleAccess_CheckedChanged);
             // 
             // _lExternalLprCamera
             // 
@@ -2057,6 +2071,7 @@ namespace Contal.Cgp.NCAS.Client
         private System.Windows.Forms.CheckBox _chbPushButtonInternalInverted;
         private System.Windows.Forms.CheckBox _chbPushButtonExternalBalanced;
         private System.Windows.Forms.CheckBox _chbPushButtonExternalInverted;
+        private System.Windows.Forms.CheckBox _chbIsVehicleAccess;
         private System.Windows.Forms.Label _lExternalLprCamera;
         private System.Windows.Forms.Label _lExternalCardReader;
         private System.Windows.Forms.Label _lInternalLprCamera;

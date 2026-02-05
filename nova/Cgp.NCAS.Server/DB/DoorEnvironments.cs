@@ -101,6 +101,26 @@ namespace Contal.Cgp.NCAS.Server.DB
             return AccessChecker.HasAccessControl(NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsInsertDeletePerform), login);
         }
 
+        public override bool CheckData(DoorEnvironment doorEnvironment, out Exception error)
+        {
+            error = null;
+
+            if (doorEnvironment == null)
+            {
+                return true;
+            }
+
+            if (!doorEnvironment.IsVehicleAccess
+                && (doorEnvironment.LprCameraInternal != null || doorEnvironment.LprCameraExternal != null))
+            {
+                error = new InvalidOperationException(
+                    "LPR cameras cannot be assigned when vehicle access is disabled.");
+                return false;
+            }
+
+            return true;
+        }
+
         public override void CUDSpecial(DoorEnvironment doorEnvironment, ObjectDatabaseAction objectDatabaseAction)
         {
             if (objectDatabaseAction == ObjectDatabaseAction.Delete)

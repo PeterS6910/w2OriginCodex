@@ -42,6 +42,7 @@ namespace Contal.Cgp.NCAS.Client
         private AOrmObject _crExternal;
         private LprCamera _lprCameraInternal;
         private LprCamera _lprCameraExternal;
+        private bool _suppressVehicleAccessChange;
 
         private readonly ControlAlarmTypeSettings _catsDsmIntrusion;
         private readonly ControlModifyAlarmArcs _cmaaDsmIntrusion;
@@ -203,6 +204,33 @@ namespace Contal.Cgp.NCAS.Client
                     ? CheckState.Checked
                     : CheckState.Unchecked)
                 : CheckState.Indeterminate;
+        }
+
+        private void _chbIsVehicleAccess_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_suppressVehicleAccessChange)
+                return;
+
+            EditTextChanger(sender, e);
+
+            if (!_chbIsVehicleAccess.Checked)
+            {
+                if (HasAssignedLprCameras())
+                {
+                    _suppressVehicleAccessChange = true;
+                    _chbIsVehicleAccess.Checked = true;
+                    _suppressVehicleAccessChange = false;
+                    UpdateVehicleAccessState();
+                    return;
+                }
+
+                _lprCameraInternal = null;
+                _lprCameraExternal = null;
+                RefreshInternalLprCamera();
+                RefreshExternalLprCamera();
+            }
+
+            UpdateVehicleAccessState();
         }
 
         private void HideDisableTabPages()
@@ -482,6 +510,10 @@ namespace Contal.Cgp.NCAS.Client
 
         protected override void SetValuesInsert()
         {
+            _suppressVehicleAccessChange = true;
+            _chbIsVehicleAccess.Checked = false;
+            _suppressVehicleAccessChange = false;
+            UpdateVehicleAccessState();
             _cbDoorEnvironment_SelectedIndexChanged(null, null);
             RefreshInternalCardReader();
             RefreshExternalCardReader();
@@ -741,6 +773,11 @@ namespace Contal.Cgp.NCAS.Client
             RefreshInternalLprCamera();
             RefreshExternalLprCamera();
 
+            _suppressVehicleAccessChange = true;
+            _chbIsVehicleAccess.Checked = _editingObject.IsVehicleAccess;
+            _suppressVehicleAccessChange = false;
+            UpdateVehicleAccessState();
+
             if (_editingObject.Description != null)
                 _eDescription.Text = _editingObject.Description;
 
@@ -806,6 +843,27 @@ namespace Contal.Cgp.NCAS.Client
             RefreshConfigured();
             SetReferencedBy();
             _bApply.Enabled = false;
+        }
+
+        private bool HasAssignedLprCameras()
+        {
+            return _lprCameraInternal != null || _lprCameraExternal != null;
+        }
+
+        private void UpdateVehicleAccessState()
+        {
+            var hasDoorEnvironment = _cbDoorEnvironment.SelectedItem is ItemDoorEnvironmentType;
+            var enableLprCameras = _chbIsVehicleAccess.Checked && hasDoorEnvironment;
+
+            _tbmInternalLprCamera.Enabled = enableLprCameras;
+            _tbmExternalLprCamera.Enabled = enableLprCameras;
+
+            _tsiModifyLprInternal.Enabled = enableLprCameras;
+            _tsiRemoveLprInternal.Enabled = enableLprCameras;
+            _tsiModifyLprExternal.Enabled = enableLprCameras;
+            _tsiRemoveLprExternal.Enabled = enableLprCameras;
+
+            _chbIsVehicleAccess.Enabled = !_chbIsVehicleAccess.Checked || !HasAssignedLprCameras();
         }
 
         private ICollection<AlarmArc> GetAlarmArcs(
@@ -1238,6 +1296,14 @@ namespace Contal.Cgp.NCAS.Client
                 _editingObject.SensorsLockDoorsBalanced = _chbLockDoorBalanced.Checked;
                 _editingObject.SensorsOpenDoorsBalanced = _chbOpenDoorBalanced.Checked;
                 _editingObject.SensorsOpenMaxDoorsBalanced = _chbOpenMaxDoorBalanced.Checked;
+
+                _editingObject.IsVehicleAccess = _chbIsVehicleAccess.Checked;
+
+                if (!_editingObject.IsVehicleAccess)
+                {
+                    _lprCameraInternal = null;
+                    _lprCameraExternal = null;
+                }
 
                 if (_crInternal != null)
                 {
@@ -2286,8 +2352,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 _tbmInternalCardReader.Enabled = false;
                 _tbmExternalCardReader.Enabled = false;
-                _tbmInternalLprCamera.Enabled = false;
-                _tbmExternalLprCamera.Enabled = false;
+                UpdateVehicleAccessState();
                 return;
             }
 
@@ -2297,8 +2362,7 @@ namespace Contal.Cgp.NCAS.Client
 
             _tbmInternalCardReader.Enabled = true;
             _tbmExternalCardReader.Enabled = true;
-            _tbmInternalLprCamera.Enabled = true;
-            _tbmExternalLprCamera.Enabled = true;
+            UpdateVehicleAccessState();
 
             switch ((_cbDoorEnvironment.SelectedItem as ItemDoorEnvironmentType).DoorEnvironmentType)
             {
@@ -2844,6 +2908,7 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     _tbmInternalLprCamera.Text = string.Empty;
                 }
+                UpdateVehicleAccessState();
             }
         }
 
@@ -2864,6 +2929,7 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     _tbmExternalLprCamera.Text = string.Empty;
                 }
+                UpdateVehicleAccessState();
             }
         }
 

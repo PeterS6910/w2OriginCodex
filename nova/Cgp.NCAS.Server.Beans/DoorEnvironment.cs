@@ -122,6 +122,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNGUIDLPRCAMERAINTERNAL = "GuidLprCameraInternal";
         public const string COLUMNLPRCAMERAEXTERNAL = "LprCameraExternal";
         public const string COLUMNGUIDLPRCAMERAEXTERNAL = "GuidLprCameraExternal";
+        public const string COLUMNISVEHICLEACCESS = "IsVehicleAccess";
 
         public const string COLUMNCONFIGURED = "Configured";
         public const string COLUMNDESCRIPTION = "Description";
