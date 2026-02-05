@@ -14404,6 +14404,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extern LPR-kamera.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lExternalLprCamera {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lExternalLprCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extra ellås.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_lExtraElectricStrike {
@@ -14418,6 +14427,15 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string NCASDoorEnvironmentEditForm_lExtraElectricStrikeOpposite {
             get {
                 return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lExtraElectricStrikeOpposite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intern LPR-kamera.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lInternalLprCamera {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lInternalLprCamera", resourceCulture);
             }
         }
         

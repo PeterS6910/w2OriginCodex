@@ -6856,6 +6856,12 @@ Do you want to change the input control of {1} to forcefully blocked ?</value>
   <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
     <value>Vehicle access</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lExternalLprCamera" xml:space="preserve">
+    <value>Outside LPR camera</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lInternalLprCamera" xml:space="preserve">
+    <value>Inside LPR camera</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
     <value>Lookup cars</value>
   </data>

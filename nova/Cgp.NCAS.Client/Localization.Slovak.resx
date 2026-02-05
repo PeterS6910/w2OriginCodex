@@ -4783,6 +4783,12 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
     <value>Prístup vozidla</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lExternalLprCamera" xml:space="preserve">
+    <value>Vonkajšia LPR kamera</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lInternalLprCamera" xml:space="preserve">
+    <value>Vnútorná LPR kamera</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
     <value>Vyhľadané vozidlá</value>
   </data>

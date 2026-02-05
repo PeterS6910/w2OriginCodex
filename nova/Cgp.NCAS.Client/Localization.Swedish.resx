@@ -6904,6 +6904,12 @@ Vill Ni ändra ingångskontroll på {1} till forcerad blockering?</value>
   <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
     <value>Fordonsåtkomst</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lExternalLprCamera" xml:space="preserve">
+    <value>Extern LPR-kamera</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lInternalLprCamera" xml:space="preserve">
+    <value>Intern LPR-kamera</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
     <value>Sökta fordon</value>
   </data>
