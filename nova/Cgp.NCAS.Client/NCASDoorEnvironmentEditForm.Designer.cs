@@ -445,9 +445,9 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _chbIsVehicleAccess
             // 
-            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(169, 65);
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(170, 65);
             this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
             this._chbIsVehicleAccess.Size = new System.Drawing.Size(18, 17);
             this._chbIsVehicleAccess.TabIndex = 12;
@@ -1160,11 +1160,11 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._lExternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._lExternalLprCamera.AutoSize = true;
-            this._lExternalLprCamera.Location = new System.Drawing.Point(485, 72);
+            this._lExternalLprCamera.Location = new System.Drawing.Point(440, 72);
             this._lExternalLprCamera.Name = "_lExternalLprCamera";
-            this._lExternalLprCamera.Size = new System.Drawing.Size(82, 16);
+            this._lExternalLprCamera.Size = new System.Drawing.Size(131, 16);
             this._lExternalLprCamera.TabIndex = 10;
-            this._lExternalLprCamera.Text = "LPR camera";
+            this._lExternalLprCamera.Text = "Outside LPR camera";
             // 
             // _lExternalCardReader
             // 
@@ -1179,11 +1179,11 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._lInternalLprCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._lInternalLprCamera.AutoSize = true;
-            this._lInternalLprCamera.Location = new System.Drawing.Point(485, 22);
+            this._lInternalLprCamera.Location = new System.Drawing.Point(440, 22);
             this._lInternalLprCamera.Name = "_lInternalLprCamera";
-            this._lInternalLprCamera.Size = new System.Drawing.Size(82, 16);
+            this._lInternalLprCamera.Size = new System.Drawing.Size(121, 16);
             this._lInternalLprCamera.TabIndex = 6;
-            this._lInternalLprCamera.Text = "LPR camera";
+            this._lInternalLprCamera.Text = "Inside LPR camera";
             // 
             // _lInternalCardReader
             // 
