@@ -206,7 +206,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eName
             // 
-            this._eName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._eName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._eName.Location = new System.Drawing.Point(169, 12);
             this._eName.Name = "_eName";
@@ -273,7 +273,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eResultAccessGranted
             // 
-            this._eResultAccessGranted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._eResultAccessGranted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._eResultAccessGranted.Location = new System.Drawing.Point(169, 94);
             this._eResultAccessGranted.Name = "_eResultAccessGranted";
@@ -391,6 +391,7 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack.Controls.Add(this._bCancel);
             this._panelBack.Controls.Add(this._lName);
             this._panelBack.Controls.Add(this._bOk);
+            this._panelBack.Controls.Add(this._chbIsVehicleAccess);
             this._panelBack.Controls.Add(this._tcDoorsAutomat);
             this._panelBack.Controls.Add(this._eName);
             this._panelBack.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -411,7 +412,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _eActualState
             // 
-            this._eActualState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._eActualState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._eActualState.BackColor = System.Drawing.SystemColors.Window;
             this._eActualState.Location = new System.Drawing.Point(169, 38);
@@ -433,8 +434,8 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _tcDoorsAutomat
             // 
-            this._tcDoorsAutomat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._tcDoorsAutomat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tcDoorsAutomat.Controls.Add(this._tpDoorsTiming);
             this._tcDoorsAutomat.Controls.Add(this._tpApas);
@@ -459,7 +460,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDoorsTiming.Location = new System.Drawing.Point(4, 25);
             this._tpDoorsTiming.Name = "_tpDoorsTiming";
             this._tpDoorsTiming.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 393);
+            this._tpDoorsTiming.Size = new System.Drawing.Size(849, 432);
             this._tpDoorsTiming.TabIndex = 3;
             this._tpDoorsTiming.Text = "Doors Timing";
             this._tpDoorsTiming.UseVisualStyleBackColor = true;
@@ -762,7 +763,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _gbCardReaders
             // 
-            this._gbCardReaders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbCardReaders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbCardReaders.Controls.Add(this._tbmExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._tbmInternalLprCamera);
@@ -772,7 +773,6 @@ namespace Contal.Cgp.NCAS.Client
             this._gbCardReaders.Controls.Add(this._chbPushButtonInternalInverted);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalBalanced);
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalInverted);
-            this._gbCardReaders.Controls.Add(this._chbIsVehicleAccess);
             this._gbCardReaders.Controls.Add(this._lExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._lExternalCardReader);
             this._gbCardReaders.Controls.Add(this._lInternalLprCamera);
@@ -805,7 +805,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
             this._tbmExternalLprCamera.ButtonDefaultBehaviour = true;
             this._tbmExternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this._tbmExternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.ButtonImage")));
+            this._tbmExternalLprCamera.ButtonImage = null;
             // 
             // 
             // 
@@ -823,12 +823,12 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmExternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmExternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmExternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmExternalLprCamera.ButtonPopupMenu;
-            this._tbmExternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.ImageTextBox.Image")));
+            this._tbmExternalLprCamera.ImageTextBox.Image = null;
             this._tbmExternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmExternalLprCamera.ImageTextBox.Name = "_textBox";
             this._tbmExternalLprCamera.ImageTextBox.NoTextNoImage = true;
@@ -855,7 +855,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalLprCamera.Name = "_tbmExternalLprCamera";
             this._tbmExternalLprCamera.Size = new System.Drawing.Size(235, 22);
             this._tbmExternalLprCamera.TabIndex = 9;
-            this._tbmExternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmExternalLprCamera.TextImage")));
+            this._tbmExternalLprCamera.TextImage = null;
             this._tbmExternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmExternalLprCamera_ButtonPopupMenuItemClick);
             // 
             // _tbmInternalLprCamera
@@ -879,7 +879,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalLprCamera.ButtonBaseColor = System.Drawing.SystemColors.Control;
             this._tbmInternalLprCamera.ButtonDefaultBehaviour = true;
             this._tbmInternalLprCamera.ButtonHoverColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this._tbmInternalLprCamera.ButtonImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.ButtonImage")));
+            this._tbmInternalLprCamera.ButtonImage = null;
             // 
             // 
             // 
@@ -897,12 +897,12 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmInternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmInternalLprCamera.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalLprCamera.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalLprCamera.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._tbmInternalLprCamera.ImageTextBox.ContextMenuStrip = this._tbmInternalLprCamera.ButtonPopupMenu;
-            this._tbmInternalLprCamera.ImageTextBox.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.ImageTextBox.Image")));
+            this._tbmInternalLprCamera.ImageTextBox.Image = null;
             this._tbmInternalLprCamera.ImageTextBox.Location = new System.Drawing.Point(0, 0);
             this._tbmInternalLprCamera.ImageTextBox.Name = "_textBox";
             this._tbmInternalLprCamera.ImageTextBox.NoTextNoImage = true;
@@ -929,13 +929,13 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalLprCamera.Name = "_tbmInternalLprCamera";
             this._tbmInternalLprCamera.Size = new System.Drawing.Size(235, 22);
             this._tbmInternalLprCamera.TabIndex = 8;
-            this._tbmInternalLprCamera.TextImage = ((System.Drawing.Image)(resources.GetObject("_tbmInternalLprCamera.TextImage")));
+            this._tbmInternalLprCamera.TextImage = null;
             this._tbmInternalLprCamera.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this._tbmInternalLprCamera_ButtonPopupMenuItemClick);
             // 
             // _tbmExternalCardReader
             // 
             this._tbmExternalCardReader.AllowDrop = true;
-            this._tbmExternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmExternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.BackColor = System.Drawing.SystemColors.Control;
             // 
@@ -946,7 +946,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmExternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmExternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmExternalCardReader.Button.Image")));
-            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(297, 0);
+            this._tbmExternalCardReader.Button.Location = new System.Drawing.Point(215, 0);
             this._tbmExternalCardReader.Button.Name = "_bMenu";
             this._tbmExternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmExternalCardReader.Button.TabIndex = 3;
@@ -972,7 +972,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmExternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmExternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalCardReader.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -987,7 +987,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmExternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmExternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmExternalCardReader.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmExternalCardReader.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -995,7 +995,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmExternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmExternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmExternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(295, 15);
+            this._tbmExternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmExternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmExternalCardReader.ImageTextBox.UseImage = true;
             this._tbmExternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1014,7 +1014,7 @@ namespace Contal.Cgp.NCAS.Client
             // _tbmInternalCardReader
             // 
             this._tbmInternalCardReader.AllowDrop = true;
-            this._tbmInternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmInternalCardReader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.BackColor = System.Drawing.SystemColors.Control;
             // 
@@ -1025,7 +1025,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this._tbmInternalCardReader.Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._tbmInternalCardReader.Button.Image = ((System.Drawing.Image)(resources.GetObject("_tbmInternalCardReader.Button.Image")));
-            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(296, 0);
+            this._tbmInternalCardReader.Button.Location = new System.Drawing.Point(215, 0);
             this._tbmInternalCardReader.Button.Name = "_bMenu";
             this._tbmInternalCardReader.Button.Size = new System.Drawing.Size(20, 20);
             this._tbmInternalCardReader.Button.TabIndex = 3;
@@ -1051,7 +1051,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmInternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmInternalCardReader.ImageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.ImageTextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalCardReader.ImageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -1066,7 +1066,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // 
             // 
-            this._tbmInternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._tbmInternalCardReader.ImageTextBox.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbmInternalCardReader.ImageTextBox.TextBox.BackColor = System.Drawing.SystemColors.Info;
             this._tbmInternalCardReader.ImageTextBox.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -1074,7 +1074,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tbmInternalCardReader.ImageTextBox.TextBox.Location = new System.Drawing.Point(1, 2);
             this._tbmInternalCardReader.ImageTextBox.TextBox.Name = "_tbTextBox";
             this._tbmInternalCardReader.ImageTextBox.TextBox.ReadOnly = true;
-            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(294, 15);
+            this._tbmInternalCardReader.ImageTextBox.TextBox.Size = new System.Drawing.Size(213, 15);
             this._tbmInternalCardReader.ImageTextBox.TextBox.TabIndex = 2;
             this._tbmInternalCardReader.ImageTextBox.UseImage = true;
             this._tbmInternalCardReader.ImageTextBox.TextChanged += new System.EventHandler(this.EditTextChanger);
@@ -1138,9 +1138,10 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._chbIsVehicleAccess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(595, 94);
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(15, 61);
             this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
-            this._chbIsVehicleAccess.Size = new System.Drawing.Size(107, 20);
+            this._chbIsVehicleAccess.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this._chbIsVehicleAccess.Size = new System.Drawing.Size(121, 20);
             this._chbIsVehicleAccess.TabIndex = 11;
             this._chbIsVehicleAccess.Text = "Vehicle access";
             this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
@@ -1186,7 +1187,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _gbActuators
             // 
-            this._gbActuators.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbActuators.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbActuators.Controls.Add(this._eExtraElectricStrikeOppositeImpulseDelay);
             this._gbActuators.Controls.Add(this._chbExtraElectricStrikeOppositeImpulse);
@@ -1262,7 +1263,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbExtraElectricStrikeOpposite
             // 
-            this._cbExtraElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbExtraElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbExtraElectricStrikeOpposite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbExtraElectricStrikeOpposite.FormattingEnabled = true;
@@ -1285,7 +1286,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbDoorEnvironment
             // 
-            this._cbDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbDoorEnvironment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbDoorEnvironment.FormattingEnabled = true;
@@ -1345,7 +1346,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbElectricStrikeOpposite
             // 
-            this._cbElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbElectricStrikeOpposite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbElectricStrikeOpposite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbElectricStrikeOpposite.FormattingEnabled = true;
@@ -1460,7 +1461,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbBypassAlarm
             // 
-            this._cbBypassAlarm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbBypassAlarm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbBypassAlarm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbBypassAlarm.FormattingEnabled = true;
@@ -1473,7 +1474,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbExtraElectricStrike
             // 
-            this._cbExtraElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbExtraElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbExtraElectricStrike.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbExtraElectricStrike.FormattingEnabled = true;
@@ -1486,7 +1487,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbElectricStrike
             // 
-            this._cbElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbElectricStrike.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbElectricStrike.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbElectricStrike.FormattingEnabled = true;
@@ -1499,7 +1500,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _gbSensors
             // 
-            this._gbSensors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbSensors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbSensors.Controls.Add(this._chbOpenMaxDoorBalanced);
             this._gbSensors.Controls.Add(this._chbOpenDoorBalanced);
@@ -1600,7 +1601,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbOpenMax
             // 
-            this._cbOpenMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbOpenMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOpenMax.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOpenMax.FormattingEnabled = true;
@@ -1614,7 +1615,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbOpenDoor
             // 
-            this._cbOpenDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbOpenDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOpenDoor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOpenDoor.FormattingEnabled = true;
@@ -1639,7 +1640,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbLockDoor
             // 
-            this._cbLockDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbLockDoor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbLockDoor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbLockDoor.FormattingEnabled = true;
@@ -1668,7 +1669,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpAlarmSettings.Location = new System.Drawing.Point(4, 25);
             this._tpAlarmSettings.Name = "_tpAlarmSettings";
             this._tpAlarmSettings.Padding = new System.Windows.Forms.Padding(3);
-            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 393);
+            this._tpAlarmSettings.Size = new System.Drawing.Size(849, 432);
             this._tpAlarmSettings.TabIndex = 7;
             this._tpAlarmSettings.Text = "Alarm settings";
             this._tpAlarmSettings.UseVisualStyleBackColor = true;
@@ -1677,8 +1678,8 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._accordionAlarmSettings.AddResizeBars = true;
             this._accordionAlarmSettings.AllowMouseResize = true;
-            this._accordionAlarmSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._accordionAlarmSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._accordionAlarmSettings.AnimateCloseEffect = Contal.IwQuick.PlatformPC.UI.Accordion.AnimateWindowFlags.Hide;
             this._accordionAlarmSettings.AnimateCloseMillis = 150;
@@ -1731,7 +1732,7 @@ namespace Contal.Cgp.NCAS.Client
             this._accordionAlarmSettings.ShowToolMenuOnHoverWhenClosed = false;
             this._accordionAlarmSettings.ShowToolMenuOnRightClick = true;
             this._accordionAlarmSettings.ShowToolMenuRequiresPositiveFillWeight = false;
-            this._accordionAlarmSettings.Size = new System.Drawing.Size(843, 397);
+            this._accordionAlarmSettings.Size = new System.Drawing.Size(843, 436);
             this._accordionAlarmSettings.TabIndex = 7;
             this._accordionAlarmSettings.UpArrow = null;
             // 
@@ -1757,14 +1758,14 @@ namespace Contal.Cgp.NCAS.Client
             this._tpSpecialOutputs.Location = new System.Drawing.Point(4, 25);
             this._tpSpecialOutputs.Name = "_tpSpecialOutputs";
             this._tpSpecialOutputs.Padding = new System.Windows.Forms.Padding(3);
-            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 393);
+            this._tpSpecialOutputs.Size = new System.Drawing.Size(849, 432);
             this._tpSpecialOutputs.TabIndex = 8;
             this._tpSpecialOutputs.Text = "Special outputs";
             this._tpSpecialOutputs.UseVisualStyleBackColor = true;
             // 
             // _gbOutputSabotage
             // 
-            this._gbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputSabotage.Controls.Add(this._lOutput3);
             this._gbOutputSabotage.Controls.Add(this._cbOutputSabotage);
@@ -1786,7 +1787,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbOutputSabotage
             // 
-            this._cbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbOutputSabotage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputSabotage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputSabotage.FormattingEnabled = true;
@@ -1802,7 +1803,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _gbOutputIntrusion
             // 
-            this._gbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputIntrusion.Controls.Add(this._lOutput2);
             this._gbOutputIntrusion.Controls.Add(this._cbOutputIntrusion);
@@ -1824,7 +1825,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbOutputIntrusion
             // 
-            this._cbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbOutputIntrusion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputIntrusion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputIntrusion.FormattingEnabled = true;
@@ -1840,7 +1841,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _gbOutputDoorAjar
             // 
-            this._gbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._gbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._gbOutputDoorAjar.Controls.Add(this._lOutput1);
             this._gbOutputDoorAjar.Controls.Add(this._cbOutputDoorAjar);
@@ -1862,7 +1863,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _cbOutputDoorAjar
             // 
-            this._cbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._cbOutputDoorAjar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._cbOutputDoorAjar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbOutputDoorAjar.FormattingEnabled = true;
@@ -1883,7 +1884,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpUserFolders.Controls.Add(this._lbUserFolders);
             this._tpUserFolders.Location = new System.Drawing.Point(4, 25);
             this._tpUserFolders.Name = "_tpUserFolders";
-            this._tpUserFolders.Size = new System.Drawing.Size(849, 393);
+            this._tpUserFolders.Size = new System.Drawing.Size(849, 432);
             this._tpUserFolders.TabIndex = 11;
             this._tpUserFolders.Text = "User folders";
             this._tpUserFolders.UseVisualStyleBackColor = true;
@@ -1892,7 +1893,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bRefresh
             // 
             this._bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bRefresh.Location = new System.Drawing.Point(771, 397);
+            this._bRefresh.Location = new System.Drawing.Point(771, 436);
             this._bRefresh.Name = "_bRefresh";
             this._bRefresh.Size = new System.Drawing.Size(75, 23);
             this._bRefresh.TabIndex = 3;
@@ -1902,8 +1903,8 @@ namespace Contal.Cgp.NCAS.Client
             // 
             // _lbUserFolders
             // 
-            this._lbUserFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._lbUserFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._lbUserFolders.BackColor = System.Drawing.SystemColors.Info;
             this._lbUserFolders.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -1912,7 +1913,7 @@ namespace Contal.Cgp.NCAS.Client
             this._lbUserFolders.Location = new System.Drawing.Point(3, 3);
             this._lbUserFolders.Name = "_lbUserFolders";
             this._lbUserFolders.SelectedItemObject = null;
-            this._lbUserFolders.Size = new System.Drawing.Size(843, 368);
+            this._lbUserFolders.Size = new System.Drawing.Size(843, 407);
             this._lbUserFolders.TabIndex = 0;
             this._lbUserFolders.TabStop = false;
             this._lbUserFolders.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this._lbUserFolders_MouseDoubleClick);
@@ -1923,7 +1924,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpReferencedBy.Location = new System.Drawing.Point(4, 25);
             this._tpReferencedBy.Name = "_tpReferencedBy";
             this._tpReferencedBy.Padding = new System.Windows.Forms.Padding(3);
-            this._tpReferencedBy.Size = new System.Drawing.Size(849, 393);
+            this._tpReferencedBy.Size = new System.Drawing.Size(849, 432);
             this._tpReferencedBy.TabIndex = 10;
             this._tpReferencedBy.Text = "Referenced by";
             this._tpReferencedBy.UseVisualStyleBackColor = true;
@@ -1935,7 +1936,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDescription.Location = new System.Drawing.Point(4, 25);
             this._tpDescription.Name = "_tpDescription";
             this._tpDescription.Padding = new System.Windows.Forms.Padding(3);
-            this._tpDescription.Size = new System.Drawing.Size(849, 393);
+            this._tpDescription.Size = new System.Drawing.Size(849, 432);
             this._tpDescription.TabIndex = 9;
             this._tpDescription.Text = "Description";
             this._tpDescription.UseVisualStyleBackColor = true;
@@ -1947,7 +1948,7 @@ namespace Contal.Cgp.NCAS.Client
             this._eDescription.Multiline = true;
             this._eDescription.Name = "_eDescription";
             this._eDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._eDescription.Size = new System.Drawing.Size(843, 387);
+            this._eDescription.Size = new System.Drawing.Size(843, 426);
             this._eDescription.TabIndex = 3;
             this._eDescription.TabStop = false;
             this._eDescription.TextChanged += new System.EventHandler(this.EditTextChangerOnlyInDatabase);
