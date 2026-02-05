@@ -75,7 +75,8 @@
     <many-to-one name="PushButtonExternal" column="PushButtonExternal" class="Contal.Cgp.NCAS.Server.Beans.Input, Cgp.NCAS.Server.Beans" not-null="false"/>
     <many-to-one name="LprCameraInternal" column="LprCameraInternal" class="Contal.Cgp.NCAS.Server.Beans.LprCamera, Cgp.NCAS.Server.Beans" not-null="false"/>
     <many-to-one name="LprCameraExternal" column="LprCameraExternal" class="Contal.Cgp.NCAS.Server.Beans.LprCamera, Cgp.NCAS.Server.Beans" not-null="false"/>
-
+    <property name="IsVehicleAccess" not-null="false"></property>
+    
     <property name="Description" not-null="false">
       <column name="Description" sql-type="NVARCHAR(MAX)"></column>
     </property>
