@@ -93,7 +93,7 @@ namespace Contal.Cgp.NCAS.Client
             };
 
             InitializeComponent();
-            _lVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_chbIsVehicleAccess");
+            _lVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_lVehicleAccess");
             _chbIsVehicleAccess.Text = string.Empty;
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings

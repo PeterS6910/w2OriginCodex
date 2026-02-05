@@ -4780,7 +4780,7 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASLprCamerasForm_lNameFilter" xml:space="preserve">
     <value>Názov</value>
   </data>
-  <data name="NCASDoorEnvironmentEditForm_chbIsVehicleAccess" xml:space="preserve">
+  <data name="NCASDoorEnvironmentEditForm_lVehicleAccess" xml:space="preserve">
     <value>Prístup vozidla</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_lExternalLprCamera" xml:space="preserve">
