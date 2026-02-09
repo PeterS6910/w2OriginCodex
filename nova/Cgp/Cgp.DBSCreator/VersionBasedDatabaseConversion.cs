@@ -1834,7 +1834,7 @@ namespace Contal.Cgp.DBSCreator
                             Brand nvarchar(255) null,
                             ValidityDateFrom datetime null,
                             ValidityDateTo datetime null,
-                            SecurityLevel tinyint not null,
+                            SecurityLevel tinyint not null default(0),
                             Description nvarchar(max) null,
                             SynchronizedWithTimetec bit not null,
                             UtcDateStateLastChange datetime not null,
@@ -1894,7 +1894,12 @@ namespace Contal.Cgp.DBSCreator
                     @"
                     IF EXISTS (SELECT * FROM sysobjects WHERE name='Car' AND xtype='U')
                     BEGIN
-                        UPDATE Car SET SecurityLevel = 1 WHERE SecurityLevel IS NULL
+                        UPDATE Car SET SecurityLevel = 0 WHERE SecurityLevel IS NULL
+
+                        IF NOT EXISTS (SELECT * FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('Car') AND name = 'DF_Car_SecurityLevel')
+                        BEGIN
+                            ALTER TABLE Car ADD CONSTRAINT DF_Car_SecurityLevel DEFAULT (0) FOR SecurityLevel
+                        END
                         ALTER TABLE Car ALTER COLUMN SecurityLevel tinyint NOT NULL
                     END",
                     false,
