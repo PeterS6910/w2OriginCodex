@@ -23,6 +23,8 @@ namespace Contal.Cgp.Client
                 ACgpEditForm<Car>
 #endif
     {
+        private UserFoldersStructure _departmentFilter;
+
         public CarEditForm(Car car, ShowOptionsEditForm showOption)
             : base(car, showOption)
         {
@@ -56,6 +58,8 @@ namespace Contal.Cgp.Client
             _editingObject.Brand = _eBrand.Text;
             _editingObject.ValidityDateFrom = _dpValidityDateFrom.Value;
             _editingObject.ValidityDateTo = _dpValidityDateTo.Value;
+            _editingObject.SecurityLevel = _eSecurityLevel.Text;
+            _editingObject.Department = _tbDepartment.Text;
             _editingObject.Description = _eDescription.Text;
 
             return true;
@@ -131,9 +135,12 @@ namespace Contal.Cgp.Client
             _eBrand.Text = string.Empty;
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
+            _eSecurityLevel.Text = string.Empty;
+            _tbDepartment.Text = string.Empty;
             _eDescription.Text = string.Empty;
             _ilbCards.Items.Clear();
             _eFilterCards.Text = string.Empty;
+            _bApply.Enabled = false;
         }
 
         protected override void SetValuesEdit()
@@ -142,8 +149,11 @@ namespace Contal.Cgp.Client
             _eBrand.Text = _editingObject.Brand;
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
+            _eSecurityLevel.Text = _editingObject.SecurityLevel;
+            _tbDepartment.Text = _editingObject.Department;
             _eDescription.Text = _editingObject.Description;
             LoadCards(_eFilterCards.Text);
+            _bApply.Enabled = false;
         }
 
         protected override void EditEnd()
@@ -191,7 +201,10 @@ namespace Contal.Cgp.Client
                 foreach (var card in assigned)
                 {
                     string cardText = BuildCardDescription(card, provider);
-                    if (string.IsNullOrEmpty(filter) || cardText.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) == 0)
+                    bool textMatch = string.IsNullOrEmpty(filter) || cardText.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) == 0;
+                    bool departmentMatch = _departmentFilter == null || string.Equals(card.Department, _departmentFilter.FolderName, StringComparison.CurrentCultureIgnoreCase);
+
+                    if (textMatch && departmentMatch)
                     {
                         _ilbCards.Items.Add(new ImageListBoxItem(new CardDisplayItem(card, cardText), card.GetSubTypeImageString("State")));
                     }
@@ -527,6 +540,62 @@ namespace Contal.Cgp.Client
             {
                 return FullName;
             }
+        }
+
+        private void _bApply_Click(object sender, EventArgs e)
+        {
+            if (Apply_Click())
+            {
+                SetValuesEdit();
+                ResetWasChangedValues();
+                _bApply.Enabled = false;
+            }
+        }
+
+        protected override void EditTextChanger(object sender, EventArgs e)
+        {
+            base.EditTextChanger(sender, e);
+            _bApply.Enabled = true;
+        }
+
+        private void _bDepartmentFilter_Click(object sender, EventArgs e)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true)) return;
+
+            try
+            {
+                Exception error;
+                var listDepartments = CgpClient.Singleton.MainServerProvider.UserFoldersSutructures.ListDepartments(
+                    CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode"),
+                    @"\", null, out error);
+
+                if (error != null) throw error;
+
+                var formAdd = new ListboxFormAdd(
+                    listDepartments,
+                    CgpClient.Singleton.LocalizationHelper.GetString(
+                        "UserFoldersStructuresFormUserFoldersStructuresForm"));
+
+                object outUserFolder;
+                formAdd.ShowDialog(out outUserFolder);
+                if (outUserFolder != null)
+                {
+                    _departmentFilter = outUserFolder as UserFoldersStructure;
+                    _tbDepartmentFilter.Text = _departmentFilter?.FolderName ?? string.Empty;
+                    LoadCards(_eFilterCards.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandledExceptionAdapter.Examine(ex);
+            }
+        }
+
+        private void _bDepartmentFilterClear_Click(object sender, EventArgs e)
+        {
+            _departmentFilter = null;
+            _tbDepartmentFilter.Text = string.Empty;
+            LoadCards(_eFilterCards.Text);
         }
 
         private void _bCancel_Click(object sender, EventArgs e)

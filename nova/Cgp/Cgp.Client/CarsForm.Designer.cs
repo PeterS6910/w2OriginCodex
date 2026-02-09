@@ -16,6 +16,9 @@ namespace Contal.Cgp.Client
             this._eBrandFilter = new System.Windows.Forms.TextBox();
             this._lBrand = new System.Windows.Forms.Label();
             this._eLpFilter = new System.Windows.Forms.TextBox();
+            this._lDepartmentFilter = new System.Windows.Forms.Label();
+            this._tbmDepartmentFilter = new Contal.IwQuick.UI.TextBoxMenu();
+            this._bDepartmentFilterClear = new System.Windows.Forms.Button();
             this._lLp = new System.Windows.Forms.Label();
             this._bFilterClear = new System.Windows.Forms.Button();
             this._bRunFilter = new System.Windows.Forms.Button();
@@ -59,6 +62,9 @@ namespace Contal.Cgp.Client
             this.panel3.Controls.Add(this._eBrandFilter);
             this.panel3.Controls.Add(this._lBrand);
             this.panel3.Controls.Add(this._eLpFilter);
+            this.panel3.Controls.Add(this._lDepartmentFilter);
+            this.panel3.Controls.Add(this._tbmDepartmentFilter);
+            this.panel3.Controls.Add(this._bDepartmentFilterClear);
             this.panel3.Controls.Add(this._lLp);
             this.panel3.Controls.Add(this._bFilterClear);
             this.panel3.Controls.Add(this._bRunFilter);
@@ -125,10 +131,38 @@ namespace Contal.Cgp.Client
             this._lLp.Size = new System.Drawing.Size(31, 25);
             this._lLp.TabIndex = 14;
             this._lLp.Text = "Lp";
+
+            // 
+            // _lDepartmentFilter
+            // 
+            this._lDepartmentFilter.AutoSize = true;
+            this._lDepartmentFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this._lDepartmentFilter.Location = new System.Drawing.Point(569, 5);
+            this._lDepartmentFilter.Name = "_lDepartmentFilter";
+            this._lDepartmentFilter.Size = new System.Drawing.Size(93, 25);
+            this._lDepartmentFilter.TabIndex = 20;
+            this._lDepartmentFilter.Text = "Department";
+            // 
+            // _tbmDepartmentFilter
+            // 
+            this._tbmDepartmentFilter.Location = new System.Drawing.Point(574, 35);
+            this._tbmDepartmentFilter.Name = "_tbmDepartmentFilter";
+            this._tbmDepartmentFilter.Size = new System.Drawing.Size(120, 20);
+            this._tbmDepartmentFilter.Button.Click += new System.EventHandler(this.SelectDepartmentClick);
+            // 
+            // _bDepartmentFilterClear
+            // 
+            this._bDepartmentFilterClear.Location = new System.Drawing.Point(700, 33);
+            this._bDepartmentFilterClear.Name = "_bDepartmentFilterClear";
+            this._bDepartmentFilterClear.Size = new System.Drawing.Size(50, 25);
+            this._bDepartmentFilterClear.TabIndex = 21;
+            this._bDepartmentFilterClear.Text = "X";
+            this._bDepartmentFilterClear.UseVisualStyleBackColor = true;
+            this._bDepartmentFilterClear.Click += new System.EventHandler(this._bDepartmentFilterClear_Click);
             // 
             // _bFilterClear
             // 
-            this._bFilterClear.Location = new System.Drawing.Point(878, 28);
+            this._bFilterClear.Location = new System.Drawing.Point(1030, 28);
             this._bFilterClear.Margin = new System.Windows.Forms.Padding(4);
             this._bFilterClear.Name = "_bFilterClear";
             this._bFilterClear.Size = new System.Drawing.Size(112, 33);
@@ -139,7 +173,7 @@ namespace Contal.Cgp.Client
             // 
             // _bRunFilter
             // 
-            this._bRunFilter.Location = new System.Drawing.Point(756, 28);
+            this._bRunFilter.Location = new System.Drawing.Point(908, 28);
             this._bRunFilter.Margin = new System.Windows.Forms.Padding(4);
             this._bRunFilter.Name = "_bRunFilter";
             this._bRunFilter.Size = new System.Drawing.Size(112, 33);
@@ -173,5 +207,8 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Label _lLp;
         private System.Windows.Forms.Label _lRecordCount;
         private System.Windows.Forms.Button _bAclAssignment;
+        private System.Windows.Forms.Label _lDepartmentFilter;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmDepartmentFilter;
+        private System.Windows.Forms.Button _bDepartmentFilterClear;
     }
 }

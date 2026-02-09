@@ -9,6 +9,7 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.TextBox _eUtcDateStateLastChange;
         private System.Windows.Forms.Button _bOk;
         private System.Windows.Forms.Button _bCancel;
+        private System.Windows.Forms.Button _bApply;
         private System.Windows.Forms.TabControl _tcCar;
         private System.Windows.Forms.TabPage _tpInformation;
         private System.Windows.Forms.TabPage _tpCards;
@@ -30,6 +31,18 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Button _bDeleteCard;
         private System.Windows.Forms.Button _bAddCard;
         private System.Windows.Forms.Button _bCreateCard;
+        private Contal.Cgp.Components.CgpDataGridView _cdgvAclCars;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmAccessControlList;
+        private System.Windows.Forms.ToolStripMenuItem _tsiAclModify;
+        private System.Windows.Forms.ToolStripMenuItem _tsiAclCreate;
+        private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateFrom;
+        private Contal.IwQuick.UI.TextBoxDatePicker _tbdpAclDateTo;
+        private System.Windows.Forms.Label _lAclAccessControlList;
+        private System.Windows.Forms.Label _lAclDateFrom;
+        private System.Windows.Forms.Label _lAclDateTo;
+        private System.Windows.Forms.Button _bAclCreate;
+        private System.Windows.Forms.Button _bAclUpdate;
+        private System.Windows.Forms.Button _bAclCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -38,18 +51,29 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Label label8;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateFrom;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateTo;
+        private System.Windows.Forms.TextBox _eSecurityLevel;
+        private System.Windows.Forms.TextBox _tbDepartment;
+        private System.Windows.Forms.Label _lSecurityLevel;
+        private System.Windows.Forms.Label _lDepartment;
+        private System.Windows.Forms.Label _lDepartmentFilter;
+        private Contal.IwQuick.UI.TextBoxMenu _tbDepartmentFilter;
+        private System.Windows.Forms.Button _bDepartmentFilter;
+        private System.Windows.Forms.Button _bDepartmentFilterClear;
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CarEditForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this._eLp = new System.Windows.Forms.TextBox();
             this._eBrand = new System.Windows.Forms.TextBox();
             this._eDescription = new System.Windows.Forms.TextBox();
             this._eUtcDateStateLastChange = new System.Windows.Forms.TextBox();
             this._bOk = new System.Windows.Forms.Button();
             this._bCancel = new System.Windows.Forms.Button();
+            this._bApply = new System.Windows.Forms.Button();
             this._tcCar = new System.Windows.Forms.TabControl();
             this._tpInformation = new System.Windows.Forms.TabPage();
             this._dpValidityDateTo = new Contal.IwQuick.UI.TextBoxDatePicker();
@@ -60,12 +84,20 @@ namespace Contal.Cgp.Client
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this._eSecurityLevel = new System.Windows.Forms.TextBox();
+            this._tbDepartment = new System.Windows.Forms.TextBox();
+            this._lSecurityLevel = new System.Windows.Forms.Label();
+            this._lDepartment = new System.Windows.Forms.Label();
             this._tpCards = new System.Windows.Forms.TabPage();
             this._bAddCard = new System.Windows.Forms.Button();
             this._bCreateCard = new System.Windows.Forms.Button();
             this._bDeleteCard = new System.Windows.Forms.Button();
             this._ilbCards = new Contal.IwQuick.UI.ImageListBox();
             this._eFilterCards = new System.Windows.Forms.TextBox();
+            this._lDepartmentFilter = new System.Windows.Forms.Label();
+            this._tbDepartmentFilter = new Contal.IwQuick.UI.TextBoxMenu();
+            this._bDepartmentFilter = new System.Windows.Forms.Button();
+            this._bDepartmentFilterClear = new System.Windows.Forms.Button();
             this._tpAccessControlList = new System.Windows.Forms.TabPage();
             this._tpAccessZone = new System.Windows.Forms.TabPage();
             this._pAccessZone = new System.Windows.Forms.Panel();
@@ -79,6 +111,18 @@ namespace Contal.Cgp.Client
             this._eAccessZoneDescription = new System.Windows.Forms.TextBox();
             this._lAccessZoneCardReader = new System.Windows.Forms.Label();
             this._lAccessZoneTimeZone = new System.Windows.Forms.Label();
+            this._bAclCancel = new System.Windows.Forms.Button();
+            this._bAclUpdate = new System.Windows.Forms.Button();
+            this._bAclCreate = new System.Windows.Forms.Button();
+            this._lAclDateTo = new System.Windows.Forms.Label();
+            this._lAclDateFrom = new System.Windows.Forms.Label();
+            this._lAclAccessControlList = new System.Windows.Forms.Label();
+            this._tbdpAclDateTo = new Contal.IwQuick.UI.TextBoxDatePicker();
+            this._tbdpAclDateFrom = new Contal.IwQuick.UI.TextBoxDatePicker();
+            this._tbmAccessControlList = new Contal.IwQuick.UI.TextBoxMenu();
+            this._tsiAclModify = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiAclCreate = new System.Windows.Forms.ToolStripMenuItem();
+            this._cdgvAclCars = new Contal.Cgp.Components.CgpDataGridView();
             this._tcCar.SuspendLayout();
             this._tpInformation.SuspendLayout();
             this._tpCards.SuspendLayout();
@@ -86,6 +130,7 @@ namespace Contal.Cgp.Client
             this._tpAccessZone.SuspendLayout();
             this._pAccessZone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._cdgvAccessZone.DataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._cdgvAclCars.DataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // _eLp
@@ -108,6 +153,7 @@ namespace Contal.Cgp.Client
             // 
             resources.ApplyResources(this._eUtcDateStateLastChange, "_eUtcDateStateLastChange");
             this._eUtcDateStateLastChange.Name = "_eUtcDateStateLastChange";
+            this._eUtcDateStateLastChange.Visible = false;
             // 
             // _bOk
             // 
@@ -119,6 +165,7 @@ namespace Contal.Cgp.Client
             // 
             this._bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this._bCancel, "_bCancel");
+            this._bCancel.Location = new System.Drawing.Point(280, 386);
             this._bCancel.Name = "_bCancel";
             this._bCancel.Click += new System.EventHandler(this._bCancel_Click);
             // 
@@ -143,7 +190,10 @@ namespace Contal.Cgp.Client
             this._tpInformation.Controls.Add(this.label3);
             this._tpInformation.Controls.Add(this.label2);
             this._tpInformation.Controls.Add(this.label1);
-            this._tpInformation.Controls.Add(this._eUtcDateStateLastChange);
+            this._tpInformation.Controls.Add(this._lSecurityLevel);
+            this._tpInformation.Controls.Add(this._lDepartment);
+            this._tpInformation.Controls.Add(this._eSecurityLevel);
+            this._tpInformation.Controls.Add(this._tbDepartment);
             this._tpInformation.Controls.Add(this._eDescription);
             this._tpInformation.Controls.Add(this._eBrand);
             this._tpInformation.Controls.Add(this._eLp);
@@ -208,6 +258,7 @@ namespace Contal.Cgp.Client
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
+            this.label6.Visible = false;
             // 
             // label3
             // 
@@ -224,12 +275,56 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // _bApply
+            // 
+            this._bApply.Location = new System.Drawing.Point(362, 386);
+            this._bApply.Name = "_bApply";
+            this._bApply.Size = new System.Drawing.Size(75, 32);
+            this._bApply.TabIndex = 2;
+            this._bApply.Text = "Apply";
+            this._bApply.UseVisualStyleBackColor = true;
+            this._bApply.Click += new System.EventHandler(this._bApply_Click);
+            // 
+            // _eSecurityLevel
+            // 
+            this._eSecurityLevel.Location = new System.Drawing.Point(259, 194);
+            this._eSecurityLevel.Name = "_eSecurityLevel";
+            this._eSecurityLevel.Size = new System.Drawing.Size(260, 22);
+            this._eSecurityLevel.TabIndex = 10;
+            // 
+            // _tbDepartment
+            // 
+            this._tbDepartment.Location = new System.Drawing.Point(259, 242);
+            this._tbDepartment.Name = "_tbDepartment";
+            this._tbDepartment.Size = new System.Drawing.Size(260, 22);
+            this._tbDepartment.TabIndex = 11;
+            // 
+            // _lSecurityLevel
+            // 
+            this._lSecurityLevel.AutoSize = true;
+            this._lSecurityLevel.Location = new System.Drawing.Point(43, 200);
+            this._lSecurityLevel.Name = "_lSecurityLevel";
+            this._lSecurityLevel.Size = new System.Drawing.Size(83, 16);
+            this._lSecurityLevel.Text = "SecurityLevel";
+            // 
+            // _lDepartment
+            // 
+            this._lDepartment.AutoSize = true;
+            this._lDepartment.Location = new System.Drawing.Point(43, 248);
+            this._lDepartment.Name = "_lDepartment";
+            this._lDepartment.Size = new System.Drawing.Size(79, 16);
+            this._lDepartment.Text = "Department";
+            // 
             // _tpCards
             // 
             this._tpCards.Controls.Add(this._bAddCard);
             this._tpCards.Controls.Add(this._bCreateCard);
             this._tpCards.Controls.Add(this._bDeleteCard);
             this._tpCards.Controls.Add(this._ilbCards);
+            this._tpCards.Controls.Add(this._bDepartmentFilterClear);
+            this._tpCards.Controls.Add(this._bDepartmentFilter);
+            this._tpCards.Controls.Add(this._tbDepartmentFilter);
+            this._tpCards.Controls.Add(this._lDepartmentFilter);
             this._tpCards.Controls.Add(this._eFilterCards);
             resources.ApplyResources(this._tpCards, "_tpCards");
             this._tpCards.Name = "_tpCards";
@@ -275,6 +370,39 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this._eFilterCards, "_eFilterCards");
             this._eFilterCards.Name = "_eFilterCards";
             this._eFilterCards.KeyUp += new System.Windows.Forms.KeyEventHandler(this._eFilterCards_KeyUp);
+            // 
+            // _lDepartmentFilter
+            // 
+            this._lDepartmentFilter.AutoSize = true;
+            this._lDepartmentFilter.Location = new System.Drawing.Point(6, 9);
+            this._lDepartmentFilter.Name = "_lDepartmentFilter";
+            this._lDepartmentFilter.Size = new System.Drawing.Size(79, 16);
+            this._lDepartmentFilter.Text = "Department";
+            // 
+            // _tbDepartmentFilter
+            // 
+            this._tbDepartmentFilter.Location = new System.Drawing.Point(91, 6);
+            this._tbDepartmentFilter.Name = "_tbDepartmentFilter";
+            this._tbDepartmentFilter.Size = new System.Drawing.Size(160, 20);
+            this._tbDepartmentFilter.Button.Click += new System.EventHandler(this._bDepartmentFilter_Click);
+            // 
+            // _bDepartmentFilter
+            // 
+            this._bDepartmentFilter.Location = new System.Drawing.Point(257, 4);
+            this._bDepartmentFilter.Name = "_bDepartmentFilter";
+            this._bDepartmentFilter.Size = new System.Drawing.Size(55, 23);
+            this._bDepartmentFilter.Text = "...";
+            this._bDepartmentFilter.UseVisualStyleBackColor = true;
+            this._bDepartmentFilter.Click += new System.EventHandler(this._bDepartmentFilter_Click);
+            // 
+            // _bDepartmentFilterClear
+            // 
+            this._bDepartmentFilterClear.Location = new System.Drawing.Point(318, 4);
+            this._bDepartmentFilterClear.Name = "_bDepartmentFilterClear";
+            this._bDepartmentFilterClear.Size = new System.Drawing.Size(55, 23);
+            this._bDepartmentFilterClear.Text = "X";
+            this._bDepartmentFilterClear.UseVisualStyleBackColor = true;
+            this._bDepartmentFilterClear.Click += new System.EventHandler(this._bDepartmentFilterClear_Click);
             // 
             // _tpAccessControlList
             // 
@@ -545,6 +673,7 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this._tcCar);
             this.Controls.Add(this._bCancel);
+            this.Controls.Add(this._bApply);
             this.Controls.Add(this._bOk);
             this.Name = "CarEditForm";
             this._tcCar.ResumeLayout(false);

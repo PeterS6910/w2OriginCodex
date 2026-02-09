@@ -1,8 +1,9 @@
+using Contal.Cgp.Globals;
+using Contal.Cgp.NCAS.Server.Beans;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using Contal.Cgp.Globals;
 
 namespace Contal.Cgp.Server.Beans
 {

@@ -3,6 +3,7 @@ using Contal.Cgp.Client.PluginSupport;
 using Contal.Cgp.Globals;
 using Contal.Cgp.Server.Beans;
 using Contal.IwQuick;
+using Contal.IwQuick.Sys;
 using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Contal.Cgp.Client
         ACgpTableForm<Car, CarShort>
 #endif
     {
+        private UserFoldersStructure _departmentFilter;
+
         private static volatile CarsForm _singleton;
         private static object _syncRoot = new object();
 
@@ -172,6 +175,40 @@ namespace Contal.Cgp.Client
             RunFilter();
         }
 
+        private void SelectDepartmentClick(object sender, EventArgs e)
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true)) return;
+
+            try
+            {
+                Exception error;
+                var listDepartments = CgpClient.Singleton.MainServerProvider.UserFoldersSutructures.ListDepartments(
+                    CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode"),
+                    @"\", null, out error);
+
+                if (error != null) throw error;
+
+                var formAdd = new ListboxFormAdd(
+                    listDepartments,
+                    CgpClient.Singleton.LocalizationHelper.GetString(
+                        "UserFoldersStructuresFormUserFoldersStructuresForm"));
+
+                object outUserFolder;
+                formAdd.ShowDialog(out outUserFolder);
+                if (outUserFolder != null)
+                {
+                    _departmentFilter = outUserFolder as UserFoldersStructure;
+                    _tbmDepartmentFilter.Text = _departmentFilter?.FolderName ?? string.Empty;
+                    FilterValueChanged(this, EventArgs.Empty);
+                    RunFilter();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandledExceptionAdapter.Examine(ex);
+            }
+        }
+
         protected override void SetFilterSettings()
         {
             _filterSettings.Clear();
@@ -185,11 +222,24 @@ namespace Contal.Cgp.Client
             {
                 _filterSettings.Add(new FilterSettings(Car.COLUMNBRAND, _eBrandFilter.Text, ComparerModes.LIKEBOTH));
             }
+
+            if (_departmentFilter != null)
+            {
+                _filterSettings.Add(new FilterSettings(Car.COLUMNDEPARTMENT, _departmentFilter.FolderName, ComparerModes.EQUALL));
+            }
         }
 
         private void _bFilterClear_Click(object sender, EventArgs e)
         {
             FilterClear_Click();
+        }
+
+        private void _bDepartmentFilterClear_Click(object sender, EventArgs e)
+        {
+            _departmentFilter = null;
+            _tbmDepartmentFilter.Text = string.Empty;
+            FilterValueChanged(this, EventArgs.Empty);
+            RunFilter();
         }
 
         private void _bAclAssignment_Click(object sender, EventArgs e)
@@ -228,6 +278,8 @@ namespace Contal.Cgp.Client
         {
             _eLpFilter.Text = string.Empty;
             _eBrandFilter.Text = string.Empty;
+            _departmentFilter = null;
+            _tbmDepartmentFilter.Text = string.Empty;
         }
 
         protected override void FilterValueChanged(object sender, EventArgs e)
