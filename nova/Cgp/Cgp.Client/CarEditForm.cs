@@ -54,12 +54,20 @@ namespace Contal.Cgp.Client
 
         protected override bool GetValues()
         {
+            var provider = GetCarProvider(out var providerError);
+            if (provider == null)
+            {
+                if (providerError != null)
+                    MessageBox.Show(providerError.Message);
+
+                return false;
+            }
             _editingObject.Lp = _eLp.Text;
             _editingObject.Brand = _eBrand.Text;
             _editingObject.ValidityDateFrom = _dpValidityDateFrom.Value;
             _editingObject.ValidityDateTo = _dpValidityDateTo.Value;
-            _editingObject.SecurityLevel = _eSecurityLevel.Text;
-            _editingObject.Department = _tbDepartment.Text;
+            _editingObject.SecurityLevel = ParseSecurityLevel(_eSecurityLevel.Text);
+            _editingObject.Department = ResolveDepartment(provider, _tbDepartment.Text);
             _editingObject.Description = _eDescription.Text;
 
             return true;
@@ -149,8 +157,8 @@ namespace Contal.Cgp.Client
             _eBrand.Text = _editingObject.Brand;
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
-            _eSecurityLevel.Text = _editingObject.SecurityLevel;
-            _tbDepartment.Text = _editingObject.Department;
+            _eSecurityLevel.Text = _editingObject.SecurityLevel.ToString();
+            _tbDepartment.Text = _editingObject.Department?.FolderName ?? string.Empty;
             _eDescription.Text = _editingObject.Description;
             LoadCards(_eFilterCards.Text);
             _bApply.Enabled = false;
@@ -202,7 +210,7 @@ namespace Contal.Cgp.Client
                 {
                     string cardText = BuildCardDescription(card, provider);
                     bool textMatch = string.IsNullOrEmpty(filter) || cardText.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) == 0;
-                    bool departmentMatch = _departmentFilter == null || string.Equals(card.Department, _departmentFilter.FolderName, StringComparison.CurrentCultureIgnoreCase);
+                    bool departmentMatch = _departmentFilter == null || IsCardInDepartment(provider, card, _departmentFilter);
 
                     if (textMatch && departmentMatch)
                     {
@@ -233,6 +241,48 @@ namespace Contal.Cgp.Client
             return person == null ? string.Empty : person.ToString();
         }
 
+        private static CarSecurityLevel ParseSecurityLevel(string securityLevelText)
+        {
+            if (Enum.TryParse(securityLevelText, true, out CarSecurityLevel parsedSecurityLevel))
+                return parsedSecurityLevel;
+
+            return CarSecurityLevel.StandardLprAndCard;
+        }
+
+        private UserFoldersStructure ResolveDepartment(ICgpServerRemotingProvider provider, string departmentName)
+        {
+            if (provider == null || string.IsNullOrWhiteSpace(departmentName))
+                return null;
+
+            var departments = provider.UserFoldersSutructures.ListDepartments(
+                CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode"),
+                @"\",
+                null,
+                out var error);
+
+            if (error != null || departments == null)
+                return null;
+
+            foreach (var department in departments)
+            {
+                if (department is UserFoldersStructure userFoldersStructure &&
+                    string.Equals(userFoldersStructure.FolderName, departmentName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return userFoldersStructure;
+                }
+            }
+
+            return null;
+        }
+
+        private static bool IsCardInDepartment(ICgpServerRemotingProvider provider, Card card, UserFoldersStructure departmentFilter)
+        {
+            if (provider == null || card == null || departmentFilter == null || card.GuidPerson == Guid.Empty)
+                return false;
+
+            var person = provider.Persons.GetObjectById(card.GuidPerson);
+            return string.Equals(person?.Department?.FolderName, departmentFilter.FolderName, StringComparison.CurrentCultureIgnoreCase);
+        }
 
         private void _bAddCard_Click(object sender, EventArgs e)
         {
