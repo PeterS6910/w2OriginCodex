@@ -39,6 +39,8 @@ namespace Contal.Cgp.Server.Beans
         public virtual string Brand { get; set; }
         public virtual DateTime? ValidityDateFrom { get; set; }
         public virtual DateTime? ValidityDateTo { get; set; }
+        public virtual UserFoldersStructure Department { get; set; }
+        public virtual CarSecurityLevel SecurityLevel { get; set; }
         public virtual string Description { get; set; }
         public virtual bool SynchronizedWithTimetec { get; set; }
         public virtual DateTime UtcDateStateLastChange { get; set; }
