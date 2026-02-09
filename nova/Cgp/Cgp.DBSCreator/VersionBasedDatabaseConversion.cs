@@ -1895,17 +1895,19 @@ namespace Contal.Cgp.DBSCreator
                     IF EXISTS (SELECT * FROM sysobjects WHERE name='Car' AND xtype='U')
                     BEGIN
                         IF COL_LENGTH('Car', 'SecurityLevel') IS NULL
-                        BEGIN
-                            ALTER TABLE Car ADD SecurityLevel tinyint NULL
-                        END
+                            BEGIN
+                                ALTER TABLE Car ADD SecurityLevel tinyint NOT NULL CONSTRAINT DF_Car_SecurityLevel DEFAULT (0) WITH VALUES
+                            END
+                        ELSE
+                            BEGIN
+                                UPDATE Car SET SecurityLevel = 0 WHERE SecurityLevel IS NULL
+                                IF NOT EXISTS (SELECT * FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('Car') AND name = 'DF_Car_SecurityLevel')
+                                    BEGIN
+                                        ALTER TABLE Car ADD CONSTRAINT DF_Car_SecurityLevel DEFAULT (0) FOR SecurityLevel
+                                    END
 
-                        UPDATE Car SET SecurityLevel = 0 WHERE SecurityLevel IS NULL
-
-                        IF NOT EXISTS (SELECT * FROM sys.default_constraints WHERE parent_object_id = OBJECT_ID('Car') AND name = 'DF_Car_SecurityLevel')
-                        BEGIN
-                            ALTER TABLE Car ADD CONSTRAINT DF_Car_SecurityLevel DEFAULT (0) FOR SecurityLevel
-                        END
                         ALTER TABLE Car ALTER COLUMN SecurityLevel tinyint NOT NULL
+                        END
                     END",
                     false,
                     out error))
