@@ -15,6 +15,8 @@ namespace Contal.Cgp.Server.Beans
         public const string COLUMNVALIDITYDATEFROM = "ValidityDateFrom";
         public const string COLUMNVALIDITYDATETO = "ValidityDateTo";
         public const string COLUMNDESCRIPTION = "Description";
+        public const string COLUMNDEPARTMENT = "Department";
+        public const string COLUMNSECURITYLEVEL = "SecurityLevel";
         public const string COLUMN_TIMETEC_SYNC = "SynchronizedWithTimetec";
         public const string COLUMNUTC_DATE_STATE_LAST_CHANGE = "UtcDateStateLastChange";
         public const string COLUMNOBJECTTYPE = "ObjectType";
@@ -50,6 +52,7 @@ namespace Contal.Cgp.Server.Beans
         {
             CkUnique = Guid.NewGuid();
             UtcDateStateLastChange = DateTime.UtcNow;
+            SecurityLevel = CarSecurityLevel.StandardLprAndCard;
         }
 
         public override string ToString()
@@ -124,6 +127,7 @@ namespace Contal.Cgp.Server.Beans
         public const string COLUMNVALIDITYDATEFROM = "ValidityDateFrom";
         public const string COLUMNVALIDITYDATETO = "ValidityDateTo";
         public const string COLUMNSECURITYLEVEL = "SecurityLevel";
+        public const string COLUMNDEPARTMENT = "Department";
         public const string COLUMNVERSION = "Version";
         public const string COLUMNDESCRIPTION = "Description";
         public const string COLUMN_SYMBOL = "Symbol";
@@ -135,6 +139,8 @@ namespace Contal.Cgp.Server.Beans
         public DateTime? ValidityDateTo { get; set; }
         public int Version { get; set; }
         public string Description { get; set; }
+        public string Department { get; set; }
+        public CarSecurityLevel SecurityLevel { get; set; }
         public Image Symbol { get; set; }
 
         public CarShort(Car car)
@@ -145,6 +151,8 @@ namespace Contal.Cgp.Server.Beans
             ValidityDateFrom = car.ValidityDateFrom;
             ValidityDateTo = car.ValidityDateTo;
             Version = car.Version;
+            Department = car.Department?.FolderName;
+            SecurityLevel = car.SecurityLevel;
             Description = car.Description;
         }
 
@@ -152,6 +160,15 @@ namespace Contal.Cgp.Server.Beans
         public string Name { get { return Lp; } }
         public ObjectType ObjectType { get { return ObjectType.Car; } }
         public string GetSubTypeImageString(object value) { return string.Empty; }
+    }
+
+    [Serializable]
+    public enum CarSecurityLevel : byte
+    {
+        VipLprOnly = 0,
+        StandardLprAndCard = 1,
+        HigherSecurityLprAndPin = 2,
+        AlternativeLprAndCardOrPin = 3
     }
 
     [Serializable]

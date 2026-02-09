@@ -11,6 +11,8 @@
     <property name="Description" not-null="false">
       <column name="Description" sql-type="NVARCHAR(MAX)" />
     </property>
+    <many-to-one name="Department" column="Department" class="Contal.Cgp.Server.Beans.UserFoldersStructure, Cgp.Server.Beans" not-null="false"/>
+    <property name="SecurityLevel" not-null="true" />
     <property name="SynchronizedWithTimetec" not-null="false" />
     <property name="UtcDateStateLastChange" not-null="false" />
     <property name="Version" not-null="false" />
