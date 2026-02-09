@@ -401,6 +401,16 @@ namespace Contal.Cgp.DBSCreator
                 return false;
             }
 
+            if (!DoConvertToVersion(version,
+                2.13,
+                ConversionCgpServerBeans2_13,
+                false,
+                conversionTypeString,
+                saveVersionToDabase))
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -1877,6 +1887,25 @@ namespace Contal.Cgp.DBSCreator
 
             return true;
         }
+
+        private bool ConversionCgpServerBeans2_13(out Exception error)
+        {
+            if (!_databaseCommandExecutor.RunSqlNonQuery(
+                    @"
+                    IF EXISTS (SELECT * FROM sysobjects WHERE name='Car' AND xtype='U')
+                    BEGIN
+                        UPDATE Car SET SecurityLevel = 1 WHERE SecurityLevel IS NULL
+                        ALTER TABLE Car ALTER COLUMN SecurityLevel tinyint NOT NULL
+                    END",
+                    false,
+                    out error))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool ConversionCgpNCASServerBeans1_1(out Exception error)
         {
             try
