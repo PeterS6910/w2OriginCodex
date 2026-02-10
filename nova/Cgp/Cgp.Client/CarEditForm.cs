@@ -30,6 +30,7 @@ namespace Contal.Cgp.Client
             : base(car, showOption)
         {
             InitializeComponent();
+            _tbmDepartment.ImageTextBox.ContextMenuStrip = _tbmDepartment.ButtonPopupMenu;
             _editingObject = car;
             _ilbCards.ImageList = ObjectImageList.Singleton.ClientObjectImages;
             SetReferenceEditColors();
@@ -117,6 +118,9 @@ namespace Contal.Cgp.Client
             Text = Insert
                 ? GetString("CarEditFormInsertText")
                 : GetString("CarEditFormEditText");
+
+            _tsiDepartmentModify.Text = GetString("General_bModify");
+            _tsiDepartmentRemove.Text = GetString("General_bRemove");
 
             CgpClientMainForm.Singleton.SetTextOpenWindow(this);
         }
