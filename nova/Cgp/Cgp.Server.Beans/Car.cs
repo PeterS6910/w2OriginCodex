@@ -41,6 +41,16 @@ namespace Contal.Cgp.Server.Beans
         public virtual DateTime? ValidityDateTo { get; set; }
         public virtual UserFoldersStructure Department { get; set; }
         public virtual CarSecurityLevel SecurityLevel { get; set; }
+        public virtual int SecurityLevelInt
+        {
+            get { return (int)SecurityLevel; }
+            set
+            {
+                SecurityLevel = Enum.IsDefined(typeof(CarSecurityLevel), value)
+                    ? (CarSecurityLevel)value
+                    : CarSecurityLevel.StandardLprAndCard;
+            }
+        }
         public virtual string Description { get; set; }
         public virtual bool SynchronizedWithTimetec { get; set; }
         public virtual DateTime UtcDateStateLastChange { get; set; }
