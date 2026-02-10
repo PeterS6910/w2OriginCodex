@@ -30,6 +30,24 @@ namespace Contal.Cgp.Server.DB
             return null;
         }
 
+        protected override void LoadObjectsInRelationship(Car obj)
+        {
+            if (obj?.Department == null)
+                return;
+
+            try
+            {
+                obj.Department =
+                    UserFoldersStructures.Singleton.GetById(
+                        obj.Department.IdUserFoldersStructure);
+            }
+            catch (ObjectNotFoundException)
+            {
+                obj.Department = null;
+            }
+        }
+
+
         public bool InsertCar(ref Car obj, out Exception insertException)
         {
             obj.WholeName = obj.Lp;
@@ -82,12 +100,12 @@ namespace Contal.Cgp.Server.DB
                 {
                     result.Add(new CarShort(car)
                     {
-                         IdCar = car.IdCar,
-                         Lp =  car.Lp,
-                         Brand = car.Brand,
-                         ValidityDateFrom = car.ValidityDateFrom,
-                         ValidityDateTo = car.ValidityDateTo,
-                         Description = car.Description,
+                        IdCar = car.IdCar,
+                        Lp = car.Lp,
+                        Brand = car.Brand,
+                        ValidityDateFrom = car.ValidityDateFrom,
+                        ValidityDateTo = car.ValidityDateTo,
+                        Description = car.Description,
                     });
                 }
             }

@@ -48,31 +48,42 @@ namespace Contal.Cgp.Client
         private readonly int _borderWidth;
         private readonly int _borderHeight;
         private bool _isEditAllowed;
+        private bool _closeSafelyRequested;
         private SizeF _scaleF = new SizeF(1.0F, 1.0F);//DPI 100%
 
         public event Action<object> EditingObjectChanged;
 
         private void CloseSafely()
         {
-            if (IsDisposed)
+            if (IsDisposed || _closeSafelyRequested)
                 return;
 
-            if (IsHandleCreated && !RecreatingHandle)
+            _closeSafelyRequested = true;
+
+            if (IsHandleCreated)
             {
-                Close();
+                BeginInvoke(new MethodInvoker(() =>
+                {
+                    if (!IsDisposed)
+                        Close();
+                }));
                 return;
             }
 
-            EventHandler shownHandler = null;
-            shownHandler = (sender, args) =>
+            EventHandler handleCreatedHandler = null;
+            handleCreatedHandler = (sender, args) =>
             {
-                Shown -= shownHandler;
+                HandleCreated -= handleCreatedHandler;
 
-                if (!IsDisposed)
-                    Close();
+                if (!IsDisposed && IsHandleCreated)
+                    BeginInvoke(new MethodInvoker(() =>
+                    {
+                        if (!IsDisposed)
+                            Close();
+                    }));
             };
 
-            Shown += shownHandler;
+            HandleCreated += handleCreatedHandler;
         }
 
 
