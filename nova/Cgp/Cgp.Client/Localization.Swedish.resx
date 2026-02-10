@@ -708,6 +708,18 @@
   <data name="CarsForm_lSecurityLevel" xml:space="preserve">
     <value>Säkerhetsnivå</value>
   </data>
+  <data name="CarEditForm_SecurityLevel_VipLprOnly" xml:space="preserve">
+    <value>VIP endast LPR</value>
+  </data>
+  <data name="CarEditForm_SecurityLevel_StandardLprAndCard" xml:space="preserve">
+    <value>Standard LPR + kort</value>
+  </data>
+  <data name="CarEditForm_SecurityLevel_HigherSecurityLprAndPin" xml:space="preserve">
+    <value>Högre säkerhet LPR + PIN</value>
+  </data>
+  <data name="CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin" xml:space="preserve">
+    <value>Alternativ LPR + kort eller PIN</value>
+  </data>
   <data name="CardSystemsEditForm_lCards" xml:space="preserve">
     <value>Kort</value>
   </data>

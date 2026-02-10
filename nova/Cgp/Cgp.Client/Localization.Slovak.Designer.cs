@@ -1879,6 +1879,42 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alternatívne LPR + karta alebo PIN.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vyššia úroveň zabezpečenia LPR + PIN.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_HigherSecurityLprAndPin {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_HigherSecurityLprAndPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Štandardné LPR + karta.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_StandardLprAndCard {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_StandardLprAndCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VIP len LPR.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_VipLprOnly {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_VipLprOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prístupové práva.
         /// </summary>
         internal static string CarEditForm_tpAccessControlList {

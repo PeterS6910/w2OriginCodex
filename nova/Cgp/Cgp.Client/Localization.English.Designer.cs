@@ -4615,6 +4615,42 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alternative LPR + card or PIN.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Higher security LPR + PIN.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_HigherSecurityLprAndPin {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_HigherSecurityLprAndPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard LPR + card.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_StandardLprAndCard {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_StandardLprAndCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VIP LPR only.
+        /// </summary>
+        internal static string CarEditForm_SecurityLevel_VipLprOnly {
+            get {
+                return ResourceManager.GetString("CarEditForm_SecurityLevel_VipLprOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access control list.
         /// </summary>
         internal static string CarEditForm_tpAccessControlList {

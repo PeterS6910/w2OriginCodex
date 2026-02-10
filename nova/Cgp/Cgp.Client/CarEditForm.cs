@@ -34,6 +34,7 @@ namespace Contal.Cgp.Client
             _editingObject = car;
             _ilbCards.ImageList = ObjectImageList.Singleton.ClientObjectImages;
             SetReferenceEditColors();
+            FillSecurityLevelComboBox();
 
             if (showOption != ShowOptionsEditForm.InsertWithData)
             {
@@ -68,7 +69,7 @@ namespace Contal.Cgp.Client
             _editingObject.Brand = _eBrand.Text;
             _editingObject.ValidityDateFrom = _dpValidityDateFrom.Value;
             _editingObject.ValidityDateTo = _dpValidityDateTo.Value;
-            _editingObject.SecurityLevel = ParseSecurityLevel(_eSecurityLevel.Text);
+            _editingObject.SecurityLevel = GetSelectedSecurityLevel();
             _editingObject.Department = _actDepartment;
             _editingObject.Description = _eDescription.Text;
 
@@ -122,6 +123,8 @@ namespace Contal.Cgp.Client
             _tsiDepartmentModify.Text = GetString("General_bModify");
             _tsiDepartmentRemove.Text = GetString("General_bRemove");
 
+            FillSecurityLevelComboBox();
+
             CgpClientMainForm.Singleton.SetTextOpenWindow(this);
         }
 
@@ -148,7 +151,7 @@ namespace Contal.Cgp.Client
             _eBrand.Text = string.Empty;
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
-            _eSecurityLevel.Text = string.Empty;
+            SelectSecurityLevel(CarSecurityLevel.StandardLprAndCard);
             SetActDepartment(null);
             _eDescription.Text = string.Empty;
             _ilbCards.Items.Clear();
@@ -162,7 +165,7 @@ namespace Contal.Cgp.Client
             _eBrand.Text = _editingObject.Brand;
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
-            _eSecurityLevel.Text = _editingObject.SecurityLevel.ToString();
+            SelectSecurityLevel(_editingObject.SecurityLevel);
             SetDepartmentFullName(_editingObject.Department);
             SetActDepartment(_editingObject.Department);
             _eDescription.Text = _editingObject.Description;
@@ -247,12 +250,65 @@ namespace Contal.Cgp.Client
             return person == null ? string.Empty : person.ToString();
         }
 
-        private static CarSecurityLevel ParseSecurityLevel(string securityLevelText)
+        private void FillSecurityLevelComboBox()
         {
-            if (Enum.TryParse(securityLevelText, true, out CarSecurityLevel parsedSecurityLevel))
-                return parsedSecurityLevel;
+            var selectedSecurityLevel = GetSelectedSecurityLevel();
+
+            _eSecurityLevel.Items.Clear();
+
+            foreach (CarSecurityLevel securityLevel in Enum.GetValues(typeof(CarSecurityLevel)))
+            {
+                _eSecurityLevel.Items.Add(new CarSecurityLevelItem(securityLevel, GetString));
+            }
+
+            SelectSecurityLevel(selectedSecurityLevel);
+        }
+
+        private void SelectSecurityLevel(CarSecurityLevel securityLevel)
+        {
+            foreach (var item in _eSecurityLevel.Items.OfType<CarSecurityLevelItem>())
+            {
+                if (item.SecurityLevel != securityLevel)
+                    continue;
+
+                _eSecurityLevel.SelectedItem = item;
+                return;
+            }
+
+            if (_eSecurityLevel.Items.Count > 0)
+                _eSecurityLevel.SelectedIndex = 0;
+        }
+
+        private CarSecurityLevel GetSelectedSecurityLevel()
+        {
+            var selectedItem = _eSecurityLevel.SelectedItem as CarSecurityLevelItem;
+            if (selectedItem != null)
+                return selectedItem.SecurityLevel;
 
             return CarSecurityLevel.StandardLprAndCard;
+        }
+
+        private class CarSecurityLevelItem
+        {
+            private readonly Func<string, string> _getString;
+
+            public CarSecurityLevel SecurityLevel { get; private set; }
+
+            public CarSecurityLevelItem(CarSecurityLevel securityLevel, Func<string, string> getString)
+            {
+                SecurityLevel = securityLevel;
+                _getString = getString;
+            }
+
+            public override string ToString()
+            {
+                var localizationKey = $"CarEditForm_SecurityLevel_{SecurityLevel}";
+                var localizedText = _getString(localizationKey);
+
+                return string.IsNullOrWhiteSpace(localizedText)
+                    ? SecurityLevel.ToString()
+                    : localizedText;
+            }
         }
 
         private static bool IsCardInDepartment(ICgpServerRemotingProvider provider, Card card, UserFoldersStructure departmentFilter)
