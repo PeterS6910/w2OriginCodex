@@ -77,7 +77,7 @@ namespace Contal.Cgp.Client
             this._lRecordCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._lRecordCount.AutoSize = true;
             this._lRecordCount.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._lRecordCount.Location = new System.Drawing.Point(785, 5);
+            this._lRecordCount.Location = new System.Drawing.Point(850, 5);
             this._lRecordCount.Name = "_lRecordCount";
             this._lRecordCount.Size = new System.Drawing.Size(115, 25);
             this._lRecordCount.TabIndex = 18;
