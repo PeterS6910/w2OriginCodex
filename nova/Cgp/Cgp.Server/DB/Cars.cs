@@ -30,6 +30,26 @@ namespace Contal.Cgp.Server.DB
             return null;
         }
 
+        protected override bool AddCriteriaSpecial(ref ICriteria c, FilterSettings filterSetting)
+        {
+            if (filterSetting == null)
+                return false;
+
+            if (filterSetting.Column == Car.COLUMNDEPARTMENT)
+            {
+                var departmentFilter = filterSetting.Value as UserFoldersStructure;
+                var departmentId = departmentFilter?.IdUserFoldersStructure;
+
+                if (departmentId == null || departmentId == Guid.Empty)
+                    return false;
+
+                c = c.Add(Restrictions.Eq("Department.IdUserFoldersStructure", departmentId));
+                return true;
+            }
+
+            return false;
+        }
+
         protected override void LoadObjectsInRelationship(Car obj)
         {
             if (obj?.Department == null)

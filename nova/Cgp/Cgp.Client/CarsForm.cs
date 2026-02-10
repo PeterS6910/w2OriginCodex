@@ -7,6 +7,7 @@ using Contal.IwQuick.Sys;
 using Contal.IwQuick.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 
@@ -92,6 +93,18 @@ namespace Contal.Cgp.Client
             var list = CgpClient.Singleton.MainServerProvider.Cars.ShortSelectByCriteria(_filterSettings, out error);
             if (error != null)
                 throw error;
+
+            if (_departmentFilter != null && list != null)
+            {
+                list = list
+                    .Where(car =>
+                        string.Equals(
+                            car.Department,
+                            _departmentFilter.FolderName,
+                            StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+            }
+
             CheckAccess();
 
             _lRecordCount.BeginInvoke(new Action(
