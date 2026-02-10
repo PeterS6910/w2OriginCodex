@@ -307,10 +307,16 @@ namespace Contal.Cgp.Client
             this._tsiDepartmentRemove});
             this._tbmDepartment.ButtonPopupMenu.Name = "";
             this._tbmDepartment.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmDepartment.ButtonPosition = Contal.IwQuick.UI.MenuPosition.Right;
+            this._tbmDepartment.ButtonDefaultBehaviour = true;
+            this._tbmDepartment.ButtonShowImage = true;
+            this._tbmDepartment.ButtonSizeHeight = 20;
+            this._tbmDepartment.ButtonSizeWidth = 20;
             this._tbmDepartment.Location = new System.Drawing.Point(259, 243);
             this._tbmDepartment.Name = "_tbmDepartment";
             this._tbmDepartment.Size = new System.Drawing.Size(260, 20);
             this._tbmDepartment.TabIndex = 11;
+            this._tbmDepartment.ImageTextBox.ContextMenuStrip = this._tbmDepartment.ButtonPopupMenu;
             this._tbmDepartment.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this.DepartmentButtonPopupMenuItemClick);
             this._tbmDepartment.ImageTextBox.DoubleClick += new System.EventHandler(this.DepartmentTextBoxDoubleClick);
             // 
