@@ -52,7 +52,9 @@ namespace Contal.Cgp.Client
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateFrom;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateTo;
         private System.Windows.Forms.TextBox _eSecurityLevel;
-        private System.Windows.Forms.TextBox _tbDepartment;
+        private Contal.IwQuick.UI.TextBoxMenu _tbmDepartment;
+        private System.Windows.Forms.ToolStripMenuItem _tsiDepartmentModify;
+        private System.Windows.Forms.ToolStripMenuItem _tsiDepartmentRemove;
         private System.Windows.Forms.Label _lSecurityLevel;
         private System.Windows.Forms.Label _lDepartment;
         private System.Windows.Forms.Label _lDepartmentFilter;
@@ -85,7 +87,9 @@ namespace Contal.Cgp.Client
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._eSecurityLevel = new System.Windows.Forms.TextBox();
-            this._tbDepartment = new System.Windows.Forms.TextBox();
+            this._tbmDepartment = new Contal.IwQuick.UI.TextBoxMenu();
+            this._tsiDepartmentModify = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsiDepartmentRemove = new System.Windows.Forms.ToolStripMenuItem();
             this._lSecurityLevel = new System.Windows.Forms.Label();
             this._lDepartment = new System.Windows.Forms.Label();
             this._tpCards = new System.Windows.Forms.TabPage();
@@ -193,7 +197,7 @@ namespace Contal.Cgp.Client
             this._tpInformation.Controls.Add(this._lSecurityLevel);
             this._tpInformation.Controls.Add(this._lDepartment);
             this._tpInformation.Controls.Add(this._eSecurityLevel);
-            this._tpInformation.Controls.Add(this._tbDepartment);
+            this._tpInformation.Controls.Add(this._tbmDepartment);
             this._tpInformation.Controls.Add(this._eDescription);
             this._tpInformation.Controls.Add(this._eBrand);
             this._tpInformation.Controls.Add(this._eLp);
@@ -292,12 +296,35 @@ namespace Contal.Cgp.Client
             this._eSecurityLevel.Size = new System.Drawing.Size(260, 22);
             this._eSecurityLevel.TabIndex = 10;
             // 
-            // _tbDepartment
+            // _tbmDepartment
             // 
-            this._tbDepartment.Location = new System.Drawing.Point(259, 242);
-            this._tbDepartment.Name = "_tbDepartment";
-            this._tbDepartment.Size = new System.Drawing.Size(260, 22);
-            this._tbDepartment.TabIndex = 11;
+            this._tbmDepartment.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this._tbmDepartment.ButtonPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsiDepartmentModify,
+            this._tsiDepartmentRemove});
+            this._tbmDepartment.ButtonPopupMenu.Name = "";
+            this._tbmDepartment.ButtonPopupMenu.Size = new System.Drawing.Size(118, 48);
+            this._tbmDepartment.Location = new System.Drawing.Point(259, 243);
+            this._tbmDepartment.Name = "_tbmDepartment";
+            this._tbmDepartment.Size = new System.Drawing.Size(260, 20);
+            this._tbmDepartment.TabIndex = 11;
+            this._tbmDepartment.ButtonPopupMenuItemClick += new Contal.IwQuick.UI.TextBoxMenu.DPopupMenuHandler(this.DepartmentButtonPopupMenuItemClick);
+            this._tbmDepartment.ImageTextBox.DoubleClick += new System.EventHandler(this.DepartmentTextBoxDoubleClick);
+            // 
+            // _tsiDepartmentModify
+            // 
+            this._tsiDepartmentModify.Name = "_tsiDepartmentModify";
+            this._tsiDepartmentModify.Size = new System.Drawing.Size(117, 22);
+            this._tsiDepartmentModify.Text = "Modify";
+            // 
+            // _tsiDepartmentRemove
+            // 
+            this._tsiDepartmentRemove.Name = "_tsiDepartmentRemove";
+            this._tsiDepartmentRemove.Size = new System.Drawing.Size(117, 22);
+            this._tsiDepartmentRemove.Text = "Remove";
             // 
             // _lSecurityLevel
             // 

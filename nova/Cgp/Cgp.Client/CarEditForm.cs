@@ -24,6 +24,7 @@ namespace Contal.Cgp.Client
 #endif
     {
         private UserFoldersStructure _departmentFilter;
+        private UserFoldersStructure _actDepartment;
 
         public CarEditForm(Car car, ShowOptionsEditForm showOption)
             : base(car, showOption)
@@ -67,7 +68,7 @@ namespace Contal.Cgp.Client
             _editingObject.ValidityDateFrom = _dpValidityDateFrom.Value;
             _editingObject.ValidityDateTo = _dpValidityDateTo.Value;
             _editingObject.SecurityLevel = ParseSecurityLevel(_eSecurityLevel.Text);
-            _editingObject.Department = ResolveDepartment(provider, _tbDepartment.Text);
+            _editingObject.Department = _actDepartment;
             _editingObject.Description = _eDescription.Text;
 
             return true;
@@ -144,7 +145,7 @@ namespace Contal.Cgp.Client
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
             _eSecurityLevel.Text = string.Empty;
-            _tbDepartment.Text = string.Empty;
+            SetActDepartment(null);
             _eDescription.Text = string.Empty;
             _ilbCards.Items.Clear();
             _eFilterCards.Text = string.Empty;
@@ -158,7 +159,8 @@ namespace Contal.Cgp.Client
             _dpValidityDateFrom.Value = _editingObject.ValidityDateFrom;
             _dpValidityDateTo.Value = _editingObject.ValidityDateTo;
             _eSecurityLevel.Text = _editingObject.SecurityLevel.ToString();
-            _tbDepartment.Text = _editingObject.Department?.FolderName ?? string.Empty;
+            SetDepartmentFullName(_editingObject.Department);
+            SetActDepartment(_editingObject.Department);
             _eDescription.Text = _editingObject.Description;
             LoadCards(_eFilterCards.Text);
             _bApply.Enabled = false;
@@ -247,32 +249,6 @@ namespace Contal.Cgp.Client
                 return parsedSecurityLevel;
 
             return CarSecurityLevel.StandardLprAndCard;
-        }
-
-        private UserFoldersStructure ResolveDepartment(ICgpServerRemotingProvider provider, string departmentName)
-        {
-            if (provider == null || string.IsNullOrWhiteSpace(departmentName))
-                return null;
-
-            var departments = provider.UserFoldersSutructures.ListDepartments(
-                CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode"),
-                @"\",
-                null,
-                out var error);
-
-            if (error != null || departments == null)
-                return null;
-
-            foreach (var department in departments)
-            {
-                if (department is UserFoldersStructure userFoldersStructure &&
-                    string.Equals(userFoldersStructure.FolderName, departmentName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return userFoldersStructure;
-                }
-            }
-
-            return null;
         }
 
         private static bool IsCardInDepartment(ICgpServerRemotingProvider provider, Card card, UserFoldersStructure departmentFilter)
@@ -606,6 +582,100 @@ namespace Contal.Cgp.Client
         {
             base.EditTextChanger(sender, e);
             _bApply.Enabled = true;
+        }
+
+        private void SetDepartmentFullName(UserFoldersStructure department)
+        {
+            if (department == null)
+                return;
+
+            department.SetFullFolderName(
+                CgpClient.Singleton.MainServerProvider.UserFoldersSutructures.GetFullDepartmentName(
+                    department.GetIdString(),
+                    department.FolderName,
+                    out _));
+        }
+
+        private void SetActDepartment(UserFoldersStructure department)
+        {
+            _actDepartment = department;
+            if (_actDepartment == null)
+            {
+                _tbmDepartment.Text = string.Empty;
+                _tbmDepartment.TextImage = null;
+            }
+            else
+            {
+                _tbmDepartment.Text = _actDepartment.ToString();
+                _tbmDepartment.TextImage = ObjectImageList.Singleton.GetImageForAOrmObject(_actDepartment);
+            }
+        }
+
+        private void ModifyActDepartment()
+        {
+            if (CgpClient.Singleton.IsConnectionLost(true))
+                return;
+
+            try
+            {
+                var carId = Insert ? null : (object)_editingObject.IdCar;
+
+                var listDepartments = CgpClient.Singleton.MainServerProvider.UserFoldersSutructures.ListDepartments(
+                    CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode"),
+                    @"\",
+                    carId,
+                    out var error);
+
+                if (error != null)
+                    throw error;
+
+                var formAdd = new ListboxFormAdd(
+                    listDepartments,
+                    CgpClient.Singleton.LocalizationHelper.GetString(
+                        "UserFoldersStructuresFormUserFoldersStructuresForm"));
+
+                object outUserFolder;
+                formAdd.ShowDialog(out outUserFolder);
+                if (outUserFolder is UserFoldersStructure userFolder)
+                {
+                    SetDepartmentFullName(userFolder);
+                    SetActDepartment(userFolder);
+                    CgpClientMainForm.Singleton.AddToRecentList(_actDepartment);
+                    EditTextChanger(this, EventArgs.Empty);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandledExceptionAdapter.Examine(ex);
+            }
+        }
+
+        private void DepartmentButtonPopupMenuItemClick(ToolStripItem item, int index)
+        {
+            if (item.Name == "_tsiDepartmentModify")
+            {
+                ModifyActDepartment();
+            }
+            else if (item.Name == "_tsiDepartmentRemove")
+            {
+                SetActDepartment(null);
+                EditTextChanger(this, EventArgs.Empty);
+            }
+        }
+
+        private void DepartmentTextBoxDoubleClick(object sender, EventArgs e)
+        {
+            if (_actDepartment == null)
+                return;
+
+            try
+            {
+                DbsSupport.OpenEditForm(_actDepartment);
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+            }
         }
 
         private void _bDepartmentFilter_Click(object sender, EventArgs e)
