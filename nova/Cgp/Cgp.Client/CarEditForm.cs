@@ -258,7 +258,7 @@ namespace Contal.Cgp.Client
 
             foreach (CarSecurityLevel securityLevel in Enum.GetValues(typeof(CarSecurityLevel)))
             {
-                _eSecurityLevel.Items.Add(new CarSecurityLevelItem(securityLevel, GetString));
+                _eSecurityLevel.Items.Add(new CarSecurityLevelItem(securityLevel, localizationKey => GetString(localizationKey)));
             }
 
             SelectSecurityLevel(selectedSecurityLevel);
