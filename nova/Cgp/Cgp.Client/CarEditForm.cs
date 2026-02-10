@@ -593,7 +593,8 @@ namespace Contal.Cgp.Client
                 CgpClient.Singleton.MainServerProvider.UserFoldersSutructures.GetFullDepartmentName(
                     department.GetIdString(),
                     department.FolderName,
-                    out _));
+                    @"\\",
+                    CgpClient.Singleton.LocalizationHelper.GetString("SelectStructuredSubSiteForm_RootNode")));
         }
 
         private void SetActDepartment(UserFoldersStructure department)
