@@ -142,16 +142,19 @@ namespace Contal.Cgp.Client
             resources.ApplyResources(this._eLp, "_eLp");
             this._eLp.Name = "_eLp";
             this._eLp.Tag = "s";
+            this._eLp.TextChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _eBrand
             // 
             resources.ApplyResources(this._eBrand, "_eBrand");
             this._eBrand.Name = "_eBrand";
+            this._eBrand.TextChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _eDescription
             // 
             resources.ApplyResources(this._eDescription, "_eDescription");
             this._eDescription.Name = "_eDescription";
+            this._eDescription.TextChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _eUtcDateStateLastChange
             // 
@@ -225,6 +228,7 @@ namespace Contal.Cgp.Client
             this._dpValidityDateTo.ValidationEnabled = false;
             this._dpValidityDateTo.ValidationError = "";
             this._dpValidityDateTo.Value = null;
+            this._dpValidityDateTo.TextDateChanged += new Contal.IwQuick.UI.TextBoxDatePicker.DTextChanged(this.EditTextChanger);
             // 
             // _dpValidityDateFrom
             // 
@@ -247,6 +251,7 @@ namespace Contal.Cgp.Client
             this._dpValidityDateFrom.ValidationEnabled = false;
             this._dpValidityDateFrom.ValidationError = "";
             this._dpValidityDateFrom.Value = null;
+            this._dpValidityDateFrom.TextDateChanged += new Contal.IwQuick.UI.TextBoxDatePicker.DTextChanged(this.EditTextChanger);
             // 
             // label8
             // 
@@ -295,6 +300,7 @@ namespace Contal.Cgp.Client
             this._eSecurityLevel.Name = "_eSecurityLevel";
             this._eSecurityLevel.Size = new System.Drawing.Size(260, 22);
             this._eSecurityLevel.TabIndex = 10;
+            this._eSecurityLevel.TextChanged += new System.EventHandler(this.EditTextChanger);
             // 
             // _tbmDepartment
             // 
