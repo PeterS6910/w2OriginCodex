@@ -51,7 +51,7 @@ namespace Contal.Cgp.Client
         private System.Windows.Forms.Label label8;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateFrom;
         private IwQuick.UI.TextBoxDatePicker _dpValidityDateTo;
-        private System.Windows.Forms.ComboBox _eSecurityLevel
+        private System.Windows.Forms.ComboBox _eSecurityLevel;
         private Contal.IwQuick.UI.TextBoxMenu _tbmDepartment;
         private System.Windows.Forms.ToolStripMenuItem _tsiDepartmentModify;
         private System.Windows.Forms.ToolStripMenuItem _tsiDepartmentRemove;
@@ -86,7 +86,7 @@ namespace Contal.Cgp.Client
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._eSecurityLevel = new System.Windows.Forms.ComboBox()
+            this._eSecurityLevel = new System.Windows.Forms.ComboBox();
             this._tbmDepartment = new Contal.IwQuick.UI.TextBoxMenu();
             this._tsiDepartmentModify = new System.Windows.Forms.ToolStripMenuItem();
             this._tsiDepartmentRemove = new System.Windows.Forms.ToolStripMenuItem();
