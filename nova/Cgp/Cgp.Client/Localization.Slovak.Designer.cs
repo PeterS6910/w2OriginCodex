@@ -2032,6 +2032,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oddelenie.
+        /// </summary>
+        internal static string CarsForm_lDepartmentFilter {
+            get {
+                return ResourceManager.GetString("CarsForm_lDepartmentFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ŠPZ.
         /// </summary>
         internal static string CarsForm_lLp {

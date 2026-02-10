@@ -1143,6 +1143,9 @@
   <data name="CarsForm_lBrand" xml:space="preserve">
     <value>Brand</value>
   </data>
+  <data name="CarsForm_lDepartmentFilter" xml:space="preserve">
+    <value>Department</value>
+  </data>
   <data name="CarsForm_lLp" xml:space="preserve">
     <value>Lp</value>
   </data>

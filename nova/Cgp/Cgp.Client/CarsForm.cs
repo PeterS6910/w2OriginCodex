@@ -238,21 +238,13 @@ namespace Contal.Cgp.Client
 
             if (_departmentFilter != null)
             {
-                _filterSettings.Add(new FilterSettings(Car.COLUMNDEPARTMENT, _departmentFilter.FolderName, ComparerModes.EQUALL));
+                _filterSettings.Add(new FilterSettings(Car.COLUMNDEPARTMENT, _departmentFilter, ComparerModes.EQUALL));
             }
         }
 
         private void _bFilterClear_Click(object sender, EventArgs e)
         {
             FilterClear_Click();
-        }
-
-        private void _bDepartmentFilterClear_Click(object sender, EventArgs e)
-        {
-            _departmentFilter = null;
-            _tbmDepartmentFilter.Text = string.Empty;
-            FilterValueChanged(this, EventArgs.Empty);
-            RunFilter();
         }
 
         private void _bAclAssignment_Click(object sender, EventArgs e)

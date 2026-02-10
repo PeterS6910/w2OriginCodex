@@ -615,6 +615,9 @@
   <data name="ColumnBrand" xml:space="preserve">
     <value>Značka</value>
   </data>
+  <data name="CarsForm_lDepartmentFilter" xml:space="preserve">
+    <value>Oddelenie</value>
+  </data>
   <data name="ColumnValidityDateFrom" xml:space="preserve">
     <value>Platnosť od</value>
   </data>

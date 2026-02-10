@@ -4930,6 +4930,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Avdelning.
+        /// </summary>
+        internal static string CarsForm_lDepartmentFilter {
+            get {
+                return ResourceManager.GetString("CarsForm_lDepartmentFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registreringsnummer.
         /// </summary>
         internal static string CarsForm_lLp {
