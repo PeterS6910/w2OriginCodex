@@ -95,6 +95,9 @@ namespace Contal.Cgp.NCAS.Client
 
             InitializeComponent();
             _lVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_lVehicleAccess");
+            _lLprCorrelationWindowSeconds.Text = GetString("NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds");
+            _eLprCorrelationWindowSeconds.Minimum = DoorEnvironment.MinLprCorrelationWindowSeconds;
+            _eLprCorrelationWindowSeconds.Maximum = DoorEnvironment.MaxLprCorrelationWindowSeconds;
             _chbIsVehicleAccess.Text = string.Empty;
 
             _catsDsmDoorAjar = new ControlAlarmTypeSettings
@@ -775,12 +778,14 @@ namespace Contal.Cgp.NCAS.Client
             _lprCameraExternal = _editingObject.LprCameraExternal;
 
             var lprCorrelationWindow = _editingObject.LprCorrelationWindowSeconds;
-            if (lprCorrelationWindow < DoorEnvironment.MinLprCorrelationWindowSeconds)
+            if (lprCorrelationWindow < DoorEnvironment.MinLprCorrelationWindowSeconds
+                || lprCorrelationWindow > DoorEnvironment.MaxLprCorrelationWindowSeconds)
             {
                 lprCorrelationWindow = DoorEnvironment.DefaultLprCorrelationWindowSeconds;
             }
 
             _lprCorrelationWindowSeconds = lprCorrelationWindow;
+            _eLprCorrelationWindowSeconds.Value = lprCorrelationWindow;
 
             RefreshInternalLprCamera();
             RefreshExternalLprCamera();
@@ -869,13 +874,21 @@ namespace Contal.Cgp.NCAS.Client
 
             _tbmInternalLprCamera.Enabled = enableLprCameras;
             _tbmExternalLprCamera.Enabled = enableLprCameras;
+            _lLprCorrelationWindowSeconds.Enabled = enableLprCameras;
+            _eLprCorrelationWindowSeconds.Enabled = enableLprCameras;
 
             _tsiModifyLprInternal.Enabled = enableLprCameras;
             _tsiRemoveLprInternal.Enabled = enableLprCameras;
             _tsiModifyLprExternal.Enabled = enableLprCameras;
-            _tsiRemoveLprExternal.Enabled = enableLprCameras;            
+            _tsiRemoveLprExternal.Enabled = enableLprCameras;
 
             _chbIsVehicleAccess.Enabled = !_chbIsVehicleAccess.Checked || !HasAssignedLprCameras();
+        }
+
+        private void _eLprCorrelationWindowSeconds_ValueChanged(object sender, EventArgs e)
+        {
+            _lprCorrelationWindowSeconds = (int)_eLprCorrelationWindowSeconds.Value;
+            EditTextChanger(sender, e);
         }
 
         private ICollection<AlarmArc> GetAlarmArcs(
