@@ -156,6 +156,7 @@ namespace Contal.Cgp.NCAS.Client
             this._tpDescription = new System.Windows.Forms.TabPage();
             this._eDescription = new System.Windows.Forms.TextBox();
             this._panelBack.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._eLprCorrelationWindowSeconds)).BeginInit();
             this._tcDoorsAutomat.SuspendLayout();
             this._tpDoorsTiming.SuspendLayout();
             this._gbDoorsDelays.SuspendLayout();
@@ -170,7 +171,6 @@ namespace Contal.Cgp.NCAS.Client
             ((System.ComponentModel.ISupportInitialize)(this._eTimeUnlock)).BeginInit();
             this._tpApas.SuspendLayout();
             this._gbCardReaders.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._eLprCorrelationWindowSeconds)).BeginInit();
             this._gbActuators.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._eExtraElectricStrikeOppositeImpulseDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._eElectricStrikeOppositeImpulseDelay)).BeginInit();
@@ -397,8 +397,6 @@ namespace Contal.Cgp.NCAS.Client
             this._panelBack.Controls.Add(this._bOk);
             this._panelBack.Controls.Add(this._lVehicleAccess);
             this._panelBack.Controls.Add(this._chbIsVehicleAccess);
-            this._panelBack.Controls.Add(this._lLprCorrelationWindowSeconds);
-            this._panelBack.Controls.Add(this._eLprCorrelationWindowSeconds);
             this._panelBack.Controls.Add(this._tcDoorsAutomat);
             this._panelBack.Controls.Add(this._eName);
             this._panelBack.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -457,19 +455,19 @@ namespace Contal.Cgp.NCAS.Client
             this._chbIsVehicleAccess.TabIndex = 12;
             this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
             this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this._chbIsVehicleAccess_CheckedChanged);
-            //
+            // 
             // _lLprCorrelationWindowSeconds
-            //
+            // 
             this._lLprCorrelationWindowSeconds.AutoSize = true;
-            this._lLprCorrelationWindowSeconds.Location = new System.Drawing.Point(205, 63);
+            this._lLprCorrelationWindowSeconds.Location = new System.Drawing.Point(444, 96);
             this._lLprCorrelationWindowSeconds.Name = "_lLprCorrelationWindowSeconds";
-            this._lLprCorrelationWindowSeconds.Size = new System.Drawing.Size(177, 16);
+            this._lLprCorrelationWindowSeconds.Size = new System.Drawing.Size(129, 16);
             this._lLprCorrelationWindowSeconds.TabIndex = 13;
-            this._lLprCorrelationWindowSeconds.Text = "LPR correlation window (sec)";
-            //
+            this._lLprCorrelationWindowSeconds.Text = "LPR correlation(sec)";
+            // 
             // _eLprCorrelationWindowSeconds
-            //
-            this._eLprCorrelationWindowSeconds.Location = new System.Drawing.Point(388, 61);
+            // 
+            this._eLprCorrelationWindowSeconds.Location = new System.Drawing.Point(598, 94);
             this._eLprCorrelationWindowSeconds.Maximum = new decimal(new int[] {
             30,
             0,
@@ -833,7 +831,9 @@ namespace Contal.Cgp.NCAS.Client
             this._gbCardReaders.Controls.Add(this._chbPushButtonExternalInverted);
             this._gbCardReaders.Controls.Add(this._lExternalLprCamera);
             this._gbCardReaders.Controls.Add(this._lExternalCardReader);
+            this._gbCardReaders.Controls.Add(this._lLprCorrelationWindowSeconds);
             this._gbCardReaders.Controls.Add(this._lInternalLprCamera);
+            this._gbCardReaders.Controls.Add(this._eLprCorrelationWindowSeconds);
             this._gbCardReaders.Controls.Add(this._lInternalCardReader);
             this._gbCardReaders.Location = new System.Drawing.Point(7, 302);
             this._gbCardReaders.Name = "_gbCardReaders";
@@ -2010,6 +2010,7 @@ namespace Contal.Cgp.NCAS.Client
             this.Text = "NCASDoorEnvironmentEditForm";
             this._panelBack.ResumeLayout(false);
             this._panelBack.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._eLprCorrelationWindowSeconds)).EndInit();
             this._tcDoorsAutomat.ResumeLayout(false);
             this._tpDoorsTiming.ResumeLayout(false);
             this._gbDoorsDelays.ResumeLayout(false);
@@ -2027,7 +2028,6 @@ namespace Contal.Cgp.NCAS.Client
             this._tpApas.ResumeLayout(false);
             this._gbCardReaders.ResumeLayout(false);
             this._gbCardReaders.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._eLprCorrelationWindowSeconds)).EndInit();
             this._gbActuators.ResumeLayout(false);
             this._gbActuators.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._eExtraElectricStrikeOppositeImpulseDelay)).EndInit();
