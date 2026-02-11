@@ -42,6 +42,7 @@ namespace Contal.Cgp.NCAS.Client
         private AOrmObject _crExternal;
         private LprCamera _lprCameraInternal;
         private LprCamera _lprCameraExternal;
+        private int _lprCorrelationWindowSeconds;
         private bool _suppressVehicleAccessChange;
 
         private readonly ControlAlarmTypeSettings _catsDsmIntrusion;
@@ -779,9 +780,7 @@ namespace Contal.Cgp.NCAS.Client
                 lprCorrelationWindow = DoorEnvironment.DefaultLprCorrelationWindowSeconds;
             }
 
-            _eLprCorrelationWindowSeconds.Value = Math.Max(
-                _eLprCorrelationWindowSeconds.Minimum,
-                Math.Min(_eLprCorrelationWindowSeconds.Maximum, (decimal)lprCorrelationWindow));
+            _lprCorrelationWindowSeconds = lprCorrelationWindow;
 
             RefreshInternalLprCamera();
             RefreshExternalLprCamera();
@@ -874,8 +873,7 @@ namespace Contal.Cgp.NCAS.Client
             _tsiModifyLprInternal.Enabled = enableLprCameras;
             _tsiRemoveLprInternal.Enabled = enableLprCameras;
             _tsiModifyLprExternal.Enabled = enableLprCameras;
-            _tsiRemoveLprExternal.Enabled = enableLprCameras;
-            _eLprCorrelationWindowSeconds.Enabled = enableLprCameras;
+            _tsiRemoveLprExternal.Enabled = enableLprCameras;            
 
             _chbIsVehicleAccess.Enabled = !_chbIsVehicleAccess.Checked || !HasAssignedLprCameras();
         }
@@ -1360,7 +1358,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 _editingObject.LprCameraInternal = _lprCameraInternal;
                 _editingObject.LprCameraExternal = _lprCameraExternal;
-                _editingObject.LprCorrelationWindowSeconds = (int)_eLprCorrelationWindowSeconds.Value;
+                _editingObject.LprCorrelationWindowSeconds = _lprCorrelationWindowSeconds;
 
                 //Door ajar
                 _editingObject.DoorAjarAlarmOn = _catsDsmDoorAjar.AlarmEnabledCheckState;
