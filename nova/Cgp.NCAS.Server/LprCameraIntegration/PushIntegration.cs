@@ -2,6 +2,7 @@ using Contal.Cgp.BaseLib;
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.NCAS.Server.DB;
+using Contal.Cgp.Server.Beans;
 using Contal.Cgp.Server;
 using Contal.Cgp.Server.DB;
 using Contal.IwQuick;
@@ -348,6 +349,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     if (_recentPlates.TryAdd(cameraId, new PlateState(normalized, now)))
                     {
                         UpdateCamera(cameraId, normalized);
+                        TryGrantVipImmediateAccess(cameraId, normalized);
                         return;
                     }
 
@@ -361,9 +363,115 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (_recentPlates.TryUpdate(cameraId, new PlateState(normalized, now), existing))
                 {
                     UpdateCamera(cameraId, normalized);
+                    TryGrantVipImmediateAccess(cameraId, normalized);
                     return;
                 }
             }
+        }
+
+        private void TryGrantVipImmediateAccess(Guid cameraId, string normalizedPlate)
+        {
+            if (cameraId == Guid.Empty || string.IsNullOrWhiteSpace(normalizedPlate))
+                return;
+
+            try
+            {
+                var doors = DoorEnvironments.Singleton.List();
+                if (doors == null || doors.Count == 0)
+                    return;
+
+                var relatedDoorEnvironments =
+                    doors.Where(door => IsDoorAssignedToCamera(door, cameraId))
+                        .ToList();
+
+                if (relatedDoorEnvironments.Count == 0)
+                    return;
+
+                var cars = Cars.Singleton.List();
+                if (cars == null || cars.Count == 0)
+                    return;
+
+                var now = DateTime.Now;
+
+                foreach (var car in cars)
+                {
+                    if (!IsMatchingPlate(car, normalizedPlate)
+                        || car.SecurityLevel != CarSecurityLevel.VipLprOnly
+                        || !IsCarValidNow(car, now))
+                    {
+                        continue;
+                    }
+
+                    var accessZones = AccessZoneCars.Singleton.GetAssignedAccessZones(car.IdCar);
+                    if (accessZones == null || accessZones.Count == 0)
+                        continue;
+
+                    foreach (var accessZone in accessZones)
+                    {
+                        if (accessZone == null
+                            || accessZone.LprCamera == null
+                            || accessZone.LprCamera.IdLprCamera != cameraId
+                            || accessZone.TimeZone != null && !accessZone.TimeZone.IsOn(now))
+                        {
+                            continue;
+                        }
+
+                        foreach (var doorEnvironment in relatedDoorEnvironments)
+                        {
+                            var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(doorEnvironment);
+                            if (accessResult != true)
+                                continue;
+
+                            Eventlogs.Singleton.InsertEvent(
+                                Eventlog.TYPEACCESSGRANTED,
+                                GetType().Assembly.GetName().Name,
+                                new[] { doorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
+                                string.Format(
+                                    "VIP immediate access; plate={0}; doorEnvironmentId={1}",
+                                    normalizedPlate,
+                                    doorEnvironment.IdDoorEnvironment));
+                        }
+
+                        return;
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+            }
+        }
+
+        private static bool IsDoorAssignedToCamera(DoorEnvironment doorEnvironment, Guid cameraId)
+        {
+            if (doorEnvironment == null || cameraId == Guid.Empty)
+                return false;
+
+            return doorEnvironment.LprCameraInternal != null && doorEnvironment.LprCameraInternal.IdLprCamera == cameraId
+                   || doorEnvironment.LprCameraExternal != null && doorEnvironment.LprCameraExternal.IdLprCamera == cameraId;
+        }
+
+        private static bool IsMatchingPlate(Car car, string normalizedPlate)
+        {
+            if (car == null || string.IsNullOrWhiteSpace(normalizedPlate))
+                return false;
+
+            return string.Equals(NormalizePlate(car.Lp), normalizedPlate, StringComparison.Ordinal)
+                   || string.Equals(NormalizePlate(car.WholeName), normalizedPlate, StringComparison.Ordinal);
+        }
+
+        private static bool IsCarValidNow(Car car, DateTime now)
+        {
+            if (car == null)
+                return false;
+
+            if (car.ValidityDateFrom.HasValue && car.ValidityDateFrom.Value > now)
+                return false;
+
+            if (car.ValidityDateTo.HasValue && car.ValidityDateTo.Value < now)
+                return false;
+
+            return true;
         }
 
         private void ResetRecentPlate(Guid cameraId)
