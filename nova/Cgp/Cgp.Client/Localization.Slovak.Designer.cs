@@ -1879,7 +1879,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alternatívne LPR + karta alebo PIN.
+        ///   Looks up a localized string similar to EČV + karta/PIN.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin {
             get {
@@ -1888,7 +1888,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vyššia úroveň zabezpečenia LPR + PIN.
+        ///   Looks up a localized string similar to EČV + PIN.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_HigherSecurityLprAndPin {
             get {
@@ -1897,7 +1897,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Štandardné LPR + karta.
+        ///   Looks up a localized string similar to EČV + karta.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_StandardLprAndCard {
             get {
@@ -1906,7 +1906,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VIP len LPR.
+        ///   Looks up a localized string similar to Len EČV.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_VipLprOnly {
             get {

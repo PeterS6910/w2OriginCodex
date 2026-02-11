@@ -4777,7 +4777,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alternativ LPR + kort eller PIN.
+        ///   Looks up a localized string similar to Reg.nr + kort/PIN.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin {
             get {
@@ -4786,7 +4786,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Högre säkerhet LPR + PIN.
+        ///   Looks up a localized string similar to Reg.nr + PIN.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_HigherSecurityLprAndPin {
             get {
@@ -4795,7 +4795,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Standard LPR + kort.
+        ///   Looks up a localized string similar to Reg.nr + kort.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_StandardLprAndCard {
             get {
@@ -4804,7 +4804,7 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VIP endast LPR.
+        ///   Looks up a localized string similar to Endast Reg.nr.
         /// </summary>
         internal static string CarEditForm_SecurityLevel_VipLprOnly {
             get {

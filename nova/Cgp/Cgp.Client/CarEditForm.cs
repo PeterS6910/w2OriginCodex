@@ -151,7 +151,7 @@ namespace Contal.Cgp.Client
             _eBrand.Text = string.Empty;
             _dpValidityDateFrom.Value = null;
             _dpValidityDateTo.Value = null;
-            SelectSecurityLevel(CarSecurityLevel.StandardLprAndCard);
+            SelectSecurityLevel(CarSecurityLevel.VipLprOnly);
             SetActDepartment(null);
             _eDescription.Text = string.Empty;
             _ilbCards.Items.Clear();
@@ -285,7 +285,7 @@ namespace Contal.Cgp.Client
             if (selectedItem != null)
                 return selectedItem.SecurityLevel;
 
-            return CarSecurityLevel.StandardLprAndCard;
+            return CarSecurityLevel.VipLprOnly;
         }
 
         private class CarSecurityLevelItem

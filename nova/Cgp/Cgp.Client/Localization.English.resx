@@ -1192,16 +1192,16 @@
     <value>Security level</value>
   </data>
   <data name="CarEditForm_SecurityLevel_VipLprOnly" xml:space="preserve">
-    <value>VIP LPR only</value>
+    <value>Only LPR</value>
   </data>
   <data name="CarEditForm_SecurityLevel_StandardLprAndCard" xml:space="preserve">
-    <value>Standard LPR + card</value>
+    <value>LPR + card</value>
   </data>
   <data name="CarEditForm_SecurityLevel_HigherSecurityLprAndPin" xml:space="preserve">
-    <value>Higher security LPR + PIN</value>
+    <value>LPR + PIN</value>
   </data>
   <data name="CarEditForm_SecurityLevel_AlternativeLprAndCardOrPin" xml:space="preserve">
-    <value>Alternative LPR + card or PIN</value>
+    <value>LPR + card/PIN</value>
   </data>
   <data name="CarEditFormlabel6" xml:space="preserve">
     <value>Version</value>
