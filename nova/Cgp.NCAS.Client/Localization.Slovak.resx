@@ -4789,6 +4789,12 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASDoorEnvironmentEditForm_lInternalLprCamera" xml:space="preserve">
     <value>Vnútorná LPR kamera</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_lLprCorrelationWindowHelp" xml:space="preserve">
+    <value>Počas tohto okna čakáme na card/PIN event, ktorý potvrdí LPR hit.</value>
+  </data>
+  <data name="NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds" xml:space="preserve">
+    <value>Časové okno korelácie (sekundy)</value>
+  </data>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
     <value>Vyhľadané vozidlá</value>
   </data>

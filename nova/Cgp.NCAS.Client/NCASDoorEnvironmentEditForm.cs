@@ -42,9 +42,6 @@ namespace Contal.Cgp.NCAS.Client
         private AOrmObject _crExternal;
         private LprCamera _lprCameraInternal;
         private LprCamera _lprCameraExternal;
-        private Label _lLprCorrelationWindowSeconds;
-        private NumericUpDown _eLprCorrelationWindowSeconds;
-        private Label _lLprCorrelationWindowHelp;
         private bool _suppressVehicleAccessChange;
 
         private readonly ControlAlarmTypeSettings _catsDsmIntrusion;
@@ -96,7 +93,6 @@ namespace Contal.Cgp.NCAS.Client
             };
 
             InitializeComponent();
-            InitializeLprCorrelationWindowControls();
             _lVehicleAccess.Text = GetString("NCASDoorEnvironmentEditForm_lVehicleAccess");
             _chbIsVehicleAccess.Text = string.Empty;
 
@@ -201,50 +197,6 @@ namespace Contal.Cgp.NCAS.Client
             SafeThread.StartThread(HideDisableTabPages);
 
             ObjectsPlacementHandler.AddImageList(_lbUserFolders);
-        }
-
-        private void InitializeLprCorrelationWindowControls()
-        {
-            _lLprCorrelationWindowSeconds = new Label
-            {
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                AutoSize = true,
-                Location = new Point(440, 99),
-                Name = "_lLprCorrelationWindowSeconds",
-                Size = new Size(229, 16),
-                TabIndex = 12,
-                Text = "Časové okno korelácie (sekundy)"
-            };
-
-            _eLprCorrelationWindowSeconds = new NumericUpDown
-            {
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                Location = new Point(754, 94),
-                Maximum = 10,
-                Minimum = 5,
-                Name = "_eLprCorrelationWindowSeconds",
-                Size = new Size(76, 22),
-                TabIndex = 13,
-                Value = DoorEnvironment.DefaultLprCorrelationWindowSeconds
-            };
-
-            _lLprCorrelationWindowHelp = new Label
-            {
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                AutoSize = true,
-                ForeColor = SystemColors.GrayText,
-                Location = new Point(440, 80),
-                Name = "_lLprCorrelationWindowHelp",
-                Size = new Size(390, 16),
-                TabIndex = 14,
-                Text = "Počas tohto okna čakáme na card/PIN event, ktorý potvrdí LPR hit."
-            };
-
-            _eLprCorrelationWindowSeconds.ValueChanged += EditTextChanger;
-
-            _gbCardReaders.Controls.Add(_lLprCorrelationWindowSeconds);
-            _gbCardReaders.Controls.Add(_eLprCorrelationWindowSeconds);
-            _gbCardReaders.Controls.Add(_lLprCorrelationWindowHelp);
         }
 
         private void SetOpenAllCheckState(CheckBox checkBox, bool? isOpenAll)

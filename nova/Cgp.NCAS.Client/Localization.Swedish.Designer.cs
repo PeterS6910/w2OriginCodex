@@ -14440,6 +14440,24 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vänta på kort/PIN-händelse i detta fönster för att bekräfta LPR-träff..
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowHelp {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lLprCorrelationWindowHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Korrelationsfönster (sek.).
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sökta fordon.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_lookupedCars {

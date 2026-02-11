@@ -10278,6 +10278,24 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Počas tohto okna čakáme na card/PIN event, ktorý potvrdí LPR hit..
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowHelp {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lLprCorrelationWindowHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Časové okno korelácie (sekundy).
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vyhľadané vozidlá.
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_lookupedCars {
