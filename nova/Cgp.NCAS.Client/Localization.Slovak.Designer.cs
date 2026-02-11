@@ -10287,7 +10287,7 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Časové okno korelácie (sekundy).
+        ///   Looks up a localized string similar to Časová korelácia (sek).
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds {
             get {

@@ -14368,7 +14368,7 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Correlation window (sec.).
+        ///   Looks up a localized string similar to Correlation (sec.).
         /// </summary>
         internal static string NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds {
             get {

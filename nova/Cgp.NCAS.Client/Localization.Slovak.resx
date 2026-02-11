@@ -4793,7 +4793,7 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
     <value>Počas tohto okna čakáme na card/PIN event, ktorý potvrdí LPR hit.</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_lLprCorrelationWindowSeconds" xml:space="preserve">
-    <value>Časové okno korelácie (sekundy)</value>
+    <value>Časová korelácia (sek)</value>
   </data>
   <data name="NCASDoorEnvironmentEditForm_lookupedCars" xml:space="preserve">
     <value>Vyhľadané vozidlá</value>
