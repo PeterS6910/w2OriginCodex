@@ -17,6 +17,7 @@
     <property name="DoorDelayBeforeLock" not-null="false"></property>
     <property name="DoorDelayBeforeClose" not-null="false"></property>
     <property name="DoorDelayBeforeBreakIn" not-null="false"></property>
+    <property name="LprCorrelationWindowSeconds" not-null="false"></property>
     <property name="NotInvokeIntrusionAlarm" not-null="false"></property>
 
     <many-to-one name="SensorsLockDoors" column="SensorsLockDoors" class="Contal.Cgp.NCAS.Server.Beans.Input, Cgp.NCAS.Server.Beans" not-null="false"/>

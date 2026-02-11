@@ -37,7 +37,12 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public const string COLUMNDOORDELAYBEFORELOCK = "DoorDelayBeforeLock";
         public const string COLUMNDOORDELAYBEFORECLOSE = "DoorDelayBeforeClose";
         public const string COLUMNDOORDELAYBEFOREBREAKIN = "DoorDelayBeforeBreakIn";
+        public const string COLUMNLPRCORRELATIONWINDOWSECONDS = "LprCorrelationWindowSeconds";
         public const string COLUMNNOTINVOKEINTRUSIONALARM = "NotInvokeIntrusionAlarm";
+
+        public const int DefaultLprCorrelationWindowSeconds = 7;
+        public const int MinLprCorrelationWindowSeconds = 1;
+        public const int MaxLprCorrelationWindowSeconds = 30;
 
         public const string COLUMNSENSORSLOCKDOORS = "SensorsLockDoors";
         public const string COLUMNSENSORSOPENDOOR = "SensorsOpenDoors";
@@ -167,6 +172,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
         public virtual int DoorDelayBeforeClose { get; set; }
         [LwSerializeAttribute()]
         public virtual int DoorDelayBeforeBreakIn { get; set; }
+        [LwSerializeAttribute()]
+        public virtual int LprCorrelationWindowSeconds { get; set; }
         [LwSerializeAttribute()]
         public virtual bool NotInvokeIntrusionAlarm { get; set; }
 
@@ -343,6 +350,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
             DoorDelayBeforeUnlock = 0;
             DoorDelayBeforeLock = 0;
             DoorDelayBeforeClose = 1000;
+            LprCorrelationWindowSeconds = DefaultLprCorrelationWindowSeconds;
             IntrusionAlarmOn = true;
             SabotageAlarmOn = true;
             ObjectType = (byte)Cgp.Globals.ObjectType.DoorEnvironment;

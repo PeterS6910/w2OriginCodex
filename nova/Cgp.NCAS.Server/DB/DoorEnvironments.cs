@@ -110,6 +110,22 @@ namespace Contal.Cgp.NCAS.Server.DB
                 return true;
             }
 
+            if (doorEnvironment.LprCorrelationWindowSeconds <= 0)
+            {
+                doorEnvironment.LprCorrelationWindowSeconds = DoorEnvironment.DefaultLprCorrelationWindowSeconds;
+            }
+
+            if (doorEnvironment.LprCorrelationWindowSeconds < DoorEnvironment.MinLprCorrelationWindowSeconds
+                || doorEnvironment.LprCorrelationWindowSeconds > DoorEnvironment.MaxLprCorrelationWindowSeconds)
+            {
+                error = new InvalidOperationException(
+                    string.Format(
+                        "LPR correlation window must be in range {0}-{1} seconds.",
+                        DoorEnvironment.MinLprCorrelationWindowSeconds,
+                        DoorEnvironment.MaxLprCorrelationWindowSeconds));
+                return false;
+            }
+
             if (!doorEnvironment.IsVehicleAccess
                 && (doorEnvironment.LprCameraInternal != null || doorEnvironment.LprCameraExternal != null))
             {
@@ -582,6 +598,7 @@ namespace Contal.Cgp.NCAS.Server.DB
             newDoorEnvironment.DoorDelayBeforeUnlock = 0;
             newDoorEnvironment.DoorDelayBeforeLock = 0;
             newDoorEnvironment.DoorDelayBeforeClose = 1000;
+            newDoorEnvironment.LprCorrelationWindowSeconds = DoorEnvironment.DefaultLprCorrelationWindowSeconds;
             newDoorEnvironment.IntrusionAlarmOn = true;
             newDoorEnvironment.SabotageAlarmOn = true;
             return newDoorEnvironment;
