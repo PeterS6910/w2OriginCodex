@@ -387,20 +387,16 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (relatedDoorEnvironments.Count == 0)
                     return;
 
-                var cars = Cars.Singleton.List();
+                var now = DateTime.Now;
+
+                var cars = Cars.Singleton.List()?
+                    .Where(car => IsMatchingPlate(car, normalizedPlate) && IsCarValidNow(car, now))
+                    .ToList();
                 if (cars == null || cars.Count == 0)
                     return;
 
-                var now = DateTime.Now;
-
                 foreach (var car in cars)
                 {
-                    if (!IsMatchingPlate(car, normalizedPlate)
-                        || car.SecurityLevel != CarSecurityLevel.VipLprOnly
-                        || !IsCarValidNow(car, now))
-                    {
-                        continue;
-                    }
 
                     var accessZones = AccessZoneCars.Singleton.GetAssignedAccessZones(car.IdCar);
                     if (accessZones == null || accessZones.Count == 0)
@@ -423,7 +419,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                                 continue;
 
                             Eventlogs.Singleton.InsertEvent(
-                                Eventlog.TYPEACCESSGRANTED,
+                                "Access granted",
                                 GetType().Assembly.GetName().Name,
                                 new[] { doorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
                                 string.Format(
