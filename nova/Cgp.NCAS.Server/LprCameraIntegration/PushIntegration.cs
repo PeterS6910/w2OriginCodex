@@ -384,9 +384,10 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     doors.Where(door => IsDoorAssignedToCamera(door, cameraId))
                         .ToList();
 
-                if (relatedDoorEnvironments.Count == 0)
+                if (relatedDoorEnvironments.Count != 1)
                     return;
 
+                var relatedDoorEnvironment = relatedDoorEnvironments[0];
                 var now = DateTime.Now;
 
                 var cars = Cars.Singleton.List()?
@@ -398,35 +399,43 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 foreach (var car in cars)
                 {
 
-                    var accessZones = AccessZoneCars.Singleton.GetAssignedAccessZones(car.IdCar);
-                    if (accessZones == null || accessZones.Count == 0)
+                    var aclCars = ACLCars.Singleton.GetAssignedAclCars(car.IdCar);
+                    if (aclCars == null || aclCars.Count == 0)
                         continue;
 
-                    foreach (var accessZone in accessZones)
+                    foreach (var aclCar in aclCars)
                     {
-                        if (accessZone == null
-                            || accessZone.LprCamera == null
-                            || accessZone.LprCamera.IdLprCamera != cameraId
-                            || accessZone.TimeZone != null && !accessZone.TimeZone.IsOn(now))
-                        {
+                        if (aclCar == null || !IsAclCarValidNow(aclCar, now))
                             continue;
-                        }
+                        var acl = aclCar.AccessControlList;
+                        if (acl == null || acl.ACLSettings == null || acl.ACLSettings.Count == 0)
+                            continue;
 
-                        foreach (var doorEnvironment in relatedDoorEnvironments)
-                        {
-                            var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(doorEnvironment);
-                            if (accessResult != true)
-                                continue;
+                        var aclSetting = acl.ACLSettings.FirstOrDefault(
+                            setting =>
+                                setting != null &&
+                                setting.CardReaderObjectType == (byte)ObjectType.DoorEnvironment &&
+                                setting.GuidCardReaderObject == relatedDoorEnvironment.IdDoorEnvironment &&
+                                setting.Disabled != true);
 
-                            Eventlogs.Singleton.InsertEvent(
-                                "Access granted",
-                                GetType().Assembly.GetName().Name,
-                                new[] { doorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
-                                string.Format(
-                                    "VIP immediate access; plate={0}; doorEnvironmentId={1}",
-                                    normalizedPlate,
-                                    doorEnvironment.IdDoorEnvironment));
-                        }
+                        if (aclSetting == null)
+                            continue;
+
+                        if (aclSetting.TimeZone != null && !aclSetting.TimeZone.IsOn(now))
+                            continue;
+
+                        var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(relatedDoorEnvironment);
+                        if (accessResult != true)
+                            continue;
+
+                        Eventlogs.Singleton.InsertEvent(
+                            "Access granted",
+                            GetType().Assembly.GetName().Name,
+                            new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
+                            string.Format(
+                                "VIP immediate access; plate={0}; doorEnvironmentId={1}",
+                                normalizedPlate,
+                                relatedDoorEnvironment.IdDoorEnvironment));
 
                         return;
                     }
@@ -469,6 +478,21 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
             return true;
         }
+
+        private static bool IsAclCarValidNow(ACLCar aclCar, DateTime now)
+        {
+            if (aclCar == null)
+                return false;
+
+            if (aclCar.DateFrom.HasValue && aclCar.DateFrom.Value > now)
+                return false;
+
+            if (aclCar.DateTo.HasValue && aclCar.DateTo.Value < now)
+                return false;
+
+            return true;
+        }
+
 
         private void ResetRecentPlate(Guid cameraId)
         {
