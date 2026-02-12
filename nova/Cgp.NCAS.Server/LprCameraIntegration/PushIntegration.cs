@@ -421,7 +421,8 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                         if (aclSetting == null)
                             continue;
 
-                        if (aclSetting.TimeZone != null && !aclSetting.TimeZone.IsOn(now))
+                        var aclTimeZone = aclSetting.TimeZone;
+                        if (aclTimeZone != null && !aclTimeZone.IsOn(now))
                             continue;
 
                         var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(relatedDoorEnvironment);
