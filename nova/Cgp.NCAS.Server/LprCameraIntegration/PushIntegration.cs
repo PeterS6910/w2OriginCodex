@@ -349,7 +349,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     if (_recentPlates.TryAdd(cameraId, new PlateState(normalized, now)))
                     {
                         UpdateCamera(cameraId, normalized);
-                        TryGrantVipImmediateAccess(cameraId, normalized);
+                        TryProcessImmediateAccessBySecurityLevel(cameraId, normalized);
                         return;
                     }
 
@@ -363,13 +363,13 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (_recentPlates.TryUpdate(cameraId, new PlateState(normalized, now), existing))
                 {
                     UpdateCamera(cameraId, normalized);
-                    TryGrantVipImmediateAccess(cameraId, normalized);
+                    TryProcessImmediateAccessBySecurityLevel(cameraId, normalized);
                     return;
                 }
             }
         }
 
-        private void TryGrantVipImmediateAccess(Guid cameraId, string normalizedPlate)
+        private void TryProcessImmediateAccessBySecurityLevel(Guid cameraId, string normalizedPlate)
         {
             if (cameraId == Guid.Empty || string.IsNullOrWhiteSpace(normalizedPlate))
                 return;
@@ -425,6 +425,28 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                         if (aclTimeZone != null && !aclTimeZone.IsOn(now))
                             continue;
 
+                        switch (car.SecurityLevel)
+                        {
+                            case CarSecurityLevel.VipLprOnly:
+                                break;
+
+                            case CarSecurityLevel.StandardLprAndCard:
+                            case CarSecurityLevel.HigherSecurityLprAndPin:
+                            case CarSecurityLevel.AlternativeLprAndCardOrPin:
+                                Eventlogs.Singleton.InsertEvent(
+                                    "Access not granted",
+                                    GetType().Assembly.GetName().Name,
+                                    new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
+                                    string.Format(
+                                        "LPR recognized car, but immediate access requires additional authentication; plate={0}; securityLevel={1}; doorEnvironmentId={2}",
+                                        normalizedPlate,
+                                        car.SecurityLevel,
+                                        relatedDoorEnvironment.IdDoorEnvironment));
+                                continue;
+
+                            default:
+                                continue;
+                        }
                         var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(relatedDoorEnvironment);
                         if (accessResult != true)
                             continue;
