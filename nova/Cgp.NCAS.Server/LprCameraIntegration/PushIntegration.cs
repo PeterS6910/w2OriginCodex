@@ -2,12 +2,13 @@ using Contal.Cgp.BaseLib;
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.Server.Beans;
 using Contal.Cgp.NCAS.Server.DB;
-using Contal.Cgp.Server.Beans;
 using Contal.Cgp.Server;
+using Contal.Cgp.Server.Beans;
 using Contal.Cgp.Server.DB;
 using Contal.IwQuick;
 using Contal.IwQuick.CrossPlatform;
 using Contal.IwQuick.Sys;
+using Contal.IwQuick.Threads;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -447,19 +448,9 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                             default:
                                 continue;
                         }
-                        var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(relatedDoorEnvironment);
-                        if (accessResult != true)
-                            continue;
-
-                        Eventlogs.Singleton.InsertEvent(
-                            "Access granted",
-                            GetType().Assembly.GetName().Name,
-                            new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
-                            string.Format(
-                                "VIP immediate access; plate={0}; doorEnvironmentId={1}",
-                                normalizedPlate,
-                                relatedDoorEnvironment.IdDoorEnvironment));
-
+                        var doorEnvironmentId = relatedDoorEnvironment.IdDoorEnvironment;
+                        var carId = car.IdCar;
+                        SafeThread.StartThread(() => DoImmediateAccessGranted(doorEnvironmentId, cameraId, carId, normalizedPlate));
                         return;
                     }
                 }
@@ -468,6 +459,29 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             {
                 HandledExceptionAdapter.Examine(error);
             }
+        }
+
+        private void DoImmediateAccessGranted(Guid doorEnvironmentId, Guid cameraId, Guid carId, string normalizedPlate)
+        {
+            if (doorEnvironmentId == Guid.Empty)
+                return;
+
+            var doorEnvironment = DoorEnvironments.Singleton.GetById(doorEnvironmentId);
+            if (doorEnvironment == null)
+                return;
+
+            var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(doorEnvironment);
+            if (accessResult != true)
+                return;
+
+            Eventlogs.Singleton.InsertEvent(
+                "Access granted",
+                GetType().Assembly.GetName().Name,
+                new[] { doorEnvironmentId, cameraId, carId },
+                string.Format(
+                    "VIP immediate access; plate={0}; doorEnvironmentId={1}",
+                    normalizedPlate,
+                    doorEnvironmentId));
         }
 
         private static bool IsDoorAssignedToCamera(DoorEnvironment doorEnvironment, Guid cameraId)
