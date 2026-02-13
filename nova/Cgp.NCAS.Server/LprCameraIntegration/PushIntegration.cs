@@ -470,7 +470,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             if (doorEnvironment == null)
                 return;
 
-            var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGranted(doorEnvironment);
+            var accessResult = DoorEnvironments.Singleton.DoorEnvironmentAccessGrantedForLprCamera(doorEnvironment);
             if (accessResult != true)
                 return;
 

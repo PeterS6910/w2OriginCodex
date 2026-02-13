@@ -1044,6 +1044,11 @@ namespace Contal.Cgp.NCAS.Server.DB
             return CCUConfigurationHandler.Singleton.DoorEnvironmentAccessGranted(doorEnvironment);
         }
 
+        public bool? DoorEnvironmentAccessGrantedForLprCamera(DoorEnvironment doorEnvironment)
+        {
+            return CCUConfigurationHandler.Singleton.DoorEnvironmentAccessGrantedForLprCamera(doorEnvironment);
+        }
+
         public DoorEnvironmentState GetDoorEnvironmentState(DoorEnvironment doorEnvironment)
         {
             return

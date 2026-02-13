@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Contal.Cgp.BaseLib;
@@ -20,6 +20,7 @@ namespace Contal.Cgp.NCAS.RemotingCommon
         bool HasCardReaderDoorEnvironment(Guid idCardReader);
         ICollection<CardReader> GetCardReadersNotInDoorEnvironments(Guid doorEnvironmentGuid);
         bool? DoorEnvironmentAccessGranted(DoorEnvironment doorEnvironment);
+        bool? DoorEnvironmentAccessGrantedForLprCamera(DoorEnvironment doorEnvironment);
         DoorEnvironmentState GetDoorEnvironmentState(Guid doorEnvironmentId);
         bool UnconfigureDoorEnvironments(DoorEnvironment doorEnvironment);
         AOrmObject GetInputDoorEnvironment(Guid inputGuid);

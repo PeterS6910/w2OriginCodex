@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -1529,6 +1529,35 @@ namespace Contal.Cgp.NCAS.Server
                     return false;
 
                 if (!DoorEnvironments.Singleton.HasAccessToAccessGranted(doorEnvironment.IdDoorEnvironment))
+                    return false;
+
+                CCU ccu = null;
+                if (doorEnvironment.CCU != null)
+                    ccu = doorEnvironment.CCU;
+                else
+                    if (doorEnvironment.DCU != null)
+                    ccu = doorEnvironment.DCU.CCU;
+
+                if (ccu == null)
+                    return false;
+
+                return SendToRemotingCCUs(
+                    ccu.IdCCU,
+                    "DoorEnvironmentAccessGranted",
+                    doorEnvironment.IdDoorEnvironment)
+                    as bool?;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool? DoorEnvironmentAccessGrantedForLprCamera(DoorEnvironment doorEnvironment)
+        {
+            try
+            {
+                if (doorEnvironment == null)
                     return false;
 
                 CCU ccu = null;
