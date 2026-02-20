@@ -1,26 +1,26 @@
+using Cgp.Components;
+using Contal.Cgp.BaseLib;
+using Contal.Cgp.Globals;
+using Contal.Cgp.Server.Beans;
+using Contal.IwQuick;
+using Contal.IwQuick.Data;
+using Contal.IwQuick.Net;
+using Contal.IwQuick.Sys;
+using Contal.IwQuick.Threads;
+using Contal.IwQuick.UI;
+using Contal.LwDhcp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Net;
-
-using Contal.IwQuick;
-using Contal.IwQuick.UI;
-using Contal.IwQuick.Net;
-using Contal.Cgp.Server.Beans;
-using Contal.LwDhcp;
-using System.Text.RegularExpressions;
 using System.Security.AccessControl;
-using Contal.Cgp.Globals;
-using Contal.IwQuick.Threads;
-using Contal.Cgp.BaseLib;
-using Contal.IwQuick.Data;
-using Contal.IwQuick.Sys;
-using Cgp.Components;
-using System.ComponentModel;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Contal.Cgp.Client
 {
@@ -4759,16 +4759,20 @@ namespace Contal.Cgp.Client
         private void _bEventlogsSave_Click(object sender, EventArgs e)
         {
             decimal eventlogsCountToDisplay;
+            string numericText = _eEventlogsCountToDisplay.Text;
 
-            if (decimal.TryParse(_eEventlogsCountToDisplay.Text, out eventlogsCountToDisplay))
+            if (!decimal.TryParse(numericText, NumberStyles.Number, CultureInfo.CurrentCulture, out eventlogsCountToDisplay)
+               && !decimal.TryParse(numericText.Replace('\u00A0', ' '), NumberStyles.Number, CultureInfo.CurrentCulture, out eventlogsCountToDisplay)
+               && !decimal.TryParse(numericText, NumberStyles.Number, CultureInfo.InvariantCulture, out eventlogsCountToDisplay))
             {
-                if (eventlogsCountToDisplay < _eEventlogsCountToDisplay.Minimum)
-                    eventlogsCountToDisplay = _eEventlogsCountToDisplay.Minimum;
-                else if (eventlogsCountToDisplay > _eEventlogsCountToDisplay.Maximum)
-                    eventlogsCountToDisplay = _eEventlogsCountToDisplay.Maximum;
-
-                _eEventlogsCountToDisplay.Value = eventlogsCountToDisplay;
+                eventlogsCountToDisplay = _eEventlogsCountToDisplay.Value;
             }
+            if (eventlogsCountToDisplay < _eEventlogsCountToDisplay.Minimum)
+                eventlogsCountToDisplay = _eEventlogsCountToDisplay.Minimum;
+            else if (eventlogsCountToDisplay > _eEventlogsCountToDisplay.Maximum)
+                eventlogsCountToDisplay = _eEventlogsCountToDisplay.Maximum;
+
+            _eEventlogsCountToDisplay.Value = eventlogsCountToDisplay;
 
             _serverGeneralOptions.EventlogInputStateChanged = _cbEventlogInputStateChanged.Checked;
             _serverGeneralOptions.EventlogOutputStateChanged = _cbEventlogOutputStateChanged.Checked;
