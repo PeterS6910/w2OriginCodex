@@ -4758,6 +4758,18 @@ namespace Contal.Cgp.Client
 
         private void _bEventlogsSave_Click(object sender, EventArgs e)
         {
+            decimal eventlogsCountToDisplay;
+
+            if (decimal.TryParse(_eEventlogsCountToDisplay.Text, out eventlogsCountToDisplay))
+            {
+                if (eventlogsCountToDisplay < _eEventlogsCountToDisplay.Minimum)
+                    eventlogsCountToDisplay = _eEventlogsCountToDisplay.Minimum;
+                else if (eventlogsCountToDisplay > _eEventlogsCountToDisplay.Maximum)
+                    eventlogsCountToDisplay = _eEventlogsCountToDisplay.Maximum;
+
+                _eEventlogsCountToDisplay.Value = eventlogsCountToDisplay;
+            }
+
             _serverGeneralOptions.EventlogInputStateChanged = _cbEventlogInputStateChanged.Checked;
             _serverGeneralOptions.EventlogOutputStateChanged = _cbEventlogOutputStateChanged.Checked;
             _serverGeneralOptions.EventlogAlarmAreaAlarmStateChanged = _cbEventlogAlarmAreaAlarmStateChanged.Checked;
