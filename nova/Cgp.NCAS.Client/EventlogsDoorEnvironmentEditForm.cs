@@ -9,7 +9,7 @@ using Contal.Cgp.Server.Beans.Extern;
 
 namespace Contal.Cgp.NCAS.Client
 {
-    public class EventlogsDoorEnvironmentEfitForm : UserControl
+    public partial class EventlogsDoorEnvironmentEditForm : UserControl
     {
         private readonly Guid _doorEnvironmentId;
         private readonly Button _bRefresh;
@@ -22,7 +22,7 @@ namespace Contal.Cgp.NCAS.Client
             public string Description { get; set; }
         }
 
-        public EventlogsDoorEnvironmentEfitForm(Guid doorEnvironmentId)
+        public EventlogsDoorEnvironmentEditForm(Guid doorEnvironmentId)
         {
             _doorEnvironmentId = doorEnvironmentId;
 

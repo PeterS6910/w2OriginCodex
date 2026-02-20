@@ -54,7 +54,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private readonly Dictionary<AlarmType, Action> _openAndScrollToControlByAlarmType;
         private TabPage _tpEventlogs;
-        private EventlogsDoorEnvironmentEfitForm _eventlogsDoorEnvironmentEfitForm;
+        private EventlogsDoorEnvironmentEditForm _eventlogsDoorEnvironmentEfitForm;
 
         public NCASDoorEnvironmentEditForm(
                 DoorEnvironment doorEnvironment,
@@ -305,7 +305,7 @@ namespace Contal.Cgp.NCAS.Client
                 BackColor = SystemColors.Control
             };
 
-            _eventlogsDoorEnvironmentEfitForm = new EventlogsDoorEnvironmentEfitForm(_editingObject.IdDoorEnvironment)
+            _eventlogsDoorEnvironmentEfitForm = new EventlogsDoorEnvironmentEditForm(_editingObject.IdDoorEnvironment)
             {
                 Dock = DockStyle.Fill
             };
