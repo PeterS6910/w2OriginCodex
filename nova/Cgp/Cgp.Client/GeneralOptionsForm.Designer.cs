@@ -1,4 +1,4 @@
-﻿namespace Contal.Cgp.Client
+namespace Contal.Cgp.Client
 {
     partial class GeneralOptionsForm
     {
@@ -223,6 +223,8 @@
             this._tsiModify2 = new System.Windows.Forms.ToolStripMenuItem();
             this._tsiRemove2 = new System.Windows.Forms.ToolStripMenuItem();
             this._cbEventSourcesReverseOrder = new System.Windows.Forms.CheckBox();
+            this._lEventlogsCountToDisplay = new System.Windows.Forms.Label();
+            this._eEventlogsCountToDisplay = new System.Windows.Forms.NumericUpDown();
             this._bEventlogsSave = new System.Windows.Forms.Button();
             this._cbEventlogCardReaderOnlineStateChanged = new System.Windows.Forms.CheckBox();
             this._cbEventlogAlarmAreaActivationStateChanged = new System.Windows.Forms.CheckBox();
@@ -2725,6 +2727,8 @@
             this._tpEventlogs.BackColor = System.Drawing.SystemColors.Control;
             this._tpEventlogs.Controls.Add(this._gbEventlogReports);
             this._tpEventlogs.Controls.Add(this._cbEventSourcesReverseOrder);
+            this._tpEventlogs.Controls.Add(this._eEventlogsCountToDisplay);
+            this._tpEventlogs.Controls.Add(this._lEventlogsCountToDisplay);
             this._tpEventlogs.Controls.Add(this._bEventlogsSave);
             this._tpEventlogs.Controls.Add(this._cbEventlogCardReaderOnlineStateChanged);
             this._tpEventlogs.Controls.Add(this._cbEventlogAlarmAreaActivationStateChanged);
@@ -2876,6 +2880,37 @@
             this._cbEventSourcesReverseOrder.Text = "Event sources of the table view in reverse order";
             this._cbEventSourcesReverseOrder.UseVisualStyleBackColor = true;
             this._cbEventSourcesReverseOrder.CheckedChanged += new System.EventHandler(this.EditTextChangerEventlogSettings);
+            // _lEventlogsCountToDisplay
+            // 
+            this._lEventlogsCountToDisplay.AutoSize = true;
+            this._lEventlogsCountToDisplay.Location = new System.Drawing.Point(8, 347);
+            this._lEventlogsCountToDisplay.Name = "_lEventlogsCountToDisplay";
+            this._lEventlogsCountToDisplay.Size = new System.Drawing.Size(104, 13);
+            this._lEventlogsCountToDisplay.TabIndex = 8;
+            this._lEventlogsCountToDisplay.Text = "Eventlogs count to display";
+            // 
+            // _eEventlogsCountToDisplay
+            // 
+            this._eEventlogsCountToDisplay.Location = new System.Drawing.Point(8, 363);
+            this._eEventlogsCountToDisplay.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this._eEventlogsCountToDisplay.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this._eEventlogsCountToDisplay.Name = "_eEventlogsCountToDisplay";
+            this._eEventlogsCountToDisplay.Size = new System.Drawing.Size(120, 20);
+            this._eEventlogsCountToDisplay.TabIndex = 9;
+            this._eEventlogsCountToDisplay.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this._eEventlogsCountToDisplay.ValueChanged += new System.EventHandler(this.EditTextChangerEventlogSettings);
             // 
             // _bEventlogsSave
             // 
@@ -4058,6 +4093,8 @@
         private System.Windows.Forms.Label _lClientSessionTimeout;
         private System.Windows.Forms.NumericUpDown _eClientSessionTimeout;
         private System.Windows.Forms.CheckBox _cbEventSourcesReverseOrder;
+        private System.Windows.Forms.Label _lEventlogsCountToDisplay;
+        private System.Windows.Forms.NumericUpDown _eEventlogsCountToDisplay;
         private Contal.Cgp.Components.CgpDataGridView _cdgvAlarmSettings;
         private System.Windows.Forms.CheckBox _chbEnableLoggingSDPSTZChanges;
         private System.Windows.Forms.CheckBox _cbCorrectDeserializationFailures;

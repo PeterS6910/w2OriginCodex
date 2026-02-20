@@ -104,8 +104,6 @@ namespace Contal.Cgp.Client
         private List<string> _changedTabPages = new List<string>();
         private BinaryPhoto _binaryPhoto;
         private bool _isPhotoModified = false;
-        private Label _lEventlogsCountToDisplay;
-        private NumericUpDown _eEventlogsCountToDisplay;
 
         public static GeneralOptionsForm Singleton
         {
@@ -321,35 +319,8 @@ namespace Contal.Cgp.Client
             LocalizationHelper.LanguageChanged += new DVoid2Void(LocalizationHelper_LanguageChanged);
             _cdgvAlarmSettings.DataGrid.DataError += new DataGridViewDataErrorEventHandler(dgvCombo_DataError);
             InitCGPDataGridView();
-            InitEventlogsSettingsControls();
             _eventSqlServerOnlineStateChanged = new Action<bool>(SqlServerOnlineStateChanged);
             SqlServerOnlineStateChangedHandler.Singleton.RegisterSqlServerOnlineStateChanged(_eventSqlServerOnlineStateChanged);
-        }
-
-        private void InitEventlogsSettingsControls()
-        {
-            _lEventlogsCountToDisplay = new Label
-            {
-                AutoSize = true,
-                Name = "_lEventlogsCountToDisplay",
-                Location = new Point(8, 347),
-                Text = GetString("GeneralOptionsForm_lEventlogsCountToDisplay")
-            };
-
-            _eEventlogsCountToDisplay = new NumericUpDown
-            {
-                Name = "_eEventlogsCountToDisplay",
-                Location = new Point(8, 363),
-                Size = new Size(120, 20),
-                Minimum = 1,
-                Maximum = 100000,
-                Value = 100
-            };
-
-            _eEventlogsCountToDisplay.ValueChanged += (sender, e) => EditTextChanger(EVENTLOG_SETTINGS);
-
-            _tpEventlogs.Controls.Add(_lEventlogsCountToDisplay);
-            _tpEventlogs.Controls.Add(_eEventlogsCountToDisplay);
         }
 
         private void HideDisableTabPages()
