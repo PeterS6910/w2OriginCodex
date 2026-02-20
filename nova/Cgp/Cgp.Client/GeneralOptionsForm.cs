@@ -332,14 +332,14 @@ namespace Contal.Cgp.Client
             {
                 AutoSize = true,
                 Name = "_lEventlogsCountToDisplay",
-                Location = new Point(8, 144),
+                Location = new Point(8, 347),
                 Text = GetString("GeneralOptionsForm_lEventlogsCountToDisplay")
             };
 
             _eEventlogsCountToDisplay = new NumericUpDown
             {
                 Name = "_eEventlogsCountToDisplay",
-                Location = new Point(8, 160),
+                Location = new Point(8, 363),
                 Size = new Size(120, 20),
                 Minimum = 1,
                 Maximum = 100000,
