@@ -14,6 +14,12 @@ namespace Contal.Cgp.NCAS.Client
         private readonly Guid _doorEnvironmentId;
         private readonly Button _bRefresh;
         private readonly DataGridView _dgEventlogs;
+        private static readonly IList<string> _defaultEventlogTypes = new List<string>
+        {
+            Eventlog.TYPEDSMACCESSRESTRICTED,
+            Eventlog.TYPEDSMACCESSPERMITTED,
+            Eventlog.TYPEACCESSDENIED
+        };
 
         private class EventlogRow
         {
@@ -86,7 +92,8 @@ namespace Contal.Cgp.NCAS.Client
 
             var filterSettings = new List<FilterSettings>
             {
-                new FilterSettings(Eventlog.COLUMN_EVENTSOURCES, new List<Guid> { _doorEnvironmentId }, ComparerModes.IN)
+                new FilterSettings(Eventlog.COLUMN_EVENTSOURCES, new List<Guid> { _doorEnvironmentId }, ComparerModes.IN),
+                new FilterSettings(Eventlog.COLUMN_TYPE, _defaultEventlogTypes, ComparerModes.IN)
             };
 
             var serverGeneralOptions = CgpClient.Singleton.MainServerProvider.ServerGenaralOptionsProvider.ReturnServerGeneralOptions();
