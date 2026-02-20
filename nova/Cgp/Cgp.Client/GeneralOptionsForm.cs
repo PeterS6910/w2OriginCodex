@@ -3441,12 +3441,16 @@ namespace Contal.Cgp.Client
                         }
                         catch
                         {
+                            _actEventlogReportsTimeZone = null;
                             _tbmEventlogsReportsTimezone.Text = string.Empty;
+                            _tbmEventlogsReportsTimezone.TextImage = null;
                         }
                     }
                     else
                     {
+                        _actEventlogReportsTimeZone = null;
                         _tbmEventlogsReportsTimezone.Text = string.Empty;
+                        _tbmEventlogsReportsTimezone.TextImage = null;
                     }
                 }
                 _eEventlogsReportsEmails.Text = _serverGeneralOptions.EventlogReportsEmails;
@@ -4768,9 +4772,10 @@ namespace Contal.Cgp.Client
             }
             else
             {
-                if (!ControlReportsTimeZone())
-                    return;
-                _serverGeneralOptions.EventlogReportsTimeZoneGuidString = _actEventlogReportsTimeZone.IdTimeZone.ToString();
+                _serverGeneralOptions.EventlogReportsTimeZoneGuidString =
+                    _actEventlogReportsTimeZone != null
+                        ? _actEventlogReportsTimeZone.IdTimeZone.ToString()
+                        : null;
                 _serverGeneralOptions.EventlogReportsEmails = _eEventlogsReportsEmails.Text;
             }
 

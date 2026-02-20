@@ -99,7 +99,7 @@ namespace Contal.Cgp.NCAS.Client
             var serverGeneralOptions = CgpClient.Singleton.MainServerProvider.ServerGenaralOptionsProvider.ReturnServerGeneralOptions();
             var maxRows = serverGeneralOptions != null && serverGeneralOptions.EventlogsCountToDisplay > 0
                 ? serverGeneralOptions.EventlogsCountToDisplay
-                : 100;
+                : 10;
 
             var eventlogs = CgpClient.Singleton.MainServerProvider.Eventlogs.SelectRangeByCriteria(
                 filterSettings,
@@ -108,12 +108,14 @@ namespace Contal.Cgp.NCAS.Client
                 maxRows);
 
             var rows = eventlogs
+                .OrderByDescending(e => e.EventlogDateTime)
                 .Select(eventlog => new EventlogRow
                 {
                     EventlogDateTime = eventlog.EventlogDateTime,
                     Type = eventlog.Type,
                     Description = eventlog.Description
                 })
+                .Take(maxRows)
                 .ToList();
 
             _dgEventlogs.DataSource = rows;

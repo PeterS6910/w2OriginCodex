@@ -1975,14 +1975,14 @@ namespace Contal.Cgp.Server
                 if (!DatabaseGeneralOptions.Singleton.Get(
                         DatabaseGeneralOptionType.EventlogsCountToDisplay,
                         out _eventlogsCountToDisplay))
-                    _eventlogsCountToDisplay = 100;
+                    _eventlogsCountToDisplay = 10;
 
                 if (_eventlogsCountToDisplay <= 0)
-                    _eventlogsCountToDisplay = 100;
+                    _eventlogsCountToDisplay = 10;
             }
             catch
             {
-                _eventlogsCountToDisplay = 100;
+                _eventlogsCountToDisplay = 10;
             }
 
             try
