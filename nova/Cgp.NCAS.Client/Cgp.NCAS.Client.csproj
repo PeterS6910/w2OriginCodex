@@ -174,6 +174,12 @@
     <Compile Include="CreateDoorsForMultiDoorForm.Designer.cs">
       <DependentUpon>CreateDoorsForMultiDoorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventlogsDoorEnvironmentEditForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EventlogsDoorEnvironmentEditForm.Designer.cs">
+      <DependentUpon>EventlogsDoorEnvironmentEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcelExportForm.cs">
       <SubType>Form</SubType>
     </Compile>

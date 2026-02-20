@@ -13283,6 +13283,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count of event logs to display.
+        /// </summary>
+        internal static string GeneralOptionsForm_lEventlogsCountToDisplay {
+            get {
+                return ResourceManager.GetString("GeneralOptionsForm_lEventlogsCountToDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exponent.
         /// </summary>
         internal static string GeneralOptionsForm_lExponent {

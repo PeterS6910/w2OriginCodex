@@ -6520,4 +6520,7 @@ Do you want to continue with person removal?</value>
   <data name="ExportSucceeded" xml:space="preserve">
     <value>Export Succeeded</value>
   </data>
+  <data name="GeneralOptionsForm_lEventlogsCountToDisplay" xml:space="preserve">
+    <value>Count of event logs to display</value>
+  </data>
 </root>

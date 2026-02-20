@@ -6925,4 +6925,10 @@ Vill Ni ändra ingångskontroll på {1} till forcerad blockering?</value>
   <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpEventlogs" xml:space="preserve">
+    <value>Händelseloggar</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
 </root>

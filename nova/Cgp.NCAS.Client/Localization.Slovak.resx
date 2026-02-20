@@ -4804,4 +4804,10 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpEventlogs" xml:space="preserve">
+    <value>Eventlogy</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
+    <value>Obnoviť</value>
+  </data>
 </root>

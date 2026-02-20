@@ -1,4 +1,4 @@
-﻿using Contal.Cgp.Globals;
+using Contal.Cgp.Globals;
 
 namespace Contal.Cgp.Server.Beans
 {
@@ -73,6 +73,7 @@ namespace Contal.Cgp.Server.Beans
         EventlogAlarmAreaActivationStateChanged = 507,
         EventlogCardReaderOnlineStateChanged = 508,
         EventSourcesReverseOrder = 509,
+        EventlogsCountToDisplay = 510,
         CgpDragDropColorBackground = 600,
         CgpDragDropColorText = 601,
         CgpReferenceObjectColorBackground = 602,

@@ -4912,4 +4912,7 @@
   <data name="ExportSucceeded" xml:space="preserve">
     <value>Export prebehol úspešne</value>
   </data>
+  <data name="GeneralOptionsForm_lEventlogsCountToDisplay" xml:space="preserve">
+    <value>Počet záznamov udalostí na zobrazenie</value>
+  </data>
 </root>

@@ -6877,4 +6877,10 @@ Do you want to change the input control of {1} to forcefully blocked ?</value>
   <data name="NCASDoorEnvironmentEditForm_Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="NCASDoorEnvironmentEditForm_tpEventlogs" xml:space="preserve">
+    <value>Event logs</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

@@ -6676,4 +6676,7 @@ Vill Ni radera personen?</value>
   <data name="ExportSucceeded" xml:space="preserve">
     <value>Export lyckades</value>
   </data>
+  <data name="GeneralOptionsForm_lEventlogsCountToDisplay" xml:space="preserve">
+    <value>Antal händelseloggar att visa</value>
+  </data>
 </root>

@@ -5517,6 +5517,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uppdatera.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEfitForm_bRefresh {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Födelsedag.
         /// </summary>
         internal static string ExcelExportForm_cbBD {
@@ -14571,6 +14580,15 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string NCASDoorEnvironmentEditForm_tpDoorsTiming {
             get {
                 return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpDoorsTiming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Händelseloggar.
+        /// </summary>
+        internal static string NCASDoorEnvironmentEditForm_tpEventlogs {
+            get {
+                return ResourceManager.GetString("NCASDoorEnvironmentEditForm_tpEventlogs", resourceCulture);
             }
         }
         

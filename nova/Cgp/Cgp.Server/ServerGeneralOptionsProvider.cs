@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using Cgp.Components;
@@ -542,6 +542,9 @@ namespace Contal.Cgp.Server
             _generalOptions.EventSourcesReverseOrder =
                 serverGeneralOptions.EventSourcesReverseOrder;
 
+            _generalOptions.EventlogsCountToDisplay =
+                serverGeneralOptions.EventlogsCountToDisplay;
+
             _generalOptions.EventlogReportsTimeZoneGuidString = serverGeneralOptions.EventlogReportsTimeZoneGuidString;
             _generalOptions.EventlogReportsEmails = serverGeneralOptions.EventlogReportsEmails;
 
@@ -698,6 +701,7 @@ namespace Contal.Cgp.Server
                     EventlogAlarmAreaActivationStateChanged = _generalOptions.EventlogAlarmAreaActivationStateChanged,
                     EventlogCardReaderOnlineStateChanged = _generalOptions.EventlogCardReaderOnlineStateChanged,
                     EventSourcesReverseOrder = _generalOptions.EventSourcesReverseOrder,
+                    EventlogsCountToDisplay = _generalOptions.EventlogsCountToDisplay,
                     EventlogReportsTimeZoneGuidString = _generalOptions.EventlogReportsTimeZoneGuidString,
                     EventlogReportsEmails = _generalOptions.EventlogReportsEmails,
                     EnableLoggingSDPSTZChanges = _generalOptions.EnableLoggingSDPSTZChanges,

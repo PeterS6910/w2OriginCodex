@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -104,6 +104,8 @@ namespace Contal.Cgp.Client
         private List<string> _changedTabPages = new List<string>();
         private BinaryPhoto _binaryPhoto;
         private bool _isPhotoModified = false;
+        private Label _lEventlogsCountToDisplay;
+        private NumericUpDown _eEventlogsCountToDisplay;
 
         public static GeneralOptionsForm Singleton
         {
@@ -319,8 +321,35 @@ namespace Contal.Cgp.Client
             LocalizationHelper.LanguageChanged += new DVoid2Void(LocalizationHelper_LanguageChanged);
             _cdgvAlarmSettings.DataGrid.DataError += new DataGridViewDataErrorEventHandler(dgvCombo_DataError);
             InitCGPDataGridView();
+            InitEventlogsSettingsControls();
             _eventSqlServerOnlineStateChanged = new Action<bool>(SqlServerOnlineStateChanged);
             SqlServerOnlineStateChangedHandler.Singleton.RegisterSqlServerOnlineStateChanged(_eventSqlServerOnlineStateChanged);
+        }
+
+        private void InitEventlogsSettingsControls()
+        {
+            _lEventlogsCountToDisplay = new Label
+            {
+                AutoSize = true,
+                Name = "_lEventlogsCountToDisplay",
+                Location = new Point(8, 144),
+                Text = GetString("GeneralOptionsForm_lEventlogsCountToDisplay")
+            };
+
+            _eEventlogsCountToDisplay = new NumericUpDown
+            {
+                Name = "_eEventlogsCountToDisplay",
+                Location = new Point(8, 160),
+                Size = new Size(120, 20),
+                Minimum = 1,
+                Maximum = 100000,
+                Value = 100
+            };
+
+            _eEventlogsCountToDisplay.ValueChanged += (sender, e) => EditTextChanger(EVENTLOG_SETTINGS);
+
+            _tpEventlogs.Controls.Add(_lEventlogsCountToDisplay);
+            _tpEventlogs.Controls.Add(_eEventlogsCountToDisplay);
         }
 
         private void HideDisableTabPages()
@@ -3420,6 +3449,9 @@ namespace Contal.Cgp.Client
                 _cbEventlogAlarmAreaActivationStateChanged.Checked = _serverGeneralOptions.EventlogAlarmAreaActivationStateChanged;
                 _cbEventlogCardReaderOnlineStateChanged.Checked = _serverGeneralOptions.EventlogCardReaderOnlineStateChanged;
                 _cbEventSourcesReverseOrder.Checked = _serverGeneralOptions.EventSourcesReverseOrder;
+                _eEventlogsCountToDisplay.Value = _serverGeneralOptions.EventlogsCountToDisplay > 0
+                   ? _serverGeneralOptions.EventlogsCountToDisplay
+                   : 10;
 
                 // Reports
                 if (CgpClient.Singleton.MainServerProvider != null && CgpClient.Singleton.MainServerProvider.IsSessionValid)
@@ -4594,6 +4626,9 @@ namespace Contal.Cgp.Client
             LocalizeListAlarmPriorities();
             LocalizeDataGridAlarmTypes();
             LocalizationHelper.TranslateDataGridViewColumnsHeaders(_cdgvAlarmSettings.DataGrid);
+
+            if (_lEventlogsCountToDisplay != null)
+                _lEventlogsCountToDisplay.Text = GetString("GeneralOptionsForm_lEventlogsCountToDisplay");
         }
 
         private void LocalizeListAlarmPriorities()
@@ -4754,6 +4789,7 @@ namespace Contal.Cgp.Client
             _serverGeneralOptions.EventlogAlarmAreaActivationStateChanged = _cbEventlogAlarmAreaActivationStateChanged.Checked;
             _serverGeneralOptions.EventlogCardReaderOnlineStateChanged = _cbEventlogCardReaderOnlineStateChanged.Checked;
             _serverGeneralOptions.EventSourcesReverseOrder = _cbEventSourcesReverseOrder.Checked;
+            _serverGeneralOptions.EventlogsCountToDisplay = (int)_eEventlogsCountToDisplay.Value;
             if (!CgpClient.Singleton.MainServerProvider.CheckTimetecLicense())
             {
                 _serverGeneralOptions.EventlogReportsTimeZoneGuidString = null;

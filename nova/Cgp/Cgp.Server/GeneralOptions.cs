@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -103,6 +103,7 @@ namespace Contal.Cgp.Server
         private bool _eventlogAlarmAreaActivationStateChanged;
         private bool _eventlogCardReaderOnlineStateChanged;
         private bool _eventSourcesReverseOrder;
+        private int _eventlogsCountToDisplay;
         private string _eventlogReportsTimeZoneGuidString;
         private string _eventlogReportsEmails;
 
@@ -620,6 +621,12 @@ namespace Contal.Cgp.Server
         {
             get { return _eventSourcesReverseOrder; }
             set { _eventSourcesReverseOrder = value; }
+        }
+
+        public int EventlogsCountToDisplay
+        {
+            get { return _eventlogsCountToDisplay; }
+            set { _eventlogsCountToDisplay = value; }
         }
 
         public string EventlogReportsTimeZoneGuidString
@@ -1966,6 +1973,21 @@ namespace Contal.Cgp.Server
             try
             {
                 if (!DatabaseGeneralOptions.Singleton.Get(
+                        DatabaseGeneralOptionType.EventlogsCountToDisplay,
+                        out _eventlogsCountToDisplay))
+                    _eventlogsCountToDisplay = 100;
+
+                if (_eventlogsCountToDisplay <= 0)
+                    _eventlogsCountToDisplay = 100;
+            }
+            catch
+            {
+                _eventlogsCountToDisplay = 100;
+            }
+
+            try
+            {
+                if (!DatabaseGeneralOptions.Singleton.Get(
                         DatabaseGeneralOptionType.EventlogReportsTimezoneGuidString,
                         out _eventlogReportsTimeZoneGuidString))
                     _eventlogReportsTimeZoneGuidString = string.Empty;
@@ -3187,6 +3209,7 @@ namespace Contal.Cgp.Server
                 !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventlogAlarmAreaActivationStateChanged, _eventlogAlarmAreaActivationStateChanged) ||
                 !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventlogCardReaderOnlineStateChanged, _eventlogCardReaderOnlineStateChanged) ||
                 !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventSourcesReverseOrder, _eventSourcesReverseOrder) ||
+                !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventlogsCountToDisplay, _eventlogsCountToDisplay) ||
                 !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventlogReportsTimezoneGuidString, _eventlogReportsTimeZoneGuidString) ||
                 !DatabaseGeneralOptions.Singleton.Set(DatabaseGeneralOptionType.EventlogReportsEmails, _eventlogReportsEmails))
             {

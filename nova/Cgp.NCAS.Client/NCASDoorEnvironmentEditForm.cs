@@ -53,6 +53,8 @@ namespace Contal.Cgp.NCAS.Client
         private readonly ControlModifyAlarmArcs _cmaaDsmSabotage;
 
         private readonly Dictionary<AlarmType, Action> _openAndScrollToControlByAlarmType;
+        private TabPage _tpEventlogs;
+        private EventlogsDoorEnvironmentEfitForm _eventlogsDoorEnvironmentEfitForm;
 
         public NCASDoorEnvironmentEditForm(
                 DoorEnvironment doorEnvironment,
@@ -197,6 +199,8 @@ namespace Contal.Cgp.NCAS.Client
             MinimumSize = new Size(Width, Height);
             SetReferenceEditColors();
 
+            InitEventlogsTab();
+
             _chbNotInvokeIntrusionAlarm.Visible = false;
             SafeThread.StartThread(HideDisableTabPages);
 
@@ -282,9 +286,53 @@ namespace Contal.Cgp.NCAS.Client
                         NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsDescriptionView)),
                     CgpClient.Singleton.MainServerProvider.HasAccess(
                         NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsDescriptionAdmin)));
+
+                HideDisableTabPageEventlogs(
+                    CgpClient.Singleton.MainServerProvider.HasAccess(
+                        BaseAccess.GetAccess(LoginAccess.EventlogsView)));
             }
             catch
             {
+            }
+        }
+
+        private void InitEventlogsTab()
+        {
+            _tpEventlogs = new TabPage
+            {
+                Name = "_tpEventlogs",
+                Text = GetString("NCASDoorEnvironmentEditForm_tpEventlogs"),
+                BackColor = SystemColors.Control
+            };
+
+            _eventlogsDoorEnvironmentEfitForm = new EventlogsDoorEnvironmentEfitForm(_editingObject.IdDoorEnvironment)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            _tpEventlogs.Controls.Add(_eventlogsDoorEnvironmentEfitForm);
+            _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
+        }
+
+        private void HideDisableTabPageEventlogs(bool view)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<bool>(HideDisableTabPageEventlogs),
+                    view);
+            }
+            else
+            {
+                if (!view)
+                {
+                    _tcDoorsAutomat.TabPages.Remove(_tpEventlogs);
+                    return;
+                }
+
+                if (!_tcDoorsAutomat.TabPages.Contains(_tpEventlogs))
+                    _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
+
+                _eventlogsDoorEnvironmentEfitForm.RefreshData();
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -95,6 +95,7 @@ namespace Contal.Cgp.Server.Beans
         private bool _eventlogAlarmAreaActivationStateChanged;
         private bool _eventlogCardReaderOnlineStateChanged;
         private bool _eventSourcesReverseOrder;
+        private int _eventlogsCountToDisplay;
         private string _eventlogReportsTimeZoneGuidString;
         private string _eventlogReportsEmails;
 
@@ -423,6 +424,12 @@ namespace Contal.Cgp.Server.Beans
         {
             get { return _eventSourcesReverseOrder; }
             set { _eventSourcesReverseOrder = value; }
+        }
+
+        public int EventlogsCountToDisplay
+        {
+            get { return _eventlogsCountToDisplay; }
+            set { _eventlogsCountToDisplay = value; }
         }
 
         public bool EnableLoggingSDPSTZChanges
