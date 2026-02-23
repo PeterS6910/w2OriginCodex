@@ -96,6 +96,11 @@ namespace Contal.Cgp.NCAS.Client
             Size = new Size(849, 432);
         }
 
+        public DataGridView DataGrid
+        {
+            get { return _dgEventlogs; }
+        }
+
         public void RefreshData()
         {
             if (CgpClient.Singleton.MainServerProvider == null || CgpClient.Singleton.IsConnectionLost(false))

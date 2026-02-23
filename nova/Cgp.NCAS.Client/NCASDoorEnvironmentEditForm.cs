@@ -200,6 +200,7 @@ namespace Contal.Cgp.NCAS.Client
             SetReferenceEditColors();
 
             InitEventlogsTab();
+            _eventlogsDoorEnvironmentEfitForm.DataGrid.MouseWheel += ControlMouseWheel;
 
             _chbNotInvokeIntrusionAlarm.Visible = false;
             SafeThread.StartThread(HideDisableTabPages);
