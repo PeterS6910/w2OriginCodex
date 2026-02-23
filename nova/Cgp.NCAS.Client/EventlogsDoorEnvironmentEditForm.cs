@@ -53,7 +53,6 @@ namespace Contal.Cgp.NCAS.Client
                 AllowUserToResizeRows = false,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                BorderStyle = BorderStyle.FixedSingle,
                 Location = new Point(3, 32),
                 MultiSelect = false,
                 Name = "_dgEventlogs",
