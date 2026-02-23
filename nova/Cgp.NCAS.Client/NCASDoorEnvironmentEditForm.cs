@@ -3352,8 +3352,15 @@ namespace Contal.Cgp.NCAS.Client
 
         private void SetReferencedBy()
         {
-            _tpReferencedBy.Controls.Add(new ReferencedByForm(GetListReferencedObjects, NCASClient.LocalizationHelper,
-                ObjectImageList.Singleton.GetAllObjectImages()));
+            var referencedByForm = new ReferencedByForm(
+                GetListReferencedObjects,
+                NCASClient.LocalizationHelper,
+                ObjectImageList.Singleton.GetAllObjectImages())
+            {
+                Dock = DockStyle.Fill
+            };
+
+            _tpReferencedBy.Controls.Add(referencedByForm);
         }
 
         IList<AOrmObject> GetListReferencedObjects()
