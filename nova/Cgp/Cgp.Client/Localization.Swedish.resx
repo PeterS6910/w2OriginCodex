@@ -5704,6 +5704,9 @@ Vill Ni radera personen?</value>
   <data name="Access_DoorEnvironmentsDescription" xml:space="preserve">
     <value>Beskrivning</value>
   </data>
+  <data name="Access_DoorEnvironmentsEventlogs" xml:space="preserve">
+    <value>Händelseloggar</value>
+  </data>
   <data name="Access_DcusDescription" xml:space="preserve">
     <value>Beskrivning</value>
   </data>

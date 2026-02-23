@@ -406,6 +406,12 @@ namespace Contal.Cgp.NCAS.Server.Beans
         DoorEnvironmentsLocalAlarmInstructionsView = 622,
         [Access(NCASAccess.SOURCE, AccessNcasGroups.DOOR_ENVIRONMENTS, (int)OldDevicesManagementAdmin)]
         DoorEnvironmentsLocalAlarmInstructionsAdmin = 623,
+        [AccessPresentation(NCASAccess.SOURCE, AccessNcasGroups.DOOR_ENVIRONMENTS, (int)DoorEnvironmentsEventlogsView, (int)DoorEnvironmentsEventlogsAdmin, 10)]
+        DoorEnvironmentsEventlogs = 624,
+        [Access(NCASAccess.SOURCE, AccessNcasGroups.DOOR_ENVIRONMENTS, (int)OldDevicesManagementView)]
+        DoorEnvironmentsEventlogsView = 625,
+        [Access(NCASAccess.SOURCE, AccessNcasGroups.DOOR_ENVIRONMENTS, (int)OldDevicesManagementAdmin)]
+        DoorEnvironmentsEventlogsAdmin = 626,
 
         // Old access control lists
         [Access(NCASAccess.SOURCE, null, AccessConstans.NULL_ACCESS_REFERENCE)]

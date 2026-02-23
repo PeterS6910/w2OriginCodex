@@ -289,6 +289,8 @@ namespace Contal.Cgp.NCAS.Client
 
                 HideDisableTabPageEventlogs(
                     CgpClient.Singleton.MainServerProvider.HasAccess(
+                        NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsEventlogsView))
+                    && CgpClient.Singleton.MainServerProvider.HasAccess(
                         BaseAccess.GetAccess(LoginAccess.EventlogsView)));
             }
             catch

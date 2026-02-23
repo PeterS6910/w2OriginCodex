@@ -1402,6 +1402,15 @@ namespace Contal.Cgp.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Händelseloggar.
+        /// </summary>
+        internal static string Access_DoorEnvironmentsEventlogs {
+            get {
+                return ResourceManager.GetString("Access_DoorEnvironmentsEventlogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Infoga, radera.
         /// </summary>
         internal static string Access_DoorEnvironmentsInsertDelete {

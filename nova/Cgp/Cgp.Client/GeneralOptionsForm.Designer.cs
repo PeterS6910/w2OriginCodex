@@ -2891,19 +2891,19 @@ namespace Contal.Cgp.Client
             // 
             // _eEventlogsCountToDisplay
             // 
-            this._eEventlogsCountToDisplay.Location = new System.Drawing.Point(8, 363);
+            this._eEventlogsCountToDisplay.Location = new System.Drawing.Point(118, 344);
             this._eEventlogsCountToDisplay.Maximum = new decimal(new int[] {
-            100000,
+            100,
             0,
             0,
             0});
             this._eEventlogsCountToDisplay.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
             this._eEventlogsCountToDisplay.Name = "_eEventlogsCountToDisplay";
-            this._eEventlogsCountToDisplay.Size = new System.Drawing.Size(120, 20);
+            this._eEventlogsCountToDisplay.Size = new System.Drawing.Size(60, 20);
             this._eEventlogsCountToDisplay.TabIndex = 9;
             this._eEventlogsCountToDisplay.Value = new decimal(new int[] {
             100,
