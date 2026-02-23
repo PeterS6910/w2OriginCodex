@@ -54,7 +54,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private readonly Dictionary<AlarmType, Action> _openAndScrollToControlByAlarmType;
         private TabPage _tpEventlogs;
-        private EventlogsDoorEnvironmentEditForm _eventlogsDoorEnvironmentEfitForm;
+        private EventlogsDoorEnvironmentEditForm _eventlogsDoorEnvironmentEditForm;
 
         public NCASDoorEnvironmentEditForm(
                 DoorEnvironment doorEnvironment,
@@ -200,7 +200,8 @@ namespace Contal.Cgp.NCAS.Client
             SetReferenceEditColors();
 
             InitEventlogsTab();
-            _eventlogsDoorEnvironmentEfitForm.DataGrid.MouseWheel += ControlMouseWheel;
+            SetEventlogs();
+            _eventlogsDoorEnvironmentEditForm.DataGrid.MouseWheel += ControlMouseWheel;
 
             _chbNotInvokeIntrusionAlarm.Visible = false;
             SafeThread.StartThread(HideDisableTabPages);
@@ -310,13 +311,21 @@ namespace Contal.Cgp.NCAS.Client
                 UseVisualStyleBackColor = true
             };
 
-            _eventlogsDoorEnvironmentEfitForm = new EventlogsDoorEnvironmentEditForm(_editingObject.IdDoorEnvironment)
+            _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
+            {
+                Dock = DockStyle.Fill;
+            };
+
+            _tpEventlogs.Controls.Add(_eventlogsDoorEnvironmentEditForm);
+        }
+
+        private void SetEventlogs()
+        {
+            _eventlogsDoorEnvironmentEditForm = new EventlogsDoorEnvironmentEditForm(_editingObject.IdDoorEnvironment)
             {
                 Dock = DockStyle.Fill
             };
-
-            _tpEventlogs.Controls.Add(_eventlogsDoorEnvironmentEfitForm);
-            _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
+            _tpEventlogs.Controls.Add(_eventlogsDoorEnvironmentEditForm);
         }
 
         private void HideDisableTabPageEventlogs(bool view, bool admin)
@@ -338,7 +347,7 @@ namespace Contal.Cgp.NCAS.Client
                 if (!_tcDoorsAutomat.TabPages.Contains(_tpEventlogs))
                     _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
 
-                _eventlogsDoorEnvironmentEfitForm.RefreshData();
+                _eventlogsDoorEnvironmentEditForm.RefreshData();
             }
         }
 
