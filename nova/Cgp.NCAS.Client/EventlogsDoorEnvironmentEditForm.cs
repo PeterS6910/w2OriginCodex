@@ -53,6 +53,7 @@ namespace Contal.Cgp.NCAS.Client
                 AllowUserToResizeRows = false,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+                BorderStyle = BorderStyle.FixedSingle,
                 Location = new Point(3, 32),
                 MultiSelect = false,
                 Name = "_dgEventlogs",
@@ -86,7 +87,7 @@ namespace Contal.Cgp.NCAS.Client
                 DataPropertyName = nameof(EventlogRow.Description),
                 Name = Eventlog.COLUMN_DESCRIPTION,
                 HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_DESCRIPTION),
-                Width = 360,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
                 MinimumWidth = 140
             });
 
