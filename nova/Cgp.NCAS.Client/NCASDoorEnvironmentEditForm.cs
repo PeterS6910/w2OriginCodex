@@ -312,11 +312,6 @@ namespace Contal.Cgp.NCAS.Client
             };
 
             _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
-            {
-                Dock = DockStyle.Fill;
-            };
-
-            _tpEventlogs.Controls.Add(_eventlogsDoorEnvironmentEditForm);
         }
 
         private void SetEventlogs()
