@@ -36,7 +36,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 Location = new Point(8, 8),
-                Size = new Size(95, 23),
+                Size = new Size(95, 32),
                 Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh")
             };
             _bRefresh.Click += (sender, args) => RefreshData();
@@ -77,7 +77,7 @@ namespace Contal.Cgp.NCAS.Client
                 DataPropertyName = nameof(EventlogRow.Description),
                 Name = Eventlog.COLUMN_DESCRIPTION,
                 HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_DESCRIPTION),
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                Width = 360,
                 MinimumWidth = 140
             });
 
