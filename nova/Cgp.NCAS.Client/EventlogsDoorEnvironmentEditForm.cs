@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
 using Contal.Cgp.BaseLib;
 using Contal.Cgp.Client;
 using Contal.Cgp.Server.Beans.Extern;
+using System;
+using System.Collections.Generic;
+using System.Data.Odbc;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Contal.Cgp.NCAS.Client
 {
