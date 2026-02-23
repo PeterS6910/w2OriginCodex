@@ -289,9 +289,9 @@ namespace Contal.Cgp.NCAS.Client
 
                 HideDisableTabPageEventlogs(
                     CgpClient.Singleton.MainServerProvider.HasAccess(
-                        NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsEventlogsView))
-                    && CgpClient.Singleton.MainServerProvider.HasAccess(
-                        BaseAccess.GetAccess(LoginAccess.EventlogsView)));
+                        NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsEventlogsView)),
+                    CgpClient.Singleton.MainServerProvider.HasAccess(
+                        NCASAccess.GetAccess(AccessNCAS.DoorEnvironmentsEventlogsAdmin)));
             }
             catch
             {
@@ -316,16 +316,17 @@ namespace Contal.Cgp.NCAS.Client
             _tcDoorsAutomat.TabPages.Add(_tpEventlogs);
         }
 
-        private void HideDisableTabPageEventlogs(bool view)
+        private void HideDisableTabPageEventlogs(bool view, bool admin)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<bool>(HideDisableTabPageEventlogs),
-                    view);
+                Invoke(new Action<bool, bool>(HideDisableTabPageEventlogs),
+                    view,
+                    admin);
             }
             else
             {
-                if (!view)
+                if (!view && !admin)
                 {
                     _tcDoorsAutomat.TabPages.Remove(_tpEventlogs);
                     return;
