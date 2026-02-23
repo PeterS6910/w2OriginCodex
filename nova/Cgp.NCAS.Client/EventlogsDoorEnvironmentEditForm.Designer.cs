@@ -50,10 +50,9 @@ namespace Contal.Cgp.NCAS.Client
             this._dgEventlogs.AllowUserToAddRows = false;
             this._dgEventlogs.AllowUserToDeleteRows = false;
             this._dgEventlogs.AllowUserToResizeRows = false;
-            this._dgEventlogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._dgEventlogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._dgEventlogs.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._dgEventlogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._dgEventlogs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._dgcDateTime,
@@ -74,19 +73,24 @@ namespace Contal.Cgp.NCAS.Client
             // _dgcDateTime
             // 
             this._dgcDateTime.DataPropertyName = "EventlogDateTime";
+            this._dgcDateTime.MinimumWidth = 6;
             this._dgcDateTime.Name = "_dgcDateTime";
             this._dgcDateTime.ReadOnly = true;
+            this._dgcDateTime.Width = 125;
             // 
             // _dgcType
             // 
             this._dgcType.DataPropertyName = "Type";
+            this._dgcType.MinimumWidth = 6;
             this._dgcType.Name = "_dgcType";
             this._dgcType.ReadOnly = true;
+            this._dgcType.Width = 125;
             // 
             // _dgcDescription
             // 
             this._dgcDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this._dgcDescription.DataPropertyName = "Description";
+            this._dgcDescription.MinimumWidth = 6;
             this._dgcDescription.Name = "_dgcDescription";
             this._dgcDescription.ReadOnly = true;
             // 
