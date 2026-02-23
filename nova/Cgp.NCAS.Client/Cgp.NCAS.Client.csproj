@@ -692,6 +692,9 @@
     <EmbeddedResource Include="CreateDoorsForMultiDoorForm.resx">
       <DependentUpon>CreateDoorsForMultiDoorForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EventlogsDoorEnvironmentEditForm.resx">
+      <DependentUpon>EventlogsDoorEnvironmentEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExcelExportForm.resx">
       <DependentUpon>ExcelExportForm.cs</DependentUpon>
     </EmbeddedResource>
