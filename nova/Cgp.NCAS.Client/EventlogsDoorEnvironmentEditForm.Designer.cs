@@ -94,7 +94,6 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this._dgEventlogs);
             this.Controls.Add(this._bRefresh);
             this.Name = "EventlogsDoorEnvironmentEditForm";
