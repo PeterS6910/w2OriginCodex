@@ -12,8 +12,6 @@ namespace Contal.Cgp.NCAS.Client
     public partial class EventlogsDoorEnvironmentEditForm : UserControl
     {
         private readonly Guid _doorEnvironmentId;
-        private readonly Button _bRefresh;
-        private readonly DataGridView _dgEventlogs;
         private static readonly IList<string> _defaultEventlogTypes = new List<string>
         {
             Eventlog.TYPEDSMACCESSRESTRICTED,
@@ -32,68 +30,21 @@ namespace Contal.Cgp.NCAS.Client
         {
             _doorEnvironmentId = doorEnvironmentId;
 
-            _bRefresh = new Button
-            {
-                Location = new Point(3, 3),
-                Name = "_bRefresh",
-                Size = new Size(75, 23),
-                TabIndex = 0,
-                Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh"),
-                UseVisualStyleBackColor = true
-            };
-            _bRefresh.Click += (sender, args) => RefreshData();
+            InitializeComponent();
 
-            _dgEventlogs = new DataGridView
-            {
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                AllowUserToOrderColumns = false,
-                AutoGenerateColumns = false,
-                AllowUserToResizeColumns = true,
-                AllowUserToResizeRows = false,
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new Point(3, 32),
-                MultiSelect = false,
-                Name = "_dgEventlogs",
-                ReadOnly = true,
-                RowHeadersVisible = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                Size = new Size(843, 394),
-                TabIndex = 1,
-                TabStop = false
-            };
+            _bRefresh.Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh");
+            _dgcDateTime.Name = Eventlog.COLUMN_EVENTLOG_DATE_TIME;
+            _dgcDateTime.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTLOG_DATE_TIME);
+            _dgcType.Name = Eventlog.COLUMN_TYPE;
+            _dgcType.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_TYPE);
+            _dgcDescription.Name = Eventlog.COLUMN_DESCRIPTION;
+            _dgcDescription.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_DESCRIPTION);
 
-            _dgEventlogs.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(EventlogRow.EventlogDateTime),
-                Name = Eventlog.COLUMN_EVENTLOG_DATE_TIME,
-                HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTLOG_DATE_TIME),
-                Width = 165,
-                DefaultCellStyle = { Format = "dd.MM.yyyy HH:mm:ss" }
-            });
+        }
 
-            _dgEventlogs.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(EventlogRow.Type),
-                Name = Eventlog.COLUMN_TYPE,
-                HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_TYPE),
-                Width = 180
-            });
-
-            _dgEventlogs.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(EventlogRow.Description),
-                Name = Eventlog.COLUMN_DESCRIPTION,
-                HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_DESCRIPTION),
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                MinimumWidth = 140
-            });
-
-            Controls.Add(_bRefresh);
-            Controls.Add(_dgEventlogs);
-            Name = "EventlogsDoorEnvironmentEditForm";
-            Size = new Size(849, 432);
+        private void _bRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshData();
         }
 
         public DataGridView DataGrid
