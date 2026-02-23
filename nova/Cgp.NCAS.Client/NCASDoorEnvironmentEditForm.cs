@@ -304,7 +304,9 @@ namespace Contal.Cgp.NCAS.Client
             {
                 Name = "_tpEventlogs",
                 Text = GetString("NCASDoorEnvironmentEditForm_tpEventlogs"),
-                BackColor = SystemColors.Control
+                BackColor = Color.Transparent,
+                Padding = new Padding(3),
+                UseVisualStyleBackColor = true
             };
 
             _eventlogsDoorEnvironmentEfitForm = new EventlogsDoorEnvironmentEditForm(_editingObject.IdDoorEnvironment)

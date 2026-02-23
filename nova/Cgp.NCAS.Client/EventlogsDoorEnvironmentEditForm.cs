@@ -34,25 +34,34 @@ namespace Contal.Cgp.NCAS.Client
 
             _bRefresh = new Button
             {
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                Location = new Point(8, 8),
-                Size = new Size(95, 32),
-                Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh")
+                Location = new Point(3, 3),
+                Name = "_bRefresh",
+                Size = new Size(75, 23),
+                TabIndex = 0,
+                Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh"),
+                UseVisualStyleBackColor = true
             };
             _bRefresh.Click += (sender, args) => RefreshData();
 
             _dgEventlogs = new DataGridView
             {
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-                Location = new Point(8, 40),
-                Size = new Size(830, 380),
-                ReadOnly = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 AllowUserToOrderColumns = false,
                 AutoGenerateColumns = false,
+                AllowUserToResizeColumns = true,
+                AllowUserToResizeRows = false,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+                Location = new Point(3, 32),
+                MultiSelect = false,
+                Name = "_dgEventlogs",
+                ReadOnly = true,
+                RowHeadersVisible = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false
+                Size = new Size(843, 394),
+                TabIndex = 1,
+                TabStop = false
             };
 
             _dgEventlogs.Columns.Add(new DataGridViewTextBoxColumn
@@ -83,6 +92,8 @@ namespace Contal.Cgp.NCAS.Client
 
             Controls.Add(_bRefresh);
             Controls.Add(_dgEventlogs);
+            Name = "EventlogsDoorEnvironmentEditForm";
+            Size = new Size(849, 432);
         }
 
         public void RefreshData()
