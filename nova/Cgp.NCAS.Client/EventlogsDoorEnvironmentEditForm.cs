@@ -16,9 +16,10 @@ namespace Contal.Cgp.NCAS.Client
         private const string LocalizationPrefix = "EventlogsDoorEnvironmentEditForm";
         private static readonly IList<string> _defaultEventlogTypes = new List<string>
         {
-            Eventlog.TYPEDSMNORMALACCESS,
-            Eventlog.TYPEDSMACCESSPERMITTED,
-            Eventlog.TYPEACCESSDENIED
+            //Eventlog.TYPEDSMNORMALACCESS,
+            //Eventlog.TYPEDSMACCESSPERMITTED,
+            Eventlog.TYPEACCESSDENIED,
+            Eventlog.TYPEDSMACCESSINTERRUPTED
         };
 
         private class EventlogRow
@@ -76,13 +77,22 @@ namespace Contal.Cgp.NCAS.Client
                 0,
                 maxRows);
 
+            var eventlogIds = eventlogs
+                .Where(eventlog => eventlog != null)
+                .Select(eventlog => eventlog.IdEventlog)
+                .ToList();
+
+            var eventSourceNamesByEventlogId = eventlogIds.Count > 0
+                ? CgpClient.Singleton.MainServerProvider.Eventlogs.GetEventSourceNames(eventlogIds)
+                : new Dictionary<long, ICollection<string>>();
+
             var rows = eventlogs
                 .OrderByDescending(e => e.EventlogDateTime)
                 .Select(eventlog => new EventlogRow
                 {
                     EventlogDateTime = eventlog.EventlogDateTime,
                     Type = eventlog.Type,
-                    EventSources = GetEventSourcesText(eventlog)
+                    EventSources = GetEventSourcesText(eventlog, eventSourceNamesByEventlogId)
                 })
                 .Take(maxRows)
                 .ToList();
@@ -90,36 +100,19 @@ namespace Contal.Cgp.NCAS.Client
             _dgEventlogs.DataSource = rows;
         }
 
-        private static string GetEventSourcesText(Eventlog eventlog)
+        private static string GetEventSourcesText(Eventlog eventlog, IDictionary<long, ICollection<string>> eventSourceNamesByEventlogId)
         {
-            if (eventlog == null)
+            if (eventlog == null || eventSourceNamesByEventlogId == null)
                 return string.Empty;
 
-            var eventSources = eventlog.EventSources;
+            ICollection<string> eventSourceNames;
 
-            if ((eventSources == null || eventSources.Count == 0) && CgpClient.Singleton?.MainServerProvider?.Eventlogs != null)
-            {
-                var eventlogWithEventSources = CgpClient.Singleton.MainServerProvider.Eventlogs.GetObjectById(eventlog.IdEventlog);
-                eventSources = eventlogWithEventSources?.EventSources;
-            }
-
-            if (eventSources == null || eventSources.Count == 0)
+            if (!eventSourceNamesByEventlogId.TryGetValue(eventlog.IdEventlog, out eventSourceNames)
+                || eventSourceNames == null
+                || eventSourceNames.Count == 0)
                 return string.Empty;
 
-            var eventSourceNames = eventSources
-                .Select(eventSource => eventSource?.EventSourceObjectGuid ?? Guid.Empty)
-                .Where(eventSourceGuid => eventSourceGuid != Guid.Empty)
-                .Select(eventSourceGuid =>
-                {
-                    var objectType = CgpClient.Singleton.MainServerProvider.CentralNameRegisters.GetObjectTypeFromGuid(eventSourceGuid);
-                    var ormObject = DbsSupport.GetTableObject(objectType, eventSourceGuid);
-
-                    return ormObject != null ? ormObject.ToString() : eventSourceGuid.ToString();
-                })
-                .Distinct()
-                .ToList();
-
-            return string.Join(", ", eventSourceNames);
+            return string.Join(",", eventSourceNames);
         }
     }
 }
