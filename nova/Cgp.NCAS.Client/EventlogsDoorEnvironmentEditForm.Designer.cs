@@ -40,7 +40,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this._bRefresh.Location = new System.Drawing.Point(3, 3);
             this._bRefresh.Name = "_bRefresh";
-            this._bRefresh.Size = new System.Drawing.Size(75, 32);
+            this._bRefresh.Size = new System.Drawing.Size(90, 32);
             this._bRefresh.TabIndex = 0;
             this._bRefresh.UseVisualStyleBackColor = true;
             this._bRefresh.Click += new System.EventHandler(this._bRefresh_Click);

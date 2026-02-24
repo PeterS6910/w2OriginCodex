@@ -5517,6 +5517,15 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uppdatera.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_bRefresh {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_bRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Datum.
         /// </summary>
         internal static string EventlogsDoorEnvironmentEditForm_dgcDateTime {
@@ -5540,15 +5549,6 @@ namespace Contal.Cgp.NCAS.Client {
         internal static string EventlogsDoorEnvironmentEditForm_dgcType {
             get {
                 return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Uppdatera.
-        /// </summary>
-        internal static string EventlogsDoorEnvironmentEfitForm_bRefresh {
-            get {
-                return ResourceManager.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh", resourceCulture);
             }
         }
         

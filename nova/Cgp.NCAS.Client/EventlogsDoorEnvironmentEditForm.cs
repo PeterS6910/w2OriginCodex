@@ -16,10 +16,9 @@ namespace Contal.Cgp.NCAS.Client
         private const string LocalizationPrefix = "EventlogsDoorEnvironmentEditForm";
         private static readonly IList<string> _defaultEventlogTypes = new List<string>
         {
-            //Eventlog.TYPEDSMNORMALACCESS,
-            //Eventlog.TYPEDSMACCESSPERMITTED,
-            Eventlog.TYPEACCESSDENIED,
-            Eventlog.TYPEDSMACCESSINTERRUPTED
+            Eventlog.TYPEDSMACCESSPERMITTED,
+            Eventlog.TYPEDSMACCESSRESTRICTED,
+            Eventlog.TYPEUNKNOWNCARD
         };
 
         private class EventlogRow
@@ -35,7 +34,7 @@ namespace Contal.Cgp.NCAS.Client
 
             InitializeComponent();
 
-            _bRefresh.Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh");
+            _bRefresh.Text = NCASClient.LocalizationHelper.GetString($"{LocalizationPrefix}_bRefresh");
             _dgcDateTime.Name = Eventlog.COLUMN_EVENTLOG_DATE_TIME;
             _dgcDateTime.HeaderText = NCASClient.LocalizationHelper.GetString(LocalizationPrefix + "_dgcDateTime");
             _dgcType.Name = Eventlog.COLUMN_TYPE;
