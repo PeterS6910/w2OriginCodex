@@ -89,9 +89,9 @@ namespace Contal.Cgp.NCAS.Client
             // _dgcDescription
             // 
             this._dgcDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._dgcDescription.DataPropertyName = "Description";
+            this._dgcDescription.DataPropertyName = "EventSources";
             this._dgcDescription.MinimumWidth = 6;
-            this._dgcDescription.Name = "_dgcDescription";
+            this._dgcDescription.Name = "EventSources";
             this._dgcDescription.ReadOnly = true;
             // 
             // EventlogsDoorEnvironmentEditForm

@@ -15,7 +15,7 @@ namespace Contal.Cgp.NCAS.Client
         private readonly Guid _doorEnvironmentId;
         private static readonly IList<string> _defaultEventlogTypes = new List<string>
         {
-            Eventlog.TYPEDSMACCESSRESTRICTED,
+            Eventlog.TYPEDSMNORMALACCESS,
             Eventlog.TYPEDSMACCESSPERMITTED,
             Eventlog.TYPEACCESSDENIED
         };
@@ -24,7 +24,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             public DateTime EventlogDateTime { get; set; }
             public string Type { get; set; }
-            public string Description { get; set; }
+            public string EventSources { get; set; }
         }
 
         public EventlogsDoorEnvironmentEditForm(Guid doorEnvironmentId)
@@ -38,8 +38,8 @@ namespace Contal.Cgp.NCAS.Client
             _dgcDateTime.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTLOG_DATE_TIME);
             _dgcType.Name = Eventlog.COLUMN_TYPE;
             _dgcType.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_TYPE);
-            _dgcDescription.Name = Eventlog.COLUMN_DESCRIPTION;
-            _dgcDescription.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_DESCRIPTION);
+            _dgcDescription.Name = Eventlog.COLUMN_EVENTSOURCES;
+            _dgcDescription.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTSOURCES);
 
         }
 
@@ -81,7 +81,9 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     EventlogDateTime = eventlog.EventlogDateTime,
                     Type = eventlog.Type,
-                    Description = eventlog.Description
+                    EventSources = eventlog.EventSources == null
+                        ? string.Empty
+                        : string.Join(", ", eventlog.EventSources.Select(eventSource => eventSource.EventSourceObjectGuid.ToString()))
                 })
                 .Take(maxRows)
                 .ToList();
