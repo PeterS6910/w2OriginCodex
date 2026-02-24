@@ -56,6 +56,12 @@ namespace Contal.Cgp.NCAS.Client
 
         public void RefreshData()
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(RefreshData));
+                return;
+            }
+
             if (CgpClient.Singleton.MainServerProvider == null || CgpClient.Singleton.IsConnectionLost(false))
                 return;
 

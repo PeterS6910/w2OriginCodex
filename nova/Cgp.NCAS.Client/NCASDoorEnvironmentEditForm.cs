@@ -503,7 +503,7 @@ namespace Contal.Cgp.NCAS.Client
             DoorEnvironmentStateChangedHandler.Singleton.RegisterStateChanged(_eventStateChanged);
             _cudObjectEvent = CudObjectEvent;
             CUDObjectHandler.Singleton.Register(_cudObjectEvent, ObjectType.CardReader, ObjectType.Input,
-                ObjectType.Output);
+                ObjectType.Output, ObjectType.Eventlog);
         }
 
         protected override void UnregisterEvents()
@@ -513,7 +513,7 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_cudObjectEvent != null)
                 CUDObjectHandler.Singleton.Unregister(_cudObjectEvent, ObjectType.CardReader, ObjectType.Input,
-                    ObjectType.Output);
+                    ObjectType.Output, ObjectType.Eventlog);
         }
 
         protected override void BeforeInsert()
@@ -1086,6 +1086,12 @@ namespace Contal.Cgp.NCAS.Client
         {
             try
             {
+                if (objectType == ObjectType.Eventlog)
+                {
+                    _eventlogsDoorEnvironmentEditForm.RefreshData();
+                    return;
+                }
+
                 if (!(id is Guid))
                     return;
 
@@ -1162,6 +1168,7 @@ namespace Contal.Cgp.NCAS.Client
                         RefreshActivators(idGuid);
                         break;
                 }
+                _eventlogsDoorEnvironmentEditForm.RefreshData();
             }
             catch
             {
