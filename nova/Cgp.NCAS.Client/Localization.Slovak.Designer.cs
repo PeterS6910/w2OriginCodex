@@ -4192,6 +4192,33 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dátum.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcDateTime {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zdroj udalosti.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcEventSources {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcEventSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Typ.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcType {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Obnoviť.
         /// </summary>
         internal static string EventlogsDoorEnvironmentEfitForm_bRefresh {

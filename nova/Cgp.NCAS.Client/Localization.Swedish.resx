@@ -6931,4 +6931,13 @@ Vill Ni ändra ingångskontroll på {1} till forcerad blockering?</value>
   <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
     <value>Uppdatera</value>
   </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcDateTime" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcEventSources" xml:space="preserve">
+    <value>Händelsekälla</value>
+  </data>
 </root>

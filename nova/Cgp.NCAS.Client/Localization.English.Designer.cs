@@ -5481,6 +5481,33 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcDateTime {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event source.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcEventSources {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcEventSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string EventlogsDoorEnvironmentEditForm_dgcType {
+            get {
+                return ResourceManager.GetString("EventlogsDoorEnvironmentEditForm_dgcType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         internal static string EventlogsDoorEnvironmentEfitForm_bRefresh {

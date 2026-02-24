@@ -13,6 +13,7 @@ namespace Contal.Cgp.NCAS.Client
     public partial class EventlogsDoorEnvironmentEditForm : UserControl
     {
         private readonly Guid _doorEnvironmentId;
+        private const string LocalizationPrefix = "EventlogsDoorEnvironmentEditForm";
         private static readonly IList<string> _defaultEventlogTypes = new List<string>
         {
             Eventlog.TYPEDSMNORMALACCESS,
@@ -35,11 +36,11 @@ namespace Contal.Cgp.NCAS.Client
 
             _bRefresh.Text = NCASClient.LocalizationHelper.GetString("EventlogsDoorEnvironmentEfitForm_bRefresh");
             _dgcDateTime.Name = Eventlog.COLUMN_EVENTLOG_DATE_TIME;
-            _dgcDateTime.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTLOG_DATE_TIME);
+            _dgcDateTime.HeaderText = NCASClient.LocalizationHelper.GetString(LocalizationPrefix + "_dgcDateTime");
             _dgcType.Name = Eventlog.COLUMN_TYPE;
-            _dgcType.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_TYPE);
+            _dgcType.HeaderText = NCASClient.LocalizationHelper.GetString(LocalizationPrefix + "_dgcType");
             _dgcDescription.Name = Eventlog.COLUMN_EVENTSOURCES;
-            _dgcDescription.HeaderText = CgpClient.Singleton.LocalizationHelper.GetString(Eventlog.COLUMN_EVENTSOURCES);
+            _dgcDescription.HeaderText = NCASClient.LocalizationHelper.GetString(LocalizationPrefix + "_dgcEventSources");
 
         }
 
@@ -81,14 +82,44 @@ namespace Contal.Cgp.NCAS.Client
                 {
                     EventlogDateTime = eventlog.EventlogDateTime,
                     Type = eventlog.Type,
-                    EventSources = eventlog.EventSources == null
-                        ? string.Empty
-                        : string.Join(", ", eventlog.EventSources.Select(eventSource => eventSource.EventSourceObjectGuid.ToString()))
+                    EventSources = GetEventSourcesText(eventlog)
                 })
                 .Take(maxRows)
                 .ToList();
 
             _dgEventlogs.DataSource = rows;
+        }
+
+        private static string GetEventSourcesText(Eventlog eventlog)
+        {
+            if (eventlog == null)
+                return string.Empty;
+
+            var eventSources = eventlog.EventSources;
+
+            if ((eventSources == null || eventSources.Count == 0) && CgpClient.Singleton?.MainServerProvider?.Eventlogs != null)
+            {
+                var eventlogWithEventSources = CgpClient.Singleton.MainServerProvider.Eventlogs.GetObjectById(eventlog.IdEventlog);
+                eventSources = eventlogWithEventSources?.EventSources;
+            }
+
+            if (eventSources == null || eventSources.Count == 0)
+                return string.Empty;
+
+            var eventSourceNames = eventSources
+                .Select(eventSource => eventSource?.EventSourceObjectGuid ?? Guid.Empty)
+                .Where(eventSourceGuid => eventSourceGuid != Guid.Empty)
+                .Select(eventSourceGuid =>
+                {
+                    var objectType = CgpClient.Singleton.MainServerProvider.CentralNameRegisters.GetObjectTypeFromGuid(eventSourceGuid);
+                    var ormObject = DbsSupport.GetTableObject(objectType, eventSourceGuid);
+
+                    return ormObject != null ? ormObject.ToString() : eventSourceGuid.ToString();
+                })
+                .Distinct()
+                .ToList();
+
+            return string.Join(", ", eventSourceNames);
         }
     }
 }

@@ -4810,4 +4810,13 @@ Nakupovaný čas: {1}, {2} čas: {3}</value>
   <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
     <value>Obnoviť</value>
   </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcDateTime" xml:space="preserve">
+    <value>Dátum</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcEventSources" xml:space="preserve">
+    <value>Zdroj udalosti</value>
+  </data>
 </root>

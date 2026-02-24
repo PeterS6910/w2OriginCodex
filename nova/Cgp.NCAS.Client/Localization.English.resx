@@ -6883,4 +6883,13 @@ Do you want to change the input control of {1} to forcefully blocked ?</value>
   <data name="EventlogsDoorEnvironmentEfitForm_bRefresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcDateTime" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EventlogsDoorEnvironmentEditForm_dgcEventSources" xml:space="preserve">
+    <value>Event source</value>
+  </data>
 </root>
