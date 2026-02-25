@@ -10,7 +10,7 @@ namespace Contal.Cgp.Globals.Versioning
         // The version number is loaded from SVN revision automatically. Build PC 4.5 (Client/Server) first to regenerate this class.
 
         public const string Edition = "2.2";
-        public const string Version = "2.2.9463"; //build 1 oktobra 2025
+        public const string Version = "2.2.9614"; //build 1 marec 2026
 
     }
 
@@ -19,7 +19,7 @@ namespace Contal.Cgp.Globals.Versioning
         // The version number is loaded from SVN revision automatically. Build PC 4.5 (Client/Server) first to regenerate this class.
 
         public const string Edition = "2.2";
-        public const string Version = "2.2.9463"; //build 1 oktobra 2025
+        public const string Version = "2.2.9614"; //build 1 marec 2026
 
     }
 

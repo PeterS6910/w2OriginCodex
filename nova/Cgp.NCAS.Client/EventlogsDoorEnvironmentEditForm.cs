@@ -117,7 +117,7 @@ namespace Contal.Cgp.NCAS.Client
                 || eventSourceNames.Count == 0)
                 return string.Empty;
 
-            return string.Join(",", eventSourceNames);
+            return eventSourceNames.FirstOrDefault();
         }
     }
 }
