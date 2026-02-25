@@ -116,7 +116,9 @@ namespace Contal.Cgp.NCAS.Client
                 || eventSourceNames == null
                 || eventSourceNames.Count == 0)
                 return string.Empty;
-
+            
+            if (eventlog.Type == Eventlog.TYPEUNKNOWNCARD)
+                return eventlog.Description ?? string.Empty;
             return eventSourceNames.FirstOrDefault();
         }
     }
