@@ -88,6 +88,7 @@
     <Compile Include="CrossPlatform\ExcelCreator.cs" />
     <Compile Include="CrossPlatform\IdAndObjectType.cs" />
     <Compile Include="CrossPlatform\Alarm.cs" />
+    <Compile Include="CrossPlatform\LprAuthorizationContext.cs" />
     <Compile Include="PlatformPC\CgpUIDesign.cs" />
     <Compile Include="PlatformPC\ChangeAlarmsHandler.cs" />
     <Compile Include="PlatformPC\CgpClientGlobals.cs" />

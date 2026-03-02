@@ -117,7 +117,7 @@ namespace Contal.Cgp.NCAS.Server
         public static readonly Version MINIMAL_FIRMWARE_VERSION_FOR_INTER_CCU_COMMUNICATION = ExtendedVersion.CreateSimple(1, 8, 4639);
 
         public static readonly Version MINIMAL_FIRMWARE_VERSION_FOR_WAITING_WHILE_INCOMING_STREAM_IS_IN_PROCESSING = ExtendedVersion.CreateSimple(1, 9, 5219);
-
+        public static readonly Version MINIMAL_FIRMWARE_VERSION_FOR_LPR_ASSISTED_AUTHORIZATION = ExtendedVersion.CreateSimple(2, 2, 5012);
         //***********************************************
 
         //private string _maximalFirmwareVersionForCCU = string.Empty;

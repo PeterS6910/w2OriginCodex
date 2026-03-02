@@ -48,6 +48,7 @@ namespace Contal.Cgp.Globals
         GetOutputCount,
         GetDoorEnvironmentsCount,
         DoorEnvironmentAccessGranted,
+        StartLprAssistedAuthorization,
         GetAlarmAreaActualState,
         GetAlarmAreaActivationState,
         SetAlarmArea,

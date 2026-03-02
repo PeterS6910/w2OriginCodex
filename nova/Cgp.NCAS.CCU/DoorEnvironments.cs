@@ -59,6 +59,20 @@ namespace Contal.Cgp.NCAS.CCU
         public const int INTRUSION_BRIDGE_PROCESSING_TIME = 1000;
 
         private readonly object _lockAccessGrantedFromClient = new object();
+        private readonly object _lockLprPendingAuthorizations = new object();
+        private readonly Dictionary<Guid, LprPendingAuthorization> _lprPendingAuthorizations = new Dictionary<Guid, LprPendingAuthorization>();
+
+        private sealed class LprPendingAuthorization
+        {
+            public Guid DoorEnvironmentId { get; set; }
+            public Guid CorrelationId { get; set; }
+            public Guid CarId { get; set; }
+            public string PlateNormalized { get; set; }
+            public LprRequiredSecondFactor RequiredSecondFactor { get; set; }
+            public LprPassDirection Direction { get; set; }
+            public DateTime ValidToUtc { get; set; }
+            public Guid SourceCameraId { get; set; }
+        }
 
         public override ObjectType ObjectType
         {
@@ -225,6 +239,65 @@ namespace Contal.Cgp.NCAS.CCU
 
                 return request.WaitForUnlockedOpened == null || request.WaitForUnlockedOpened();
             }
+        }
+
+        public bool StartLprAssistedAuthorization(
+    Guid doorEnvironmentId,
+    LprAuthorizationContext context)
+        {
+            if (doorEnvironmentId == Guid.Empty || context == null)
+                return false;
+
+            lock (_lockLprPendingAuthorizations)
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var expiredKeys =
+                    _lprPendingAuthorizations
+                        .Where(item => item.Value.ValidToUtc <= utcNow)
+                        .Select(item => item.Key)
+                        .ToList();
+
+                foreach (var expiredKey in expiredKeys)
+                {
+                    CcuCore.DebugLog.Info(
+                        Log.NORMAL_LEVEL,
+                        () =>
+                            string.Format(
+                                "LPR pending expired; doorEnvironmentId={0}; correlationId={1}",
+                                expiredKey,
+                                _lprPendingAuthorizations[expiredKey].CorrelationId));
+
+                    _lprPendingAuthorizations.Remove(expiredKey);
+                }
+
+                var pending = new LprPendingAuthorization
+                {
+                    DoorEnvironmentId = doorEnvironmentId,
+                    CorrelationId = context.CorrelationId,
+                    CarId = context.CarId,
+                    PlateNormalized = context.PlateNormalized,
+                    RequiredSecondFactor = context.RequiredSecondFactor,
+                    Direction = context.Direction,
+                    ValidToUtc = context.ValidToUtc,
+                    SourceCameraId = context.SourceCameraId
+                };
+
+                _lprPendingAuthorizations[doorEnvironmentId] = pending;
+
+                CcuCore.DebugLog.Info(
+                    Log.NORMAL_LEVEL,
+                    () =>
+                        string.Format(
+                            "LPR pending created; doorEnvironmentId={0}; correlationId={1}; requiredSecondFactor={2}; validToUtc={3:o}; sourceCameraId={4}",
+                            doorEnvironmentId,
+                            pending.CorrelationId,
+                            pending.RequiredSecondFactor,
+                            pending.ValidToUtc,
+                            pending.SourceCameraId));
+            }
+
+            return true;
         }
 
         public void SendAllStates()

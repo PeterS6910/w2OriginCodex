@@ -80,6 +80,7 @@
     <Compile Include="CrossPlatform\Alarm.cs" />
     <Compile Include="CrossPlatform\AlarmEnumerations.cs" />
     <Compile Include="CrossPlatform\IdAndObjectType.cs" />
+    <Compile Include="CrossPlatform\LprAuthorizationContext.cs" />
     <Compile Include="PlatformCE\CompilationVerifier.cs" />
     <Compile Include="CrossPlatform\CardReaderSceneType.cs" />
     <Compile Include="CrossPlatform\LwRemotingEvents.cs" />

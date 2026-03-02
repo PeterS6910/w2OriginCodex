@@ -1503,6 +1503,24 @@ namespace Contal.Cgp.NCAS.Server
             return thisVersion >= requiredVersion;
         }
 
+        public bool IsSupportedLprAssistedAuthorization(Guid ccuId)
+        {
+            if (ccuId == Guid.Empty)
+                return false;
+
+            var thisVersionString = GetCcuFirmwareVersion(ccuId);
+
+            if (string.IsNullOrEmpty(thisVersionString))
+                return false;
+
+            var thisVersion = new Version(thisVersionString.Split(' ')[0]);
+
+            var requiredVersion =
+                NCASServer.MINIMAL_FIRMWARE_VERSION_FOR_LPR_ASSISTED_AUTHORIZATION;
+
+            return thisVersion >= requiredVersion;
+        }
+
         public bool IsSupportedWaitingWhileIncommingStreamIsInProcessing(Guid ccuId)
         {
             if (ccuId == Guid.Empty)
@@ -1545,6 +1563,41 @@ namespace Contal.Cgp.NCAS.Server
                     ccu.IdCCU,
                     "DoorEnvironmentAccessGranted",
                     doorEnvironment.IdDoorEnvironment)
+                    as bool?;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool? StartLprAssistedAuthorization(
+    DoorEnvironment doorEnvironment,
+    LprAuthorizationContext context)
+        {
+            try
+            {
+                if (doorEnvironment == null || context == null)
+                    return false;
+
+                CCU ccu = null;
+                if (doorEnvironment.CCU != null)
+                    ccu = doorEnvironment.CCU;
+                else
+                    if (doorEnvironment.DCU != null)
+                    ccu = doorEnvironment.DCU.CCU;
+
+                if (ccu == null)
+                    return false;
+
+                if (!IsSupportedLprAssistedAuthorization(ccu.IdCCU))
+                    return null;
+
+                return SendToRemotingCCUs(
+                    ccu.IdCCU,
+                    "StartLprAssistedAuthorization",
+                    doorEnvironment.IdDoorEnvironment,
+                    context)
                     as bool?;
             }
             catch

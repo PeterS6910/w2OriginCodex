@@ -757,6 +757,28 @@ namespace Contal.Cgp.NCAS.CCU
         }
 
         [AuthenticateNeeded(true)]
+        public bool StartLprAssistedAuthorization(
+            Guid doorEnvironmentGuid,
+            LprAuthorizationContext context)
+        {
+            CcuCore.DebugLog.Info(
+                Log.NORMAL_LEVEL,
+                () =>
+                    "bool CcuCoreRemotingProvider.StartLprAssistedAuthorization(Guid doorEnvironmentGuid, LprAuthorizationContext context): [" +
+                    Log.GetStringFromParameters(doorEnvironmentGuid, context != null ? context.CorrelationId : Guid.Empty) + "]");
+
+            var retValue = DoorEnvironments.Singleton.StartLprAssistedAuthorization(
+                doorEnvironmentGuid,
+                context);
+
+            CcuCore.DebugLog.Info(
+                Log.NORMAL_LEVEL,
+                () => string.Format("bool CcuCoreRemotingProvider.StartLprAssistedAuthorization return {0}", retValue));
+
+            return retValue;
+        }
+
+        [AuthenticateNeeded(true)]
         public byte GetAlarmAreaActualState(Guid alarmAreaGuid)
         {
             CcuCore.DebugLog.Info(Log.NORMAL_LEVEL, () => "byte CcuCoreRemotingProvider.GetAlarmAreaActualState(Guid alarmAreaGuid): [" + Log.GetStringFromParameter(alarmAreaGuid) + "]");

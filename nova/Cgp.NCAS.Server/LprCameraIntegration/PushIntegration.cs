@@ -426,32 +426,35 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                         if (aclTimeZone != null && !aclTimeZone.IsOn(now))
                             continue;
 
-                        switch (car.SecurityLevel)
+                        var requiredSecondFactor = MapSecondFactor(car.SecurityLevel);
+
+                        if (requiredSecondFactor == LprRequiredSecondFactor.None)
                         {
-                            case CarSecurityLevel.VipLprOnly:
-                                break;
-
-                            case CarSecurityLevel.StandardLprAndCard:
-                            case CarSecurityLevel.HigherSecurityLprAndPin:
-                            case CarSecurityLevel.AlternativeLprAndCardOrPin:
-                                Eventlogs.Singleton.InsertEvent(
-                                    "Access not granted",
-                                    GetType().Assembly.GetName().Name,
-                                    new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
-                                    string.Format(
-                                        "LPR recognized car, but immediate access requires additional authentication; plate={0}; securityLevel={1}; doorEnvironmentId={2}",
-                                        normalizedPlate,
-                                        car.SecurityLevel,
-                                        relatedDoorEnvironment.IdDoorEnvironment));
-                                continue;
-
-                            default:
-                                continue;
+                            var doorEnvironmentId = relatedDoorEnvironment.IdDoorEnvironment;
+                            var carId = car.IdCar;
+                            SafeThread.StartThread(() => DoImmediateAccessGranted(doorEnvironmentId, cameraId, carId, normalizedPlate));
+                            return;
                         }
-                        var doorEnvironmentId = relatedDoorEnvironment.IdDoorEnvironment;
-                        var carId = car.IdCar;
-                        SafeThread.StartThread(() => DoImmediateAccessGranted(doorEnvironmentId, cameraId, carId, normalizedPlate));
-                        return;
+                        var ccuSupportResult = TryStartLprAssistedAuthorization(
+                            relatedDoorEnvironment,
+                            cameraId,
+                            car,
+                            normalizedPlate,
+                            requiredSecondFactor);
+
+                        if (ccuSupportResult)
+                            return;
+
+                        Eventlogs.Singleton.InsertEvent(
+                            "Access not granted",
+                            GetType().Assembly.GetName().Name,
+                            new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
+                            string.Format(
+                                "LPR recognized car, second factor is required, but CCU does not support LPR-assisted authorization; plate={0}; securityLevel={1}; doorEnvironmentId={2}",
+                                normalizedPlate,
+                                car.SecurityLevel,
+                                relatedDoorEnvironment.IdDoorEnvironment));
+                        continue;
                     }
                 }
             }
@@ -459,6 +462,77 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             {
                 HandledExceptionAdapter.Examine(error);
             }
+        }
+
+        private static LprRequiredSecondFactor MapSecondFactor(CarSecurityLevel securityLevel)
+        {
+            switch (securityLevel)
+            {
+                case CarSecurityLevel.VipLprOnly:
+                    return LprRequiredSecondFactor.None;
+
+                case CarSecurityLevel.StandardLprAndCard:
+                    return LprRequiredSecondFactor.Card;
+
+                case CarSecurityLevel.HigherSecurityLprAndPin:
+                    return LprRequiredSecondFactor.Pin;
+
+                case CarSecurityLevel.AlternativeLprAndCardOrPin:
+                    return LprRequiredSecondFactor.CardOrPin;
+
+                default:
+                    return LprRequiredSecondFactor.None;
+            }
+        }
+
+        private bool TryStartLprAssistedAuthorization(
+            DoorEnvironment relatedDoorEnvironment,
+            Guid cameraId,
+            Car car,
+            string normalizedPlate,
+            LprRequiredSecondFactor requiredSecondFactor)
+        {
+            var direction = relatedDoorEnvironment.LprCameraInternal != null &&
+                            relatedDoorEnvironment.LprCameraInternal.IdLprCamera == cameraId
+                ? LprPassDirection.Internal
+                : LprPassDirection.External;
+
+            var timeoutSeconds = relatedDoorEnvironment.LprCorrelationWindowSeconds > 0
+                ? relatedDoorEnvironment.LprCorrelationWindowSeconds
+                : DoorEnvironment.DefaultLprCorrelationWindowSeconds;
+
+            var context = new LprAuthorizationContext
+            {
+                CorrelationId = Guid.NewGuid(),
+                CarId = car.IdCar,
+                PlateNormalized = normalizedPlate,
+                RequiredSecondFactor = requiredSecondFactor,
+                Direction = direction,
+                ValidToUtc = DateTime.UtcNow.AddSeconds(timeoutSeconds),
+                SourceCameraId = cameraId
+            };
+
+            var result =
+                CCUConfigurationHandler.Singleton.StartLprAssistedAuthorization(
+                    relatedDoorEnvironment,
+                    context);
+
+            if (result != true)
+                return false;
+
+            Eventlogs.Singleton.InsertEvent(
+                "LPR pending created",
+                GetType().Assembly.GetName().Name,
+                new[] { relatedDoorEnvironment.IdDoorEnvironment, cameraId, car.IdCar },
+                string.Format(
+                    "LPR second factor pending created; correlationId={0}; plate={1}; requiredSecondFactor={2}; validToUtc={3:o}; doorEnvironmentId={4}",
+                    context.CorrelationId,
+                    normalizedPlate,
+                    context.RequiredSecondFactor,
+                    context.ValidToUtc,
+                    relatedDoorEnvironment.IdDoorEnvironment));
+
+            return true;
         }
 
         private void DoImmediateAccessGranted(Guid doorEnvironmentId, Guid cameraId, Guid carId, string normalizedPlate)

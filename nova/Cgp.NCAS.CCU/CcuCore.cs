@@ -1202,6 +1202,7 @@ namespace Contal.Cgp.NCAS.CCU
                 case MethodNames.GetOutputCount:
                 case MethodNames.GetDoorEnvironmentsCount:
                 case MethodNames.DoorEnvironmentAccessGranted:
+                case MethodNames.StartLprAssistedAuthorization:
                 case MethodNames.GetAlarmAreaActualState:
                 case MethodNames.GetAlarmAreaActivationState:
                 case MethodNames.SetAlarmArea:
