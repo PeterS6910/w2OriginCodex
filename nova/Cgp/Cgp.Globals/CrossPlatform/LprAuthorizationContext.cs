@@ -1,8 +1,10 @@
+using Contal.IwQuick.Data;
 using System;
 
 namespace Contal.Cgp.Globals
 {
     [Serializable]
+    [LwSerialize(709)]
     public enum LprRequiredSecondFactor : byte
     {
         None = 0,
@@ -12,6 +14,7 @@ namespace Contal.Cgp.Globals
     }
 
     [Serializable]
+    [LwSerialize(710)]
     public enum LprPassDirection : byte
     {
         Unknown = 0,
@@ -20,6 +23,8 @@ namespace Contal.Cgp.Globals
     }
 
     [Serializable]
+    [LwSerialize(711)]
+    [LwSerializeMode(LwSerializationMode.Direct)]
     public class LprAuthorizationContext
     {
         public Guid CorrelationId { get; set; }
