@@ -1571,9 +1571,7 @@ namespace Contal.Cgp.NCAS.Server
             }
         }
 
-        public bool? StartLprAssistedAuthorization(
-    DoorEnvironment doorEnvironment,
-    LprAuthorizationContext context)
+        public bool? StartLprAssistedAuthorization(DoorEnvironment doorEnvironment, LprAuthorizationContext context)
         {
             try
             {

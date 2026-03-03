@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Contal.Cgp.Globals;
 using Contal.Cgp.NCAS.CCU.Alarms;
