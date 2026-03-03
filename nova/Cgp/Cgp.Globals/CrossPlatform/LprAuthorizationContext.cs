@@ -4,7 +4,7 @@ using System;
 namespace Contal.Cgp.Globals
 {
     [Serializable]
-    [LwSerialize(709)]
+    [LwSerialize(842)]
     public enum LprRequiredSecondFactor : byte
     {
         None = 0,
@@ -14,7 +14,7 @@ namespace Contal.Cgp.Globals
     }
 
     [Serializable]
-    [LwSerialize(710)]
+    [LwSerialize(843)]
     public enum LprPassDirection : byte
     {
         Unknown = 0,
@@ -23,7 +23,7 @@ namespace Contal.Cgp.Globals
     }
 
     [Serializable]
-    [LwSerialize(711)]
+    [LwSerialize(844)]
     [LwSerializeMode(LwSerializationMode.Direct)]
     public class LprAuthorizationContext
     {
