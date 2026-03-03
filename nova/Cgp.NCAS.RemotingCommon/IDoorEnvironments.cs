@@ -39,6 +39,7 @@ namespace Contal.Cgp.NCAS.RemotingCommon
         bool UsedPushButtonInAnotherDoorEnvironment(Guid idInput, Guid idDoorEnvironment);
         bool UsedSensorsInAnotherDoorEnvironment(Guid idOutput, Guid idDoorEnvironment);
         SecurityLevel? GetSecondCardReaderSecurityLevelUsedInDoorEnvironmentsWithCardReader(Guid cardReaderGuid);
+        bool? StartLprAssistedAuthorization(DoorEnvironment doorEnvironment, LprAuthorizationContext context);
     }
 
 }
