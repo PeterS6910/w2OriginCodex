@@ -1559,11 +1559,10 @@ namespace Contal.Cgp.NCAS.Server
                 if (ccu == null)
                     return false;
 
-                return SendToRemotingCCUs(
+                return ConvertToNullableBool(SendToRemotingCCUs(
                     ccu.IdCCU,
                     "DoorEnvironmentAccessGranted",
-                    doorEnvironment.IdDoorEnvironment)
-                    as bool?;
+                    doorEnvironment.IdDoorEnvironment));
             }
             catch
             {
@@ -1604,12 +1603,11 @@ namespace Contal.Cgp.NCAS.Server
                     return null;
                 }
 
-                return SendToRemotingCCUs(
+                return ConvertToNullableBool(SendToRemotingCCUs(
                     ccu.IdCCU,
                     "StartLprAssistedAuthorization",
                     doorEnvironment.IdDoorEnvironment,
-                    context)
-                    as bool?;
+                    context));
             }
             catch (Exception error)
             {
@@ -1650,16 +1648,26 @@ namespace Contal.Cgp.NCAS.Server
                 if (ccu == null)
                     return false;
 
-                return SendToRemotingCCUs(
+                return ConvertToNullableBool(SendToRemotingCCUs(
                     ccu.IdCCU,
                     "DoorEnvironmentAccessGranted",
-                    doorEnvironment.IdDoorEnvironment)
-                    as bool?;
+                    doorEnvironment.IdDoorEnvironment));
             }
             catch
             {
                 return null;
             }
+        }
+
+        private static bool? ConvertToNullableBool(object value)
+        {
+            if (value == null)
+                return null;
+
+            if (value is bool boolValue)
+                return boolValue;
+
+            return value as bool?;
         }
 
         public void ApplyChanges(Guid guidCCU)
