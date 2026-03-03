@@ -1589,7 +1589,20 @@ namespace Contal.Cgp.NCAS.Server
                     return false;
 
                 if (!IsSupportedLprAssistedAuthorization(ccu.IdCCU))
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        "LPR assisted authorization skipped",
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                        string.Format(
+                            "CCU does not meet minimal firmware requirement for LPR-assisted authorization; doorEnvironmentId={0}; ccuId={1}; minimalVersion={2}; actualVersion={3}",
+                            doorEnvironment.IdDoorEnvironment,
+                            ccu.IdCCU,
+                            NCASServer.MINIMAL_FIRMWARE_VERSION_FOR_LPR_ASSISTED_AUTHORIZATION,
+                            GetCcuFirmwareVersion(ccu.IdCCU)));
+
                     return null;
+                }
 
                 return SendToRemotingCCUs(
                     ccu.IdCCU,
@@ -1598,8 +1611,24 @@ namespace Contal.Cgp.NCAS.Server
                     context)
                     as bool?;
             }
-            catch
+            catch (Exception error)
             {
+                HandledExceptionAdapter.Examine(error);
+
+                Eventlogs.Singleton.InsertEvent(
+                    "LPR assisted authorization failed",
+                    GetType().Assembly.GetName().Name,
+                    new[]
+                    {
+                        doorEnvironment != null ? doorEnvironment.IdDoorEnvironment : Guid.Empty,
+                        context != null ? context.CorrelationId : Guid.Empty
+                    },
+                    string.Format(
+                        "Failed to start LPR-assisted authorization; doorEnvironmentId={0}; correlationId={1}; error={2}",
+                        doorEnvironment != null ? doorEnvironment.IdDoorEnvironment : Guid.Empty,
+                        context != null ? context.CorrelationId : Guid.Empty,
+                        error));
+
                 return null;
             }
         }
