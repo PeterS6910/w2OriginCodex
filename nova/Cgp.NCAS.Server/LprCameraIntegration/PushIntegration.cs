@@ -513,7 +513,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             };
 
             var result =
-                CCUConfigurationHandler.Singleton.StartLprAssistedAuthorization(
+                DoorEnvironments.Singleton.StartLprAssistedAuthorization(
                     relatedDoorEnvironment,
                     context);
 
