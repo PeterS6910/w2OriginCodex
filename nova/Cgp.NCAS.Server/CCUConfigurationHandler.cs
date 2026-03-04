@@ -243,7 +243,7 @@ namespace Contal.Cgp.NCAS.Server
                     }
                     catch (Exception)
                     {
-                       //Console.WriteLine("Save debug file error: " + transferInfo.LastErrorMessage + ex.ToString());
+                        //Console.WriteLine("Save debug file error: " + transferInfo.LastErrorMessage + ex.ToString());
                     }
                     finally
                     {
@@ -1587,6 +1587,58 @@ namespace Contal.Cgp.NCAS.Server
                 if (ccu == null)
                     return false;
 
+                var ccuSetting = GetCCUSettings(ccu.IdCCU);
+
+                if (ccuSetting == null)
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        "LPR assisted authorization skipped",
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                        string.Format(
+                            "CCU settings are not available for LPR-assisted authorization; doorEnvironmentId={0}; ccuId={1}; correlationId={2}",
+                            doorEnvironment.IdDoorEnvironment,
+                            ccu.IdCCU,
+                            context.CorrelationId));
+
+                    return null;
+                }
+
+                if (ccuSetting.State != CCUOnlineState.Online)
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        "LPR assisted authorization skipped",
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                        string.Format(
+                            "CCU is not online for LPR-assisted authorization; doorEnvironmentId={0}; ccuId={1}; correlationId={2}; state={3}",
+                            doorEnvironment.IdDoorEnvironment,
+                            ccu.IdCCU,
+                            context.CorrelationId,
+                            ccuSetting.State));
+
+                    return null;
+                }
+
+                if (ccuSetting.ConfigurationState != CCUConfigurationState.ConfiguredForThisServer
+                    && ccuSetting.ConfigurationState != CCUConfigurationState.ForceReconfiguration
+                    && ccuSetting.ConfigurationState != CCUConfigurationState.ConfiguredForThisServerUpgradeOnly
+                    && ccuSetting.ConfigurationState != CCUConfigurationState.ConfiguredForThisServerUpgradeOnlyWinCe)
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        "LPR assisted authorization skipped",
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                        string.Format(
+                            "CCU is not configured for this server; LPR-assisted authorization will not be sent; doorEnvironmentId={0}; ccuId={1}; correlationId={2}; configurationState={3}",
+                            doorEnvironment.IdDoorEnvironment,
+                            ccu.IdCCU,
+                            context.CorrelationId,
+                            ccuSetting.ConfigurationState));
+
+                    return null;
+                }
+
                 if (!IsSupportedLprAssistedAuthorization(ccu.IdCCU))
                 {
                     Eventlogs.Singleton.InsertEvent(
@@ -1603,11 +1655,35 @@ namespace Contal.Cgp.NCAS.Server
                     return null;
                 }
 
-                return ConvertToNullableBool(SendToRemotingCCUs(
+                Eventlogs.Singleton.InsertEvent(
+                    "LPR assisted authorization request",
+                    GetType().Assembly.GetName().Name,
+                    new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                    string.Format(
+                        "Sending StartLprAssistedAuthorization to CCU; doorEnvironmentId={0}; ccuId={1}; correlationId={2}",
+                        doorEnvironment.IdDoorEnvironment,
+                        ccu.IdCCU,
+                        context.CorrelationId));
+
+                var remotingResult = ConvertToNullableBool(SendToRemotingCCUs(
                     ccu.IdCCU,
                     "StartLprAssistedAuthorization",
                     doorEnvironment.IdDoorEnvironment,
                     context));
+
+
+                Eventlogs.Singleton.InsertEvent(
+                    "LPR assisted authorization response",
+                    GetType().Assembly.GetName().Name,
+                    new[] { doorEnvironment.IdDoorEnvironment, ccu.IdCCU, context.CorrelationId },
+                    string.Format(
+                        "StartLprAssistedAuthorization returned {0}; doorEnvironmentId={1}; ccuId={2}; correlationId={3}",
+                        remotingResult.HasValue ? remotingResult.Value.ToString() : "null",
+                        doorEnvironment.IdDoorEnvironment,
+                        ccu.IdCCU,
+                        context.CorrelationId));
+
+                return remotingResult;
             }
             catch (Exception error)
             {
@@ -4653,8 +4729,7 @@ namespace Contal.Cgp.NCAS.Server
                     upgradeVersion);
 
             return
-                retValue is byte[]
-                    ? (byte[])retValue
+                retValue is byte[]? (byte[])retValue
                     : null;
         }
 
@@ -6562,7 +6637,7 @@ namespace Contal.Cgp.NCAS.Server
         private void MakeLogDumpFailed(Guid idCcu)
         {
             _loadingCcuDebugFiles = false;
-            
+
             NCASServerRemotingProvider.Singleton.ForeachCallbackHandler(
                     CCUCallbackRunner.RunCCUMakeLogDumpProgressChanged,
                     DelegateSequenceBlockingMode.Asynchronous,
