@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -26,7 +26,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             [NotNull] string publisherKey,
             [NotNull] string commonName)
         {
-            
+
             _requiredProperties = new Dictionary<string, int>(validatedPropertiesFromLdsc.Count);
             foreach (var property in validatedPropertiesFromLdsc)
             {
@@ -47,11 +47,11 @@ namespace Contal.Cgp.ContalNovaLicenseManager
         {
             internal string Name;
 
-// ReSharper disable once NotAccessedField.Local
+            // ReSharper disable once NotAccessedField.Local
             internal int ConnectionCountMin;
             internal int ConnectionCountMax;
 
-// ReSharper disable once NotAccessedField.Local
+            // ReSharper disable once NotAccessedField.Local
             internal int DsmCountMin;
             internal int DsmCountMax;
 
@@ -67,11 +67,11 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             internal bool StructuredSiteIncluded;
             internal bool StructuredSiteOptional;
 
-            internal bool IdManagementIncluded ;
+            internal bool IdManagementIncluded;
             internal bool IdManagementOptional;
 
-            internal bool OfflineImportIncluded ;
-            internal bool OfflineImportOptional ;
+            internal bool OfflineImportIncluded;
+            internal bool OfflineImportOptional;
 
             internal int Cat12ComboCountMin;
             internal int Cat12ComboCountMax;
@@ -90,7 +90,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 10,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = true,
+                TimetecMasterOptional = false,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
@@ -123,7 +123,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 256,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = true,
+                TimetecMasterOptional = false,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
@@ -154,7 +154,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMin = 257,
                 DsmCountMax = 512,
 
-                TimetecMasterIncluded = true,
+                TimetecMasterIncluded = false,
                 TimetecMasterOptional = false,
 
                 GraphicsIncluded = false,
@@ -188,7 +188,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 9999,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = true,
+                TimetecMasterOptional = false,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
@@ -210,7 +210,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
 
             }
         };
-       
+
         private void OnEditionSelected(object sender, EventArgs e)
         {
             if (_cbEdition.SelectedIndex < 0)
@@ -231,7 +231,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 _lConnectionCount.Visible = true;
                 _lDSMCount.Visible = true;
                 _lCat12ComboCount.Visible = true;
-                
+
             }
 
             _editionSelectedIndex = _cbEdition.SelectedIndex;
@@ -251,7 +251,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             _eConnectionCount.Maximum = editionProperties.ConnectionCountMax;
             _eConnectionCount.Minimum = editionProperties.ConnectionCountMin;
             _eConnectionCount.Value = editionProperties.ConnectionCountMin;
-           
+
             _eDSMCount.Minimum = editionProperties.DsmCountMin;
             _eDSMCount.Maximum = editionProperties.DsmCountMax;
             _eDSMCount.Value = editionProperties.DsmCountMax;
@@ -300,14 +300,14 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             }
 
             ISLACustomerRecord customer = SLACustomerRecord.Create(
-                _commonName, 
-                _eCustomerName.Text, 
+                _commonName,
+                _eCustomerName.Text,
                 string.Format("{0}, {1}",
-                _eAddress.Text, 
+                _eAddress.Text,
                 _cbCountries.SelectedItem.ToString()),
-                _eFirstName.Text, 
-                _eLastName.Text, 
-                _ePhone.Text, 
+                _eFirstName.Text,
+                _eLastName.Text,
+                _ePhone.Text,
                 _eEmail.Text);
 
             if (customer == null)
@@ -316,7 +316,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 return;
             }
 
-            SaveFileDialog sf = new SaveFileDialog {Filter = "(Licence request) *.lreq | *.lreq"};
+            SaveFileDialog sf = new SaveFileDialog { Filter = "(Licence request) *.lreq | *.lreq" };
 
             if (sf.ShowDialog() != DialogResult.OK || string.IsNullOrEmpty(sf.FileName))
             {
@@ -342,7 +342,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 "Sweden",
                 "Norway",
                 "Denmark",
-                "Finland"                
+                "Finland"
             };
 
         private bool IsSpecificCountry()
@@ -350,7 +350,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_cbCountries.SelectedItem == null)
                 return false;
 
-            
+
 
             return _specificCountries.Contains(_cbCountries.SelectedItem.ToString());
         }
@@ -368,7 +368,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             {
                 List<ISLAPropertyRecord> result = new List<ISLAPropertyRecord>();
 
-                var propertyValues = 
+                var propertyValues =
                     new Dictionary<string, string>(_requiredProperties.Count);
 
 
@@ -414,7 +414,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 else
                     propertyValues[ContalNovaLicenseManager.PropertyCCU05MaxDsm] = "-1";
 
-                propertyValues[ContalNovaLicenseManager.PropertyCat12ComboCount] = 
+                propertyValues[ContalNovaLicenseManager.PropertyCat12ComboCount] =
                     _eCat12ComboCount.Value.ToString(CultureInfo.InvariantCulture);
 
 
@@ -426,7 +426,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                         result.Add(
                             SLAPropertyRecord.Create(
                                 propertyId,
-                                keyPair.Key, 
+                                keyPair.Key,
                                 keyPair.Value
                                 ));
                 }
@@ -461,9 +461,9 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_eCustomerName.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _eCustomerName, 
-                    "Customer name must be set", 
+                    NotificationPriority.Last,
+                    _eCustomerName,
+                    "Customer name must be set",
                     ControlNotificationSettings.Default);
 
                 _eCustomerName.Focus();
@@ -473,9 +473,9 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_eAddress.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _eAddress, 
-                    "Customer address must be set", 
+                    NotificationPriority.Last,
+                    _eAddress,
+                    "Customer address must be set",
                     ControlNotificationSettings.Default);
                 _eAddress.Focus();
                 return false;
@@ -485,9 +485,9 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 || string.IsNullOrEmpty(_cbCountries.SelectedItem.ToString()))
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _cbCountries, 
-                    "Customer contry must be set", 
+                    NotificationPriority.Last,
+                    _cbCountries,
+                    "Customer contry must be set",
                     ControlNotificationSettings.Default);
                 _cbCountries.Focus();
                 return false;
@@ -496,8 +496,8 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_eFirstName.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _eFirstName, 
+                    NotificationPriority.Last,
+                    _eFirstName,
                     "Customer first name must be set",
                     ControlNotificationSettings.Default);
                 _eFirstName.Focus();
@@ -507,9 +507,9 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_eLastName.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _eLastName, 
-                    "Customer last name must be set", 
+                    NotificationPriority.Last,
+                    _eLastName,
+                    "Customer last name must be set",
                     ControlNotificationSettings.Default);
                 _eLastName.Focus();
                 return false;
@@ -518,9 +518,9 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_ePhone.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _ePhone, 
-                    "Customer phone must be set", 
+                    NotificationPriority.Last,
+                    _ePhone,
+                    "Customer phone must be set",
                     ControlNotificationSettings.Default);
 
                 _ePhone.Focus();
@@ -530,15 +530,15 @@ namespace Contal.Cgp.ContalNovaLicenseManager
             if (_eEmail.Text == string.Empty)
             {
                 ControlNotification.Singleton.Warning(
-                    NotificationPriority.Last, 
-                    _eEmail, 
-                    "Customer email must be set", 
+                    NotificationPriority.Last,
+                    _eEmail,
+                    "Customer email must be set",
                     ControlNotificationSettings.Default);
 
                 _eEmail.Focus();
                 return false;
             }
-            
+
             if (!EmailAddress.IsValid(_eEmail.Text))
             {
                 ControlNotification.Singleton.Warning(NotificationPriority.Last, _eEmail, "Customer email must be valid", ControlNotificationSettings.Default);

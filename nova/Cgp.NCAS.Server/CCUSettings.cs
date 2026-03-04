@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -158,6 +158,7 @@ namespace Contal.Cgp.NCAS.Server
                     return Client.CallWithTimeout(methodName, CCU_METHOD_LONG_TIMEOUT, parameters);
 
                 case "AcknowledgeAllowed":
+                case "StartLprAssistedAuthorization":
                     return Client.CallWithTimeout(methodName, CCU_METHOD_SHORT_TIMEOUT, parameters);
 
                 default:
