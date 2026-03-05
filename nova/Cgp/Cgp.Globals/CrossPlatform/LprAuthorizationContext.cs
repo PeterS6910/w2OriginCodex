@@ -24,7 +24,6 @@ namespace Contal.Cgp.Globals
 
     [Serializable]
     [LwSerialize(848)]
-    [LwSerializeMode(LwSerializationMode.Direct)]
     public class LprAuthorizationContext
     {
         public Guid CorrelationId { get; set; }
