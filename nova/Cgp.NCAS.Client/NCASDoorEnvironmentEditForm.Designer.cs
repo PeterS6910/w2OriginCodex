@@ -809,7 +809,7 @@ namespace Contal.Cgp.NCAS.Client
             // _bUnconfigureDoorEnvironment
             // 
             this._bUnconfigureDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 439);
+            this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 400);
             this._bUnconfigureDoorEnvironment.Name = "_bUnconfigureDoorEnvironment";
             this._bUnconfigureDoorEnvironment.Size = new System.Drawing.Size(195, 23);
             this._bUnconfigureDoorEnvironment.TabIndex = 3;
