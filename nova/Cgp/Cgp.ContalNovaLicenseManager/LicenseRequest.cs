@@ -90,7 +90,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 10,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = false,
+                TimetecMasterOptional = true,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
@@ -123,7 +123,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 256,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = false,
+                TimetecMasterOptional = true,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
@@ -154,7 +154,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMin = 257,
                 DsmCountMax = 512,
 
-                TimetecMasterIncluded = false,
+                TimetecMasterIncluded = true,
                 TimetecMasterOptional = false,
 
                 GraphicsIncluded = false,
@@ -188,7 +188,7 @@ namespace Contal.Cgp.ContalNovaLicenseManager
                 DsmCountMax = 9999,
 
                 TimetecMasterIncluded = false,
-                TimetecMasterOptional = false,
+                TimetecMasterOptional = true,
 
                 GraphicsIncluded = false,
                 GraphicsOptional = true,
