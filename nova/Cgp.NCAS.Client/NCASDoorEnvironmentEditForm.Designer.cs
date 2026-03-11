@@ -811,7 +811,7 @@ namespace Contal.Cgp.NCAS.Client
             this._bUnconfigureDoorEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bUnconfigureDoorEnvironment.Location = new System.Drawing.Point(648, 400);
             this._bUnconfigureDoorEnvironment.Name = "_bUnconfigureDoorEnvironment";
-            this._bUnconfigureDoorEnvironment.Size = new System.Drawing.Size(195, 23);
+            this._bUnconfigureDoorEnvironment.Size = new System.Drawing.Size(195, 32);
             this._bUnconfigureDoorEnvironment.TabIndex = 3;
             this._bUnconfigureDoorEnvironment.Text = "Unconfigure door environment";
             this._bUnconfigureDoorEnvironment.UseVisualStyleBackColor = true;
@@ -1940,7 +1940,7 @@ namespace Contal.Cgp.NCAS.Client
             this._bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._bRefresh.Location = new System.Drawing.Point(771, 436);
             this._bRefresh.Name = "_bRefresh";
-            this._bRefresh.Size = new System.Drawing.Size(75, 23);
+            this._bRefresh.Size = new System.Drawing.Size(75, 32);
             this._bRefresh.TabIndex = 3;
             this._bRefresh.Text = "Refresh";
             this._bRefresh.UseVisualStyleBackColor = true;
@@ -2002,7 +2002,7 @@ namespace Contal.Cgp.NCAS.Client
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(884, 626);
+            this.ClientSize = new System.Drawing.Size(902, 688);
             this.Controls.Add(this._panelBack);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(900, 626);
