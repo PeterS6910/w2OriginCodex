@@ -360,6 +360,9 @@ namespace Contal.Cgp.NCAS.CCU
                             pending.SourceCameraId));
             }
 
+            PerformAsyncRequest(doorEnvironmentId,
+    doorEnvironmentSettings => doorEnvironmentSettings.SetLprAuthorizationContext(context));
+
             return true;
         }
 

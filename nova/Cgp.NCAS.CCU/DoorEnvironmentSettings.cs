@@ -1630,6 +1630,15 @@ namespace Contal.Cgp.NCAS.CCU
             }
         }
 
+        public void SetLprAuthorizationContext(LprAuthorizationContext context)
+        {
+            if (_idCardReaderInternal != Guid.Empty)
+                CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderInternal, context);
+
+            if (_idCardReaderExternal != Guid.Empty)
+                CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderExternal, context);
+        }
+
         public void EnqueueAsyncRequest(Action<DoorEnvironmentSettings> requestAction)
         {
             EnqueueAsyncRequest(new DoorEnvironmentSettingsRequest(requestAction));

@@ -449,10 +449,11 @@ namespace Contal.Cgp.NCAS.Client
             // _chbIsVehicleAccess
             // 
             this._chbIsVehicleAccess.AutoSize = true;
-            this._chbIsVehicleAccess.Location = new System.Drawing.Point(170, 65);
+            this._chbIsVehicleAccess.Location = new System.Drawing.Point(120, 64);
             this._chbIsVehicleAccess.Name = "_chbIsVehicleAccess";
             this._chbIsVehicleAccess.Size = new System.Drawing.Size(18, 17);
             this._chbIsVehicleAccess.TabIndex = 12;
+            this._chbIsVehicleAccess.Text = "";
             this._chbIsVehicleAccess.UseVisualStyleBackColor = true;
             this._chbIsVehicleAccess.CheckedChanged += new System.EventHandler(this._chbIsVehicleAccess_CheckedChanged);
             // 

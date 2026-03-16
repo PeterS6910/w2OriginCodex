@@ -205,6 +205,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         private class SceneContextClass : ACrSceneContext
         {
             private readonly ACardReaderSettings _cardReaderSettings;
+            private LprAuthorizationContext _lprAuthorizationContext;
+            private AuthorizationProcessState? _lprAuthorizationState;
 
             public SceneContextClass(ACardReaderSettings cardReaderSettings)
             {
@@ -235,7 +237,58 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         _cardReaderSettings.Id,
                         cardData));
             }
+
+            public void SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
+            {
+                _lprAuthorizationContext = lprAuthorizationContext;
+                _lprAuthorizationState =
+                    lprAuthorizationContext != null
+                        ? AuthorizationProcessState.Undecided
+                        : (AuthorizationProcessState?)null;
+            }
+
+            public bool TryAuthorizeCardByLprContext(Guid cardId)
+            {
+                if (_lprAuthorizationState != AuthorizationProcessState.Undecided)
+                    return true;
+
+                if (_lprAuthorizationContext == null || cardId == Guid.Empty)
+                {
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    return false;
+                }
+
+                if (_lprAuthorizationContext.ValidToUtc <= DateTime.UtcNow)
+                {
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    _lprAuthorizationContext = null;
+                    return false;
+                }
+
+                if (_lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.Card
+                    && _lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.CardOrPin)
+                {
+                    _lprAuthorizationState = AuthorizationProcessState.Granted;
+                    _lprAuthorizationContext = null;
+                    return true;
+                }
+
+                var validCardIds = _lprAuthorizationContext.ValidCardIds;
+
+                if (validCardIds == null || !validCardIds.Contains(cardId))
+                {
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    return false;
+                }
+
+                _lprAuthorizationState = AuthorizationProcessState.Granted;
+                _lprAuthorizationContext = null;
+
+                return true;
+            }
+
         }
+
 
         private class CardReaderCommandChangedValues : IProcessingQueueRequest
         {
@@ -377,6 +430,21 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         {
             get;
             private set;
+        }
+
+        public void SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            if (sceneContext != null)
+                sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
+        }
+
+        public bool TryAuthorizeCardByLprContext(Guid cardId)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext == null || sceneContext.TryAuthorizeCardByLprContext(cardId);
         }
 
         private DB.SecurityLevel? _forcedSecurityLevel;

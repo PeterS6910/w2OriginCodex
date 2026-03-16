@@ -663,6 +663,14 @@ namespace Contal.Cgp.NCAS.CCU
             get { return ObjectType.CardReader; }
         }
 
+        public void SetLprAuthorizationContext(Guid idCardReader,
+                        [CanBeNull] LprAuthorizationContext lprAuthorizationContext)
+        {
+            PerformAsyncRequest(
+                idCardReader,
+                cardReaderSettings => cardReaderSettings.SetLprAuthorizationContext(lprAuthorizationContext));
+        }
+
         protected override ACardReaderSettings CreateNewStateAndSettingsObject(DB.CardReader dbObject)
         {
             var result = CreateCardReaderSettings(dbObject);

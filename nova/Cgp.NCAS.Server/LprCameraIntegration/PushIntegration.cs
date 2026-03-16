@@ -389,6 +389,13 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                     return;
 
                 var relatedDoorEnvironment = relatedDoorEnvironments[0];
+                var relatedCardReader = GetCardReaderAssignedToCamera(relatedDoorEnvironment, cameraId);
+                if (relatedCardReader == null)
+                    return;
+
+                var relatedCardReaderId = relatedCardReader.IdCardReader;
+                if (relatedCardReaderId == Guid.Empty)
+                    return;
                 var now = DateTime.Now;
 
                 var cars = Cars.Singleton.List()?
@@ -415,8 +422,8 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                         var aclSetting = acl.ACLSettings.FirstOrDefault(
                             setting =>
                                 setting != null &&
-                                setting.CardReaderObjectType == (byte)ObjectType.DoorEnvironment &&
-                                setting.GuidCardReaderObject == relatedDoorEnvironment.IdDoorEnvironment &&
+                                setting.CardReaderObjectType == (byte)ObjectType.CardReader &&
+                                setting.GuidCardReaderObject == relatedCardReaderId &&
                                 setting.Disabled != true);
 
                         if (aclSetting == null)
@@ -589,6 +596,20 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
 
             return doorEnvironment.LprCameraInternal != null && doorEnvironment.LprCameraInternal.IdLprCamera == cameraId
                    || doorEnvironment.LprCameraExternal != null && doorEnvironment.LprCameraExternal.IdLprCamera == cameraId;
+        }
+
+        private static CardReader GetCardReaderAssignedToCamera(DoorEnvironment doorEnvironment, Guid cameraId)
+        {
+            if (doorEnvironment == null || cameraId == Guid.Empty)
+                return null;
+
+            if (doorEnvironment.LprCameraInternal != null && doorEnvironment.LprCameraInternal.IdLprCamera == cameraId)
+                return doorEnvironment.CardReaderInternal;
+
+            if (doorEnvironment.LprCameraExternal != null && doorEnvironment.LprCameraExternal.IdLprCamera == cameraId)
+                return doorEnvironment.CardReaderExternal;
+
+            return null;
         }
 
         private static bool IsMatchingPlate(Car car, string normalizedPlate)
