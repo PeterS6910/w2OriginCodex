@@ -485,6 +485,29 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             }
         }
 
+        private static Guid[] GetValidCardIdsForCar(Guid carId)
+        {
+            if (carId == Guid.Empty)
+                return new Guid[0];
+
+            Exception error;
+
+            var cards = CarCards.Singleton.GetCardsForCar(carId, out error);
+
+            if (error != null || cards == null)
+                return new Guid[0];
+
+            return cards
+                .Where(card =>
+                    card != null
+                    && card.IdCard != Guid.Empty
+                    && (card.State == (byte)CardState.Active || card.State == (byte)CardState.TemporarilyBlocked)
+                    && card.IsValid)
+                .Select(card => card.IdCard)
+                .Distinct()
+                .ToArray();
+        }
+
         private bool TryStartLprAssistedAuthorization(
             DoorEnvironment relatedDoorEnvironment,
             Guid cameraId,
@@ -506,6 +529,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 CorrelationId = Guid.NewGuid(),
                 CarId = car.IdCar,
                 PlateNormalized = normalizedPlate,
+                ValidCardIds = GetValidCardIdsForCar(car.IdCar),
                 RequiredSecondFactor = requiredSecondFactor,
                 Direction = direction,
                 ValidToUtc = DateTime.UtcNow.AddSeconds(timeoutSeconds),

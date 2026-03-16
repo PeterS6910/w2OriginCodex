@@ -1,5 +1,5 @@
-using Contal.IwQuick.Data;
 using System;
+using Contal.IwQuick.Data;
 
 namespace Contal.Cgp.Globals
 {
@@ -26,12 +26,21 @@ namespace Contal.Cgp.Globals
     [LwSerialize(848)]
     public class LprAuthorizationContext
     {
+        [LwSerialize]
         public Guid CorrelationId { get; set; }
+        [LwSerialize]
         public Guid CarId { get; set; }
+        [LwSerialize]
         public string PlateNormalized { get; set; }
+        [LwSerialize]
+        public Guid[] ValidCardIds { get; set; }
+        [LwSerialize]
         public LprRequiredSecondFactor RequiredSecondFactor { get; set; }
+        [LwSerialize]
         public LprPassDirection Direction { get; set; }
+        [LwSerialize]
         public DateTime ValidToUtc { get; set; }
+        [LwSerialize]
         public Guid SourceCameraId { get; set; }
     }
 }

@@ -247,7 +247,14 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     return false;
                 }
 
-                return 
+                if (!DoorEnvironments.Singleton.TryAuthorizeCardByLprContext(
+                    _doorEnvironmentAdapter._idDoorEnvironment,
+                    AccessData.IdCard))
+                {
+                    return false;
+                }
+
+                return
                     IsRedundant 
                     || AntiPassBackZones.Singleton.HasAccess(
                         AccessData.IdCard,

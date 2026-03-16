@@ -12,6 +12,7 @@ using Contal.Drivers.LPC3250;
 using Contal.IwQuick;
 using Contal.IwQuick.CrossPlatform.Data;
 using JetBrains.Annotations;
+using Contal.IwQuick.Data;
 
 namespace Contal.Cgp.NCAS.CCU
 {
@@ -69,6 +70,7 @@ namespace Contal.Cgp.NCAS.CCU
             public Guid CorrelationId { get; set; }
             public Guid CarId { get; set; }
             public string PlateNormalized { get; set; }
+            public HashSet<Guid> ValidCardIds { get; set; }
             public LprRequiredSecondFactor RequiredSecondFactor { get; set; }
             public LprPassDirection Direction { get; set; }
             public DateTime ValidToUtc { get; set; }
@@ -80,7 +82,8 @@ namespace Contal.Cgp.NCAS.CCU
             get { return ObjectType.DoorEnvironment; }
         }
 
-        private DoorEnvironments() : base(null)
+        private DoorEnvironments()
+            : base(null)
         {
         }
 
@@ -242,9 +245,62 @@ namespace Contal.Cgp.NCAS.CCU
             }
         }
 
-        public bool StartLprAssistedAuthorization(
+        public bool TryAuthorizeCardByLprContext(
     Guid doorEnvironmentId,
-    LprAuthorizationContext context)
+    Guid cardId)
+        {
+            if (doorEnvironmentId == Guid.Empty || cardId == Guid.Empty)
+                return false;
+
+            lock (_lockLprPendingAuthorizations)
+            {
+                LprPendingAuthorization pending;
+
+                if (!_lprPendingAuthorizations.TryGetValue(doorEnvironmentId, out pending))
+                    return true;
+
+                if (pending.ValidToUtc <= DateTime.UtcNow)
+                {
+                    _lprPendingAuthorizations.Remove(doorEnvironmentId);
+
+                    CcuCore.DebugLog.Info(
+                        Log.NORMAL_LEVEL,
+                        () =>
+                            string.Format(
+                                "LPR pending expired while authorizing card; doorEnvironmentId={0}; correlationId={1}",
+                                doorEnvironmentId,
+                                pending.CorrelationId));
+
+                    return false;
+                }
+
+                if (pending.RequiredSecondFactor != LprRequiredSecondFactor.Card
+                    && pending.RequiredSecondFactor != LprRequiredSecondFactor.CardOrPin)
+                {
+                    return true;
+                }
+
+                if (pending.ValidCardIds == null || !pending.ValidCardIds.Contains(cardId))
+                    return false;
+
+                _lprPendingAuthorizations.Remove(doorEnvironmentId);
+
+                CcuCore.DebugLog.Info(
+                    Log.NORMAL_LEVEL,
+                    () =>
+                        string.Format(
+                            "LPR second factor card matched; doorEnvironmentId={0}; correlationId={1}; carId={2}; plate={3}; cardId={4}",
+                            doorEnvironmentId,
+                            pending.CorrelationId,
+                            pending.CarId,
+                            pending.PlateNormalized,
+                            cardId));
+
+                return true;
+            }
+        }
+
+        public bool StartLprAssistedAuthorization(Guid doorEnvironmentId, LprAuthorizationContext context)
         {
             if (doorEnvironmentId == Guid.Empty || context == null)
                 return false;
@@ -278,6 +334,9 @@ namespace Contal.Cgp.NCAS.CCU
                     CorrelationId = context.CorrelationId,
                     CarId = context.CarId,
                     PlateNormalized = context.PlateNormalized,
+                    ValidCardIds = context.ValidCardIds != null
+                        ? new HashSet<Guid>(context.ValidCardIds.Where(validCardId => validCardId != Guid.Empty))
+                        : new HashSet<Guid>(),
                     RequiredSecondFactor = context.RequiredSecondFactor,
                     Direction = context.Direction,
                     ValidToUtc = context.ValidToUtc,
@@ -290,10 +349,13 @@ namespace Contal.Cgp.NCAS.CCU
                     Log.NORMAL_LEVEL,
                     () =>
                         string.Format(
-                            "LPR pending created; doorEnvironmentId={0}; correlationId={1}; requiredSecondFactor={2}; validToUtc={3:o}; sourceCameraId={4}",
+                            "LPR pending created; doorEnvironmentId={0}; correlationId={1}; securityLevel=LPR+Card; requiredSecondFactor={2}; plate={3}; carId={4}; validCardsCount={5}; validToUtc={6:o}; sourceCameraId={7}",
                             doorEnvironmentId,
                             pending.CorrelationId,
                             pending.RequiredSecondFactor,
+                            pending.PlateNormalized,
+                            pending.CarId,
+                            pending.ValidCardIds.Count,
                             pending.ValidToUtc,
                             pending.SourceCameraId));
             }
@@ -370,7 +432,7 @@ namespace Contal.Cgp.NCAS.CCU
             UpdateDeSabotageAlarm(
                 doorEnvironmentId,
                 state == State.sabotage);
-            
+
             Events.ProcessEvent(
                 new EventDsmStateChanged(
                     state,
