@@ -166,6 +166,14 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
                 return false;
             }
 
+            if (!CardReaderSettings.TryAuthorizeCardByLprContext(_accessData.IdCard))
+            {
+                OnAccessDeniedNoRightsForCard();
+                isRedundant = false;
+
+                return false;
+            }
+
             isRedundant = IsRedundant;
 
             return true;

@@ -247,9 +247,9 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     return false;
                 }
 
-                if (!CardReaderSettings.TryAuthorizeCardByLprContext(AccessData.IdCard))
+                if (CardReaderSettings.IsLprCardSecondFactorPending()
+                        && !CardReaderSettings.TryAuthorizeCardByLprContext(AccessData.IdCard))
                     return false;
-                
 
                 return
                     IsRedundant 

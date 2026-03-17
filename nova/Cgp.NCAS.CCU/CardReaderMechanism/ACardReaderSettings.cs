@@ -287,6 +287,18 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 return true;
             }
 
+            public bool IsLprCardSecondFactorPending
+            {
+                get
+                {
+                    return
+                        _lprAuthorizationState == AuthorizationProcessState.Undecided
+                        && _lprAuthorizationContext != null
+                        && (_lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.Card
+                            || _lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.CardOrPin);
+                }
+            }
+
         }
 
 
@@ -428,6 +440,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 
         public ACrSceneContext SceneContext
         {
+
             get;
             private set;
         }
@@ -445,6 +458,13 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var sceneContext = SceneContext as SceneContextClass;
 
             return sceneContext == null || sceneContext.TryAuthorizeCardByLprContext(cardId);
+        }
+
+        public bool IsLprCardSecondFactorPending()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null && sceneContext.IsLprCardSecondFactorPending;
         }
 
         private DB.SecurityLevel? _forcedSecurityLevel;
