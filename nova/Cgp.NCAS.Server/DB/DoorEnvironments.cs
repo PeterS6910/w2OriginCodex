@@ -1482,6 +1482,31 @@ namespace Contal.Cgp.NCAS.Server.DB
                    MultiDoorElements.Singleton.IsOutputUsedOnlyInDoorElement(idOutput);
         }
 
+        public bool CardReaderHasLprCamera(Guid cardReaderGuid)
+        {
+            if (cardReaderGuid == Guid.Empty)
+                return false;
+
+            try
+            {
+                var doorEnvironment = GetDoorEnvironmentForCardReader(cardReaderGuid);
+
+                if (doorEnvironment == null)
+                    return false;
+
+                return (doorEnvironment.CardReaderInternal != null
+                        && doorEnvironment.CardReaderInternal.IdCardReader == cardReaderGuid
+                        && doorEnvironment.LprCameraInternal != null)
+                    || (doorEnvironment.CardReaderExternal != null
+                        && doorEnvironment.CardReaderExternal.IdCardReader == cardReaderGuid
+                        && doorEnvironment.LprCameraExternal != null);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public SecurityLevel? GetSecondCardReaderSecurityLevelUsedInDoorEnvironmentsWithCardReader(Guid cardReaderGuid)
         {
             try

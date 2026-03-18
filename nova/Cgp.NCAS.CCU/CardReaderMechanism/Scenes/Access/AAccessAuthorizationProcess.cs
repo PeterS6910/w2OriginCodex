@@ -31,6 +31,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes.Access
                     case DB.SecurityLevel.Code:
                     case DB.SecurityLevel.CodeOrCard:
                     case DB.SecurityLevel.CodeOrCardPin:
+                    case DB.SecurityLevel.LprCode:
 
                         return true;
                 }
@@ -49,6 +50,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes.Access
                     case DB.SecurityLevel.CardPIN:
                     case DB.SecurityLevel.CodeOrCard:
                     case DB.SecurityLevel.CodeOrCardPin:
+                    case DB.SecurityLevel.LprCard:
 
                         return true;
                 }

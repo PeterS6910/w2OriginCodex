@@ -27,6 +27,8 @@ namespace Contal.Cgp.NCAS.Client
  ACgpPluginTableForm<NCASClient, CardReader, CardReaderShort>
 #endif
     {
+        private bool? _nextEditFormHasLprCameraAssigned;
+
         private Action<Guid, byte, Guid> _eventInOutStateChanged;
         private Action<Guid, byte> _eventTzDpStateChanged;
         private Action<Guid, byte> _eventSecurityTimeZoneStateChanged;
@@ -392,9 +394,26 @@ namespace Contal.Cgp.NCAS.Client
             throw new NotImplementedException();
         }
 
+        public Form OpenEditForm(CardReader editObj, bool? hasLprCameraAssigned)
+        {
+            _nextEditFormHasLprCameraAssigned = hasLprCameraAssigned;
+
+            try
+            {
+                return OpenEditForm(editObj);
+            }
+            finally
+            {
+                _nextEditFormHasLprCameraAssigned = null;
+            }
+        }
+
         protected override ACgpPluginEditForm<NCASClient, CardReader> CreateEditForm(CardReader obj, ShowOptionsEditForm showOption)
         {
-            return new NCASCardReaderEditForm(obj, showOption, this);
+            var hasLprCameraAssigned = _nextEditFormHasLprCameraAssigned;
+            _nextEditFormHasLprCameraAssigned = null;
+
+            return new NCASCardReaderEditForm(obj, showOption, this, hasLprCameraAssigned);
         }
 
         private void _bEdit_Click(object sender, EventArgs e)

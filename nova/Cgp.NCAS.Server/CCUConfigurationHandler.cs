@@ -1194,6 +1194,8 @@ namespace Contal.Cgp.NCAS.Server
                     case SecurityLevel.CODEORCARD:
                     case SecurityLevel.CODE:
                     case SecurityLevel.CARDPIN:
+                    case SecurityLevel.LprCard:
+                    case SecurityLevel.LprCode:
                         {
                             var cr = CardReaders.Singleton.GetObjectForEdit(cardReader.IdCardReader);
                             cr.SecurityLevel = (byte)SecurityLevel.CARD;

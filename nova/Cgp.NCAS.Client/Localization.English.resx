@@ -534,6 +534,12 @@
   <data name="ErrorDateFromSmallerThanDateTo" xml:space="preserve">
     <value>Date from must be smaller or equal then date from</value>
   </data>
+  <data name="SecurityLevelStates_LprCard" xml:space="preserve">
+    <value>LPR + card</value>
+  </data>
+  <data name="SecurityLevelStates_LprCode" xml:space="preserve">
+    <value>LPR + code</value>
+  </data>
   <data name="SecurityLevelStates_Locked" xml:space="preserve">
     <value>Locked</value>
   </data>

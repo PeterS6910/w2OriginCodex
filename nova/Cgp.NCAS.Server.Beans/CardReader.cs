@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -778,6 +778,10 @@ namespace Contal.Cgp.NCAS.Server.Beans
         CARDPIN = 5,
         [Name("Locked")]
         Locked = 6,
+        [Name("LprCard")]
+        LprCard = 7,
+        [Name("LprCode")]
+        LprCode = 8,
         //NOT SUPPORTED IN THIS VERSION
         //[Name("ToggleCard")]
         //ToggleCard = 7,
@@ -821,7 +825,9 @@ namespace Contal.Cgp.NCAS.Server.Beans
                 var attribs =
                     fieldInfo.GetCustomAttributes(typeof(NameAttribute), false) as NameAttribute[];
 
-                if (attribs != null && attribs.Length > 0)
+                if (attribs != null
+                        && attribs.Length > 0
+                        && !attribs[0].Name.StartsWith("Lpr"))
                     list.Add(
                         new SecurityLevelStates(
                             (SecurityLevel)fieldInfo.GetValue(fieldInfo),
@@ -829,6 +835,19 @@ namespace Contal.Cgp.NCAS.Server.Beans
             }
 
             return list;
+        }
+
+        public static IList<SecurityLevelStates> GetLprStatesList(LocalizationHelper localizationHelper)
+        {
+            return new List<SecurityLevelStates>
+            {
+                new SecurityLevelStates(
+                    SecurityLevel.LprCard,
+                    localizationHelper.GetString("SecurityLevelStates_LprCard")),
+                new SecurityLevelStates(
+                    SecurityLevel.LprCode,
+                    localizationHelper.GetString("SecurityLevelStates_LprCode"))
+            };
         }
 
         public static IList<SecurityLevelStates> GetCardStatesListSmallCR(LocalizationHelper localizationHelper)
@@ -842,6 +861,7 @@ namespace Contal.Cgp.NCAS.Server.Beans
 
                 if (attribs != null &&
                     attribs.Length > 0 &&
+                    !attribs[0].Name.StartsWith("Lpr") &&
                     !attribs[0].Name.Contains("PIN") &&
                     !attribs[0].Name.Contains("GIN"))
                 {

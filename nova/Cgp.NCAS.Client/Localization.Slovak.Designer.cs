@@ -13142,6 +13142,24 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LPR + karta.
+        /// </summary>
+        internal static string SecurityLevelStates_LprCard {
+            get {
+                return ResourceManager.GetString("SecurityLevelStates_LprCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LPR + kód.
+        /// </summary>
+        internal static string SecurityLevelStates_LprCode {
+            get {
+                return ResourceManager.GetString("SecurityLevelStates_LprCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bezpeč. časová zóna / denný plán.
         /// </summary>
         internal static string SecurityLevelStates_SecurityTimeZoneSecurityDailyPlan {

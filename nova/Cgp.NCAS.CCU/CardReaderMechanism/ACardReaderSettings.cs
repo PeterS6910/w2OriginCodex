@@ -1387,6 +1387,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                                 break;
 
                             case DB.SecurityLevel.Code:
+                            case DB.SecurityLevel.LprCode:
 
                                 setCrMessageCodeFromAlarmAreaState = false;
                                 crAATmpUnsetFlag |= CRAATmpUnsetFlag.USUAL_GIN;
@@ -1590,6 +1591,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 {
                     case DB.SecurityLevel.Locked:
                     case DB.SecurityLevel.Unlocked:
+                    case DB.SecurityLevel.LprCard:
 
                         return result;
 
@@ -1926,6 +1928,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     switch (securityLevel)
                     {
                         case DB.SecurityLevel.Card:
+                        case DB.SecurityLevel.LprCard:
 
                             command = CardReaderSceneType.WaitingForCard;
                             break;
@@ -1948,6 +1951,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             break;
 
                         case DB.SecurityLevel.CodeOrCard:
+                        case DB.SecurityLevel.LprCode:
 
                             command = CardReaderSceneType.WaitingForCodeOrCard;
                             break;
@@ -2026,6 +2030,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             {
                 case DB.SecurityLevel.Card:
                 case DB.SecurityLevel.CardPIN:
+                case DB.SecurityLevel.LprCard:
 
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCardMessage(_cardReader);
@@ -2035,6 +2040,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 case DB.SecurityLevel.Code:
                 case DB.SecurityLevel.CodeOrCard:
                 case DB.SecurityLevel.CodeOrCardPin:
+                case DB.SecurityLevel.LprCode:
 
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCodeMessage(

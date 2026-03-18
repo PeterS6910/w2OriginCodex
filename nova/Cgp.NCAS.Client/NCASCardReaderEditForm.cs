@@ -83,11 +83,13 @@ namespace Contal.Cgp.NCAS.Client
         private readonly Dictionary<AlarmType, Action> _openAndScrollToControlByAlarmType;
 
         private bool _settingDefaultPassword;
+        private readonly bool? _hasLprCameraAssigned;
 
         public NCASCardReaderEditForm(
                 CardReader cardReader,
                 ShowOptionsEditForm showOption,
-                PluginMainForm<NCASClient> myTableForm)
+                PluginMainForm<NCASClient> myTableForm,
+                bool? hasLprCameraAssigned = null)
             : base(
                 cardReader,
                 showOption,
@@ -95,6 +97,8 @@ namespace Contal.Cgp.NCAS.Client
                 myTableForm,
                 NCASClient.LocalizationHelper)
         {
+            _hasLprCameraAssigned = hasLprCameraAssigned;
+
             _openAndScrollToControlByAlarmType = new Dictionary<AlarmType, Action>
             {
                 {
@@ -644,7 +648,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void HideDisableTabPageInformation(bool view, bool admin, bool accessInsertCard, bool accessViewPerson)
         {
-            this.InvokeInUI(()=>
+            this.InvokeInUI(() =>
             {
                 if (!view && !admin)
                 {
@@ -678,7 +682,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void HideDisableTabPageAlarmSettings(bool view, bool admin)
         {
-            this.InvokeInUI(()=>
+            this.InvokeInUI(() =>
             {
                 if (!view && !admin)
                 {
@@ -693,7 +697,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void HideDisableTabPageLanguageSettings(bool view, bool admin)
         {
-            this.InvokeInUI(()=>
+            this.InvokeInUI(() =>
             {
                 _hasAccessAdminLanguageSettings = admin;
 
@@ -824,7 +828,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private void ShowTabPresentationActionSettings()
         {
-            this.BeginInvokeInUI(()=>
+            this.BeginInvokeInUI(() =>
             {
                 if (!_tcCardReader.TabPages.Contains(_tpEventSettings))
                 {
@@ -1190,7 +1194,7 @@ namespace Contal.Cgp.NCAS.Client
 
                     doorEnvironments = dcu.DoorEnvironments;
                 }
-            } 
+            }
             else if (_editingObject.CCU != null)
             {
                 var ccu = Plugin.MainServerProvider.CCUs.GetObjectById(_editingObject.CCU.IdCCU);
@@ -1662,7 +1666,7 @@ namespace Contal.Cgp.NCAS.Client
             }
             else
                 if (_editingObject.CCU != null)
-                    idParentCcu = _editingObject.CCU.IdCCU;
+                idParentCcu = _editingObject.CCU.IdCCU;
             return idParentCcu;
         }
 
@@ -1711,7 +1715,7 @@ namespace Contal.Cgp.NCAS.Client
                     _cbSecurityLevelFK2.SelectedItem = securityLevel;
             }
 
-            
+
             if (_cbSecurityLevelFK1.Items.Count > 0 && _cbSecurityLevelFK1.SelectedItem == null)
                 _cbSecurityLevelFK1.SelectedIndex = 0;
 
@@ -2442,7 +2446,7 @@ namespace Contal.Cgp.NCAS.Client
 
             // ReSharper disable UnusedVariable
             var securityLevelForSpecialKey =
-                // ReSharper restore UnusedVariable
+            // ReSharper restore UnusedVariable
             ((SecurityLevelForFunctionKeyItem)
             _cbSecurityLevelFK2.SelectedItem)
                 .SecurityLevel;
@@ -2499,7 +2503,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (string.IsNullOrEmpty(_tbObjectRuleFK1.Text))
                 {
-                    ErrorNotificationOverControl(_tbObjectRuleFK1,"ErrorObjectRule");
+                    ErrorNotificationOverControl(_tbObjectRuleFK1, "ErrorObjectRule");
                     if (_tcCardReader.SelectedTab != _tpFunctionKeysSettings)
                     {
                         _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
@@ -2510,7 +2514,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 if (string.IsNullOrEmpty(_tbTextFK1.Text))
                 {
-                    ErrorNotificationOverControl(_tbTextFK1,"ErrorWrongFunctionKeyText");
+                    ErrorNotificationOverControl(_tbTextFK1, "ErrorWrongFunctionKeyText");
                     if (_tcCardReader.SelectedTab != _tpFunctionKeysSettings)
                     {
                         _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
@@ -2524,7 +2528,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (string.IsNullOrEmpty(_tbObjectRuleFK2.Text))
                 {
-                    ErrorNotificationOverControl(_tbObjectRuleFK2,"ErrorObjectRule");
+                    ErrorNotificationOverControl(_tbObjectRuleFK2, "ErrorObjectRule");
                     if (_tcCardReader.SelectedTab != _tpFunctionKeysSettings)
                     {
                         _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
@@ -2535,7 +2539,7 @@ namespace Contal.Cgp.NCAS.Client
 
                 if (string.IsNullOrEmpty(_tbTextFK2.Text))
                 {
-                    ErrorNotificationOverControl(_tbTextFK2,"ErrorWrongFunctionKeyText");
+                    ErrorNotificationOverControl(_tbTextFK2, "ErrorWrongFunctionKeyText");
                     if (_tcCardReader.SelectedTab != _tpFunctionKeysSettings)
                     {
                         _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
@@ -2611,30 +2615,30 @@ namespace Contal.Cgp.NCAS.Client
                     }
                     else
                         if (!_chbUseAccessGinForEnterToMenu.Checked)
+                    {
+                        if (PersonEditForm.CodeHasWrongLength(_eGinForEnterToMenu.Text.Length))
                         {
-                            if (PersonEditForm.CodeHasWrongLength(_eGinForEnterToMenu.Text.Length))
-                            {
-                                notifyWrongLengthError = true;
+                            notifyWrongLengthError = true;
 
-                                return false;
-                            }
-
-                            //#if !DEBUG
-                            if (PersonEditForm.CodeHasLowSecurityStrength(_eGinForEnterToMenu.Text))
-                            {
-                                notifyInsufficientCodeSecurity = true;
-
-                                return false;
-                            }
-                            //#endif
+                            return false;
                         }
-                    
+
+                        //#if !DEBUG
+                        if (PersonEditForm.CodeHasLowSecurityStrength(_eGinForEnterToMenu.Text))
+                        {
+                            notifyInsufficientCodeSecurity = true;
+
+                            return false;
+                        }
+                        //#endif
+                    }
+
                 }
                 finally
                 {
                     string errorMessage = null;
 
-                    
+
                     if (notifyWrongLengthError)
                     {
                         errorMessage =
@@ -2664,7 +2668,7 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_cbSecurityLevel.SelectedItem == null)
             {
-                ErrorNotificationOverControl(_cbSecurityLevel,"ErrorInsertSecurityLevel");
+                ErrorNotificationOverControl(_cbSecurityLevel, "ErrorInsertSecurityLevel");
                 if (_tcCardReader.SelectedTab != _tpSettings)
                 {
                     _tcCardReader.SelectedTab = _tpSettings;
@@ -2675,7 +2679,7 @@ namespace Contal.Cgp.NCAS.Client
 
             if (_chbEmergencyCode.Checked && string.IsNullOrEmpty(_eEmergencyCode.Text))
             {
-                ErrorNotificationOverControl(_eEmergencyCode,"ErrorInsertEmergencyCode");
+                ErrorNotificationOverControl(_eEmergencyCode, "ErrorInsertEmergencyCode");
                 if (_tcCardReader.SelectedTab != _tpSettings)
                 {
                     _tcCardReader.SelectedTab = _tpSettings;
@@ -2753,7 +2757,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (_cbForcedSL.SelectedItem == null)
                 {
-                    ErrorNotificationOverControl(_cbForcedSL,"ErrorInsertForcedSecurityLevel");
+                    ErrorNotificationOverControl(_cbForcedSL, "ErrorInsertForcedSecurityLevel");
                     if (_tcCardReader.SelectedTab != _tpSettings)
                     {
                         _tcCardReader.SelectedTab = _tpSettings;
@@ -2763,7 +2767,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 if (_actOnOffObject == null)
                 {
-                    ErrorNotificationOverControl(_tbmObjectOnOff.ImageTextBox,"ErrorInsertObjectOnOff");
+                    ErrorNotificationOverControl(_tbmObjectOnOff.ImageTextBox, "ErrorInsertObjectOnOff");
                     if (_tcCardReader.SelectedTab != _tpSettings)
                     {
                         _tcCardReader.SelectedTab = _tpSettings;
@@ -2866,12 +2870,12 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (error is SqlUniqueException && error.Message.Contains(CardReader.COLUMNNAME))
                 {
-                    ErrorNotificationOverControl(_eName,"ErrorUsedCardReaderName");
+                    ErrorNotificationOverControl(_eName, "ErrorUsedCardReaderName");
                     _eName.Focus();
                 }
                 else if (error is SqlUniqueException && error.Message.Contains(CardReader.COLUMNADDRESS))
                 {
-                    ErrorNotificationOverControl(_nudLogicalAddress,"ErrorUsedLogicalAddress");
+                    ErrorNotificationOverControl(_nudLogicalAddress, "ErrorUsedLogicalAddress");
                     _nudLogicalAddress.Focus();
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMNGIN)
@@ -2885,7 +2889,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMN_GIN_FOR_ENTER_TO_MENU)
                 {
-                    ErrorNotificationOverControl(_eGinForEnterToMenu,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_eGinForEnterToMenu, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpSettings;
                     _eGinForEnterToMenu.Focus();
@@ -2894,7 +2898,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMNFUNCTIONKEY1)
                 {
-                    ErrorNotificationOverControl(_tbGinFK1,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_tbGinFK1, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
                     _tbGinFK1.Focus();
@@ -2903,7 +2907,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMNFUNCTIONKEY2)
                 {
-                    ErrorNotificationOverControl(_tbGinFK2,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_tbGinFK2, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
                     _tbGinFK2.Focus();
@@ -2917,7 +2921,7 @@ namespace Contal.Cgp.NCAS.Client
             return retValue;
         }
 
-       
+
 
         protected override bool SaveToDatabaseEdit()
         {
@@ -2943,7 +2947,7 @@ namespace Contal.Cgp.NCAS.Client
                 if (error is SqlUniqueException && error.Message.Contains(CardReader.COLUMNNAME))
                 {
                     ErrorNotificationOverControl(
-                        _eName,"ErrorUsedCardReaderName");
+                        _eName, "ErrorUsedCardReaderName");
 
                     _eName.Focus();
 
@@ -2962,7 +2966,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMN_GIN_FOR_ENTER_TO_MENU)
                 {
-                    ErrorNotificationOverControl(_eGinForEnterToMenu,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_eGinForEnterToMenu, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpSettings;
                     _eGinForEnterToMenu.Focus();
@@ -2971,7 +2975,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMNFUNCTIONKEY1)
                 {
-                    ErrorNotificationOverControl(_tbGinFK1,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_tbGinFK1, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
                     _tbGinFK1.Focus();
@@ -2980,7 +2984,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else if (error is SqlUniqueException && error.Message == CardReader.COLUMNFUNCTIONKEY2)
                 {
-                    ErrorNotificationOverControl(_tbGinFK2,ErrorCodeAlreadyUsed);
+                    ErrorNotificationOverControl(_tbGinFK2, ErrorCodeAlreadyUsed);
 
                     _tcCardReader.SelectedTab = _tpFunctionKeysSettings;
                     _tbGinFK2.Focus();
@@ -3075,13 +3079,28 @@ namespace Contal.Cgp.NCAS.Client
                 Plugin.MainServerProvider.CardReaders.EditEnd(_editingObject);
         }
 
+        private bool HasAssignedLprCamera()
+        {
+            if (_hasLprCameraAssigned.HasValue)
+                return _hasLprCameraAssigned.Value;
+
+            return
+                !Insert
+                && _editingObject != null
+                && _editingObject.IdCardReader != Guid.Empty
+                && Plugin.MainServerProvider.DoorEnvironments.CardReaderHasLprCamera(_editingObject.IdCardReader);
+        }
+
         private void LoadSecurityLevelState()
         {
             var hasKeyboard = HasKeyboard();
+            var hasAssignedLprCamera = HasAssignedLprCamera();
 
-            IList<SecurityLevelStates> securityLevelStates = !hasKeyboard
-                ? SecurityLevelStates.GetCardStatesListSmallCR(LocalizationHelper)
-                : SecurityLevelStates.GetCardStatesList(LocalizationHelper);
+            IList<SecurityLevelStates> securityLevelStates = hasAssignedLprCamera
+                ? SecurityLevelStates.GetLprStatesList(LocalizationHelper)
+                : (!hasKeyboard
+                    ? SecurityLevelStates.GetCardStatesListSmallCR(LocalizationHelper)
+                    : SecurityLevelStates.GetCardStatesList(LocalizationHelper));
 
             byte securityLevel;
             if (!Insert)
@@ -3090,7 +3109,11 @@ namespace Contal.Cgp.NCAS.Client
             }
             else
             {
-                if (!hasKeyboard)
+                if (hasAssignedLprCamera)
+                {
+                    securityLevel = (byte)SecurityLevel.LprCard;
+                }
+                else if (!hasKeyboard)
                 {
                     securityLevel = (byte)SecurityLevel.CARD;
                 }
@@ -3100,10 +3123,42 @@ namespace Contal.Cgp.NCAS.Client
                 }
             }
 
+            if (hasAssignedLprCamera)
+            {
+                if (securityLevel != (byte)SecurityLevel.LprCard
+                    && securityLevel != (byte)SecurityLevel.LprCode)
+                {
+                    securityLevel = (byte)SecurityLevel.LprCard;
+                }
+            }
+            else
+            {
+                if (securityLevel == (byte)SecurityLevel.LprCard)
+                    securityLevel = (byte)SecurityLevel.CARD;
+                else if (securityLevel == (byte)SecurityLevel.LprCode)
+                    securityLevel = (byte)SecurityLevel.CODE;
+            }
+
             byte forcedSecurityLevel = 0;
             if (!Insert)
             {
                 forcedSecurityLevel = _editingObject.ForcedSecurityLevel;
+            }
+
+            if (hasAssignedLprCamera)
+            {
+                if (forcedSecurityLevel != (byte)SecurityLevel.LprCard
+                    && forcedSecurityLevel != (byte)SecurityLevel.LprCode)
+                {
+                    forcedSecurityLevel = (byte)SecurityLevel.LprCard;
+                }
+            }
+            else
+            {
+                if (forcedSecurityLevel == (byte)SecurityLevel.LprCard)
+                    forcedSecurityLevel = (byte)SecurityLevel.CARD;
+                else if (forcedSecurityLevel == (byte)SecurityLevel.LprCode)
+                    forcedSecurityLevel = (byte)SecurityLevel.CODE;
             }
 
             _cbSecurityLevel.BeginUpdate();
@@ -3279,7 +3334,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else
                 {
-                    ErrorNotificationOverControl(_tbmDailyPlan.ImageTextBox,"ErrorWrongObjectType");
+                    ErrorNotificationOverControl(_tbmDailyPlan.ImageTextBox, "ErrorWrongObjectType");
                 }
             }
             catch
@@ -3447,7 +3502,7 @@ namespace Contal.Cgp.NCAS.Client
                 }
                 else
                 {
-                    ErrorNotificationOverControl(_tbmObjectOnOff.ImageTextBox,"ErrorWrongObjectType");
+                    ErrorNotificationOverControl(_tbmObjectOnOff.ImageTextBox, "ErrorWrongObjectType");
                 }
             }
             catch
@@ -3789,7 +3844,7 @@ namespace Contal.Cgp.NCAS.Client
                     var setAlarmaArea = true;
                     // ReSharper disable ConditionIsAlwaysTrueOrFalse
                     if (!NCASClient.INTER_CCU_COMMUNICATION)
-                        // ReSharper restore ConditionIsAlwaysTrueOrFalse
+                    // ReSharper restore ConditionIsAlwaysTrueOrFalse
                     {
                         var imlicitCCUForAlarmArea = Plugin.MainServerProvider.AlarmAreas.GetImplicitCCUForAlarmArea(alarmArea.IdAlarmArea);
 
@@ -4026,7 +4081,7 @@ namespace Contal.Cgp.NCAS.Client
             return null;
         }
 
-        private bool _alarmAreaSettingsChanged;  
+        private bool _alarmAreaSettingsChanged;
 
         private Action<Guid, bool> _eventBlockedStateChangedCardReader;
 
@@ -4208,7 +4263,7 @@ namespace Contal.Cgp.NCAS.Client
         {
             this.BeginInvokeInUI(() =>
             {
-                switch ((OnlineState) state)
+                switch ((OnlineState)state)
                 {
                     case OnlineState.Offline:
                         _eState.Text = GetString("Offline");
@@ -4228,7 +4283,7 @@ namespace Contal.Cgp.NCAS.Client
                         break;
                 }
 
-                _bReboot.Enabled = (OnlineState) state == OnlineState.Online && IsEditAllowed;
+                _bReboot.Enabled = (OnlineState)state == OnlineState.Online && IsEditAllowed;
             });
         }
 
@@ -4528,7 +4583,7 @@ namespace Contal.Cgp.NCAS.Client
             if (CgpClient.Singleton.IsConnectionLost(false))
                 return;
 
-            var formModify = 
+            var formModify =
                 new ListboxFormAdd(GetAvailableOutputs(), GetString("ModifyOutput"));
 
             object outObject;
@@ -5047,14 +5102,14 @@ namespace Contal.Cgp.NCAS.Client
         public AlarmArea AlarmArea { get { return _alarmArea; } }
 
         public AlaramAreaCardReadSettings(
-            AlarmArea alarmArea, 
-            Panel panel, 
-            Label lName, 
-            CheckBox cbSet, 
-            CheckBox cbUnset, 
-            CheckBox cbUnconditionalSet, 
-            CheckBox cbPermanentlyUnlocked, 
-            CheckBox cbEnableEventlog, 
+            AlarmArea alarmArea,
+            Panel panel,
+            Label lName,
+            CheckBox cbSet,
+            CheckBox cbUnset,
+            CheckBox cbUnconditionalSet,
+            CheckBox cbPermanentlyUnlocked,
+            CheckBox cbEnableEventlog,
             Action<AlarmArea, bool> ChangeImplictAlarmArea)
         {
             _alarmArea = alarmArea;
@@ -5268,7 +5323,9 @@ namespace Contal.Cgp.NCAS.Client
                             value =>
                             {
                                 if (value == SecurityLevel.Unlocked
-                                    || value == SecurityLevel.Locked)
+                                    || value == SecurityLevel.Locked
+                                    || value == SecurityLevel.LprCard
+                                    || value == SecurityLevel.LprCode)
                                 {
                                     return null;
                                 }
@@ -5290,7 +5347,9 @@ namespace Contal.Cgp.NCAS.Client
                             value =>
                             {
                                 if (value == SecurityLevel.Unlocked
-                                    || value == SecurityLevel.Locked)
+                                    || value == SecurityLevel.Locked
+                                    || value == SecurityLevel.LprCard
+                                    || value == SecurityLevel.LprCode)
                                 {
                                     return null;
                                 }

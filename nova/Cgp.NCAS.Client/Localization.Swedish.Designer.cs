@@ -18951,6 +18951,24 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LPR + kort.
+        /// </summary>
+        internal static string SecurityLevelStates_LprCard {
+            get {
+                return ResourceManager.GetString("SecurityLevelStates_LprCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LPR + kod.
+        /// </summary>
+        internal static string SecurityLevelStates_LprCode {
+            get {
+                return ResourceManager.GetString("SecurityLevelStates_LprCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dygnsschema för säkerhetsnivå.
         /// </summary>
         internal static string SecurityLevelStates_SecurityDailyPlan {

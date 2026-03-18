@@ -3176,7 +3176,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (_crInternal is CardReader)
                 {
-                    NCASCardReadersForm.Singleton.OpenEditForm(_crInternal as CardReader);
+                    NCASCardReadersForm.Singleton.OpenEditForm(_crInternal as CardReader, _lprCameraInternal != null);
                 }
                 else
                 {
@@ -3191,7 +3191,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (_crExternal is CardReader)
                 {
-                    NCASCardReadersForm.Singleton.OpenEditForm(_crExternal as CardReader);
+                    NCASCardReadersForm.Singleton.OpenEditForm(_crExternal as CardReader, _lprCameraExternal != null);
                 }
                 else
                 {
