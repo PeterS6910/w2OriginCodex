@@ -84,6 +84,7 @@ namespace Contal.Cgp.NCAS.Client
 
         private bool _settingDefaultPassword;
         private readonly bool? _hasLprCameraAssigned;
+        private bool _markAsChangedAfterFormEnterBecauseOfLprSecurityLevel;
 
         public NCASCardReaderEditForm(
                 CardReader cardReader,
@@ -3161,6 +3162,26 @@ namespace Contal.Cgp.NCAS.Client
                     forcedSecurityLevel = (byte)SecurityLevel.CODE;
             }
 
+            var isSecurityLevelChangedByLprAssignment =
+                !Insert
+                && _editingObject != null
+                && _editingObject.SecurityLevel != securityLevel;
+
+            var isForcedSecurityLevelChangedByLprAssignment =
+                !Insert
+                && _editingObject != null
+                && _editingObject.ForcedSecurityLevel != forcedSecurityLevel;
+
+            if (isSecurityLevelChangedByLprAssignment)
+            {
+                _editingObject.SecurityLevel = securityLevel;
+            }
+
+            if (isForcedSecurityLevelChangedByLprAssignment)
+            {
+                _editingObject.ForcedSecurityLevel = forcedSecurityLevel;
+            }
+
             _cbSecurityLevel.BeginUpdate();
             _cbSecurityLevel.Items.Clear();
             _cbForcedSL.Items.Clear();
@@ -3181,6 +3202,19 @@ namespace Contal.Cgp.NCAS.Client
             }
 
             _cbSecurityLevel.EndUpdate();
+            SecurityLevelChanged();
+            _markAsChangedAfterFormEnterBecauseOfLprSecurityLevel =
+                isSecurityLevelChangedByLprAssignment
+                || isForcedSecurityLevelChangedByLprAssignment;
+        }
+
+        protected override void AfterFormEnter()
+        {
+            if (_markAsChangedAfterFormEnterBecauseOfLprSecurityLevel)
+            {
+                _markAsChangedAfterFormEnterBecauseOfLprSecurityLevel = false;
+                EditTextChanger(_cbSecurityLevel, EventArgs.Empty);
+            }
         }
 
         private void SecurityLevelChanged()

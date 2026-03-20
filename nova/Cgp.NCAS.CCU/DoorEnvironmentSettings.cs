@@ -1632,10 +1632,10 @@ namespace Contal.Cgp.NCAS.CCU
 
         public void SetLprAuthorizationContext(LprAuthorizationContext context)
         {
-            if (_idCardReaderInternal != Guid.Empty)
+            if (_idCardReaderInternal != Guid.Empty && context.Direction == LprPassDirection.Internal)
                 CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderInternal, context);
 
-            if (_idCardReaderExternal != Guid.Empty)
+            if (_idCardReaderExternal != Guid.Empty && context.Direction == LprPassDirection.External)
                 CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderExternal, context);
         }
 

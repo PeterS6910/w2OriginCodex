@@ -450,7 +450,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var sceneContext = SceneContext as SceneContextClass;
 
             if (sceneContext != null)
+            {
                 sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
+
+                UpdateRootScene();
+            }
         }
 
         public bool TryAuthorizeCardByLprContext(Guid cardId)

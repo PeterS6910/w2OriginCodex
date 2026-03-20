@@ -42,6 +42,8 @@ namespace Contal.Cgp.NCAS.Client
         private AOrmObject _crExternal;
         private LprCamera _lprCameraInternal;
         private LprCamera _lprCameraExternal;
+        private Guid _originalCardReaderInternalId = Guid.Empty;
+        private Guid _originalCardReaderExternalId = Guid.Empty;
         private int _lprCorrelationWindowSeconds;
         private bool _suppressVehicleAccessChange;
 
@@ -807,6 +809,11 @@ namespace Contal.Cgp.NCAS.Client
                     Plugin.MainServerProvider.DoorEnvironments.GetDoorEnvironmentState(_editingObject.IdDoorEnvironment));
 
             _crInternal = _editingObject.CardReaderInternal;
+            _originalCardReaderInternalId =
+                _editingObject.CardReaderInternal != null
+                    ? _editingObject.CardReaderInternal.IdCardReader
+                    : Guid.Empty;
+
             if (_crInternal == null)
             {
                 _crInternal = _editingObject.PushButtonInternal;
@@ -820,6 +827,11 @@ namespace Contal.Cgp.NCAS.Client
             }
 
             _crExternal = _editingObject.CardReaderExternal;
+            _originalCardReaderExternalId =
+                _editingObject.CardReaderExternal != null
+                    ? _editingObject.CardReaderExternal.IdCardReader
+                    : Guid.Empty;
+
             if (_crExternal == null)
             {
                 _crExternal = _editingObject.PushButtonExternal;
@@ -1917,9 +1929,152 @@ namespace Contal.Cgp.NCAS.Client
                     throw error;
             }
             else
+            {
+                UpdateCardReadersSecurityLevelsForLprLinkChanges(OnlyInDatabase);
                 UnsetPreviouslyUsedActuatorsAndPushButtons();
+            }
 
             return retValue;
+        }
+
+        private void UpdateCardReadersSecurityLevelsForLprLinkChanges(bool onlyInDatabase)
+        {
+            var affectedCardReaders = new Dictionary<Guid, bool>();
+
+            AddAffectedCardReader(
+                affectedCardReaders,
+                _editingObject.CardReaderInternal,
+                _editingObject.LprCameraInternal != null);
+
+            AddAffectedCardReader(
+                affectedCardReaders,
+                _editingObject.CardReaderExternal,
+                _editingObject.LprCameraExternal != null);
+
+            AddAffectedCardReader(
+                affectedCardReaders,
+                _originalCardReaderInternalId,
+                false);
+
+            AddAffectedCardReader(
+                affectedCardReaders,
+                _originalCardReaderExternalId,
+                false);
+
+            foreach (var affectedCardReader in affectedCardReaders)
+            {
+                UpdateCardReaderSecurityLevelsForLprLink(
+                    affectedCardReader.Key,
+                    affectedCardReader.Value,
+                    onlyInDatabase);
+            }
+        }
+
+        private static void AddAffectedCardReader(
+            IDictionary<Guid, bool> affectedCardReaders,
+            CardReader cardReader,
+            bool hasAssignedLprCamera)
+        {
+            if (cardReader == null)
+                return;
+
+            affectedCardReaders[cardReader.IdCardReader] = hasAssignedLprCamera;
+        }
+
+        private static void AddAffectedCardReader(
+            IDictionary<Guid, bool> affectedCardReaders,
+            Guid idCardReader,
+            bool hasAssignedLprCamera)
+        {
+            if (idCardReader == Guid.Empty || affectedCardReaders.ContainsKey(idCardReader))
+                return;
+
+            affectedCardReaders[idCardReader] = hasAssignedLprCamera;
+        }
+
+        private void UpdateCardReaderSecurityLevelsForLprLink(
+            Guid idCardReader,
+            bool hasAssignedLprCamera,
+            bool onlyInDatabase)
+        {
+            Exception error;
+            var cardReaderForEdit =
+                Plugin.MainServerProvider.CardReaders.GetObjectForEdit(
+                    idCardReader,
+                    out error);
+
+            if (cardReaderForEdit == null)
+                ThrowMyException(error);
+
+            try
+            {
+                var hasKeyboard =
+                    Plugin.MainServerProvider.CardReaders.GetHasKeyboard(idCardReader)
+                    ?? true;
+
+                var securityLevel =
+                    GetCardReaderSecurityLevelForLprAssignment(
+                        hasKeyboard,
+                        hasAssignedLprCamera,
+                        cardReaderForEdit.SecurityLevel);
+
+                var forcedSecurityLevel =
+                    GetCardReaderSecurityLevelForLprAssignment(
+                        hasKeyboard,
+                        hasAssignedLprCamera,
+                        cardReaderForEdit.ForcedSecurityLevel);
+
+                if (cardReaderForEdit.SecurityLevel == securityLevel
+                    && cardReaderForEdit.ForcedSecurityLevel == forcedSecurityLevel)
+                {
+                    return;
+                }
+
+                cardReaderForEdit.SecurityLevel = securityLevel;
+                cardReaderForEdit.ForcedSecurityLevel = forcedSecurityLevel;
+
+                var success =
+                    onlyInDatabase
+                        ? Plugin.MainServerProvider.CardReaders.UpdateOnlyInDatabase(cardReaderForEdit, out error)
+                        : Plugin.MainServerProvider.CardReaders.Update(cardReaderForEdit, out error);
+
+                if (!success)
+                    ThrowMyException(error);
+            }
+            finally
+            {
+                Plugin.MainServerProvider.CardReaders.EditEnd(cardReaderForEdit);
+            }
+        }
+
+        private static byte GetCardReaderSecurityLevelForLprAssignment(
+            bool hasKeyboard,
+            bool hasAssignedLprCamera,
+            byte currentSecurityLevel)
+        {
+            if (hasAssignedLprCamera)
+            {
+                if (currentSecurityLevel != (byte)SecurityLevel.LprCard
+                    && currentSecurityLevel != (byte)SecurityLevel.LprCode)
+                {
+                    return (byte)SecurityLevel.LprCard;
+                }
+
+                return currentSecurityLevel;
+            }
+
+            if (currentSecurityLevel == (byte)SecurityLevel.LprCard)
+                return (byte)SecurityLevel.CARD;
+
+            if (currentSecurityLevel == (byte)SecurityLevel.LprCode)
+            {
+                return
+                    hasKeyboard
+                        ? (byte)SecurityLevel.CODE
+                        : (byte)SecurityLevel.CARD;
+            }
+
+            return currentSecurityLevel;
         }
 
         /// <summary>
