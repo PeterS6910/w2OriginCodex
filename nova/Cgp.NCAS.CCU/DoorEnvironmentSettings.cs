@@ -1632,11 +1632,30 @@ namespace Contal.Cgp.NCAS.CCU
 
         public void SetLprAuthorizationContext(LprAuthorizationContext context)
         {
-            if (_idCardReaderInternal != Guid.Empty && context.Direction == LprPassDirection.Internal)
-                CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderInternal, context);
+            if (context == null)
+            {
+                if (_idCardReaderInternal != Guid.Empty)
+                    CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderInternal, null);
 
-            if (_idCardReaderExternal != Guid.Empty && context.Direction == LprPassDirection.External)
-                CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderExternal, context);
+                if (_idCardReaderExternal != Guid.Empty)
+                    CardReaders.Singleton.SetLprAuthorizationContext(_idCardReaderExternal, null);
+
+                return;
+            }
+
+            if (_idCardReaderInternal != Guid.Empty)
+                CardReaders.Singleton.SetLprAuthorizationContext(
+                    _idCardReaderInternal,
+                    context.Direction == LprPassDirection.Internal
+                        ? context
+                        : null);
+
+            if (_idCardReaderExternal != Guid.Empty)
+                CardReaders.Singleton.SetLprAuthorizationContext(
+                    _idCardReaderExternal,
+                    context.Direction == LprPassDirection.External
+                        ? context
+                        : null);
         }
 
         public void EnqueueAsyncRequest(Action<DoorEnvironmentSettings> requestAction)

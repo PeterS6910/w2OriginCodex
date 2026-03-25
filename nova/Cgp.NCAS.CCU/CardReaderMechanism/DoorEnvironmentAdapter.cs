@@ -42,6 +42,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             return _idDoorEnvironment.Equals(idDoorEnvironment);
         }
 
+        public Guid IdDoorEnvironment
+        {
+            get { return _idDoorEnvironment; }
+        }
+
         public bool IsAssociatedWithMultiDoor(Guid idMultiDoor)
         {
             return false;
@@ -252,7 +257,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     return false;
 
                 return
-                    IsRedundant 
+                    IsRedundant
                     || AntiPassBackZones.Singleton.HasAccess(
                         AccessData.IdCard,
                         CardReaderSettings.Id);
@@ -285,7 +290,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         {
             var otherAdapter = other as DoorEnvironmentAdapter;
 
-            return 
+            return
                 otherAdapter != null
                 && otherAdapter.CardReaderSettings.Id == CardReaderSettings.Id;
         }

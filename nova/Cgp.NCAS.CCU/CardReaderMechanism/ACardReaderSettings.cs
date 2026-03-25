@@ -184,16 +184,24 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             private set;
         }
 
+        public DB.SecurityLevel CardReaderSecurityLevel
+        {
+            get;
+            private set;
+        }
+
         public ImplicitCrCodeParams(
             [NotNull] CRMessage implicitCrMessage,
             [CanBeNull] IList<CRMessage> followingMessages,
             bool isGinOrVariations,
-            DB.SecurityLevel securityLevel)
+            DB.SecurityLevel securityLevel,
+            DB.SecurityLevel cardReaderSecurityLevel)
         {
             ImplicitCrMessage = implicitCrMessage;
             FollowingMessages = followingMessages;
             IsGinOrVariations = isGinOrVariations;
             SecurityLevel = securityLevel;
+            CardReaderSecurityLevel = cardReaderSecurityLevel;
         }
     }
 
@@ -202,11 +210,26 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         IInstanceProvider<ACardReaderSettings>,
         ISingleCardReaderEventHandler
     {
+        private const byte WaitingForLprCardMessageCodeValue = 0x4E;
+        private const byte WaitingForLprCodeMessageCodeValue = 0x4F;
+
         private class SceneContextClass : ACrSceneContext
         {
+            private sealed class PendingLateLprCardSwipe
+            {
+                public string CardData { get; set; }
+                public int CardSystemNumber { get; set; }
+                public Guid SourceCameraId { get; set; }
+                public string PlateNormalized { get; set; }
+                public DateTime RequestedAtUtc { get; set; }
+            }
+
             private readonly ACardReaderSettings _cardReaderSettings;
             private LprAuthorizationContext _lprAuthorizationContext;
             private AuthorizationProcessState? _lprAuthorizationState;
+            private string _lastCardData;
+            private int _lastCardSystemNumber;
+            private PendingLateLprCardSwipe _pendingLateLprCardSwipe;
 
             public SceneContextClass(ACardReaderSettings cardReaderSettings)
             {
@@ -232,19 +255,25 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 string cardData,
                 int cardSystemNumber)
             {
+                _lastCardData = cardData;
+                _lastCardSystemNumber = cardSystemNumber;
+
                 Events.ProcessEvent(
                     new EventCardReaderLastCardChanged(
                         _cardReaderSettings.Id,
                         cardData));
             }
 
-            public void SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
+            public bool SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
             {
                 _lprAuthorizationContext = lprAuthorizationContext;
                 _lprAuthorizationState =
                     lprAuthorizationContext != null
                         ? AuthorizationProcessState.Undecided
                         : (AuthorizationProcessState?)null;
+
+                return lprAuthorizationContext != null
+                       && TryConsumePendingLateLprCardSwipe(lprAuthorizationContext);
             }
 
             public bool TryAuthorizeCardByLprContext(Guid cardId)
@@ -260,6 +289,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 
                 if (_lprAuthorizationContext.ValidToUtc <= DateTime.UtcNow)
                 {
+                    RegisterLateLprCardSwipeRequest(cardId);
+
                     _lprAuthorizationState = AuthorizationProcessState.Rejected;
                     _lprAuthorizationContext = null;
                     return false;
@@ -285,6 +316,91 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 _lprAuthorizationContext = null;
 
                 return true;
+            }
+
+            public void ReplayPendingLateLprCardSwipe()
+            {
+                var pendingLateLprCardSwipe = _pendingLateLprCardSwipe;
+
+                if (pendingLateLprCardSwipe == null
+                    || string.IsNullOrEmpty(pendingLateLprCardSwipe.CardData))
+                {
+                    return;
+                }
+
+                _pendingLateLprCardSwipe = null;
+
+                TimerManager.Static.StartTimeout(
+                    1,
+                    timerCarrier =>
+                    {
+                        CardReaderCardSwiped(
+                            pendingLateLprCardSwipe.CardData,
+                            pendingLateLprCardSwipe.CardSystemNumber);
+
+                        return false;
+                    });
+            }
+
+            private bool TryConsumePendingLateLprCardSwipe(
+                [NotNull] LprAuthorizationContext lprAuthorizationContext)
+            {
+                var pendingLateLprCardSwipe = _pendingLateLprCardSwipe;
+
+                if (pendingLateLprCardSwipe == null)
+                    return false;
+
+                if (pendingLateLprCardSwipe.SourceCameraId != lprAuthorizationContext.SourceCameraId)
+                    return false;
+
+                if (!string.Equals(
+                    pendingLateLprCardSwipe.PlateNormalized,
+                    lprAuthorizationContext.PlateNormalized,
+                    StringComparison.Ordinal))
+                {
+                    return false;
+                }
+
+                if (pendingLateLprCardSwipe.RequestedAtUtc > lprAuthorizationContext.ValidToUtc)
+                    return false;
+
+                return true;
+            }
+
+            private void RegisterLateLprCardSwipeRequest(Guid cardId)
+            {
+                if (_lprAuthorizationContext == null
+                    || cardId == Guid.Empty
+                    || string.IsNullOrEmpty(_lastCardData))
+                {
+                    return;
+                }
+
+                var doorEnvironmentAdapter = _cardReaderSettings.DoorEnvironmentAdapter;
+                if (doorEnvironmentAdapter == null
+                    || doorEnvironmentAdapter.IdDoorEnvironment == Guid.Empty
+                    || _lprAuthorizationContext.SourceCameraId == Guid.Empty
+                    || string.IsNullOrEmpty(_lprAuthorizationContext.PlateNormalized))
+                {
+                    return;
+                }
+
+                _pendingLateLprCardSwipe =
+                    new PendingLateLprCardSwipe
+                    {
+                        CardData = _lastCardData,
+                        CardSystemNumber = _lastCardSystemNumber,
+                        SourceCameraId = _lprAuthorizationContext.SourceCameraId,
+                        PlateNormalized = _lprAuthorizationContext.PlateNormalized,
+                        RequestedAtUtc = DateTime.UtcNow
+                    };
+
+                Events.ProcessEvent(
+                    new EventLateLprCardSwipeRequest(
+                        doorEnvironmentAdapter.IdDoorEnvironment,
+                        _cardReaderSettings.Id,
+                        _lprAuthorizationContext.SourceCameraId,
+                        _lprAuthorizationContext.PlateNormalized));
             }
 
             public bool IsLprCardSecondFactorPending
@@ -451,9 +567,13 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 
             if (sceneContext != null)
             {
-                sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
+                var shouldReplayPendingLateCardSwipe =
+                    sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
 
                 UpdateRootScene();
+
+                if (shouldReplayPendingLateCardSwipe)
+                    sceneContext.ReplayPendingLateLprCardSwipe();
             }
         }
 
@@ -593,6 +713,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             IAlarmAreaStateProvider alarmAreaStateProvider)
         {
             var securityLevel = SecurityLevel;
+            var cardReaderSecurityLevel =
+                GetCardReaderCompatibleSecurityLevel(securityLevel);
 
             if (securityLevel == DB.SecurityLevel.Unlocked
                 && _doorEnvironmentAdapter != null)
@@ -600,9 +722,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 _doorEnvironmentAdapter.ClearAccessGrantedVariables();
             }
 
-            var crMessage = GetImplicitCrMessageFromSecurityLevel(securityLevel);
+            var crMessage =
+                GetImplicitCrMessageFromSecurityLevel(cardReaderSecurityLevel);
 
-            bool isGinOrVariations = crMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE;
+            bool isGinOrVariations =
+                IsWaitingForCodeLikeMessageCode(crMessage.MessageCode);
 
             var stackedMessages = new List<CRMessage>();
 
@@ -635,7 +759,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 crMessage,
                 stackedMessages,
                 isGinOrVariations,
-                securityLevel);
+                securityLevel,
+                cardReaderSecurityLevel);
         }
 
         protected ACardReaderSettings(DB.CardReader cardReaderDb) : base(cardReaderDb.IdCardReader)
@@ -1307,6 +1432,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var stackedMessages = new List<CRMessage>();
 
             var securityLevel = SecurityLevel;
+            var cardReaderSecurityLevel =
+                GetCardReaderCompatibleSecurityLevel(securityLevel);
 
             var subMessageLowMenuButtons =
                 GetImplicitLowMenuButtonsMessage(
@@ -1431,15 +1558,17 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         implicitCrAlarmAreaInfo,
                         optionalData,
                         isCrReportingEnabled)
-                    : GetImplicitCrMessageFromSecurityLevel(securityLevel);
+                    : GetImplicitCrMessageFromSecurityLevel(cardReaderSecurityLevel);
 
-            bool isGinOrVariations = crMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE;
+            bool isGinOrVariations =
+                IsWaitingForCodeLikeMessageCode(crMessage.MessageCode);
 
             return new ImplicitCrCodeParams(
                 crMessage,
                 stackedMessages,
                 isGinOrVariations,
-                securityLevel);
+                securityLevel,
+                cardReaderSecurityLevel);
         }
 
         public void DoorEnvironmentStateChanged(
@@ -1604,6 +1733,57 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         return DB.SecurityLevel.Card;
                 }
             }
+        }
+
+        private DB.SecurityLevel GetCardReaderCompatibleSecurityLevel(
+            DB.SecurityLevel securityLevel)
+        {
+            switch (securityLevel)
+            {
+                default:
+                    return securityLevel;
+            }
+        }
+
+        private static bool IsWaitingForLprCardMessageCode(CRMessageCode messageCode)
+        {
+            return (byte) messageCode == WaitingForLprCardMessageCodeValue;
+        }
+
+        private static bool IsWaitingForLprCodeMessageCode(CRMessageCode messageCode)
+        {
+            return (byte) messageCode == WaitingForLprCodeMessageCodeValue;
+        }
+
+        private static bool IsWaitingForCodeLikeMessageCode(CRMessageCode messageCode)
+        {
+            return
+                messageCode == CRMessageCode.WAITING_FOR_CODE
+                || IsWaitingForLprCodeMessageCode(messageCode);
+        }
+
+        private CRMessage CreateWaitingForLprCardMessage()
+        {
+            return
+                new CRMessage(
+                    _cardReaderDB.Address,
+                    (CRMessageCode) WaitingForLprCardMessageCodeValue);
+        }
+
+        private CRMessage CreateWaitingForLprCodeMessage()
+        {
+            var codeMessage =
+                CRAccessCommands.WaitingForCodeMessage(
+                    _cardReaderDB.Address,
+                    CcuCardReaders.MinimalCodeLength,
+                    CcuCardReaders.MaximalCodeLength,
+                    true);
+
+            return
+                new CRMessage(
+                    _cardReaderDB.Address,
+                    (CRMessageCode) WaitingForLprCodeMessageCodeValue,
+                    codeMessage.OptionalData);
         }
 
         private static DB.SecurityLevel GetSecurityLevelFromStzOrSdp(
@@ -1895,7 +2075,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             }
             else
             {
-                securityLevel = CurrentImplicitCrCodeParams.SecurityLevel;
+                securityLevel = CurrentImplicitCrCodeParams.CardReaderSecurityLevel;
                 crMessageCode = CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode;
             }
 
@@ -1932,8 +2112,6 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     switch (securityLevel)
                     {
                         case DB.SecurityLevel.Card:
-                        case DB.SecurityLevel.LprCard:
-
                             command = CardReaderSceneType.WaitingForCard;
                             break;
 
@@ -1942,6 +2120,13 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             command = CardReaderSceneType.WaitingForCardPin;
                             break;
                     }
+
+                    break;
+
+                case (CRMessageCode) WaitingForLprCardMessageCodeValue:
+
+                    if (securityLevel == DB.SecurityLevel.LprCard)
+                        command = CardReaderSceneType.WaitingForCard;
 
                     break;
 
@@ -1965,6 +2150,13 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             command = CardReaderSceneType.WaitingForCodeOrCardPin;
                             break;
                     }
+
+                    break;
+
+                case (CRMessageCode) WaitingForLprCodeMessageCodeValue:
+
+                    if (securityLevel == DB.SecurityLevel.LprCode)
+                        command = CardReaderSceneType.WaitingForCodeOrCard;
 
                     break;
 
@@ -2034,17 +2226,19 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             {
                 case DB.SecurityLevel.Card:
                 case DB.SecurityLevel.CardPIN:
-                case DB.SecurityLevel.LprCard:
 
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCardMessage(_cardReader);
 
                     return CRAccessCommands.WaitingForCardMessage(_cardReaderDB.Address);
 
+                case DB.SecurityLevel.LprCard:
+
+                    return CreateWaitingForLprCardMessage();
+
                 case DB.SecurityLevel.Code:
                 case DB.SecurityLevel.CodeOrCard:
                 case DB.SecurityLevel.CodeOrCardPin:
-                case DB.SecurityLevel.LprCode:
 
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCodeMessage(
@@ -2058,6 +2252,10 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             CcuCardReaders.MinimalCodeLength,
                             CcuCardReaders.MaximalCodeLength,
                             true);
+
+                case DB.SecurityLevel.LprCode:
+
+                    return CreateWaitingForLprCodeMessage();
 
                 case DB.SecurityLevel.Unlocked:
 
@@ -2685,7 +2883,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         public void MaximalCodeLengthChanged()
         {
             if (CurrentImplicitCrCodeParams != null
-                && CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE)
+                && IsWaitingForCodeLikeMessageCode(
+                    CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode))
             {
                 SetImplicitCrCode();
             }

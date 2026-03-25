@@ -232,6 +232,45 @@ namespace Contal.Cgp.NCAS.CCU.EventParameters
         }
     }
 
+    [LwSerialize(498)]
+    [LwSerializeMode(LwSerializationMode.Direct)]
+    public class EventLateLprCardSwipeRequest : EventParametersWithObjectId
+    {
+        public Guid IdCardReader { get; private set; }
+        public Guid IdLprCamera { get; private set; }
+        public string PlateNormalized { get; private set; }
+
+        public EventLateLprCardSwipeRequest(
+            Guid idDoorEnvironment,
+            Guid idCardReader,
+            Guid idLprCamera,
+            string plateNormalized)
+            : base(
+                EventType.LateLprCardSwipeRequest,
+                idDoorEnvironment)
+        {
+            IdCardReader = idCardReader;
+            IdLprCamera = idLprCamera;
+            PlateNormalized = plateNormalized;
+        }
+
+        public EventLateLprCardSwipeRequest()
+        {
+        }
+
+        protected override void GetAdditionalParametersString(StringBuilder parameters)
+        {
+            base.GetAdditionalParametersString(parameters);
+
+            parameters.Append(
+                string.Format(
+                    ", Card reader: {0}, LPR camera: {1}, Plate: {2}",
+                    IdCardReader,
+                    IdLprCamera,
+                    PlateNormalized));
+        }
+    }
+
     public static class TestDoorEnvironmentEvents
     {
         public class CardAccessData : AccessDataBase

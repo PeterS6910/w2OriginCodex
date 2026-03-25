@@ -254,7 +254,8 @@ namespace Contal.Cgp.Globals
         InvalidPinRetriesLimitReached = 129,
         CardReaderBlockedStateChanged = 130,
 
-        TimeBuingMatrixStateChangedInfo = 131
+        TimeBuingMatrixStateChangedInfo = 131,
+        LateLprCardSwipeRequest = 132
     }
 
     [Serializable]

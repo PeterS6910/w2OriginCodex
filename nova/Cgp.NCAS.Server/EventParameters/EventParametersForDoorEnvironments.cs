@@ -663,4 +663,67 @@ namespace Contal.Cgp.NCAS.Server.EventParameters
                     : null);
         }
     }
+
+    [LwSerialize(498)]
+    [LwSerializeMode(LwSerializationMode.Direct)]
+    public class EventLateLprCardSwipeRequest : EventParametersWithObjectId
+    {
+        public Guid IdCardReader { get; private set; }
+        public Guid IdLprCamera { get; private set; }
+        public string PlateNormalized { get; private set; }
+
+        public EventLateLprCardSwipeRequest(
+            UInt64 eventId,
+            Guid idDoorEnvironment,
+            Guid idCardReader,
+            Guid idLprCamera,
+            string plateNormalized)
+            : base(
+                eventId,
+                EventType.LateLprCardSwipeRequest,
+                idDoorEnvironment)
+        {
+            IdCardReader = idCardReader;
+            IdLprCamera = idLprCamera;
+            PlateNormalized = plateNormalized;
+        }
+
+        protected EventLateLprCardSwipeRequest()
+        {
+        }
+
+        protected override void GetAdditionalParametersString(StringBuilder parameters)
+        {
+            base.GetAdditionalParametersString(parameters);
+
+            parameters.Append(
+                string.Format(
+                    ", Card reader: {0}, LPR camera: {1}, Plate: {2}",
+                    IdCardReader,
+                    IdLprCamera,
+                    PlateNormalized));
+        }
+
+        public override void HandleEvent(CCUSettings ccuSettings)
+        {
+            LprCameraIntegration.PushIntegration.Singleton.HandleLateLprCardSwipeRequest(
+                IdObject,
+                IdCardReader,
+                IdLprCamera,
+                PlateNormalized);
+        }
+
+        public override bool EnqueueEventlog(
+            CCUSettings ccuSettings,
+            out Eventlog eventlog,
+            out List<EventSource> eventSources,
+            out List<EventlogParameter> eventlogParameters)
+        {
+            eventlog = null;
+            eventSources = null;
+            eventlogParameters = null;
+
+            return false;
+        }
+    }
 }
