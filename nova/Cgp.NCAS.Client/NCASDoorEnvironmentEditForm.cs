@@ -2055,7 +2055,7 @@ namespace Contal.Cgp.NCAS.Client
             if (hasAssignedLprCamera)
             {
                 if (currentSecurityLevel != (byte)SecurityLevel.LprCard
-                    && currentSecurityLevel != (byte)SecurityLevel.LprCode)
+                    && currentSecurityLevel != (byte)SecurityLevel.LprCodeOrLprCard)
                 {
                     return (byte)SecurityLevel.LprCard;
                 }
@@ -2066,7 +2066,7 @@ namespace Contal.Cgp.NCAS.Client
             if (currentSecurityLevel == (byte)SecurityLevel.LprCard)
                 return (byte)SecurityLevel.CARD;
 
-            if (currentSecurityLevel == (byte)SecurityLevel.LprCode)
+            if (currentSecurityLevel == (byte)SecurityLevel.LprCodeOrLprCard)
             {
                 return
                     hasKeyboard

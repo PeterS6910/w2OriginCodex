@@ -572,6 +572,41 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             Guid cameraId,
             string plateNormalized)
         {
+            HandleLateLprSecondFactorRequest(
+                doorEnvironmentId,
+                cardReaderId,
+                cameraId,
+                plateNormalized,
+                "Late LPR card revalidation failed",
+                "Late LPR card revalidation started",
+                "Late card arrived after LPR correlation timeout; restarting LPR-assisted authorization; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; plate={3}");
+        }
+
+        internal void HandleLateLprCodeSwipeRequest(
+            Guid doorEnvironmentId,
+            Guid cardReaderId,
+            Guid cameraId,
+            string plateNormalized)
+        {
+            HandleLateLprSecondFactorRequest(
+                doorEnvironmentId,
+                cardReaderId,
+                cameraId,
+                plateNormalized,
+                "Late LPR code revalidation failed",
+                "Late LPR code revalidation started",
+                "Late code arrived after LPR correlation timeout; restarting LPR-assisted authorization; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; plate={3}");
+        }
+
+        private void HandleLateLprSecondFactorRequest(
+            Guid doorEnvironmentId,
+            Guid cardReaderId,
+            Guid cameraId,
+            string plateNormalized,
+            string failedEventName,
+            string startedEventName,
+            string startedMessageFormat)
+        {
             try
             {
                 if (doorEnvironmentId == Guid.Empty
@@ -592,7 +627,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (!_recentPlates.TryGetValue(cameraId, out recentPlate))
                 {
                     Eventlogs.Singleton.InsertEvent(
-                        "Late LPR card revalidation failed",
+                        failedEventName,
                         GetType().Assembly.GetName().Name,
                         new[] { doorEnvironmentId, cameraId, cardReaderId },
                         string.Format(
@@ -609,7 +644,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (!string.Equals(recentPlate.Plate, expectedPlate, StringComparison.Ordinal))
                 {
                     Eventlogs.Singleton.InsertEvent(
-                        "Late LPR card revalidation failed",
+                        failedEventName,
                         GetType().Assembly.GetName().Name,
                         new[] { doorEnvironmentId, cameraId, cardReaderId },
                         string.Format(
@@ -631,7 +666,7 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 if (DateTime.UtcNow - recentPlate.Timestamp > TimeSpan.FromSeconds(timeoutSeconds))
                 {
                     Eventlogs.Singleton.InsertEvent(
-                        "Late LPR card revalidation failed",
+                        failedEventName,
                         GetType().Assembly.GetName().Name,
                         new[] { doorEnvironmentId, cameraId, cardReaderId },
                         string.Format(
@@ -646,11 +681,11 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
                 }
 
                 Eventlogs.Singleton.InsertEvent(
-                    "Late LPR card revalidation started",
+                    startedEventName,
                     GetType().Assembly.GetName().Name,
                     new[] { doorEnvironmentId, cameraId, cardReaderId },
                     string.Format(
-                        "Late card arrived after LPR correlation timeout; restarting LPR-assisted authorization; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; plate={3}",
+                        startedMessageFormat,
                         doorEnvironmentId,
                         cameraId,
                         cardReaderId,

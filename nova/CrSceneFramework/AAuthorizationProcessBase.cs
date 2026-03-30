@@ -17,6 +17,12 @@ namespace CrSceneFramework
     {
         private AuthorizationProcessState _authorizationProcessState = AuthorizationProcessState.Undecided;
 
+        protected AuthorizationProcessState CurrentAuthorizationProcessState
+        {
+            get { return _authorizationProcessState; }
+            set { _authorizationProcessState = value; }
+        }
+
         protected abstract bool AuthorizationByCodeEnabled
         {
             get;
@@ -26,11 +32,16 @@ namespace CrSceneFramework
         {
             get
             {
-                return
-                    AuthorizationByCodeEnabled 
-                    && _authorizationProcessState == AuthorizationProcessState.Undecided 
-                    && CardData == null;
+                return CanAcceptCode();
             }
+        }
+
+        protected virtual bool CanAcceptCode()
+        {
+            return
+                AuthorizationByCodeEnabled
+                && _authorizationProcessState == AuthorizationProcessState.Undecided
+                && CardData == null;
         }
 
         protected abstract bool AuthorizationByCardEnabled
@@ -42,10 +53,15 @@ namespace CrSceneFramework
         {
             get 
             { 
-                return 
-                    AuthorizationByCardEnabled 
-                    && _authorizationProcessState == AuthorizationProcessState.Undecided; 
+                return CanAcceptCard();
             }
+        }
+
+        protected virtual bool CanAcceptCard()
+        {
+            return
+                AuthorizationByCardEnabled
+                && _authorizationProcessState == AuthorizationProcessState.Undecided;
         }
 
         protected abstract bool CardRequiresPin
@@ -57,11 +73,16 @@ namespace CrSceneFramework
         {
             get
             {
-                return
-                    CardData != null 
-                    && _authorizationProcessState == AuthorizationProcessState.Undecided
-                    && CardRequiresPin;
+                return GetIsPinRequired();
             }
+        }
+
+        protected virtual bool GetIsPinRequired()
+        {
+            return
+                CardData != null
+                && _authorizationProcessState == AuthorizationProcessState.Undecided
+                && CardRequiresPin;
         }
 
         protected abstract bool AuthorizeByCard(out bool isRedundant);
@@ -75,16 +96,12 @@ namespace CrSceneFramework
 
             bool isRedundant;
 
-            if (!AuthorizeByCard(out isRedundant))
-                _authorizationProcessState = AuthorizationProcessState.Rejected;
-            else
-            {
-                if (isRedundant)
-                    _authorizationProcessState = AuthorizationProcessState.Redundant;
-                else
-                    if (!CardRequiresPin)
-                        _authorizationProcessState = AuthorizationProcessState.Granted;
-            }
+            var authorizationResult = AuthorizeByCard(out isRedundant);
+
+            _authorizationProcessState =
+                ResolveStateAfterCardAuthorization(
+                    authorizationResult,
+                    isRedundant);
         }
 
         protected abstract bool AuthorizeByCode(
@@ -98,22 +115,62 @@ namespace CrSceneFramework
             if (AcceptsCode)
             {
                 bool isRedundant;
+                var authorizationResult =
+                    AuthorizeByCode(
+                        codeData,
+                        out isRedundant);
 
                 _authorizationProcessState =
-                    AuthorizeByCode(codeData, out isRedundant)
-                        ? ( 
-                            isRedundant 
-                                ? AuthorizationProcessState.Redundant
-                                : AuthorizationProcessState.Granted)
-                        : AuthorizationProcessState.Rejected;
+                    ResolveStateAfterCodeAuthorization(
+                        authorizationResult,
+                        isRedundant);
 
                 return;
             }
 
             _authorizationProcessState =
-                AuthorizeByPin(codeData)
-                    ? AuthorizationProcessState.Granted
-                    : AuthorizationProcessState.Rejected;
+                ResolveStateAfterPinAuthorization(
+                    AuthorizeByPin(codeData));
+        }
+
+        protected virtual AuthorizationProcessState ResolveStateAfterCardAuthorization(
+            bool authorizationResult,
+            bool isRedundant)
+        {
+            if (!authorizationResult)
+                return AuthorizationProcessState.Rejected;
+
+            if (isRedundant)
+                return AuthorizationProcessState.Redundant;
+
+            return !CardRequiresPin
+                ? AuthorizationProcessState.Granted
+                : AuthorizationProcessState.Undecided;
+        }
+
+        protected virtual AuthorizationProcessState ResolveStateAfterCodeAuthorization(
+            bool authorizationResult,
+            bool isRedundant)
+        {
+            if (!authorizationResult)
+                return AuthorizationProcessState.Rejected;
+
+            return isRedundant
+                ? AuthorizationProcessState.Redundant
+                : AuthorizationProcessState.Granted;
+        }
+
+        protected virtual AuthorizationProcessState ResolveStateAfterPinAuthorization(
+            bool authorizationResult)
+        {
+            return authorizationResult
+                ? AuthorizationProcessState.Granted
+                : AuthorizationProcessState.Rejected;
+        }
+
+        public virtual bool AdvanceOnUndecided
+        {
+            get { return true; }
         }
 
         public AuthorizationProcessState AuthorizationProcessState

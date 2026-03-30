@@ -256,7 +256,8 @@ namespace Contal.Cgp.Globals
         CardReaderBlockedStateChanged = 130,
 
         TimeBuingMatrixStateChangedInfo = 131,
-        LateLprCardSwipeRequest = 132
+        LateLprCardSwipeRequest = 132,
+        LateLprCodeSwipeRequest = 133
     }
 
     [Serializable]

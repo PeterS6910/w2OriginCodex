@@ -182,8 +182,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
                     switch (accessSceneGroup.AuthorizationProcessState)
                     {
                         case AuthorizationProcessState.Rejected:
-
-                            yield return new AccessDeniedScene(this);
+                            if (!CardReaderSettings.ConsumeLateLprRevalidationSuppression())
+                                yield return new AccessDeniedScene(this);
                             break;
 
                         case AuthorizationProcessState.Redundant:

@@ -3127,7 +3127,7 @@ namespace Contal.Cgp.NCAS.Client
             if (hasAssignedLprCamera)
             {
                 if (securityLevel != (byte)SecurityLevel.LprCard
-                    && securityLevel != (byte)SecurityLevel.LprCode)
+                    && securityLevel != (byte)SecurityLevel.LprCodeOrLprCard)
                 {
                     securityLevel = (byte)SecurityLevel.LprCard;
                 }
@@ -3136,7 +3136,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (securityLevel == (byte)SecurityLevel.LprCard)
                     securityLevel = (byte)SecurityLevel.CARD;
-                else if (securityLevel == (byte)SecurityLevel.LprCode)
+                else if (securityLevel == (byte)SecurityLevel.LprCodeOrLprCard)
                     securityLevel = (byte)SecurityLevel.CODE;
             }
 
@@ -3149,7 +3149,7 @@ namespace Contal.Cgp.NCAS.Client
             if (hasAssignedLprCamera)
             {
                 if (forcedSecurityLevel != (byte)SecurityLevel.LprCard
-                    && forcedSecurityLevel != (byte)SecurityLevel.LprCode)
+                    && forcedSecurityLevel != (byte)SecurityLevel.LprCodeOrLprCard)
                 {
                     forcedSecurityLevel = (byte)SecurityLevel.LprCard;
                 }
@@ -3158,7 +3158,7 @@ namespace Contal.Cgp.NCAS.Client
             {
                 if (forcedSecurityLevel == (byte)SecurityLevel.LprCard)
                     forcedSecurityLevel = (byte)SecurityLevel.CARD;
-                else if (forcedSecurityLevel == (byte)SecurityLevel.LprCode)
+                else if (forcedSecurityLevel == (byte)SecurityLevel.LprCodeOrLprCard)
                     forcedSecurityLevel = (byte)SecurityLevel.CODE;
             }
 
@@ -5359,7 +5359,7 @@ namespace Contal.Cgp.NCAS.Client
                                 if (value == SecurityLevel.Unlocked
                                     || value == SecurityLevel.Locked
                                     || value == SecurityLevel.LprCard
-                                    || value == SecurityLevel.LprCode)
+                                    || value == SecurityLevel.LprCodeOrLprCard)
                                 {
                                     return null;
                                 }
@@ -5383,7 +5383,7 @@ namespace Contal.Cgp.NCAS.Client
                                 if (value == SecurityLevel.Unlocked
                                     || value == SecurityLevel.Locked
                                     || value == SecurityLevel.LprCard
-                                    || value == SecurityLevel.LprCode)
+                                    || value == SecurityLevel.LprCodeOrLprCard)
                                 {
                                     return null;
                                 }

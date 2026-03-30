@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -707,6 +707,69 @@ namespace Contal.Cgp.NCAS.Server.EventParameters
         public override void HandleEvent(CCUSettings ccuSettings)
         {
             LprCameraIntegration.PushIntegration.Singleton.HandleLateLprCardSwipeRequest(
+                IdObject,
+                IdCardReader,
+                IdLprCamera,
+                PlateNormalized);
+        }
+
+        public override bool EnqueueEventlog(
+            CCUSettings ccuSettings,
+            out Eventlog eventlog,
+            out List<EventSource> eventSources,
+            out List<EventlogParameter> eventlogParameters)
+        {
+            eventlog = null;
+            eventSources = null;
+            eventlogParameters = null;
+
+            return false;
+        }
+    }
+
+    [LwSerialize(499)]
+    [LwSerializeMode(LwSerializationMode.Direct)]
+    public class EventLateLprCodeSwipeRequest : EventParametersWithObjectId
+    {
+        public Guid IdCardReader { get; private set; }
+        public Guid IdLprCamera { get; private set; }
+        public string PlateNormalized { get; private set; }
+
+        public EventLateLprCodeSwipeRequest(
+            UInt64 eventId,
+            Guid idDoorEnvironment,
+            Guid idCardReader,
+            Guid idLprCamera,
+            string plateNormalized)
+            : base(
+                eventId,
+                EventType.LateLprCodeSwipeRequest,
+                idDoorEnvironment)
+        {
+            IdCardReader = idCardReader;
+            IdLprCamera = idLprCamera;
+            PlateNormalized = plateNormalized;
+        }
+
+        protected EventLateLprCodeSwipeRequest()
+        {
+        }
+
+        protected override void GetAdditionalParametersString(StringBuilder parameters)
+        {
+            base.GetAdditionalParametersString(parameters);
+
+            parameters.Append(
+                string.Format(
+                    ", Card reader: {0}, LPR camera: {1}, Plate: {2}",
+                    IdCardReader,
+                    IdLprCamera,
+                    PlateNormalized));
+        }
+
+        public override void HandleEvent(CCUSettings ccuSettings)
+        {
+            LprCameraIntegration.PushIntegration.Singleton.HandleLateLprCodeSwipeRequest(
                 IdObject,
                 IdCardReader,
                 IdLprCamera,

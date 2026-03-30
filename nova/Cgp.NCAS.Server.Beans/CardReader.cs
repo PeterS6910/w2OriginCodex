@@ -780,8 +780,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
         Locked = 6,
         [Name("LprCard")]
         LprCard = 7,
-        [Name("LprCode")]
-        LprCode = 8,
+        [Name("LprCodeOrLprCard")]
+        LprCodeOrLprCard = 8,
         //NOT SUPPORTED IN THIS VERSION
         //[Name("ToggleCard")]
         //ToggleCard = 7,
@@ -845,8 +845,8 @@ namespace Contal.Cgp.NCAS.Server.Beans
                     SecurityLevel.LprCard,
                     localizationHelper.GetString("SecurityLevelStates_LprCard")),
                 new SecurityLevelStates(
-                    SecurityLevel.LprCode,
-                    localizationHelper.GetString("SecurityLevelStates_LprCode"))
+                    SecurityLevel.LprCodeOrLprCard,
+                    localizationHelper.GetString("SecurityLevelStates_LprCodeOrLprCard"))
             };
         }
 

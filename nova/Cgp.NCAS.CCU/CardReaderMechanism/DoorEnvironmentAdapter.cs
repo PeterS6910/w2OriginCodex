@@ -252,9 +252,20 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     return false;
                 }
 
-                if (CardReaderSettings.IsLprCardSecondFactorPending()
-                        && !CardReaderSettings.TryAuthorizeCardByLprContext(AccessData.IdCard))
-                    return false;
+                if (CardReaderSettings.IsLprCardSecondFactorPending())
+                {
+                    var lprEvaluationResult =
+                        CardReaderSettings.EvaluateAccessCardByLprContext(AccessData.IdCard);
+
+                    switch (lprEvaluationResult)
+                    {
+                        case ACardReaderSettings.AccessAuthorizationEvaluationResult.Rejected:
+                            return false;
+
+                        case ACardReaderSettings.AccessAuthorizationEvaluationResult.Pending:
+                            return true;
+                    }
+                }
 
                 return
                     IsRedundant

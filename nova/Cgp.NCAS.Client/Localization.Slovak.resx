@@ -150,8 +150,8 @@
   <data name="SecurityLevelStates_LprCard" xml:space="preserve">
     <value>LPR + karta</value>
   </data>
-  <data name="SecurityLevelStates_LprCode" xml:space="preserve">
-    <value>LPR + kód</value>
+  <data name="SecurityLevelStates_LprCodeOrLprCard" xml:space="preserve">
+    <value>LPR + kód/karta</value>
   </data>
   <data name="SecurityLevelStates_Locked" xml:space="preserve">
     <value>Zamknutý</value>

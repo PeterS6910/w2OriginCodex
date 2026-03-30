@@ -135,11 +135,17 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
 
         protected override bool AuthorizeByCard(out bool isRedundant)
         {
+            CardReaderSettings.BeginAccessAuthorizationAttempt(
+                CardReaderSettings.CurrentImplicitCrCodeParams != null
+                    ? CardReaderSettings.CurrentImplicitCrCodeParams.SecurityLevel
+                    : DB.SecurityLevel.Locked);
+
             var card =
                 Database.ConfigObjectsEngine.CardsStorage.GetCard(CardData);
 
             if (card == null)
             {
+                CardReaderSettings.OnAccessCardRejected();
                 OnAccessDeniedUnknownCard();
                 isRedundant = false;
 
@@ -152,6 +158,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
                  && card.State != (byte) DB.CardState.temporarilyBlocked)
                 || !card.IsValid)
             {
+                CardReaderSettings.OnAccessCardRejected();
                 OnAccessDeniedCardBlockedOrInactive();
                 isRedundant = false;
 
@@ -160,21 +167,16 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
 
             if (!AuthorizeByCardInternal())
             {
-                OnAccessDeniedNoRightsForCard();
-                isRedundant = false;
-
-                return false;
-            }
-
-            if (!CardReaderSettings.TryAuthorizeCardByLprContext(_accessData.IdCard))
-            {
-                OnAccessDeniedNoRightsForCard();
+                CardReaderSettings.OnAccessCardRejected();
+                if (!CardReaderSettings.ConsumeLateLprRevalidationSuppression())
+                    OnAccessDeniedNoRightsForCard();
                 isRedundant = false;
 
                 return false;
             }
 
             isRedundant = IsRedundant;
+            CardReaderSettings.OnAccessCardAccepted();
 
             return true;
         }
@@ -188,9 +190,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
                 CardReaderSettings.Id,
                 CardReaderSettings.InvalidPinRetriesLimitEnabled))
             {
+                CardReaderSettings.OnAccessPinAccepted();
                 return true;
             }
 
+            CardReaderSettings.OnAccessPinRejected();
             OnAccessDeniedInvalidPin();
             return false;
         }
@@ -205,8 +209,14 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
             string codeData,
             out bool isRedundant)
         {
+            CardReaderSettings.BeginAccessAuthorizationAttempt(
+                CardReaderSettings.CurrentImplicitCrCodeParams != null
+                    ? CardReaderSettings.CurrentImplicitCrCodeParams.SecurityLevel
+                    : DB.SecurityLevel.Locked);
+
             if (CardReaderSettings.InvalidCodeRetriesLimitReached)
             {
+                CardReaderSettings.OnAccessCodeRejected();
                 isRedundant = false;
                 return false;
             }
@@ -215,6 +225,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
 
             if (_accessData == null)
             {
+                CardReaderSettings.OnAccessCodeRejected();
                 OnAccessDeniedInvalidCode();
                 CardReaderSettings.ReportWrongAccessCode();
 
@@ -227,13 +238,40 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
             if (_accessData.IdPerson != Guid.Empty 
                 && !AuthorizeByPersonInternal())
             {
-                OnAccessDeniedNoRightsForPerson();
+                CardReaderSettings.OnAccessCodeRejected();
+                if (!CardReaderSettings.ConsumeLateLprRevalidationSuppression())
+                    OnAccessDeniedNoRightsForPerson();
                 isRedundant = false;
 
                 return false;
             }
 
+            if (CardReaderSettings.IsLprCodeSecondFactorPending())
+            {
+                var lprEvaluationResult =
+                    CardReaderSettings.EvaluateAccessCodeByLprContext(
+                        codeData,
+                        _accessData.IdPerson == Guid.Empty);
+
+                if (lprEvaluationResult == ACardReaderSettings.AccessAuthorizationEvaluationResult.Rejected)
+                {
+                    CardReaderSettings.OnAccessCodeRejected();
+                    if (!CardReaderSettings.ConsumeLateLprRevalidationSuppression())
+                        OnAccessDeniedInvalidCode();
+
+                    isRedundant = false;
+                    return false;
+                }
+
+                if (lprEvaluationResult == ACardReaderSettings.AccessAuthorizationEvaluationResult.Pending)
+                {
+                    isRedundant = false;
+                    return true;
+                }
+            }
+
             isRedundant = IsRedundant;
+            CardReaderSettings.OnAccessCodeAccepted(_accessData.IdPerson == Guid.Empty);
             return true;
         }
 
@@ -264,6 +302,37 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism.Scenes
         protected abstract string Gin
         {
             get;
+        }
+
+        protected override AuthorizationProcessState ResolveStateAfterCardAuthorization(
+            bool authorizationResult,
+            bool isRedundant)
+        {
+            if (isRedundant)
+                return AuthorizationProcessState.Redundant;
+
+            return CardReaderSettings.GetSceneContextAuthorizationProcessState();
+        }
+
+        protected override AuthorizationProcessState ResolveStateAfterCodeAuthorization(
+            bool authorizationResult,
+            bool isRedundant)
+        {
+            if (isRedundant)
+                return AuthorizationProcessState.Redundant;
+
+            return CardReaderSettings.GetSceneContextAuthorizationProcessState();
+        }
+
+        protected override AuthorizationProcessState ResolveStateAfterPinAuthorization(
+            bool authorizationResult)
+        {
+            return CardReaderSettings.GetSceneContextAuthorizationProcessState();
+        }
+
+        public override bool AdvanceOnUndecided
+        {
+            get { return CardReaderSettings.IsSceneContextAdvanceOnUndecided(); }
         }
 
         protected virtual bool IsRedundant 

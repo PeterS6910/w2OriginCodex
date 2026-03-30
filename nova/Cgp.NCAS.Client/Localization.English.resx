@@ -537,8 +537,8 @@
   <data name="SecurityLevelStates_LprCard" xml:space="preserve">
     <value>LPR + card</value>
   </data>
-  <data name="SecurityLevelStates_LprCode" xml:space="preserve">
-    <value>LPR + code</value>
+  <data name="SecurityLevelStates_LprCodeOrLprCard" xml:space="preserve">
+    <value>LPR + code/card</value>
   </data>
   <data name="SecurityLevelStates_Locked" xml:space="preserve">
     <value>Locked</value>
