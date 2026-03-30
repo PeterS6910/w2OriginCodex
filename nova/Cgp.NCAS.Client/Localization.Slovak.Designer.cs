@@ -13151,11 +13151,11 @@ namespace Contal.Cgp.NCAS.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LPR + kód.
+        ///   Looks up a localized string similar to LPR + kód/karta.
         /// </summary>
-        internal static string SecurityLevelStates_LprCode {
+        internal static string SecurityLevelStates_LprCodeOrLprCard {
             get {
-                return ResourceManager.GetString("SecurityLevelStates_LprCode", resourceCulture);
+                return ResourceManager.GetString("SecurityLevelStates_LprCodeOrLprCard", resourceCulture);
             }
         }
         

@@ -109,8 +109,8 @@ namespace CrSceneFramework
             switch (AuthorizationProcess.AuthorizationProcessState)
             {
                 case AuthorizationProcessState.Undecided:
-
-                    CrSceneAdvanceRoute.Default.Follow(crSceneContext);
+                    if (AuthorizationProcess.AdvanceOnUndecided)
+                        CrSceneAdvanceRoute.Default.Follow(crSceneContext);
                     return;
 
                 case AuthorizationProcessState.Granted:

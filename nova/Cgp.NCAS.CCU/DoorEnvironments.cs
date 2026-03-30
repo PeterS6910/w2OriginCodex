@@ -61,21 +61,6 @@ namespace Contal.Cgp.NCAS.CCU
         public const int INTRUSION_BRIDGE_PROCESSING_TIME = 1000;
 
         private readonly object _lockAccessGrantedFromClient = new object();
-        private readonly object _lockLprPendingAuthorizations = new object();
-        private readonly Dictionary<Guid, LprPendingAuthorization> _lprPendingAuthorizations = new Dictionary<Guid, LprPendingAuthorization>();
-
-        private sealed class LprPendingAuthorization
-        {
-            public Guid DoorEnvironmentId { get; set; }
-            public Guid CorrelationId { get; set; }
-            public Guid CarId { get; set; }
-            public string PlateNormalized { get; set; }
-            public HashSet<Guid> ValidCardIds { get; set; }
-            public LprRequiredSecondFactor RequiredSecondFactor { get; set; }
-            public LprPassDirection Direction { get; set; }
-            public DateTime ValidToUtc { get; set; }
-            public Guid SourceCameraId { get; set; }
-        }
 
         public override ObjectType ObjectType
         {
@@ -245,123 +230,38 @@ namespace Contal.Cgp.NCAS.CCU
             }
         }
 
-        public bool TryAuthorizeCardByLprContext(
-    Guid doorEnvironmentId,
-    Guid cardId)
-        {
-            if (doorEnvironmentId == Guid.Empty || cardId == Guid.Empty)
-                return false;
-
-            lock (_lockLprPendingAuthorizations)
-            {
-                LprPendingAuthorization pending;
-
-                if (!_lprPendingAuthorizations.TryGetValue(doorEnvironmentId, out pending))
-                    return true;
-
-                if (pending.ValidToUtc <= DateTime.UtcNow)
-                {
-                    _lprPendingAuthorizations.Remove(doorEnvironmentId);
-
-                    CcuCore.DebugLog.Info(
-                        Log.NORMAL_LEVEL,
-                        () =>
-                            string.Format(
-                                "LPR pending expired while authorizing card; doorEnvironmentId={0}; correlationId={1}",
-                                doorEnvironmentId,
-                                pending.CorrelationId));
-
-                    return false;
-                }
-
-                if (pending.RequiredSecondFactor != LprRequiredSecondFactor.Card
-                    && pending.RequiredSecondFactor != LprRequiredSecondFactor.CardOrPin)
-                {
-                    return true;
-                }
-
-                if (pending.ValidCardIds == null || !pending.ValidCardIds.Contains(cardId))
-                    return false;
-
-                _lprPendingAuthorizations.Remove(doorEnvironmentId);
-
-                CcuCore.DebugLog.Info(
-                    Log.NORMAL_LEVEL,
-                    () =>
-                        string.Format(
-                            "LPR second factor card matched; doorEnvironmentId={0}; correlationId={1}; carId={2}; plate={3}; cardId={4}",
-                            doorEnvironmentId,
-                            pending.CorrelationId,
-                            pending.CarId,
-                            pending.PlateNormalized,
-                            cardId));
-
-                return true;
-            }
-        }
-
         public bool StartLprAssistedAuthorization(Guid doorEnvironmentId, LprAuthorizationContext context)
         {
             if (doorEnvironmentId == Guid.Empty || context == null)
                 return false;
 
-            lock (_lockLprPendingAuthorizations)
+            var validCardsCount = 0;
+            if (context.ValidCardIds != null)
             {
-                var utcNow = DateTime.UtcNow;
-
-                var expiredKeys =
-                    _lprPendingAuthorizations
-                        .Where(item => item.Value.ValidToUtc <= utcNow)
-                        .Select(item => item.Key)
-                        .ToList();
-
-                foreach (var expiredKey in expiredKeys)
+                foreach (var validCardId in context.ValidCardIds)
                 {
-                    CcuCore.DebugLog.Info(
-                        Log.NORMAL_LEVEL,
-                        () =>
-                            string.Format(
-                                "LPR pending expired; doorEnvironmentId={0}; correlationId={1}",
-                                expiredKey,
-                                _lprPendingAuthorizations[expiredKey].CorrelationId));
-
-                    _lprPendingAuthorizations.Remove(expiredKey);
+                    if (validCardId != Guid.Empty)
+                        validCardsCount++;
                 }
+            }
 
-                var pending = new LprPendingAuthorization
-                {
-                    DoorEnvironmentId = doorEnvironmentId,
-                    CorrelationId = context.CorrelationId,
-                    CarId = context.CarId,
-                    PlateNormalized = context.PlateNormalized,
-                    ValidCardIds = context.ValidCardIds != null
-                        ? new HashSet<Guid>(context.ValidCardIds.Where(validCardId => validCardId != Guid.Empty))
-                        : new HashSet<Guid>(),
-                    RequiredSecondFactor = context.RequiredSecondFactor,
-                    Direction = context.Direction,
-                    ValidToUtc = context.ValidToUtc,
-                    SourceCameraId = context.SourceCameraId
-                };
-
-                _lprPendingAuthorizations[doorEnvironmentId] = pending;
-
-                CcuCore.DebugLog.Info(
+            CcuCore.DebugLog.Info(
                     Log.NORMAL_LEVEL,
                     () =>
                         string.Format(
-                            "LPR pending created; doorEnvironmentId={0}; correlationId={1}; securityLevel=LPR+Card; requiredSecondFactor={2}; plate={3}; carId={4}; validCardsCount={5}; validToUtc={6:o}; sourceCameraId={7}",
+                            "LPR pending created; doorEnvironmentId={0}; correlationId={1}; requiredSecondFactor={2}; plate={3}; carId={4}; validCardsCount={5}; validToUtc={6:o}; sourceCameraId={7}; sourceOfTruth=SceneContextClass",
                             doorEnvironmentId,
-                            pending.CorrelationId,
-                            pending.RequiredSecondFactor,
-                            pending.PlateNormalized,
-                            pending.CarId,
-                            pending.ValidCardIds.Count,
-                            pending.ValidToUtc,
-                            pending.SourceCameraId));
-            }
+                        context.CorrelationId,
+                        context.RequiredSecondFactor,
+                        context.PlateNormalized,
+                        context.CarId,
+                        validCardsCount,
+                        context.ValidToUtc,
+                        context.SourceCameraId));
+
 
             PerformAsyncRequest(doorEnvironmentId,
-    doorEnvironmentSettings => doorEnvironmentSettings.SetLprAuthorizationContext(context));
+                doorEnvironmentSettings => doorEnvironmentSettings.SetLprAuthorizationContext(context));
 
             return true;
         }

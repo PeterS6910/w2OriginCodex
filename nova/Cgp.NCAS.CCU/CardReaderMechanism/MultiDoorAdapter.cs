@@ -99,6 +99,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             return false;
         }
 
+        public Guid IdDoorEnvironment
+        {
+            get { return Guid.Empty; }
+        }
+
         public bool IsAssociatedWithMultiDoor(Guid idMultiDoor)
         {
            return _idMultiDoor.Equals(idMultiDoor);

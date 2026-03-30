@@ -566,6 +566,141 @@ namespace Contal.Cgp.NCAS.Server.LprCameraIntegration
             return true;
         }
 
+        internal void HandleLateLprCardSwipeRequest(
+            Guid doorEnvironmentId,
+            Guid cardReaderId,
+            Guid cameraId,
+            string plateNormalized)
+        {
+            HandleLateLprSecondFactorRequest(
+                doorEnvironmentId,
+                cardReaderId,
+                cameraId,
+                plateNormalized,
+                "Late LPR card revalidation failed",
+                "Late LPR card revalidation started",
+                "Late card arrived after LPR correlation timeout; restarting LPR-assisted authorization; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; plate={3}");
+        }
+
+        internal void HandleLateLprCodeSwipeRequest(
+            Guid doorEnvironmentId,
+            Guid cardReaderId,
+            Guid cameraId,
+            string plateNormalized)
+        {
+            HandleLateLprSecondFactorRequest(
+                doorEnvironmentId,
+                cardReaderId,
+                cameraId,
+                plateNormalized,
+                "Late LPR code revalidation failed",
+                "Late LPR code revalidation started",
+                "Late code arrived after LPR correlation timeout; restarting LPR-assisted authorization; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; plate={3}");
+        }
+
+        private void HandleLateLprSecondFactorRequest(
+            Guid doorEnvironmentId,
+            Guid cardReaderId,
+            Guid cameraId,
+            string plateNormalized,
+            string failedEventName,
+            string startedEventName,
+            string startedMessageFormat)
+        {
+            try
+            {
+                if (doorEnvironmentId == Guid.Empty
+                    || cameraId == Guid.Empty
+                    || string.IsNullOrWhiteSpace(plateNormalized))
+                {
+                    return;
+                }
+
+                var doorEnvironment = DoorEnvironments.Singleton.GetById(doorEnvironmentId);
+                if (doorEnvironment == null)
+                    return;
+
+                if (!IsDoorAssignedToCamera(doorEnvironment, cameraId))
+                    return;
+
+                PlateState recentPlate;
+                if (!_recentPlates.TryGetValue(cameraId, out recentPlate))
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        failedEventName,
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironmentId, cameraId, cardReaderId },
+                        string.Format(
+                            "Late card arrived, but camera has no recent plate; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; expectedPlate={3}",
+                            doorEnvironmentId,
+                            cameraId,
+                            cardReaderId,
+                            plateNormalized));
+
+                    return;
+                }
+
+                var expectedPlate = NormalizePlate(plateNormalized);
+                if (!string.Equals(recentPlate.Plate, expectedPlate, StringComparison.Ordinal))
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        failedEventName,
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironmentId, cameraId, cardReaderId },
+                        string.Format(
+                            "Late card arrived, but camera plate does not match; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; expectedPlate={3}; recentPlate={4}",
+                            doorEnvironmentId,
+                            cameraId,
+                            cardReaderId,
+                            expectedPlate,
+                            recentPlate.Plate));
+
+                    return;
+                }
+
+                var timeoutSeconds =
+                    doorEnvironment.LprCorrelationWindowSeconds > 0
+                        ? doorEnvironment.LprCorrelationWindowSeconds
+                        : DoorEnvironment.DefaultLprCorrelationWindowSeconds;
+
+                if (DateTime.UtcNow - recentPlate.Timestamp > TimeSpan.FromSeconds(timeoutSeconds))
+                {
+                    Eventlogs.Singleton.InsertEvent(
+                        failedEventName,
+                        GetType().Assembly.GetName().Name,
+                        new[] { doorEnvironmentId, cameraId, cardReaderId },
+                        string.Format(
+                            "Late card arrived, but camera plate is no longer recent; doorEnvironmentId={0}; cameraId={1}; cardReaderId={2}; expectedPlate={3}; recentTimestampUtc={4:o}",
+                            doorEnvironmentId,
+                            cameraId,
+                            cardReaderId,
+                            expectedPlate,
+                            recentPlate.Timestamp));
+
+                    return;
+                }
+
+                Eventlogs.Singleton.InsertEvent(
+                    startedEventName,
+                    GetType().Assembly.GetName().Name,
+                    new[] { doorEnvironmentId, cameraId, cardReaderId },
+                    string.Format(
+                        startedMessageFormat,
+                        doorEnvironmentId,
+                        cameraId,
+                        cardReaderId,
+                        expectedPlate));
+
+                TryProcessImmediateAccessBySecurityLevel(
+                    cameraId,
+                    expectedPlate);
+            }
+            catch (Exception error)
+            {
+                HandledExceptionAdapter.Examine(error);
+            }
+        }
+
         private void DoImmediateAccessGranted(Guid doorEnvironmentId, Guid cameraId, Guid carId, string normalizedPlate)
         {
             if (doorEnvironmentId == Guid.Empty)

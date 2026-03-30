@@ -15,6 +15,7 @@ Release/
 # Tvoje špecifické konfigurácie/priečinky s medzerami
 **/Release - Setup/
 **/Release - CodeProtection/
+aPromt/
 
 # Inštalátory a build artefakty (ak ich nechceš v Gite)
 *.msi

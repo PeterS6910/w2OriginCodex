@@ -184,16 +184,24 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             private set;
         }
 
+        public DB.SecurityLevel CardReaderSecurityLevel
+        {
+            get;
+            private set;
+        }
+
         public ImplicitCrCodeParams(
             [NotNull] CRMessage implicitCrMessage,
             [CanBeNull] IList<CRMessage> followingMessages,
             bool isGinOrVariations,
-            DB.SecurityLevel securityLevel)
+            DB.SecurityLevel securityLevel,
+            DB.SecurityLevel cardReaderSecurityLevel)
         {
             ImplicitCrMessage = implicitCrMessage;
             FollowingMessages = followingMessages;
             IsGinOrVariations = isGinOrVariations;
             SecurityLevel = securityLevel;
+            CardReaderSecurityLevel = cardReaderSecurityLevel;
         }
     }
 
@@ -202,11 +210,80 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         IInstanceProvider<ACardReaderSettings>,
         ISingleCardReaderEventHandler
     {
+        internal enum AccessAuthorizationEvaluationResult : byte
+        {
+            Granted = 0,
+            Rejected = 1,
+            Pending = 2
+        }
+
         private class SceneContextClass : ACrSceneContext
         {
+            private enum AuthorizationFactorType : byte
+            {
+                None = 0,
+                Card = 1,
+                Pin = 2,
+                ReaderCode = 3,
+                Lpr = 4,
+                SecondFactor = 5
+            }
+
+            private enum AuthorizationFactorState : byte
+            {
+                NotApplicable = 0,
+                Pending = 1,
+                Granted = 2,
+                Rejected = 3
+            }
+
+            [Flags]
+            private enum AllowedSecondFactorInputs : byte
+            {
+                None = 0,
+                Card = 1,
+                ReaderCode = 2
+            }
+
+            private sealed class PendingLateLprCardSwipe
+            {
+                public string CardData { get; set; }
+                public int CardSystemNumber { get; set; }
+                public Guid SourceCameraId { get; set; }
+                public string PlateNormalized { get; set; }
+                public DateTime RequestedAtUtc { get; set; }
+            }
+
+            private sealed class PendingLateLprCodeSwipe
+            {
+                public string CodeData { get; set; }
+                public Guid SourceCameraId { get; set; }
+                public string PlateNormalized { get; set; }
+                public DateTime RequestedAtUtc { get; set; }
+            }
+
+            public enum PendingLateLprReplayType
+            {
+                None,
+                Card,
+                Code
+            }
+
             private readonly ACardReaderSettings _cardReaderSettings;
             private LprAuthorizationContext _lprAuthorizationContext;
             private AuthorizationProcessState? _lprAuthorizationState;
+            private string _lastCardData;
+            private int _lastCardSystemNumber;
+            private string _lastCodeData;
+            private PendingLateLprCardSwipe _pendingLateLprCardSwipe;
+            private PendingLateLprCodeSwipe _pendingLateLprCodeSwipe;
+            private DB.SecurityLevel _configuredAccessSecurityLevel;
+            private AuthorizationFactorType _authorization1Type;
+            private AuthorizationFactorState _authorization1State;
+            private AuthorizationFactorType _authorization2Type;
+            private AuthorizationFactorState _authorization2State;
+            private AllowedSecondFactorInputs _allowedSecondFactorInputs;
+            private bool _advanceOnUndecided = true;
 
             public SceneContextClass(ACardReaderSettings cardReaderSettings)
             {
@@ -232,59 +309,560 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 string cardData,
                 int cardSystemNumber)
             {
+                _lastCardData = cardData;
+                _lastCardSystemNumber = cardSystemNumber;
+
                 Events.ProcessEvent(
                     new EventCardReaderLastCardChanged(
                         _cardReaderSettings.Id,
                         cardData));
             }
 
-            public void SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
+            public void RememberCodeSpecified(string codeData)
+            {
+                _lastCodeData = codeData;
+            }
+
+            public void ResetAccessAuthorizationModel(DB.SecurityLevel securityLevel)
+            {
+                _configuredAccessSecurityLevel = securityLevel;
+                _allowedSecondFactorInputs = AllowedSecondFactorInputs.None;
+
+                switch (securityLevel)
+                {
+                    case DB.SecurityLevel.Card:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.Card,
+                            AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.None,
+                            AuthorizationFactorState.NotApplicable);
+                        break;
+
+                    case DB.SecurityLevel.CardPIN:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.Card,
+                            AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.Pin,
+                            AuthorizationFactorState.Pending);
+                        break;
+
+                    case DB.SecurityLevel.Code:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.ReaderCode,
+                            AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.None,
+                            AuthorizationFactorState.NotApplicable);
+                        break;
+
+                    case DB.SecurityLevel.CodeOrCard:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.SecondFactor,
+                            AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.None,
+                            AuthorizationFactorState.NotApplicable);
+                        break;
+
+                    case DB.SecurityLevel.CodeOrCardPin:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.SecondFactor,
+                            AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.Pin,
+                            AuthorizationFactorState.Pending);
+                        break;
+
+                    case DB.SecurityLevel.LprCard:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.Lpr,
+                            _lprAuthorizationContext != null
+                                ? AuthorizationFactorState.Granted
+                                : AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.Card,
+                            AuthorizationFactorState.Pending);
+                        break;
+
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+
+                        _allowedSecondFactorInputs =
+                            AllowedSecondFactorInputs.Card
+                            | AllowedSecondFactorInputs.ReaderCode;
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.Lpr,
+                            _lprAuthorizationContext != null
+                                ? AuthorizationFactorState.Granted
+                                : AuthorizationFactorState.Pending,
+                            AuthorizationFactorType.SecondFactor,
+                            AuthorizationFactorState.Pending);
+                        break;
+
+                    default:
+
+                        SetAccessFactors(
+                            AuthorizationFactorType.None,
+                            AuthorizationFactorState.NotApplicable,
+                            AuthorizationFactorType.None,
+                            AuthorizationFactorState.NotApplicable);
+                        break;
+                }
+            }
+
+            public DB.SecurityLevel GetImplicitAccessSecurityLevel(DB.SecurityLevel securityLevel)
+            {
+                ResetAccessAuthorizationModel(securityLevel);
+
+                switch (_configuredAccessSecurityLevel)
+                {
+                    case DB.SecurityLevel.LprCard:
+                        return DB.SecurityLevel.LprCard;
+
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+                        return DB.SecurityLevel.LprCodeOrLprCard;
+
+                    default:
+                        return securityLevel;
+                }
+            }
+
+            public void BeginAuthorizationAttempt(DB.SecurityLevel securityLevel)
+            {
+                ResetAccessAuthorizationModel(securityLevel);
+                _advanceOnUndecided = true;
+            }
+
+            public bool AdvanceOnUndecided
+            {
+                get { return _advanceOnUndecided; }
+            }
+
+            public AuthorizationProcessState GetCurrentAuthorizationProcessState()
+            {
+                return GetAuthorizationProcessState();
+            }
+
+            public AccessAuthorizationEvaluationResult OnCardAccepted()
+            {
+                switch (_configuredAccessSecurityLevel)
+                {
+                    case DB.SecurityLevel.Card:
+                    case DB.SecurityLevel.CodeOrCard:
+
+                        SetFirstFactorState(AuthorizationFactorState.Granted);
+                        return AccessAuthorizationEvaluationResult.Granted;
+
+                    case DB.SecurityLevel.CardPIN:
+                    case DB.SecurityLevel.CodeOrCardPin:
+
+                        SetFirstFactorState(AuthorizationFactorState.Granted);
+                        return AccessAuthorizationEvaluationResult.Pending;
+
+                    case DB.SecurityLevel.LprCard:
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+
+                        SetSecondFactorState(AuthorizationFactorState.Granted);
+                        _advanceOnUndecided = false;
+
+                        return _authorization1State == AuthorizationFactorState.Granted
+                            ? AccessAuthorizationEvaluationResult.Granted
+                            : AccessAuthorizationEvaluationResult.Pending;
+
+                    default:
+
+                        return AccessAuthorizationEvaluationResult.Granted;
+                }
+            }
+
+            public AccessAuthorizationEvaluationResult OnCardRejected()
+            {
+                switch (_configuredAccessSecurityLevel)
+                {
+                    case DB.SecurityLevel.Card:
+                    case DB.SecurityLevel.CardPIN:
+                    case DB.SecurityLevel.CodeOrCard:
+                    case DB.SecurityLevel.CodeOrCardPin:
+
+                        SetFirstFactorState(AuthorizationFactorState.Rejected);
+                        break;
+
+                    case DB.SecurityLevel.LprCard:
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+
+                        SetSecondFactorState(AuthorizationFactorState.Rejected);
+                        break;
+                }
+
+                _advanceOnUndecided = true;
+                return AccessAuthorizationEvaluationResult.Rejected;
+            }
+
+            public AccessAuthorizationEvaluationResult OnCodeAccepted(bool isReaderGinCode)
+            {
+                switch (_configuredAccessSecurityLevel)
+                {
+                    case DB.SecurityLevel.Code:
+                    case DB.SecurityLevel.CodeOrCard:
+
+                        SetFirstFactorState(AuthorizationFactorState.Granted);
+                        return AccessAuthorizationEvaluationResult.Granted;
+
+                    case DB.SecurityLevel.CodeOrCardPin:
+
+                        SetFirstFactorState(AuthorizationFactorState.Granted);
+                        SetSecondFactorState(AuthorizationFactorState.NotApplicable);
+                        return AccessAuthorizationEvaluationResult.Granted;
+
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+
+                        if (!isReaderGinCode)
+                        {
+                            SetSecondFactorState(AuthorizationFactorState.Rejected);
+                            return AccessAuthorizationEvaluationResult.Rejected;
+                        }
+
+                        SetSecondFactorState(AuthorizationFactorState.Granted);
+                        _advanceOnUndecided = false;
+
+                        return _authorization1State == AuthorizationFactorState.Granted
+                            ? AccessAuthorizationEvaluationResult.Granted
+                            : AccessAuthorizationEvaluationResult.Pending;
+
+                    default:
+
+                        return AccessAuthorizationEvaluationResult.Granted;
+                }
+            }
+
+            public AccessAuthorizationEvaluationResult OnCodeRejected()
+            {
+                switch (_configuredAccessSecurityLevel)
+                {
+                    case DB.SecurityLevel.Code:
+                    case DB.SecurityLevel.CodeOrCard:
+                    case DB.SecurityLevel.CodeOrCardPin:
+
+                        SetFirstFactorState(AuthorizationFactorState.Rejected);
+                        break;
+
+                    case DB.SecurityLevel.LprCodeOrLprCard:
+
+                        SetSecondFactorState(AuthorizationFactorState.Rejected);
+                        break;
+                }
+
+                _advanceOnUndecided = true;
+                return AccessAuthorizationEvaluationResult.Rejected;
+            }
+
+            public AccessAuthorizationEvaluationResult OnPinAccepted()
+            {
+                SetSecondFactorState(AuthorizationFactorState.Granted);
+                _advanceOnUndecided = true;
+                return AccessAuthorizationEvaluationResult.Granted;
+            }
+
+            public AccessAuthorizationEvaluationResult OnPinRejected()
+            {
+                SetSecondFactorState(AuthorizationFactorState.Rejected);
+                _advanceOnUndecided = true;
+                return AccessAuthorizationEvaluationResult.Rejected;
+            }
+
+            public PendingLateLprReplayType SetLprAuthorizationContext([CanBeNull] LprAuthorizationContext lprAuthorizationContext)
             {
                 _lprAuthorizationContext = lprAuthorizationContext;
                 _lprAuthorizationState =
                     lprAuthorizationContext != null
                         ? AuthorizationProcessState.Undecided
                         : (AuthorizationProcessState?)null;
+
+                if (_configuredAccessSecurityLevel == DB.SecurityLevel.LprCard
+                    || _configuredAccessSecurityLevel == DB.SecurityLevel.LprCodeOrLprCard)
+                {
+                    ResetAccessAuthorizationModel(_configuredAccessSecurityLevel);
+                }
+
+                if (lprAuthorizationContext == null)
+                    return PendingLateLprReplayType.None;
+
+                if (TryConsumePendingLateLprCardSwipe(lprAuthorizationContext))
+                    return PendingLateLprReplayType.Card;
+
+                if (TryConsumePendingLateLprCodeSwipe(lprAuthorizationContext))
+                    return PendingLateLprReplayType.Code;
+
+                return PendingLateLprReplayType.None;
             }
 
-            public bool TryAuthorizeCardByLprContext(Guid cardId)
+            public AccessAuthorizationEvaluationResult EvaluateCardByLprContext(Guid cardId)
             {
                 if (_lprAuthorizationState != AuthorizationProcessState.Undecided)
-                    return true;
+                    return AccessAuthorizationEvaluationResult.Rejected;
 
                 if (_lprAuthorizationContext == null || cardId == Guid.Empty)
                 {
+                    SetSecondFactorState(AuthorizationFactorState.Rejected);
+                    _advanceOnUndecided = true;
                     _lprAuthorizationState = AuthorizationProcessState.Rejected;
-                    return false;
+                    return AccessAuthorizationEvaluationResult.Rejected;
                 }
 
                 if (_lprAuthorizationContext.ValidToUtc <= DateTime.UtcNow)
                 {
+                    RegisterLateLprCardSwipeRequest(cardId);
+
+                    SetSecondFactorState(AuthorizationFactorState.Granted);
+                    SetFirstFactorState(AuthorizationFactorState.Pending);
+                    _advanceOnUndecided = false;
                     _lprAuthorizationState = AuthorizationProcessState.Rejected;
                     _lprAuthorizationContext = null;
-                    return false;
+                    return AccessAuthorizationEvaluationResult.Pending;
                 }
 
                 if (_lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.Card
                     && _lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.CardOrPin)
                 {
+                    SetSecondFactorState(AuthorizationFactorState.Granted);
                     _lprAuthorizationState = AuthorizationProcessState.Granted;
                     _lprAuthorizationContext = null;
-                    return true;
+                    return AccessAuthorizationEvaluationResult.Granted;
                 }
 
                 var validCardIds = _lprAuthorizationContext.ValidCardIds;
 
                 if (validCardIds == null || !validCardIds.Contains(cardId))
                 {
+                    SetSecondFactorState(AuthorizationFactorState.Rejected);
+                    _advanceOnUndecided = true;
                     _lprAuthorizationState = AuthorizationProcessState.Rejected;
-                    return false;
+                    return AccessAuthorizationEvaluationResult.Rejected;
                 }
 
+                SetSecondFactorState(AuthorizationFactorState.Granted);
+                _advanceOnUndecided = true;
                 _lprAuthorizationState = AuthorizationProcessState.Granted;
                 _lprAuthorizationContext = null;
 
+                return AccessAuthorizationEvaluationResult.Granted;
+            }
+
+            public AccessAuthorizationEvaluationResult EvaluateCodeByLprContext(string codeData, bool isReaderGinCode)
+            {
+                if (_lprAuthorizationState != AuthorizationProcessState.Undecided)
+                    return AccessAuthorizationEvaluationResult.Rejected;
+
+                if (_lprAuthorizationContext == null
+                    || string.IsNullOrEmpty(codeData)
+                    || !isReaderGinCode)
+                {
+                    SetSecondFactorState(AuthorizationFactorState.Rejected);
+                    _advanceOnUndecided = true;
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    return AccessAuthorizationEvaluationResult.Rejected;
+                }
+
+                if (_lprAuthorizationContext.ValidToUtc <= DateTime.UtcNow)
+                {
+                    RegisterLateLprCodeSwipeRequest(codeData);
+
+                    SetSecondFactorState(AuthorizationFactorState.Granted);
+                    SetFirstFactorState(AuthorizationFactorState.Pending);
+                    _advanceOnUndecided = false;
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    _lprAuthorizationContext = null;
+                    return AccessAuthorizationEvaluationResult.Pending;
+                }
+
+                if (_lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.Pin
+                    && _lprAuthorizationContext.RequiredSecondFactor != LprRequiredSecondFactor.CardOrPin)
+                {
+                    SetSecondFactorState(AuthorizationFactorState.Rejected);
+                    _advanceOnUndecided = true;
+                    _lprAuthorizationState = AuthorizationProcessState.Rejected;
+                    return AccessAuthorizationEvaluationResult.Rejected;
+                }
+
+                SetSecondFactorState(AuthorizationFactorState.Granted);
+                _advanceOnUndecided = true;
+                _lprAuthorizationState = AuthorizationProcessState.Granted;
+                _lprAuthorizationContext = null;
+
+                return AccessAuthorizationEvaluationResult.Granted;
+            }
+
+            public void ReplayPendingLateLprCardSwipe()
+            {
+                var pendingLateLprCardSwipe = _pendingLateLprCardSwipe;
+
+                if (pendingLateLprCardSwipe == null
+                    || string.IsNullOrEmpty(pendingLateLprCardSwipe.CardData))
+                {
+                    return;
+                }
+
+                _pendingLateLprCardSwipe = null;
+
+                TimerManager.Static.StartTimeout(
+                    1,
+                    timerCarrier =>
+                    {
+                        CardReaderCardSwiped(
+                            pendingLateLprCardSwipe.CardData,
+                            pendingLateLprCardSwipe.CardSystemNumber);
+
+                        return false;
+                    });
+            }
+
+            public void ReplayPendingLateLprCodeSwipe()
+            {
+                var pendingLateLprCodeSwipe = _pendingLateLprCodeSwipe;
+
+                if (pendingLateLprCodeSwipe == null
+                    || string.IsNullOrEmpty(pendingLateLprCodeSwipe.CodeData))
+                {
+                    return;
+                }
+
+                _pendingLateLprCodeSwipe = null;
+
+                TimerManager.Static.StartTimeout(
+                    1,
+                    timerCarrier =>
+                    {
+                        CardReaderCodeSpecified(
+                            pendingLateLprCodeSwipe.CodeData);
+
+                        return false;
+                    });
+            }
+
+            private bool TryConsumePendingLateLprCardSwipe(
+                [NotNull] LprAuthorizationContext lprAuthorizationContext)
+            {
+                var pendingLateLprCardSwipe = _pendingLateLprCardSwipe;
+
+                if (pendingLateLprCardSwipe == null)
+                    return false;
+
+                if (pendingLateLprCardSwipe.SourceCameraId != lprAuthorizationContext.SourceCameraId)
+                    return false;
+
+                if (!string.Equals(
+                    pendingLateLprCardSwipe.PlateNormalized,
+                    lprAuthorizationContext.PlateNormalized,
+                    StringComparison.Ordinal))
+                {
+                    return false;
+                }
+
+                if (pendingLateLprCardSwipe.RequestedAtUtc > lprAuthorizationContext.ValidToUtc)
+                    return false;
+
                 return true;
+            }
+
+            private bool TryConsumePendingLateLprCodeSwipe(
+                [NotNull] LprAuthorizationContext lprAuthorizationContext)
+            {
+                var pendingLateLprCodeSwipe = _pendingLateLprCodeSwipe;
+
+                if (pendingLateLprCodeSwipe == null)
+                    return false;
+
+                if (pendingLateLprCodeSwipe.SourceCameraId != lprAuthorizationContext.SourceCameraId)
+                    return false;
+
+                if (!string.Equals(
+                    pendingLateLprCodeSwipe.PlateNormalized,
+                    lprAuthorizationContext.PlateNormalized,
+                    StringComparison.Ordinal))
+                {
+                    return false;
+                }
+
+                if (pendingLateLprCodeSwipe.RequestedAtUtc > lprAuthorizationContext.ValidToUtc)
+                    return false;
+
+                return true;
+            }
+
+            private void RegisterLateLprCardSwipeRequest(Guid cardId)
+            {
+                if (_lprAuthorizationContext == null
+                    || cardId == Guid.Empty
+                    || string.IsNullOrEmpty(_lastCardData))
+                {
+                    return;
+                }
+
+                var doorEnvironmentAdapter = _cardReaderSettings.DoorEnvironmentAdapter;
+                if (doorEnvironmentAdapter == null
+                    || doorEnvironmentAdapter.IdDoorEnvironment == Guid.Empty
+                    || _lprAuthorizationContext.SourceCameraId == Guid.Empty
+                    || string.IsNullOrEmpty(_lprAuthorizationContext.PlateNormalized))
+                {
+                    return;
+                }
+
+                _pendingLateLprCardSwipe =
+                    new PendingLateLprCardSwipe
+                    {
+                        CardData = _lastCardData,
+                        CardSystemNumber = _lastCardSystemNumber,
+                        SourceCameraId = _lprAuthorizationContext.SourceCameraId,
+                        PlateNormalized = _lprAuthorizationContext.PlateNormalized,
+                        RequestedAtUtc = DateTime.UtcNow
+                    };
+
+                _cardReaderSettings.NotifyLateLprRevalidationRequested();
+
+                Events.ProcessEvent(
+                    new EventLateLprCardSwipeRequest(
+                        doorEnvironmentAdapter.IdDoorEnvironment,
+                        _cardReaderSettings.Id,
+                        _lprAuthorizationContext.SourceCameraId,
+                        _lprAuthorizationContext.PlateNormalized));
+            }
+
+            private void RegisterLateLprCodeSwipeRequest(string codeData)
+            {
+                if (_lprAuthorizationContext == null
+                    || string.IsNullOrEmpty(codeData))
+                {
+                    return;
+                }
+
+                var doorEnvironmentAdapter = _cardReaderSettings.DoorEnvironmentAdapter;
+                if (doorEnvironmentAdapter == null
+                    || doorEnvironmentAdapter.IdDoorEnvironment == Guid.Empty
+                    || _lprAuthorizationContext.SourceCameraId == Guid.Empty
+                    || string.IsNullOrEmpty(_lprAuthorizationContext.PlateNormalized))
+                {
+                    return;
+                }
+
+                _pendingLateLprCodeSwipe =
+                    new PendingLateLprCodeSwipe
+                    {
+                        CodeData = codeData,
+                        SourceCameraId = _lprAuthorizationContext.SourceCameraId,
+                        PlateNormalized = _lprAuthorizationContext.PlateNormalized,
+                        RequestedAtUtc = DateTime.UtcNow
+                    };
+
+                _cardReaderSettings.NotifyLateLprRevalidationRequested();
+
+                Events.ProcessEvent(
+                    new EventLateLprCodeSwipeRequest(
+                        doorEnvironmentAdapter.IdDoorEnvironment,
+                        _cardReaderSettings.Id,
+                        _lprAuthorizationContext.SourceCameraId,
+                        _lprAuthorizationContext.PlateNormalized));
             }
 
             public bool IsLprCardSecondFactorPending
@@ -297,6 +875,69 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         && (_lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.Card
                             || _lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.CardOrPin);
                 }
+            }
+
+            public bool IsLprCodeSecondFactorPending
+            {
+                get
+                {
+                    return
+                        _lprAuthorizationState == AuthorizationProcessState.Undecided
+                        && _lprAuthorizationContext != null
+                        && (_lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.Pin
+                            || _lprAuthorizationContext.RequiredSecondFactor == LprRequiredSecondFactor.CardOrPin);
+                }
+            }
+
+            private void SetAccessFactors(
+                AuthorizationFactorType authorization1Type,
+                AuthorizationFactorState authorization1State,
+                AuthorizationFactorType authorization2Type,
+                AuthorizationFactorState authorization2State)
+            {
+                _authorization1Type = authorization1Type;
+                _authorization1State = authorization1State;
+                _authorization2Type = authorization2Type;
+                _authorization2State = authorization2State;
+            }
+
+            private void SetFirstFactorState(AuthorizationFactorState factorState)
+            {
+                if (_authorization1Type == AuthorizationFactorType.None)
+                    return;
+
+                _authorization1State = factorState;
+            }
+
+            private void SetSecondFactorState(AuthorizationFactorState factorState)
+            {
+                if (_authorization2Type == AuthorizationFactorType.None)
+                    return;
+
+                _authorization2State = factorState;
+            }
+
+            private AuthorizationProcessState GetAuthorizationProcessState()
+            {
+                if (_authorization1State == AuthorizationFactorState.Rejected
+                    || _authorization2State == AuthorizationFactorState.Rejected)
+                {
+                    return AuthorizationProcessState.Rejected;
+                }
+
+                if (IsGrantedOrNotApplicable(_authorization1State)
+                    && IsGrantedOrNotApplicable(_authorization2State))
+                {
+                    return AuthorizationProcessState.Granted;
+                }
+
+                return AuthorizationProcessState.Undecided;
+            }
+
+            private static bool IsGrantedOrNotApplicable(AuthorizationFactorState factorState)
+            {
+                return factorState == AuthorizationFactorState.Granted
+                       || factorState == AuthorizationFactorState.NotApplicable;
             }
 
         }
@@ -450,14 +1091,44 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var sceneContext = SceneContext as SceneContextClass;
 
             if (sceneContext != null)
-                sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
+            {
+                var pendingLateReplayType =
+                    sceneContext.SetLprAuthorizationContext(lprAuthorizationContext);
+
+                if (pendingLateReplayType == SceneContextClass.PendingLateLprReplayType.None)
+                    UpdateRootScene();
+                else
+                    ShowRootScene();
+
+                switch (pendingLateReplayType)
+                {
+                    case SceneContextClass.PendingLateLprReplayType.Card:
+                        sceneContext.ReplayPendingLateLprCardSwipe();
+                        break;
+
+                    case SceneContextClass.PendingLateLprReplayType.Code:
+                        sceneContext.ReplayPendingLateLprCodeSwipe();
+                        break;
+                }
+            }
         }
 
-        public bool TryAuthorizeCardByLprContext(Guid cardId)
+        public AccessAuthorizationEvaluationResult EvaluateAccessCardByLprContext(Guid cardId)
         {
             var sceneContext = SceneContext as SceneContextClass;
 
-            return sceneContext == null || sceneContext.TryAuthorizeCardByLprContext(cardId);
+            return sceneContext != null
+                ? sceneContext.EvaluateCardByLprContext(cardId)
+                : AccessAuthorizationEvaluationResult.Granted;
+        }
+
+        public AccessAuthorizationEvaluationResult EvaluateAccessCodeByLprContext(string codeData, bool isReaderGinCode)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.EvaluateCodeByLprContext(codeData, isReaderGinCode)
+                : AccessAuthorizationEvaluationResult.Granted;
         }
 
         public bool IsLprCardSecondFactorPending()
@@ -465,6 +1136,106 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var sceneContext = SceneContext as SceneContextClass;
 
             return sceneContext != null && sceneContext.IsLprCardSecondFactorPending;
+        }
+
+        public bool IsLprCodeSecondFactorPending()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null && sceneContext.IsLprCodeSecondFactorPending;
+        }
+
+        public void BeginAccessAuthorizationAttempt(DB.SecurityLevel securityLevel)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            if (sceneContext != null)
+                sceneContext.BeginAuthorizationAttempt(securityLevel);
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessCardAccepted()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnCardAccepted()
+                : AccessAuthorizationEvaluationResult.Granted;
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessCardRejected()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnCardRejected()
+                : AccessAuthorizationEvaluationResult.Rejected;
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessCodeAccepted(bool isReaderGinCode)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnCodeAccepted(isReaderGinCode)
+                : AccessAuthorizationEvaluationResult.Granted;
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessCodeRejected()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnCodeRejected()
+                : AccessAuthorizationEvaluationResult.Rejected;
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessPinAccepted()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnPinAccepted()
+                : AccessAuthorizationEvaluationResult.Granted;
+        }
+
+        public AccessAuthorizationEvaluationResult OnAccessPinRejected()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.OnPinRejected()
+                : AccessAuthorizationEvaluationResult.Rejected;
+        }
+
+        public AuthorizationProcessState GetSceneContextAuthorizationProcessState()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.GetCurrentAuthorizationProcessState()
+                : AuthorizationProcessState.Undecided;
+        }
+
+        public bool IsSceneContextAdvanceOnUndecided()
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext == null || sceneContext.AdvanceOnUndecided;
+        }
+
+        internal void NotifyLateLprRevalidationRequested()
+        {
+            _lateLprRevalidationSuppressionBudget = 2;
+            ScheduleLateLprRootReset();
+        }
+
+        public bool ConsumeLateLprRevalidationSuppression()
+        {
+            if (_lateLprRevalidationSuppressionBudget <= 0)
+                return false;
+
+            _lateLprRevalidationSuppressionBudget--;
+            return true;
         }
 
         private DB.SecurityLevel? _forcedSecurityLevel;
@@ -493,11 +1264,39 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 
         private readonly object _lockInvalidGinRetriesLimitReachedTimeout = new object();
         private ITimer _invalidGinRetriesLimitReachedTimeout;
+        private int _lateLprRevalidationSuppressionBudget;
+        private bool _lateLprRootResetScheduled;
 
         public CrDisplayProcessor CrDisplayProcessor
         {
             get;
             private set;
+        }
+
+        private void ScheduleLateLprRootReset()
+        {
+            if (_lateLprRootResetScheduled)
+                return;
+
+            _lateLprRootResetScheduled = true;
+
+            TimerManager.Static.StartTimeout(
+                1,
+                timerCarrier =>
+                {
+                    _lateLprRootResetScheduled = false;
+
+                    try
+                    {
+                        ShowRootScene();
+                    }
+                    catch (Exception error)
+                    {
+                        HandledExceptionAdapter.Examine(error);
+                    }
+
+                    return false;
+                });
         }
 
         public bool InvalidCodeRetriesLimitReached
@@ -588,7 +1387,9 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         private ImplicitCrCodeParams CreateImplicitCrCodeParamsForDoorEnvironmentAccess(
             IAlarmAreaStateProvider alarmAreaStateProvider)
         {
-            var securityLevel = SecurityLevel;
+            var securityLevel = GetSceneContextAccessSecurityLevel(SecurityLevel);
+            var cardReaderSecurityLevel =
+                GetCardReaderCompatibleSecurityLevel(securityLevel);
 
             if (securityLevel == DB.SecurityLevel.Unlocked
                 && _doorEnvironmentAdapter != null)
@@ -596,9 +1397,11 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 _doorEnvironmentAdapter.ClearAccessGrantedVariables();
             }
 
-            var crMessage = GetImplicitCrMessageFromSecurityLevel(securityLevel);
+            var crMessage =
+                GetImplicitCrMessageFromSecurityLevel(cardReaderSecurityLevel);
 
-            bool isGinOrVariations = crMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE;
+            bool isGinOrVariations =
+                IsWaitingForCodeLikeMessageCode(crMessage.MessageCode);
 
             var stackedMessages = new List<CRMessage>();
 
@@ -631,7 +1434,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 crMessage,
                 stackedMessages,
                 isGinOrVariations,
-                securityLevel);
+                securityLevel,
+                cardReaderSecurityLevel);
         }
 
         protected ACardReaderSettings(DB.CardReader cardReaderDb) : base(cardReaderDb.IdCardReader)
@@ -1303,6 +2107,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             var stackedMessages = new List<CRMessage>();
 
             var securityLevel = SecurityLevel;
+            var cardReaderSecurityLevel =
+                GetCardReaderCompatibleSecurityLevel(securityLevel);
 
             var subMessageLowMenuButtons =
                 GetImplicitLowMenuButtonsMessage(
@@ -1387,7 +2193,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                                 break;
 
                             case DB.SecurityLevel.Code:
-                            case DB.SecurityLevel.LprCode:
+                            case DB.SecurityLevel.LprCodeOrLprCard:
 
                                 setCrMessageCodeFromAlarmAreaState = false;
                                 crAATmpUnsetFlag |= CRAATmpUnsetFlag.USUAL_GIN;
@@ -1427,15 +2233,17 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         implicitCrAlarmAreaInfo,
                         optionalData,
                         isCrReportingEnabled)
-                    : GetImplicitCrMessageFromSecurityLevel(securityLevel);
+                    : GetImplicitCrMessageFromSecurityLevel(cardReaderSecurityLevel);
 
-            bool isGinOrVariations = crMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE;
+            bool isGinOrVariations =
+                IsWaitingForCodeLikeMessageCode(crMessage.MessageCode);
 
             return new ImplicitCrCodeParams(
                 crMessage,
                 stackedMessages,
                 isGinOrVariations,
-                securityLevel);
+                securityLevel,
+                cardReaderSecurityLevel);
         }
 
         public void DoorEnvironmentStateChanged(
@@ -1600,6 +2408,31 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                         return DB.SecurityLevel.Card;
                 }
             }
+        }
+
+        private DB.SecurityLevel GetCardReaderCompatibleSecurityLevel(
+            DB.SecurityLevel securityLevel)
+        {
+            switch (securityLevel)
+            {
+                default:
+                    return securityLevel;
+            }
+        }
+
+        private DB.SecurityLevel GetSceneContextAccessSecurityLevel(
+            DB.SecurityLevel securityLevel)
+        {
+            var sceneContext = SceneContext as SceneContextClass;
+
+            return sceneContext != null
+                ? sceneContext.GetImplicitAccessSecurityLevel(securityLevel)
+                : securityLevel;
+        }
+
+        private static bool IsWaitingForCodeLikeMessageCode(CRMessageCode messageCode)
+        {
+            return messageCode == CRMessageCode.WAITING_FOR_CODE;
         }
 
         private static DB.SecurityLevel GetSecurityLevelFromStzOrSdp(
@@ -1891,7 +2724,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             }
             else
             {
-                securityLevel = CurrentImplicitCrCodeParams.SecurityLevel;
+                securityLevel = CurrentImplicitCrCodeParams.CardReaderSecurityLevel;
                 crMessageCode = CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode;
             }
 
@@ -1929,7 +2762,6 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                     {
                         case DB.SecurityLevel.Card:
                         case DB.SecurityLevel.LprCard:
-
                             command = CardReaderSceneType.WaitingForCard;
                             break;
 
@@ -1951,7 +2783,7 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             break;
 
                         case DB.SecurityLevel.CodeOrCard:
-                        case DB.SecurityLevel.LprCode:
+                        case DB.SecurityLevel.LprCodeOrLprCard:
 
                             command = CardReaderSceneType.WaitingForCodeOrCard;
                             break;
@@ -2030,8 +2862,13 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
             {
                 case DB.SecurityLevel.Card:
                 case DB.SecurityLevel.CardPIN:
-                case DB.SecurityLevel.LprCard:
 
+                    if (_cardReader != null)
+                        return CRAccessCommands.WaitingForCardMessage(_cardReader);
+
+                    return CRAccessCommands.WaitingForCardMessage(_cardReaderDB.Address);
+
+                case DB.SecurityLevel.LprCard:
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCardMessage(_cardReader);
 
@@ -2040,7 +2877,6 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                 case DB.SecurityLevel.Code:
                 case DB.SecurityLevel.CodeOrCard:
                 case DB.SecurityLevel.CodeOrCardPin:
-                case DB.SecurityLevel.LprCode:
 
                     if (_cardReader != null)
                         return CRAccessCommands.WaitingForCodeMessage(
@@ -2054,6 +2890,21 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
                             CcuCardReaders.MinimalCodeLength,
                             CcuCardReaders.MaximalCodeLength,
                             true);
+
+                case DB.SecurityLevel.LprCodeOrLprCard:
+
+                    if (_cardReader != null)
+                        return CRAccessCommands.WaitingForCodeMessage(
+                            _cardReader,
+                            CcuCardReaders.MinimalCodeLength,
+                            CcuCardReaders.MaximalCodeLength,
+                            true);
+
+                    return CRAccessCommands.WaitingForCodeMessage(
+                        _cardReaderDB.Address,
+                        CcuCardReaders.MinimalCodeLength,
+                        CcuCardReaders.MaximalCodeLength,
+                        true);
 
                 case DB.SecurityLevel.Unlocked:
 
@@ -2476,6 +3327,10 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 
         void ISingleCardReaderEventHandler.CardReaderCodeSpecified(string codeData)
         {
+            var sceneContext = SceneContext as SceneContextClass;
+            if (sceneContext != null)
+                sceneContext.RememberCodeSpecified(codeData);
+
             if (SceneContext != null)
                 SceneContext.CardReaderCodeSpecified(codeData);
         }
@@ -2681,7 +3536,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
         public void MaximalCodeLengthChanged()
         {
             if (CurrentImplicitCrCodeParams != null
-                && CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode == CRMessageCode.WAITING_FOR_CODE)
+                && IsWaitingForCodeLikeMessageCode(
+                    CurrentImplicitCrCodeParams.ImplicitCrMessage.MessageCode))
             {
                 SetImplicitCrCode();
             }

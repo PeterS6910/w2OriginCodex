@@ -377,6 +377,7 @@ namespace Contal.Cgp.NCAS.CCU
                             3),
                     null,
                     false,
+                    DB.SecurityLevel.Locked,
                     DB.SecurityLevel.Locked);
         }
 

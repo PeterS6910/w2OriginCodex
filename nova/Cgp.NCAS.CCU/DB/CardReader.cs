@@ -16,7 +16,7 @@ namespace Contal.Cgp.NCAS.CCU.DB
         CardPIN = 5,
         Locked = 6,
         LprCard = 7,
-        LprCode = 8,
+        LprCodeOrLprCard = 8,
         SecurityTimeZoneSecurityDailyPlan = 9
     }
 

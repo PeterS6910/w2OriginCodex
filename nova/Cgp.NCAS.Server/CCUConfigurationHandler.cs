@@ -1194,14 +1194,19 @@ namespace Contal.Cgp.NCAS.Server
                     case SecurityLevel.CODEORCARD:
                     case SecurityLevel.CODE:
                     case SecurityLevel.CARDPIN:
-                    case SecurityLevel.LprCard:
-                    case SecurityLevel.LprCode:
+                    case SecurityLevel.LprCodeOrLprCard:
                         {
                             var cr = CardReaders.Singleton.GetObjectForEdit(cardReader.IdCardReader);
                             cr.SecurityLevel = (byte)SecurityLevel.CARD;
                             CardReaders.Singleton.Update(cr);
                             CardReaders.Singleton.EditEnd(cr);
                         }
+                        break;
+
+                    case SecurityLevel.LprCard:
+                        // Keep the configured LPR+Card level in DB. The CCU runtime already maps
+                        // LprCard to the same physical "waiting for card" command as CARD, while
+                        // SceneContextClass preserves the LPR-aware authorization flow.
                         break;
                 }
             }

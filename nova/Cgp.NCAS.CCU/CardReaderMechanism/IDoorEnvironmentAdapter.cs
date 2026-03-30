@@ -9,6 +9,8 @@ namespace Contal.Cgp.NCAS.CCU.CardReaderMechanism
 {
     internal interface IDoorEnvironmentAdapter
     {
+        Guid IdDoorEnvironment { get; }
+
         bool IsAssociatedWithDoorEnvironment(Guid idDoorEnvironment);
         bool IsAssociatedWithMultiDoor(Guid idMultiDoor);
 
