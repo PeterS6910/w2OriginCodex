@@ -1,5 +1,5 @@
 using Contal.Cgp.Globals;
-using Contal.Cgp.NCAS.Server.Beans;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
