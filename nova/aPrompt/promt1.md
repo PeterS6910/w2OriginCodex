@@ -1,11 +1,5 @@
-Otestoval som vsetky povodne security level t.j. tie kde nie je Lpr.
-Chyba je iba pri code/card+pin. Ma to fungovat nasledovne: 
-a. ak zadam code , potom sa otvoria dvere
-b. ak zadam card, tak cakam na pin a po zadani pin sa otvoria dvere
-A funguje to takto
-a . zadam code a dvere sa otvoria ...  OK
-b.  zadam card a dvere sa otvoria .... ERROR, ma cakt na PIN a necaka
+NCAS.CCU je samostatny projekt a ten mi vytvori C:\w2OriginCodex\nova\Cgp.NCAS.CCU\bin\CCU_260409_2.2.9623, ale je prazdny, 
+preco to zacal robit na novom pocitaci, ked som iba stiahol branch. mam tam tieto varovania. Urob analyzu preco je to tak
+Preco su rozdiely, ked na starom pc to fungovalo
 
-
-u urob upravy v kode ,zmeny urob na branch codex/lpr-context-direction-reader
-Aktualizaciu informacii o programe zapis do suboru G:\w2OriginCodex\w2OriginCodex\nova\aPromt\cardReaderSecurityLevel\sumarizacia.md
+Aktualizaciu informacii o programe zapis do suboru C:\w2OriginCodex\nova\aPromt\sumarizacia.md
